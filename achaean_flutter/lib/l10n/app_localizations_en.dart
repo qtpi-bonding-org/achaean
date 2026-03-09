@@ -27,6 +27,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorGeneric => 'Something went wrong';
 
   @override
+  String get flagError => 'Failed to flag post';
+
+  @override
+  String get flagPostSuccess => 'Post flagged';
+
+  @override
+  String get flagRetractSuccess => 'Flag retracted';
+
+  @override
   String get validationRequired => 'Required';
 
   @override

@@ -36,6 +36,9 @@ class L10nKeyResolver {
       'error.generic' => _l10n.errorGeneric,
       'error.network' => _l10n.errorNetwork,
       'error.timeout' => _l10n.errorTimeout,
+      'flag.error' => _l10n.flagError,
+      'flag.post.success' => _l10n.flagPostSuccess,
+      'flag.retract.success' => _l10n.flagRetractSuccess,
       'inspection.complete' => _l10n.inspectionComplete,
       'inspection.error' => _l10n.inspectionError,
       'label.email' => _l10n.labelEmail,
@@ -74,6 +77,9 @@ class L10nKeyResolver {
     'error.generic',
     'error.network',
     'error.timeout',
+    'flag.error',
+    'flag.post.success',
+    'flag.retract.success',
     'inspection.complete',
     'inspection.error',
     'label.email',
@@ -112,6 +118,9 @@ class L10nKeyResolver {
     'errorGeneric': 'error.generic',
     'errorNetwork': 'error.network',
     'errorTimeout': 'error.timeout',
+    'flagError': 'flag.error',
+    'flagPostSuccess': 'flag.post.success',
+    'flagRetractSuccess': 'flag.retract.success',
     'inspectionComplete': 'inspection.complete',
     'inspectionError': 'inspection.error',
     'labelEmail': 'label.email',
@@ -147,6 +156,9 @@ class L10nKeyResolver {
     'error.generic': 'errorGeneric',
     'error.network': 'errorNetwork',
     'error.timeout': 'errorTimeout',
+    'flag.error': 'flagError',
+    'flag.post.success': 'flagPostSuccess',
+    'flag.retract.success': 'flagRetractSuccess',
     'inspection.complete': 'inspectionComplete',
     'inspection.error': 'inspectionError',
     'label.email': 'labelEmail',
@@ -188,6 +200,9 @@ abstract class L10nKeys {
   static const errorGeneric = 'error.generic';
   static const errorNetwork = 'error.network';
   static const errorTimeout = 'error.timeout';
+  static const flagError = 'flag.error';
+  static const flagPostSuccess = 'flag.post.success';
+  static const flagRetractSuccess = 'flag.retract.success';
   static const inspectionComplete = 'inspection.complete';
   static const inspectionError = 'inspection.error';
   static const labelEmail = 'label.email';

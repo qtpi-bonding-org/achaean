@@ -26,6 +26,9 @@ import '../features/post_creation/services/i_post_creation_service.dart';
 import '../features/post_creation/services/i_post_signing_service.dart';
 import '../features/post_creation/services/post_creation_service.dart';
 import '../features/post_creation/services/post_signing_service.dart';
+import '../features/flag/services/i_flag_service.dart';
+import '../features/flag/services/flag_service.dart';
+import '../features/flag/cubit/flag_cubit.dart';
 import '../features/trust/services/i_trust_service.dart';
 import '../features/trust/services/trust_service.dart';
 import '../features/trust/cubit/trust_cubit.dart';
@@ -173,6 +176,11 @@ void _registerCoreServices() {
     );
   });
 
+  // Flag service
+  getIt.registerLazySingleton<IFlagService>(
+    () => FlagService(getIt<IGitService>()),
+  );
+
   // Trust service
   getIt.registerLazySingleton<ITrustService>(
     () => TrustService(
@@ -213,6 +221,9 @@ void _registerCoreServices() {
   // Phase 2 cubits
   getIt.registerFactory<TrustCubit>(
     () => TrustCubit(getIt<ITrustService>()),
+  );
+  getIt.registerFactory<FlagCubit>(
+    () => FlagCubit(getIt<IFlagService>()),
   );
   getIt.registerFactory<PolisCubit>(
     () => PolisCubit(getIt<IPolisService>()),

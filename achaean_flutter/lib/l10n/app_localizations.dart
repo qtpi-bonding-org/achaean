@@ -130,6 +130,24 @@ abstract class AppLocalizations {
   /// **'Something went wrong'**
   String get errorGeneric;
 
+  /// No description provided for @flagError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to flag post'**
+  String get flagError;
+
+  /// No description provided for @flagPostSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Post flagged'**
+  String get flagPostSuccess;
+
+  /// No description provided for @flagRetractSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Flag retracted'**
+  String get flagRetractSuccess;
+
   /// No description provided for @validationRequired.
   ///
   /// In en, this message translates to:
