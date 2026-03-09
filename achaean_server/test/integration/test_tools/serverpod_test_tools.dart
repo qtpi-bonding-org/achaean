@@ -24,8 +24,9 @@ import 'package:achaean_server/src/generated/koinon/readme_signature_record.dart
     as _i8;
 import 'package:achaean_server/src/generated/koinon/trust_declaration_record.dart'
     as _i9;
+import 'package:achaean_server/src/generated/koinon/flag_record.dart' as _i10;
 import 'package:achaean_server/src/generated/koinon/post_reference.dart'
-    as _i10;
+    as _i11;
 import 'package:achaean_server/src/generated/protocol.dart';
 import 'package:achaean_server/src/generated/endpoints.dart';
 export 'package:serverpod_test/serverpod_test_public_exports.dart';
@@ -760,7 +761,68 @@ class _KoinonEndpoint {
     });
   }
 
-  _i3.Future<List<_i10.PostReference>> getAgora(
+  _i3.Future<List<_i10.FlagRecord>> getFlagsForPolis(
+    _i1.TestSessionBuilder sessionBuilder,
+    String polisRepoUrl,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'koinon',
+            method: 'getFlagsForPolis',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'koinon',
+          methodName: 'getFlagsForPolis',
+          parameters: _i1.testObjectToJson({'polisRepoUrl': polisRepoUrl}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<List<_i10.FlagRecord>>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _i3.Future<List<_i10.FlagRecord>> getFlaggedPostsForVouchers(
+    _i1.TestSessionBuilder sessionBuilder,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'koinon',
+            method: 'getFlaggedPostsForVouchers',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'koinon',
+          methodName: 'getFlaggedPostsForVouchers',
+          parameters: _i1.testObjectToJson({}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<List<_i10.FlagRecord>>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _i3.Future<List<_i11.PostReference>> getAgora(
     _i1.TestSessionBuilder sessionBuilder,
     String polisRepoUrl, {
     required int limit,
@@ -789,7 +851,7 @@ class _KoinonEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i10.PostReference>>);
+                as _i3.Future<List<_i11.PostReference>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();

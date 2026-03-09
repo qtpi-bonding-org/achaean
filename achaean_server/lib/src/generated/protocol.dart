@@ -31,8 +31,9 @@ import 'package:achaean_server/src/generated/koinon/readme_signature_record.dart
 import 'package:achaean_server/src/generated/koinon/politai_user.dart' as _i15;
 import 'package:achaean_server/src/generated/koinon/trust_declaration_record.dart'
     as _i16;
+import 'package:achaean_server/src/generated/koinon/flag_record.dart' as _i17;
 import 'package:achaean_server/src/generated/koinon/post_reference.dart'
-    as _i17;
+    as _i18;
 export 'greetings/greeting.dart';
 export 'koinon/flag_record.dart';
 export 'koinon/polis_definition.dart';
@@ -780,9 +781,13 @@ class Protocol extends _i1.SerializationManagerServer {
               .toList()
           as T;
     }
-    if (t == List<_i17.PostReference>) {
+    if (t == List<_i17.FlagRecord>) {
+      return (data as List).map((e) => deserialize<_i17.FlagRecord>(e)).toList()
+          as T;
+    }
+    if (t == List<_i18.PostReference>) {
       return (data as List)
-              .map((e) => deserialize<_i17.PostReference>(e))
+              .map((e) => deserialize<_i18.PostReference>(e))
               .toList()
           as T;
     }

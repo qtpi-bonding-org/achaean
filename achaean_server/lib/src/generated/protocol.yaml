@@ -19,6 +19,8 @@ koinon:
   - getPolisSigners:
   - getPolisMembers:
   - getTrustDeclarations:
+  - getFlagsForPolis:
+  - getFlaggedPostsForVouchers:
   - getAgora:
 webhook:
   - handlePush:

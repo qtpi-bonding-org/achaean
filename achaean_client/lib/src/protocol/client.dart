@@ -24,9 +24,10 @@ import 'package:achaean_client/src/protocol/koinon/readme_signature_record.dart'
     as _i8;
 import 'package:achaean_client/src/protocol/koinon/trust_declaration_record.dart'
     as _i9;
-import 'package:achaean_client/src/protocol/koinon/post_reference.dart' as _i10;
-import 'package:anonaccount_client/anonaccount_client.dart' as _i11;
-import 'protocol.dart' as _i12;
+import 'package:achaean_client/src/protocol/koinon/flag_record.dart' as _i10;
+import 'package:achaean_client/src/protocol/koinon/post_reference.dart' as _i11;
+import 'package:anonaccount_client/anonaccount_client.dart' as _i12;
+import 'protocol.dart' as _i13;
 
 /// By extending [EmailIdpBaseEndpoint], the email identity provider endpoints
 /// are made available on the server and enable the corresponding sign-in widget
@@ -335,14 +336,30 @@ class EndpointKoinon extends _i2.EndpointRef {
     {'pubkey': pubkey},
   );
 
+  /// Get all flags for posts in a polis.
+  _i3.Future<List<_i10.FlagRecord>> getFlagsForPolis(String polisRepoUrl) =>
+      caller.callServerEndpoint<List<_i10.FlagRecord>>(
+        'koinon',
+        'getFlagsForPolis',
+        {'polisRepoUrl': polisRepoUrl},
+      );
+
+  /// Get flags on posts by people the caller trusts.
+  _i3.Future<List<_i10.FlagRecord>> getFlaggedPostsForVouchers() =>
+      caller.callServerEndpoint<List<_i10.FlagRecord>>(
+        'koinon',
+        'getFlaggedPostsForVouchers',
+        {},
+      );
+
   /// Get post references for a polis (the agora).
   ///
   /// Computes polis members via AGE, then returns posts from those members.
-  _i3.Future<List<_i10.PostReference>> getAgora(
+  _i3.Future<List<_i11.PostReference>> getAgora(
     String polisRepoUrl, {
     required int limit,
     required int offset,
-  }) => caller.callServerEndpoint<List<_i10.PostReference>>(
+  }) => caller.callServerEndpoint<List<_i11.PostReference>>(
     'koinon',
     'getAgora',
     {
@@ -373,13 +390,13 @@ class EndpointWebhook extends _i2.EndpointRef {
 class Modules {
   Modules(Client client) {
     serverpod_auth_idp = _i1.Caller(client);
-    anonaccount = _i11.Caller(client);
+    anonaccount = _i12.Caller(client);
     serverpod_auth_core = _i4.Caller(client);
   }
 
   late final _i1.Caller serverpod_auth_idp;
 
-  late final _i11.Caller anonaccount;
+  late final _i12.Caller anonaccount;
 
   late final _i4.Caller serverpod_auth_core;
 }
@@ -404,7 +421,7 @@ class Client extends _i2.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
          host,
-         _i12.Protocol(),
+         _i13.Protocol(),
          securityContext: securityContext,
          streamingConnectionTimeout: streamingConnectionTimeout,
          connectionTimeout: connectionTimeout,

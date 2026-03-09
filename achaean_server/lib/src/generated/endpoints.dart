@@ -411,6 +411,35 @@ class Endpoints extends _i1.EndpointDispatch {
                     params['pubkey'],
                   ),
         ),
+        'getFlagsForPolis': _i1.MethodConnector(
+          name: 'getFlagsForPolis',
+          params: {
+            'polisRepoUrl': _i1.ParameterDescription(
+              name: 'polisRepoUrl',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['koinon'] as _i5.KoinonEndpoint).getFlagsForPolis(
+                    session,
+                    params['polisRepoUrl'],
+                  ),
+        ),
+        'getFlaggedPostsForVouchers': _i1.MethodConnector(
+          name: 'getFlaggedPostsForVouchers',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['koinon'] as _i5.KoinonEndpoint)
+                  .getFlaggedPostsForVouchers(session),
+        ),
         'getAgora': _i1.MethodConnector(
           name: 'getAgora',
           params: {
