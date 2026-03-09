@@ -18,7 +18,11 @@ _$KoinonManifestImpl _$$KoinonManifestImplFromJson(Map<String, dynamic> json) =>
               ?.map((e) => PolisMembership.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      trustIndex: json['trust_index'] as String? ?? '/trust/index.json',
+      trust:
+          (json['trust'] as List<dynamic>?)
+              ?.map((e) => TrustEntry.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$KoinonManifestImplToJson(
@@ -30,5 +34,5 @@ Map<String, dynamic> _$$KoinonManifestImplToJson(
   'repo_radicle': instance.repoRadicle,
   'repo_https': instance.repoHttps,
   'poleis': instance.poleis.map((e) => e.toJson()).toList(),
-  'trust_index': instance.trustIndex,
+  'trust': instance.trust.map((e) => e.toJson()).toList(),
 };

@@ -61,7 +61,7 @@ void main() {
       final json = manifest.toJson();
       expect(json['protocol'], 'koinon');
       expect(json['version'], '1.0');
-      expect(json['trust_index'], '/trust/index.json');
+      expect(json['trust'], isEmpty);
       expect(json['poleis'], isEmpty);
 
       final restored = KoinonManifest.fromJson(json);

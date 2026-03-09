@@ -10,6 +10,7 @@ export 'src/models/post_parent.dart';
 export 'src/models/post_routing.dart';
 export 'src/models/readme_signature.dart';
 export 'src/models/trust_declaration.dart';
+export 'src/models/trust_entry.dart';
 export 'src/models/trust_level.dart';
 
 // Scaffolder

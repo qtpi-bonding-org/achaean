@@ -41,9 +41,8 @@ mixin _$KoinonManifest {
   /// Poleis the user belongs to.
   List<PolisMembership> get poleis => throw _privateConstructorUsedError;
 
-  /// Path to trust index file.
-  @JsonKey(name: 'trust_index')
-  String get trustIndex => throw _privateConstructorUsedError;
+  /// Inline trust declarations.
+  List<TrustEntry> get trust => throw _privateConstructorUsedError;
 
   /// Serializes this KoinonManifest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -69,7 +68,7 @@ abstract class $KoinonManifestCopyWith<$Res> {
     @JsonKey(name: 'repo_radicle') String? repoRadicle,
     @JsonKey(name: 'repo_https') String repoHttps,
     List<PolisMembership> poleis,
-    @JsonKey(name: 'trust_index') String trustIndex,
+    List<TrustEntry> trust,
   });
 }
 
@@ -94,7 +93,7 @@ class _$KoinonManifestCopyWithImpl<$Res, $Val extends KoinonManifest>
     Object? repoRadicle = freezed,
     Object? repoHttps = null,
     Object? poleis = null,
-    Object? trustIndex = null,
+    Object? trust = null,
   }) {
     return _then(
       _value.copyWith(
@@ -122,10 +121,10 @@ class _$KoinonManifestCopyWithImpl<$Res, $Val extends KoinonManifest>
                 ? _value.poleis
                 : poleis // ignore: cast_nullable_to_non_nullable
                       as List<PolisMembership>,
-            trustIndex: null == trustIndex
-                ? _value.trustIndex
-                : trustIndex // ignore: cast_nullable_to_non_nullable
-                      as String,
+            trust: null == trust
+                ? _value.trust
+                : trust // ignore: cast_nullable_to_non_nullable
+                      as List<TrustEntry>,
           )
           as $Val,
     );
@@ -148,7 +147,7 @@ abstract class _$$KoinonManifestImplCopyWith<$Res>
     @JsonKey(name: 'repo_radicle') String? repoRadicle,
     @JsonKey(name: 'repo_https') String repoHttps,
     List<PolisMembership> poleis,
-    @JsonKey(name: 'trust_index') String trustIndex,
+    List<TrustEntry> trust,
   });
 }
 
@@ -172,7 +171,7 @@ class __$$KoinonManifestImplCopyWithImpl<$Res>
     Object? repoRadicle = freezed,
     Object? repoHttps = null,
     Object? poleis = null,
-    Object? trustIndex = null,
+    Object? trust = null,
   }) {
     return _then(
       _$KoinonManifestImpl(
@@ -200,10 +199,10 @@ class __$$KoinonManifestImplCopyWithImpl<$Res>
             ? _value._poleis
             : poleis // ignore: cast_nullable_to_non_nullable
                   as List<PolisMembership>,
-        trustIndex: null == trustIndex
-            ? _value.trustIndex
-            : trustIndex // ignore: cast_nullable_to_non_nullable
-                  as String,
+        trust: null == trust
+            ? _value._trust
+            : trust // ignore: cast_nullable_to_non_nullable
+                  as List<TrustEntry>,
       ),
     );
   }
@@ -219,8 +218,9 @@ class _$KoinonManifestImpl implements _KoinonManifest {
     @JsonKey(name: 'repo_radicle') this.repoRadicle,
     @JsonKey(name: 'repo_https') required this.repoHttps,
     final List<PolisMembership> poleis = const [],
-    @JsonKey(name: 'trust_index') this.trustIndex = '/trust/index.json',
-  }) : _poleis = poleis;
+    final List<TrustEntry> trust = const [],
+  }) : _poleis = poleis,
+       _trust = trust;
 
   factory _$KoinonManifestImpl.fromJson(Map<String, dynamic> json) =>
       _$$KoinonManifestImplFromJson(json);
@@ -261,14 +261,21 @@ class _$KoinonManifestImpl implements _KoinonManifest {
     return EqualUnmodifiableListView(_poleis);
   }
 
-  /// Path to trust index file.
+  /// Inline trust declarations.
+  final List<TrustEntry> _trust;
+
+  /// Inline trust declarations.
   @override
-  @JsonKey(name: 'trust_index')
-  final String trustIndex;
+  @JsonKey()
+  List<TrustEntry> get trust {
+    if (_trust is EqualUnmodifiableListView) return _trust;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_trust);
+  }
 
   @override
   String toString() {
-    return 'KoinonManifest(protocol: $protocol, version: $version, pubkey: $pubkey, repoRadicle: $repoRadicle, repoHttps: $repoHttps, poleis: $poleis, trustIndex: $trustIndex)';
+    return 'KoinonManifest(protocol: $protocol, version: $version, pubkey: $pubkey, repoRadicle: $repoRadicle, repoHttps: $repoHttps, poleis: $poleis, trust: $trust)';
   }
 
   @override
@@ -285,8 +292,7 @@ class _$KoinonManifestImpl implements _KoinonManifest {
             (identical(other.repoHttps, repoHttps) ||
                 other.repoHttps == repoHttps) &&
             const DeepCollectionEquality().equals(other._poleis, _poleis) &&
-            (identical(other.trustIndex, trustIndex) ||
-                other.trustIndex == trustIndex));
+            const DeepCollectionEquality().equals(other._trust, _trust));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -299,7 +305,7 @@ class _$KoinonManifestImpl implements _KoinonManifest {
     repoRadicle,
     repoHttps,
     const DeepCollectionEquality().hash(_poleis),
-    trustIndex,
+    const DeepCollectionEquality().hash(_trust),
   );
 
   /// Create a copy of KoinonManifest
@@ -327,7 +333,7 @@ abstract class _KoinonManifest implements KoinonManifest {
     @JsonKey(name: 'repo_radicle') final String? repoRadicle,
     @JsonKey(name: 'repo_https') required final String repoHttps,
     final List<PolisMembership> poleis,
-    @JsonKey(name: 'trust_index') final String trustIndex,
+    final List<TrustEntry> trust,
   }) = _$KoinonManifestImpl;
 
   factory _KoinonManifest.fromJson(Map<String, dynamic> json) =
@@ -359,10 +365,9 @@ abstract class _KoinonManifest implements KoinonManifest {
   @override
   List<PolisMembership> get poleis;
 
-  /// Path to trust index file.
+  /// Inline trust declarations.
   @override
-  @JsonKey(name: 'trust_index')
-  String get trustIndex;
+  List<TrustEntry> get trust;
 
   /// Create a copy of KoinonManifest
   /// with the given fields replaced by the non-null parameter values.

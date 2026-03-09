@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'polis_membership.dart';
+import 'trust_entry.dart';
 
 part 'koinon_manifest.freezed.dart';
 part 'koinon_manifest.g.dart';
@@ -27,8 +28,8 @@ class KoinonManifest with _$KoinonManifest {
     /// Poleis the user belongs to.
     @Default([]) List<PolisMembership> poleis,
 
-    /// Path to trust index file.
-    @JsonKey(name: 'trust_index') @Default('/trust/index.json') String trustIndex,
+    /// Inline trust declarations.
+    @Default([]) List<TrustEntry> trust,
   }) = _KoinonManifest;
 
   factory KoinonManifest.fromJson(Map<String, dynamic> json) =>
