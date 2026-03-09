@@ -14,6 +14,8 @@
 | **Polis** (plural: poleis) | A community. A self-governing, voluntary group bound by a shared document and mutual trust. |
 | **Polites** (plural: politai) | A citizen. A user identified by their cryptographic keypair. |
 | **Agora** | The community feed. The computed index of content from trusted members. The public square. |
+| **Synedrion** | The index/computation layer. Gathers trust declarations, computes membership, serves agora feeds. Has no authority over data. Anyone can run one. |
+| **Archeion** | The archive/storage layer. The git forge where user repos live. Replaceable (Forgejo, GitHub, Codeberg, Radicle). |
 
 ---
 

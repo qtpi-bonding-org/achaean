@@ -12,6 +12,17 @@ Achaean is a social platform where communities are trust-gated, not moderation-g
 - **Membership** is computed from mutual trust relationships
 - **The server** is a metadata index — it never stores or serves content
 
+## Terminology
+
+| Term | Meaning |
+|---|---|
+| **Koinon** | The protocol — the shared specification for identity, trust, communities, and content |
+| **Polis** (pl. poleis) | A community — a voluntary group bound by a signed social contract (README) and mutual trust |
+| **Polites** (pl. politai) | A citizen — a user identified by their cryptographic keypair |
+| **Agora** | The community feed — computed from trusted members' posts |
+| **Synedrion** | The index/computation layer — gathers trust declarations, computes membership, serves agora feeds. Has no authority over data; anyone can run one |
+| **Archeion** | The archive/storage layer — the git forge where user repos live (Forgejo, GitHub, Codeberg, Radicle) |
+
 ## How is this different?
 
 | | Identity | Data storage | Moderation | Community model |
@@ -48,7 +59,7 @@ The protocol has five primitives (README, trust declaration, README signature, f
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│   Flutter    │     │  Serverpod   │     │   Forgejo    │
+│   Flutter    │     │  Synedrion   │     │   Archeion   │
 │   Client     │────▶│  (indexer)   │────▶│  (git forge) │
 │              │     │              │     │              │
 │ - keypair    │     │ - trust graph│     │ - user repos │
@@ -61,9 +72,9 @@ The protocol has five primitives (README, trust declaration, README signature, f
 ```
 
 Three independent layers, intentionally decoupled:
-- **Storage** (Forgejo) — git forge hosting user repos. Replaceable with GitHub, Codeberg, Gitea, or Radicle.
-- **Computation** (Serverpod) — indexes trust declarations, computes membership, serves agora feeds. Never touches content.
-- **Client** (Flutter) — cross-platform app. Holds your keypair, maintains a local copy of your repo, fetches content directly from authors' forges.
+- **Archeion** (Forgejo) — git forge hosting user repos. Replaceable with GitHub, Codeberg, Gitea, or Radicle.
+- **Synedrion** (Serverpod) — indexes trust declarations, computes membership, serves agora feeds. Never touches content.
+- **Client** (Flutter) — cross-platform app. Holds your keypair, maintains a local copy of your repo, fetches content directly from authors' archeions.
 
 ## Tech stack
 
