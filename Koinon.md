@@ -39,8 +39,9 @@ A polis is not an actor. It does not sign things, hold keys, or take actions. On
 ### 2. Voluntary Community (Confederation)
 
 - A polis is **not** a server, a channel, an admin-controlled space, or an entity with its own key.
-- A polis is a **signed versioned document (the README)**, identified by its hash, bound to a **web of mutual trust**.
-- Membership is the intersection of: having signed the README, and having mutual trust relationships with other signers above the polis's defined threshold.
+- A polis is a **git repo** containing a signed, versioned document (the README) — a social contract. The polis identity is the repo, not any single version of the README.
+- Members cosign the README — each member signs the README content with their keypair and stores the signature in their own repo. This is a literal act of agreement: "I agree to these terms."
+- Membership is the intersection of: having signed the current README version, and having mutual trust relationships with other signers above the polis's defined threshold.
 - No one is trapped. No one is owned. Membership is always voluntary. Exit is always free.
 
 ### 3. Client-Side Moderation
@@ -55,15 +56,15 @@ A polis is not an actor. It does not sign things, hold keys, or take actions. On
 
 **Politai are git repos.** Each polites has a signed log of their content — posts, messages, media. Signed by their Web Crypto keypair. This is theirs forever.
 
-**Poleis are git repos of pointers.** A polis is a README document (identified by its hash) plus a manifest of references to polites content. The manifest is not signed by the polis (poleis don't sign things). It is **computed** by any client from the trust graph: collect all content that trusted politai have tagged for this polis.
+**Poleis are git repos.** A polis is a repo containing a README — the social contract. Members cosign it. The agora is **computed** by the aggregator from the trust graph: collect all content that trusted, signed members have tagged for this polis.
 
-**Forks are just new READMEs.** A polites writes a new README pointing to the old one as its parent. People follow or they don't. The new fork inherits the old agora by default (minus any exclusions). No permission needed. No vote required.
+**Forks are just forked repos.** Anyone forks the polis repo, writes a new README, signs it. People sign the fork or they don't. The fork inherits the old agora by default (minus any exclusions). No permission needed. No vote required.
 
 ### Community Health: Two Numbers
 
-**Stars** = how many individual keypairs have active trust declarations pointing at this README hash. **Breadth.**
+**Stars** = how many individual keypairs have signed the current README. **Breadth.**
 
-**Edges** = how many mutual trust relationships exist between members within the polis. **Depth.**
+**Edges** = how many mutual trust relationships exist between signers of this polis's README. **Depth.**
 
 - High stars, low edges → loose audience, broadcast polis, public forum.
 - High edges relative to stars → tight-knit crew, everyone knows each other.
@@ -75,15 +76,15 @@ A polis is not an actor. It does not sign things, hold keys, or take actions. On
 
 ### The README
 
-A polis is defined by a signed, versioned document — the README, identified by its content hash. It contains:
+A polis is defined by its git repo. The repo contains a signed, versioned document — the README. The polis identity is the repo (stable URL/ID), not any single README hash. The README can be updated by the repo owner without breaking the polis identity. It contains:
 
 - **What the polis is about** — could be a paragraph, a manifesto, or just "shitposting about linux."
 - **Norms and expectations** — social conventions, not enforced rules.
 - **Membership threshold** — how many mutual trust links are required for full membership.
-- **Parent pointer** — the hash of the README this was forked from (null for genesis).
+- **Parent pointer** — the repo this was forked from (null for genesis).
 - **Optional metadata** — recommended client-side moderation defaults, founding signers, etc.
 
-The README is signed by its author. It is a social contract. The polis's identity IS the README hash.
+The README is signed by its author (the repo owner). It is a social contract. When the README changes, members review and re-sign. A member who hasn't signed the current version is flagged as stale — not revoked, but not current. If the repo owner pushes something the community rejects, nobody re-signs, and someone forks the repo. The owner has commit access, not authority. Authority comes from member signatures.
 
 ### The Agora (Computed, Not Signed)
 
@@ -100,11 +101,11 @@ Three trust states:
 
 | State | Meaning |
 |---|---|
-| **No Trust** | Default. You are unknown to this polis. |
+| **No Trust** | Default. No one has vouched for you. |
 | **Provisional** | Someone has vouched for you. You can participate but cannot vouch for others. |
-| **Trust** | Full mutual trust. You are a member. You can vouch for new provisional members. Revocable at any time. |
+| **Trust** | Full mutual trust. You can vouch for new provisional members. Revocable at any time. |
 
-A trust declaration is a three-way binding: **I trust this polites, with respect to this polis (README hash), and all trusted politai must mutually trust each other.**
+A trust declaration is between two individuals: **I trust this polites.** Trust is not scoped to any polis — you either trust someone or you don't. Poleis are lenses over the trust graph, not containers for it.
 
 #### How membership works:
 
@@ -120,13 +121,14 @@ Vouching has social cost. Vouch for a bad actor, it reflects on you.
 
 ### Forking
 
-No consensus process. As free as forking a repo.
+No consensus process. As free as forking a repo — because it literally is forking a repo.
 
 - **Anyone can fork at any time for any reason.**
-- To fork: new README, parent pointer to old hash, sign it, publish.
+- To fork: fork the polis repo, write a new README, sign it, publish. The parent pointer is the original repo.
+- The fork succeeds only if people actually sign the new README. You can see exactly who signed which fork — it's a vote with cryptographic receipts.
 - The "real" polis is whichever fork the trust graph follows. Dead forks wither.
 
-Bad actors: the polis forks. The bad actor is left behind. They can't meet the membership threshold in the new fork because no one trusts them.
+Bad actors: the polis repo forks. The bad actor is left behind. They can't meet the membership threshold in the new fork because no one trusts them.
 
 ### History Continuity
 
@@ -136,19 +138,23 @@ Forks inherit the entire old agora by default. The fork specifies an exclusion l
 
 ## Protocol Primitives
 
-The Koinon protocol defines three primitives:
+The Koinon protocol defines four primitives:
 
-### 1. Polis Document (README)
+### 1. README
 
-A signed, versioned document: content hash (the polis identity), parent pointer, membership threshold, exclusion list, author signature, optional metadata.
+The polis's social contract. A signed, versioned document in the polis's git repo. The polis identity is the repo (stable URL/ID). Contains: parent pointer (forked-from repo), membership threshold, exclusion list, author signature, optional metadata. Updated by the repo owner; validated by member signatures.
 
 ### 2. Trust Declaration
 
-A signed file: author keypair, subject keypair, README hash (three-way binding), trust level (`TRUST` or `PROVISIONAL`). Revocable by deletion.
+A signed file: author keypair, subject keypair, trust level (`TRUST` or `PROVISIONAL`). Trust is between individuals — not scoped to any polis. Poleis compute membership from the global trust graph. Revocable by deletion.
 
-### 3. Membership Function
+### 3. README Signature
 
-Computed, not stored. Member = signed the README + mutual `TRUST` declarations with N other signers (N = threshold). The agora is also computed from this.
+A signed file in the polites's own repo: the README content (or its hash), the polis repo ID, the README commit hash, and the polites's signature. This is the act of cosigning the social contract. Signatures are decentralized — scattered across member repos — and assembled by the aggregator.
+
+### 4. Membership Function
+
+Computed, not stored. Member = signed the current README version + mutual `TRUST` declarations (from the global trust graph) with N other signers (N = threshold). The agora is also computed from this. Trust exists between individuals independent of any polis; poleis are just lenses that filter the trust graph by who has signed their README.
 
 ---
 
@@ -184,7 +190,7 @@ On Koinon, the presentation is yours. How your post looks is part of what you're
 {
   "type": "post",
   "format": "md",
-  "poleis": ["<readme-hash>"],
+  "poleis": ["<polis-repo-id>"],
   "timestamp": "2026-03-08T12:00:00Z",
   "signature": "<your-web-crypto-signature>"
 }
@@ -196,7 +202,7 @@ For replies, the `reply_to` field pins the reply to an exact version of the pare
 {
   "type": "post",
   "format": "md",
-  "poleis": ["<readme-hash>"],
+  "poleis": ["<polis-repo-id>"],
   "reply_to": {
     "author": "<their-public-key>",
     "repo": "rad:z3gqcJ...",
@@ -270,11 +276,11 @@ my-repo/
       style.css
       hero.png
   trust/
-    <polis-hash>/
-      alice.json              # trust declaration
-      bob.json
+    alice.json                # trust declaration (individual, not polis-scoped)
+    bob.json
   poleis/
-    <polis-hash>.json         # README you've signed
+    <polis-repo-id>/
+      signature.json          # your signature of the current README
   feed.xml                    # RSS feed
 ```
 
@@ -284,8 +290,20 @@ my-repo/
 {
   "type": "trust-declaration",
   "subject": "<their-public-key>",
-  "polis": "<readme-hash>",
   "level": "TRUST",
+  "timestamp": "2026-03-08T12:00:00Z",
+  "signature": "<your-web-crypto-signature>"
+}
+```
+
+### README Signature Format
+
+```json
+{
+  "type": "readme-signature",
+  "polis": "<polis-repo-id>",
+  "readme_commit": "<commit-hash-of-readme-version>",
+  "readme_hash": "<content-hash-of-readme>",
   "timestamp": "2026-03-08T12:00:00Z",
   "signature": "<your-web-crypto-signature>"
 }
@@ -294,6 +312,10 @@ my-repo/
 ---
 
 ## Discovery via `.well-known`
+
+The `.well-known/koinon.json` file is a directory inside the git repo — not a web domain endpoint. No domain or hosting required. It sits in the repo alongside `posts/` and `trust/`, and is auto-generated by the client. The indexer finds it by searching forges for repos containing this file path, or by following trust graph links between repos.
+
+Optionally, a polites with their own domain can also host `https://theirdomain.com/.well-known/koinon.json` pointing to their repo — useful for verification and vanity, but not required.
 
 Every polites's repo hosts a `.well-known/koinon.json` manifest:
 
@@ -306,7 +328,7 @@ Every polites's repo hosts a `.well-known/koinon.json` manifest:
   "repo_https": "https://github.com/alice/my-repo",
   "poleis": [
     {
-      "readme_hash": "<hash>",
+      "repo": "<polis-repo-id>",
       "name": "Linux Shitposters",
       "stars": 47,
       "role": "TRUST"
@@ -318,18 +340,33 @@ Every polites's repo hosts a `.well-known/koinon.json` manifest:
 
 ### Discovery Layers
 
-1. **`.well-known` crawling** — bots index `koinon.json` manifests. Fast, lightweight, cacheable.
-2. **Radicle gossip** — nodes tell each other about repos.
-3. **Trust graph navigation** — discover poleis through trusted politai's declarations.
-4. **Crossposting** — content mirrored to Nostr/Bluesky/Mastodon brings people back.
-5. **Forge search** — GitHub/Codeberg search works natively.
-6. **Directory sites** — anyone can build a search engine for the network.
+**Onboarding discovery (how new users find Koinon):**
+
+1. **Crossposting** — the primary growth engine. Koinon posts crossposted to Nostr/Bluesky/Mastodon link back to the source. People discover the network through content they already see on other platforms.
+2. **Forge search** — repos live on GitHub/Codeberg, so they're searchable by anyone with a browser. Zero-friction early discovery with no extra infrastructure.
+3. **The Koinon Index** — a lightweight crawler/search engine that indexes `koinon.json` manifests across the network. Seeded by forge search (query for repos containing `.well-known/koinon.json`), then follows the trust graph to discover more repos. Serves a search API and browse UI for finding poleis by topic, size, and activity. Cheap to run — small JSON manifests over HTTPS, SQLite index, single VPS. Anyone can run a competing indexer since all the data is public and the manifest format is standardized.
+
+**In-network discovery (once you're in):**
+
+4. **Trust graph navigation** — discover poleis through people you already trust. The strongest mechanism once you have connections.
+5. **Radicle gossip** — nodes tell each other about repos.
+6. **RSS** — subscribe to trusted politai, discover their poleis through their activity.
 
 ---
 
-## Integrity and Lying
+## Integrity, Lying, and Sybil Resistance
 
 Lying is mostly useless because the trust graph is multi-party. You can rewrite your repo but you can't rewrite other people's. Every interesting claim requires corroboration. Signed commits provide tamper evidence. Clients flag suspicious re-signed history.
+
+### Sybil Resistance
+
+The trust graph is the sybil defense. Creating 50 fake keypairs is easy. Getting real members to independently grant mutual `TRUST` to all of them is not — each trust decision is a human social judgment. Sock puppets that nobody has interacted with get stuck at `PROVISIONAL` or `No Trust` permanently.
+
+Vouching has social cost. If someone vouches for 50 strangers nobody recognizes, it reflects on the voucher. Other members notice. Trust in the voucher erodes. The attack burns the attacker's social capital.
+
+The membership threshold is the tuning knob. A polis with a threshold of 1 is easy to game. A polis with a threshold of 5 requires a sybil to fool five independent people. If a polis is getting gamed, it forks with a higher threshold. Social problem, social solution.
+
+This mirrors how real communities work. You cannot fake being 50 different people that everyone personally knows.
 
 ---
 
@@ -353,11 +390,53 @@ The protocol has no moderation layer. Content is signed (cryptographic accountab
 
 ---
 
-## Public by Default
+## Visibility: Public or Encrypted
 
-This protocol is public. Your repo, trust graph, and posts are public. Transparency is what makes the trust graph work.
+Every polis is either **public** or **encrypted**. There is no middle ground. The README declares which.
 
-For private conversations, use Signal, Matrix, etc. Koinon is for public discourse.
+### Public Poleis (Default)
+
+Your repo, trust graph, and posts are public. Transparency is what makes the trust graph work. Most poleis are public.
+
+### Encrypted Poleis
+
+For communities that need privacy, a polis can declare itself encrypted. Content is readable only by current trusted members.
+
+**How it works — envelope encryption:**
+
+Each post is encrypted using a random **per-post AES content key**. The content files (`index.md`, `index.html`, assets) are encrypted with this key. Then the AES key itself is encrypted once per trusted member using their public key (RSA/ECDH). The result is one encrypted content blob plus N tiny encrypted copies of the content key — one per member.
+
+```
+posts/
+  2026-03-08-private-update/
+    post.json                   # metadata (unencrypted — polis tag, timestamp, signature)
+    keys.json                   # per-member encrypted content keys
+    content.enc                 # AES-encrypted content blob
+```
+
+**`keys.json`:**
+
+```json
+{
+  "algorithm": "AES-GCM-256",
+  "recipients": {
+    "<alice-public-key>": "<AES-key-encrypted-with-alice-pubkey>",
+    "<bob-public-key>": "<AES-key-encrypted-with-bob-pubkey>"
+  }
+}
+```
+
+**Why per-post, not per-polis keys:**
+
+- When a member loses trust, nothing needs to be re-keyed. They simply stop appearing in `recipients` for new posts.
+- Old posts they could already read remain readable — revoking access to ciphertext they already decrypted is security theater.
+- Each post is a self-contained encrypted unit. No shared secret to leak or rotate.
+
+**The polis still holds no keys.** Encryption is author-to-recipients. The author encrypts to the current trusted member set at time of posting. Sovereignty is preserved — the polis is not an actor, even in encrypted mode.
+
+**Trust graph remains public.** Even in encrypted poleis, trust declarations and the README are unencrypted. Who trusts whom is visible. Only content is encrypted. This is necessary — membership must be computable by anyone for the protocol to work.
+
+For truly private one-to-one or small-group conversations, use Signal, Matrix, etc. Encrypted poleis are for community-scoped privacy, not secret channels.
 
 ---
 
@@ -366,9 +445,9 @@ For private conversations, use Signal, Matrix, etc. Koinon is for public discour
 ### The Stack
 
 - **Web Crypto API** — identity and signing. Browser-native.
-- **Git** — content storage, history, hash-linking, forking.
+- **Git** — the canonical data format. Content storage, history, hash-linking, forking. Git is the protocol's substrate, but the client never runs git directly. The Flutter app talks to git forges via their HTTPS/REST APIs (GitHub, Codeberg, Gitea) and to Radicle via its HTTP API. All git operations — commits, pushes, file reads — happen through API calls. No git binary on the device.
 - **Radicle + Git Forges (dual mode)** — P2P hosting AND traditional forge hosting simultaneously.
-- **RSS** — subscription and content distribution. Pull-based.
+- **RSS** — the notification layer. Each polites's repo contains a `feed.xml` that advertises new posts and trust changes. RSS doesn't contain content — it points to it. Aggregators and other clients subscribe to feeds to know when something changed, then fetch the actual content (markdown or HTML+CSS post directories) via forge APIs. RSS is forge-agnostic, trivial to generate (templated from `post.json` metadata), and means aggregators never need to understand specific forge APIs — they just subscribe to feeds. Regenerated on every push.
 - **Gemma (or similar) on-device** — client-side moderation.
 
 ### Dual-Mode Hosting
@@ -394,8 +473,8 @@ A Flutter app (cross-platform, mobile + desktop). The user sees a social media a
 | Post (simple) | A markdown editor | Signed post directory committed, RSS regenerated, pushed |
 | Post (rich) | A visual editor / HTML+CSS | Rich post directory with custom layout committed, pushed |
 | Fork polis | "New polis created." | New README with parent pointer committed |
-| Read feed | A filtered, personalized feed | Content fetched, agora computed, filtered through Gemma |
-| Discover poleis | Browse/search page | `.well-known` + gossip + trust graph + directories |
+| Read feed | A filtered, personalized feed | Agora fetched from aggregator API, content rendered, optionally filtered by on-device preferences |
+| Discover poleis | Browse/search page | Aggregator search API + trust graph navigation |
 
 ### Interoperability via Crossposting
 
@@ -420,19 +499,57 @@ The protocol is simple. Scaling it requires optional infrastructure on top — t
 
 **Computing the agora is expensive.** To build the feed for a large polis, a naive client would need to fetch many repos, walk trust directories, verify mutual trust, collect tagged posts, and resolve reply chains across repos.
 
-### Tiered Scaling
+### Server-Side Agora Computation
 
-**Tier 1: Small poleis (under ~100 members)** — the client computes the agora directly. Fetch repos, build graph, done. No extra infrastructure needed.
+The agora is always computed server-side by the aggregator. The client never computes the trust graph — it fetches pre-computed agoras from the aggregator API. This avoids duplicating graph computation logic in both client and server, and keeps the Flutter client thin: keypair management, posting to forge APIs, rendering content, calling the aggregator for feeds.
 
-**Tier 2: Medium poleis (100–10,000)** — optional aggregator services. Someone runs a crawler that watches member repos via RSS feeds, incrementally updates a cached agora, and serves it. Any polites can run an aggregator. Multiple competing aggregators can exist for the same polis. The client can verify the aggregator's output against raw repos. Trust but verify.
+The protocol still guarantees that anyone *could* independently verify the agora — all trust declarations and content are public. But in practice, the aggregator does the work.
 
-**Tier 3: Large poleis (10,000+)** — dedicated indexing services. Still an opt-in optimization, not a protocol requirement. The protocol stays "repos + trust + computed agora." The indexer pre-computes what any client could compute on its own.
+### The Aggregator
+
+A Go service with two responsibilities: **discovery** (indexing poleis and politai for search) and **computation** (building agoras from the trust graph).
+
+**Architecture:**
+
+- **RSS subscriber** — discovers polites repos (via forge search or trust graph traversal), subscribes to their `feed.xml`. Processes updates only when something changes. The only expensive job is finding new repos to subscribe to — everything after that is listening.
+- **Graph database** — stores the trust graph and computes membership/agoras. LadybugDB (embedded, columnar, Cypher queries, zero ops) is the default. The DB sits behind a Go interface (`GraphStore`) so it can be swapped to Postgres + Apache AGE or any other backend without changing the aggregator logic.
+- **REST API** — serves pre-computed agoras, polis search, polites lookup, membership data to the Flutter client.
+
+**The `GraphStore` interface:**
+
+```go
+type GraphStore interface {
+    UpsertPolis(polis Polis) error
+    GetPolis(readmeHash string) (*Polis, error)
+    SearchPoleis(query string) ([]Polis, error)
+    UpsertPolites(polites Polites) error
+    GetPolites(pubkey string) (*Polites, error)
+    SetTrust(from, to string, level TrustLevel) error
+    RevokeTrust(from, to string) error
+    GetMembers(polisHash string, threshold int) ([]Polites, error)
+    ComputeAgora(polisHash string) ([]Post, error)
+    AddFeed(pubkey string, feedURL string) error
+    GetStaleFeeds(since time.Time) ([]Feed, error)
+}
+```
+
+Start with `LadybugStore`. If LadybugDB doesn't hold up, write a `PostgresAGEStore`. The aggregator never knows the difference.
+
+**Anyone can run an aggregator.** All the data is public. Multiple competing aggregators can exist for the same polis. The client can be configured to use any aggregator, or compare results across multiple. No lock-in.
+
+### Scaling Tiers
+
+**Early (free tier):** Single aggregator instance, LadybugDB embedded, GitHub Actions cron for initial repo discovery.
+
+**Medium ($5-20/mo VPS):** Persistent aggregator service, real-time RSS processing, serves API to clients.
+
+**Large (real infrastructure):** Postgres + AGE, multiple aggregator instances, sharded by trust graph regions, CDN in front of the API.
 
 ### What Makes This Tractable
 
 **`.well-known/koinon.json`** — aggregators don't need to clone full repos. They poll lightweight manifests, check for changes, fetch only what's new.
 
-**RSS feeds** — aggregators subscribe to member feeds. New posts or trust changes trigger feed updates. No full re-crawl needed.
+**RSS feeds** — this is what makes the indexer scalable. The crawler doesn't poll — it subscribes. Once it discovers a polites's repo, it subscribes to their `feed.xml` and only processes updates when something changes. Most checks are a single `If-Modified-Since` header with zero bandwidth. The crawler's only expensive job is discovering new repos to subscribe to. Everything after that is listening. RSS turns polling into subscription — a solved problem at any scale.
 
 **Immutable commit hashes** — reply threads and content references are pinned to commit hashes. Once resolved, they can be cached permanently. Thread structure can't change retroactively.
 
@@ -451,8 +568,8 @@ This is the same tradeoff the web made. HTTP is simple. At scale you need CDNs, 
 5. **Content is expressive.** Your post, your design. Markdown for simplicity, HTML + CSS for full creative control. No cookie-cutter templates.
 6. **Forking is a feature.** Poleis split. History carries forward.
 7. **Moderation is personal.** The protocol doesn't moderate. People do.
-8. **Public by default.** Private tools for private things.
-9. **Simplicity is strength.** Three primitives. Three trust states. Everything else is emergent.
+8. **Public or encrypted.** Poleis are either fully public or envelope-encrypted to members. No middle ground.
+9. **Simplicity is strength.** Four primitives. Three trust states. Everything else is emergent.
 10. **No central dependencies.** Dual-mode hosting. No single point of failure.
 11. **Lying is futile.** Multi-party trust graph. Signed commits. Tamper evidence.
 12. **Scale is infrastructure, not protocol.** The protocol stays simple. Aggregators, caches, and indexers are optional layers anyone can provide.
@@ -461,15 +578,14 @@ This is the same tradeoff the web made. HTTP is simple. At scale you need CDNs, 
 
 ## Open Questions
 
-- **Cross-polis trust** — does trust in one polis carry weight in another?
 - **On-device model requirements** — minimum viable model, fallback for low-power devices
 - **Large media** — git + large binaries. Git LFS? External hosting with hash references?
 - **Reverse bridges** — pulling replies from other networks back into the agora
 - **`.well-known` standardization** — exact schema, update frequency
 - **Post templates** — shareable layout templates for non-technical users
 - **Visual editor** — WYSIWYG post editor that generates HTML + CSS
-- **Aggregator protocol** — standard API for aggregator services to serve pre-computed agoras
+- **Aggregator API spec** — exact REST endpoints, response formats, pagination
 
 ---
 
-*This document is version 2.3 of the Koinon Protocol specification. Achaean is the first implementation. This is itself a README. Fork it freely.*
+*This document is version 3.0 of the Koinon Protocol specification. Achaean is the first implementation. This is itself a README. Fork it freely.*
