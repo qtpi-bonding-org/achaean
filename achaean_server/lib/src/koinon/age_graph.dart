@@ -5,6 +5,10 @@ import 'package:serverpod/serverpod.dart';
 /// All methods use raw SQL via session.db.unsafeExecute/unsafeQuery.
 /// AGE Cypher queries are wrapped in SELECT * FROM cypher('koinon', $$ ... $$).
 class AgeGraph {
+  /// Sanitize a string value for use in Cypher queries.
+  static String _s(String value) => value.replaceAll("'", "''");
+
+
   /// Ensure the AGE extension and koinon graph exist.
   /// Call once on server startup.
   static Future<void> initialize(Session session) async {
@@ -43,7 +47,7 @@ class AgeGraph {
     await _loadAge(session);
     await session.db.unsafeExecute(
       "SELECT * FROM cypher('koinon', \$\$"
-      "MERGE (p:Polites {pubkey: '$pubkey'})"
+      "MERGE (p:Polites {pubkey: '${_s(pubkey)}'})"
       "\$\$) AS (v agtype)",
     );
   }
@@ -57,8 +61,8 @@ class AgeGraph {
     await _loadAge(session);
     await session.db.unsafeExecute(
       "SELECT * FROM cypher('koinon', \$\$"
-      "MERGE (p:Polis {repo_url: '$repoUrl'})"
-      "SET p.threshold = $threshold"
+      "MERGE (p:Polis {repo_url: '${_s(repoUrl)}'})"
+      " SET p.threshold = $threshold"
       "\$\$) AS (v agtype)",
     );
   }
@@ -74,7 +78,7 @@ class AgeGraph {
     // Delete existing trust edges from this polites
     await session.db.unsafeExecute(
       "SELECT * FROM cypher('koinon', \$\$"
-      "MATCH (from:Polites {pubkey: '$fromPubkey'})-[r:TRUSTS]->()"
+      "MATCH (from:Polites {pubkey: '${_s(fromPubkey)}'})-[r:TRUSTS]->()"
       " DELETE r"
       "\$\$) AS (v agtype)",
     );
@@ -83,9 +87,9 @@ class AgeGraph {
     for (final edge in edges) {
       await session.db.unsafeExecute(
         "SELECT * FROM cypher('koinon', \$\$"
-        " MERGE (from:Polites {pubkey: '$fromPubkey'})"
-        " MERGE (to:Polites {pubkey: '${edge.toPubkey}'})"
-        " MERGE (from)-[:TRUSTS {level: '${edge.level}'}]->(to)"
+        " MERGE (from:Polites {pubkey: '${_s(fromPubkey)}'})"
+        " MERGE (to:Polites {pubkey: '${_s(edge.toPubkey)}'})"
+        " MERGE (from)-[:TRUSTS {level: '${_s(edge.level)}'}]->(to)"
         "\$\$) AS (v agtype)",
       );
     }
@@ -102,7 +106,7 @@ class AgeGraph {
     // Delete existing signed edges from this polites
     await session.db.unsafeExecute(
       "SELECT * FROM cypher('koinon', \$\$"
-      "MATCH (s:Polites {pubkey: '$signerPubkey'})-[r:SIGNED]->()"
+      "MATCH (s:Polites {pubkey: '${_s(signerPubkey)}'})-[r:SIGNED]->()"
       " DELETE r"
       "\$\$) AS (v agtype)",
     );
@@ -111,8 +115,8 @@ class AgeGraph {
     for (final repoUrl in polisRepoUrls) {
       await session.db.unsafeExecute(
         "SELECT * FROM cypher('koinon', \$\$"
-        " MERGE (s:Polites {pubkey: '$signerPubkey'})"
-        " MERGE (p:Polis {repo_url: '$repoUrl'})"
+        " MERGE (s:Polites {pubkey: '${_s(signerPubkey)}'})"
+        " MERGE (p:Polis {repo_url: '${_s(repoUrl)}'})"
         " MERGE (s)-[:SIGNED]->(p)"
         "\$\$) AS (v agtype)",
       );
@@ -133,7 +137,7 @@ class AgeGraph {
       // Threshold 0: all signers are members
       final result = await session.db.unsafeQuery(
         "SELECT * FROM cypher('koinon', \$\$"
-        "MATCH (s:Polites)-[:SIGNED]->(p:Polis {repo_url: '$polisRepoUrl'})"
+        "MATCH (s:Polites)-[:SIGNED]->(p:Polis {repo_url: '${_s(polisRepoUrl)}'})"
         " RETURN s.pubkey"
         "\$\$) AS (pubkey agtype)",
       );
@@ -145,7 +149,7 @@ class AgeGraph {
     // Find signers who have >= threshold mutual trust edges with other signers
     final result = await session.db.unsafeQuery(
       "SELECT * FROM cypher('koinon', \$\$"
-      "MATCH (signer:Polites)-[:SIGNED]->(p:Polis {repo_url: '$polisRepoUrl'})"
+      "MATCH (signer:Polites)-[:SIGNED]->(p:Polis {repo_url: '${_s(polisRepoUrl)}'})"
       " WITH signer, p"
       " OPTIONAL MATCH (signer)-[:TRUSTS {level: 'trust'}]->(other:Polites)-[:TRUSTS {level: 'trust'}]->(signer)"
       " WHERE (other)-[:SIGNED]->(p)"

@@ -41,7 +41,7 @@ class KoinonAuth {
     }
 
     final age = DateTime.now().toUtc().difference(ts);
-    if (age.inMinutes.abs() > _maxAgeMinutes) {
+    if (age.inSeconds.abs() > _maxAgeMinutes * 60) {
       throw Exception('Timestamp too old');
     }
 
