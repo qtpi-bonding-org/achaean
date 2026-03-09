@@ -1,0 +1,95 @@
+# Achaean
+
+The first reference implementation of the [Koinon Protocol](Koinon.md) — a protocol for sovereign identity, voluntary community, and trust-based social networking.
+
+## What is this?
+
+Achaean is a social platform where communities are trust-gated, not moderation-gated. There are no admin ban hammers, no content moderation queues, no spam filters — because the architecture makes them unnecessary. You only see content from people your community trusts.
+
+- **Identity** is a cryptographic keypair you own
+- **Content** lives in your git repo, not on a server
+- **Communities** (poleis) are defined by a shared social contract (a signed README)
+- **Membership** is computed from mutual trust relationships
+- **The server** is a metadata index — it never stores or serves content
+
+## How is this different?
+
+| | Identity | Data storage | Moderation | Community model |
+|---|---|---|---|---|
+| **Lemmy / Mastodon** | Server owns it | Server | Server admins (reactive banning) | Server = community |
+| **Bluesky** | DID (portable) | Personal repo (PDS) | Labeling services (centralized in practice) | Follows-based feed |
+| **Nostr** | Keypair | Relays (multiple copies) | Relay operators / client-side filtering | No community primitive |
+| **Koinon** | Keypair | Git repo (you own it) | Trust graph (structural — bad actors can't enter) | Polis: signed social contract + mutual trust |
+
+### vs. Lemmy / Mastodon (ActivityPub)
+
+ActivityPub was designed when the mental model was "decentralized Twitter." Servers host content, servers federate, servers moderate. This works until it doesn't — federated harassment, CSAM attacks, admin burnout, and moderation as an endless arms race against bad actors. The architecture creates the very problems it then tries to solve.
+
+### vs. Bluesky (AT Protocol)
+
+Bluesky got the architecture half right — user-owned data repos, portable identity, separate aggregation layer. But they compromised on the trust model to chase scale. The aggregation layer (relay + appview) is the product, Bluesky the company runs it, and moderation is still centralized "labeling services." Architecturally decentralized, practically centralized.
+
+### vs. Nostr
+
+Nostr is the closest cousin — keypair identity, no server owns your stuff, client-side filtering. But Nostr has no community primitive. It's a global firehose of signed events with no structural answer to spam or community boundaries. Nostr said "what if Twitter but keypairs" and stopped. Koinon says "what if *community* but keypairs."
+
+### Koinon's insight
+
+Moderation is a symptom of broken architecture, not a missing feature. If your community is trust-gated — where membership requires mutual trust relationships above a threshold — then:
+
+- **Harassment from strangers?** They're not in the trust graph, they don't exist in your agora.
+- **Alt-account flooding?** No trust edges = invisible.
+- **CSAM on the server?** Server never stores content.
+- **Admin burnout?** There's almost nothing to moderate.
+
+The protocol has five primitives (README, trust declaration, README signature, flag, membership function) and three trust states (none, provisional, mutual). Flags let any member signal that a post violates the social contract — it's a signed declaration in your own repo, not an admin action. When enough trusted members flag the same content, it's community consensus, not top-down censorship. Everything else — moderation, governance, community boundaries — is emergent from those primitives.
+
+## Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Flutter    │     │  Serverpod   │     │   Forgejo    │
+│   Client     │────▶│  (indexer)   │────▶│  (git forge) │
+│              │     │              │     │              │
+│ - keypair    │     │ - trust graph│     │ - user repos │
+│ - local copy │     │ - membership │     │ - posts      │
+│ - post/read  │     │ - post refs  │     │ - trust decl │
+│ - trust mgmt │     │ - agora feed │     │ - signatures │
+└─────────────┘     └─────────────┘     └─────────────┘
+      │                                        ▲
+      └────────── fetches content directly ────┘
+```
+
+Three independent layers, intentionally decoupled:
+- **Storage** (Forgejo) — git forge hosting user repos. Replaceable with GitHub, Codeberg, Gitea, or Radicle.
+- **Computation** (Serverpod) — indexes trust declarations, computes membership, serves agora feeds. Never touches content.
+- **Client** (Flutter) — cross-platform app. Holds your keypair, maintains a local copy of your repo, fetches content directly from authors' forges.
+
+## Tech stack
+
+Dart top-to-bottom. Shared models between client and server.
+
+- **Client:** Flutter, Cubit + GetIt, GoRouter
+- **Server:** Serverpod (Dart backend with type-safe RPC)
+- **Database:** PostgreSQL + Apache AGE (relational + graph queries in one DB)
+- **Identity:** ECDSA P-256 keypairs, platform keychain storage
+- **Git:** Pure Dart Forgejo/git client (no git binary required)
+
+## Project structure
+
+```
+achaean/
+├── achaean_flutter/    # Flutter client app
+├── achaean_server/     # Serverpod backend
+├── achaean_client/     # Generated Serverpod client
+├── dart_koinon/        # Koinon protocol models & utilities
+├── dart_git/           # Pure Dart Forgejo API client
+├── Koinon.md           # Protocol specification
+├── Achaean.md          # Implementation design
+├── Plan.md             # Phased build plan
+└── PostSchema.md       # Post JSON schema
+```
+
+## License
+
+AGPL-3.0

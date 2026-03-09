@@ -135,7 +135,7 @@ Forks inherit the entire old agora by default. The fork specifies an exclusion l
 
 ## Protocol Primitives
 
-The Koinon protocol defines four primitives:
+The Koinon protocol defines five primitives:
 
 ### 1. README
 
@@ -149,9 +149,13 @@ A signed file: author keypair, subject keypair, subject repo URL, trust level (`
 
 A signed file in the polites's own repo: the README content (or its hash), the polis repo ID, the README commit hash, and the polites's signature. This is the act of cosigning the social contract. Signatures are decentralized — scattered across member repos — and assembled by the aggregator.
 
-### 4. Membership Function
+### 4. Flag
 
-Computed, not stored. Member = signed the current README version + mutual `TRUST` declarations (from the global trust graph) with N other signers (N = threshold). The agora is also computed from this. Trust exists between individuals independent of any polis; poleis are just lenses that filter the trust graph by who has signed their README.
+A signed entry in the polites's `koinon.json` manifest: the flagged post path, the polis repo URL, and a free-form reason. Flagging is a sovereign act — you sign it with your keypair, stored in your own repo, indexed by the aggregator. When the number of flags on a post reaches the polis's `flag_threshold`, the post is blurred in the agora. Vouchers can query flagged posts by people they trust and decide whether to revoke trust on the author. Flags are accountable — if someone abuses flagging, the community can trace it and revoke their trust. This is distributed moderation without moderators.
+
+### 5. Membership Function
+
+Computed, not stored. Member = signed the current README version + mutual `TRUST` declarations (from the global trust graph) with N other signers (N = membership_threshold). The agora is also computed from this. Trust exists between individuals independent of any polis; poleis are just lenses that filter the trust graph by who has signed their README.
 
 ---
 
@@ -335,7 +339,7 @@ For private conversations, use Signal, Matrix, etc. Koinon is for public communi
 6. **Forking is a feature.** Poleis split. History carries forward.
 7. **Moderation is personal.** The protocol doesn't moderate. People do.
 8. **Public by default.** Transparency is what makes the trust graph work. Private comms go elsewhere.
-9. **Simplicity is strength.** Four primitives. Three trust states. Everything else is emergent.
+9. **Simplicity is strength.** Five primitives. Three trust states. Everything else is emergent.
 10. **No central dependencies.** No single point of failure.
 11. **Lying is futile.** Multi-party trust graph. Signed commits. Tamper evidence.
 12. **Scale is infrastructure, not protocol.** The protocol stays simple. Aggregators, caches, and indexers are optional layers anyone can provide.
