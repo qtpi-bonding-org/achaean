@@ -8,6 +8,7 @@ workspace:
   - achaean_client
   - achaean_server
   - achaean_flutter
+  - dart_git
 dependency_overrides:
   flutter_secure_storage: ^10.0.0
 
