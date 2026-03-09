@@ -16,6 +16,7 @@ services:
       - FORGEJO__service__REQUIRE_SIGNIN_VIEW=false
       - FORGEJO__api__ENABLE_SWAGGER=true
       - FORGEJO__security__INSTALL_LOCK=true
+      - FORGEJO__webhook__ALLOWED_HOST_LIST=radicle
     volumes:
       - forgejo_data:/data
     ports:
@@ -24,6 +25,19 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    restart: unless-stopped
+
+  radicle:
+    build: ./radicle
+    container_name: achaean-radicle
+    volumes:
+      - radicle_data:/root/.radicle
+      - radicle_mirrors:/var/radicle-mirrors
+      - forgejo_data:/forgejo-data:ro
+      - ./radicle/mirror-to-radicle.sh:/usr/local/bin/mirror-to-radicle.sh:ro
+    ports:
+      - "8776:8776"
+      - "8080:8080"
     restart: unless-stopped
 
   postgres:
@@ -47,4 +61,6 @@ services:
 
 volumes:
   forgejo_data:
+  radicle_data:
+  radicle_mirrors:
   postgres_data:

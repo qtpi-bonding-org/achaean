@@ -12,12 +12,23 @@
 
 | Component | Description |
 |---|---|
-| **Forgejo API service** | Dart HTTP client — create repos, commit files, read content via REST API |
+| **Forgejo API package** | Pure Dart package — create repos, commit files, read content via REST API. Used directly by Flutter client for reads and writes. No Serverpod dependency. |
 | **RSS** | Generate `feed.xml` from post metadata (client-side), parse feeds (Serverpod-side) |
 | **Apache AGE queries** | Cypher-in-SQL for trust graph traversal, membership computation, agora building |
-| **Koinon endpoints** | Serverpod endpoints — agora, polis search, trust graph, registration, discovery |
+| **Koinon endpoints** | Serverpod endpoints — agora, polis search, trust graph, registration, discovery, notify (post/trust/polis indexing) |
 | **Feature modules** | Flutter — feed, post composer, trust management, polis browser |
 | **Crossposting** | Nostr/Bluesky/Mastodon SDK integration (deferred, figure out later) |
+
+## Architecture Decision: Client-Direct Writes
+
+The client writes directly to Forgejo rather than going through Serverpod. Rationale:
+- **User sovereignty** — users write to their own repo, no intermediary
+- **Resilience** — posting works even if Serverpod is down
+- **No lock-in** — client talks to standard Git forge API, portable to GitHub/Codeberg
+- **Simpler infrastructure** — Serverpod is the aggregator/indexer, not a write proxy
+- **Same code either way** — Forgejo API calls are identical regardless of where they run
+
+After writing, Forgejo fires webhooks to all registered aggregators (Serverpod instances) so they can index immediately. When a user registers with an aggregator, that aggregator adds its webhook URL to the user's Forgejo repo. Multiple aggregators = multiple webhooks, Forgejo handles delivery and retries. RSS serves as a fallback for cross-instance discovery where webhooks aren't set up.
 
 ---
 
@@ -32,7 +43,8 @@
 - Set up Forgejo instance (managed or local Docker)
 - Set up Postgres + Apache AGE
 
-### 1.2 Forgejo API service (Dart)
+### 1.2 Forgejo API package (pure Dart)
+- Standalone Dart package, no Serverpod dependency — usable from client, server, or CLI
 - `createRepo(username)` → initialize polites repo with directory structure
 - `commitFile(repo, path, content)` → write files to repo
 - `readFile(repo, path)` → read file content
@@ -51,14 +63,16 @@
 - Client generates ECDSA P-256 keypair via dart_jwk_duo
 - Store private key in platform keychain (iCloud Keychain / Android Keystore)
 - Register with Serverpod via anonaccred challenge-response
-- Serverpod creates Forgejo account + repo via API
-- Client pushes `identity/pubkey.json` and `.well-known/koinon.json`
+- Client creates Forgejo repo directly via Forgejo API package
+- Client scaffolds repo and pushes `identity/pubkey.json` and `.well-known/koinon.json`
+- Client registers with Serverpod → Serverpod adds its webhook URL to the user's repo
 
 ### 1.4 Post creation
 - Client writes `post.json` with content, routing, timestamp
 - Client signs the post with keypair → `signature` field
-- Client commits to `posts/<date>-<slug>/post.json` via Forgejo API
+- Client commits to `posts/<date>-<slug>/post.json` directly via Forgejo API
 - Client regenerates `feed.xml` and commits it
+- Forgejo webhook fires → Serverpod indexes immediately
 - Client can view own posts by reading from repo
 
 **Milestone: user signs up, posts, sees their own content.**
@@ -71,20 +85,21 @@
 
 ### 2.1 Trust declarations
 - Client writes `trust/<name>.json` with subject pubkey, repo URL, level, signature
-- Client commits via Forgejo API
-- Serverpod RSS subscriber picks up the change
-- Serverpod indexes trust declaration in Postgres + AGE
+- Client commits directly to Forgejo via API package
+- Forgejo webhook fires → Serverpod indexes trust declaration in Postgres + AGE
+- RSS serves as backup indexing path for cross-instance discovery
 
 ### 2.2 Polis creation
-- Client creates a new repo (the polis repo) with README
+- Client creates a new repo (the polis repo) directly via Forgejo API package
 - README contains: description, norms, membership threshold, parent pointer
 - Creator signs the README
 - Client commits signature to own repo at `poleis/<polis-repo-id>/signature.json`
+- Forgejo webhook fires → Serverpod indexes new polis
 
 ### 2.3 Polis joining
 - Client reads the polis README
-- Client signs it → commits `poleis/<polis-repo-id>/signature.json` to own repo
-- Serverpod indexes the signature
+- Client signs it → commits `poleis/<polis-repo-id>/signature.json` to own repo directly via Forgejo API
+- Forgejo webhook fires → Serverpod indexes the signature
 
 ### 2.4 Membership computation (AGE)
 - Cypher query: find all politai who signed this polis README AND have N mutual TRUST edges with other signers
@@ -104,11 +119,11 @@
 
 **Goal:** Users see a feed of posts from trusted members of a polis.
 
-### 3.1 RSS subscriber (Serverpod)
-- On startup, subscribe to known feeds
-- On new trust declaration, follow repo URL → discover + subscribe to new feeds
-- On RSS update, fetch post metadata from forge → index in Postgres
+### 3.1 Webhook receiver + RSS fallback (Serverpod)
+- Webhook endpoint receives push events from Forgejo → parses changed files → indexes in Postgres
 - Store post references (author, polis, path, commit, timestamp)
+- RSS fallback for discovering repos on foreign forge instances (no webhook access)
+- On new trust declaration, follow repo URL → if foreign forge, subscribe to RSS feed
 
 ### 3.2 Agora computation (AGE)
 - Given a polis: get members (from Phase 2.4) → get their post references tagged for this polis → sort → return
@@ -129,7 +144,9 @@
 
 ### 3.5 Registration endpoint
 - `POST /register` with `{ "repo": "<repo-url>" }`
-- Serverpod fetches `.well-known/koinon.json`, subscribes to RSS
+- Serverpod fetches `.well-known/koinon.json`
+- Serverpod adds its webhook URL to the user's repo via Forgejo API
+- If foreign forge (no API access), falls back to RSS subscription
 - Client calls this automatically on account setup
 
 **Milestone: working social network. Users post, see each other's content in polis feeds.**
@@ -196,15 +213,15 @@
 
 ```
 Flutter (Cubit + GoRouter + get_it)
-    ↕ type-safe RPC
+    ├── → Forgejo (REST API) — direct reads AND writes via Forgejo API package
+    ├── → Serverpod (register) — aggregator adds webhook to user's repo
+    └── ← Serverpod (query) — agora, trust graph, discovery, search
 Serverpod (forked anonaccred)
-    ↕ ORM + raw SQL
-PostgreSQL + Apache AGE
+    ├── ← Forgejo webhooks — real-time indexing on push
+    ├── ← Forgejo RSS — fallback for cross-instance discovery
+    └── ↕ PostgreSQL + Apache AGE — trust graph, membership, agora
 
-Forgejo (REST API)
-    ↕ HTTPS
-Flutter (direct content reads)
-
+Forgejo API package (pure Dart, no Serverpod dependency)
 dart_jwk_duo (ECDSA P-256 signing)
 ```
 
