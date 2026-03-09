@@ -6,6 +6,7 @@ import 'package:serverpod_auth_idp_server/providers/email.dart';
 
 import 'src/generated/endpoints.dart';
 import 'src/generated/protocol.dart';
+import 'src/koinon/age_graph.dart';
 import 'src/web/routes/app_config_route.dart';
 import 'src/web/routes/root.dart';
 
@@ -75,6 +76,19 @@ void run(List<String> args) async {
 
   // Start the server.
   await pod.start();
+
+  // Initialize Apache AGE graph
+  final ageSession = await pod.createSession();
+  try {
+    await AgeGraph.initialize(ageSession);
+    stdout.writeln('AGE graph initialized');
+  } catch (e) {
+    stdout.writeln(
+      'AGE graph initialization failed (is AGE extension installed?): $e',
+    );
+  } finally {
+    await ageSession.close();
+  }
 }
 
 void _sendRegistrationCode(
