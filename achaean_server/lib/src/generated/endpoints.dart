@@ -373,6 +373,25 @@ class Endpoints extends _i1.EndpointDispatch {
                     params['polisRepoUrl'],
                   ),
         ),
+        'getPolisMembers': _i1.MethodConnector(
+          name: 'getPolisMembers',
+          params: {
+            'polisRepoUrl': _i1.ParameterDescription(
+              name: 'polisRepoUrl',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['koinon'] as _i5.KoinonEndpoint).getPolisMembers(
+                    session,
+                    params['polisRepoUrl'],
+                  ),
+        ),
         'getTrustDeclarations': _i1.MethodConnector(
           name: 'getTrustDeclarations',
           params: {

@@ -17,6 +17,7 @@ koinon:
   - listPoleis:
   - getPolis:
   - getPolisSigners:
+  - getPolisMembers:
   - getTrustDeclarations:
   - getAgora:
 webhook:

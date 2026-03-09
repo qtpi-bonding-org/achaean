@@ -21,14 +21,15 @@ import 'package:achaean_client/src/protocol/koinon/polis_definition.dart'
     as _i8;
 import 'package:achaean_client/src/protocol/koinon/readme_signature_record.dart'
     as _i9;
+import 'package:achaean_client/src/protocol/koinon/politai_user.dart' as _i10;
 import 'package:achaean_client/src/protocol/koinon/trust_declaration_record.dart'
-    as _i10;
-import 'package:achaean_client/src/protocol/koinon/post_reference.dart' as _i11;
+    as _i11;
+import 'package:achaean_client/src/protocol/koinon/post_reference.dart' as _i12;
 import 'package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart'
-    as _i12;
-import 'package:anonaccount_client/anonaccount_client.dart' as _i13;
+    as _i13;
+import 'package:anonaccount_client/anonaccount_client.dart' as _i14;
 import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
-    as _i14;
+    as _i15;
 export 'greetings/greeting.dart';
 export 'koinon/polis_definition.dart';
 export 'koinon/politai_user.dart';
@@ -121,15 +122,21 @@ class Protocol extends _i1.SerializationManager {
               .toList()
           as T;
     }
-    if (t == List<_i10.TrustDeclarationRecord>) {
+    if (t == List<_i10.PolitaiUser>) {
       return (data as List)
-              .map((e) => deserialize<_i10.TrustDeclarationRecord>(e))
+              .map((e) => deserialize<_i10.PolitaiUser>(e))
               .toList()
           as T;
     }
-    if (t == List<_i11.PostReference>) {
+    if (t == List<_i11.TrustDeclarationRecord>) {
       return (data as List)
-              .map((e) => deserialize<_i11.PostReference>(e))
+              .map((e) => deserialize<_i11.TrustDeclarationRecord>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_i12.PostReference>) {
+      return (data as List)
+              .map((e) => deserialize<_i12.PostReference>(e))
               .toList()
           as T;
     }
@@ -140,13 +147,13 @@ class Protocol extends _i1.SerializationManager {
           as T;
     }
     try {
-      return _i12.Protocol().deserialize<T>(data, t);
-    } on _i1.DeserializationTypeNotFoundException catch (_) {}
-    try {
       return _i13.Protocol().deserialize<T>(data, t);
     } on _i1.DeserializationTypeNotFoundException catch (_) {}
     try {
       return _i14.Protocol().deserialize<T>(data, t);
+    } on _i1.DeserializationTypeNotFoundException catch (_) {}
+    try {
+      return _i15.Protocol().deserialize<T>(data, t);
     } on _i1.DeserializationTypeNotFoundException catch (_) {}
     return super.deserialize<T>(data, t);
   }
@@ -186,15 +193,15 @@ class Protocol extends _i1.SerializationManager {
       case _i7.TrustDeclarationRecord():
         return 'TrustDeclarationRecord';
     }
-    className = _i12.Protocol().getClassNameForObject(data);
+    className = _i13.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod_auth_idp.$className';
     }
-    className = _i13.Protocol().getClassNameForObject(data);
+    className = _i14.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'anonaccount.$className';
     }
-    className = _i14.Protocol().getClassNameForObject(data);
+    className = _i15.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod_auth_core.$className';
     }
@@ -227,15 +234,15 @@ class Protocol extends _i1.SerializationManager {
     }
     if (dataClassName.startsWith('serverpod_auth_idp.')) {
       data['className'] = dataClassName.substring(19);
-      return _i12.Protocol().deserializeByClassName(data);
+      return _i13.Protocol().deserializeByClassName(data);
     }
     if (dataClassName.startsWith('anonaccount.')) {
       data['className'] = dataClassName.substring(12);
-      return _i13.Protocol().deserializeByClassName(data);
+      return _i14.Protocol().deserializeByClassName(data);
     }
     if (dataClassName.startsWith('serverpod_auth_core.')) {
       data['className'] = dataClassName.substring(20);
-      return _i14.Protocol().deserializeByClassName(data);
+      return _i15.Protocol().deserializeByClassName(data);
     }
     return super.deserializeByClassName(data);
   }
@@ -250,13 +257,13 @@ class Protocol extends _i1.SerializationManager {
       return null;
     }
     try {
-      return _i12.Protocol().mapRecordToJson(record);
-    } catch (_) {}
-    try {
       return _i13.Protocol().mapRecordToJson(record);
     } catch (_) {}
     try {
       return _i14.Protocol().mapRecordToJson(record);
+    } catch (_) {}
+    try {
+      return _i15.Protocol().mapRecordToJson(record);
     } catch (_) {}
     throw Exception('Unsupported record type ${record.runtimeType}');
   }

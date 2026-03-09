@@ -275,7 +275,7 @@ class EndpointKoinon extends _i2.EndpointRef {
   @override
   String get name => 'koinon';
 
-  /// Register a repo URL for indexing.
+  /// Register a repo URL for indexing (no auth — bootstrap endpoint).
   ///
   /// Used by clients to manually register their repo with the aggregator
   /// (bootstrap for first user on a forge without system webhooks).
@@ -318,6 +318,14 @@ class EndpointKoinon extends _i2.EndpointRef {
     {'polisRepoUrl': polisRepoUrl},
   );
 
+  /// Get computed members of a polis (signers who meet trust threshold).
+  _i3.Future<List<_i6.PolitaiUser>> getPolisMembers(String polisRepoUrl) =>
+      caller.callServerEndpoint<List<_i6.PolitaiUser>>(
+        'koinon',
+        'getPolisMembers',
+        {'polisRepoUrl': polisRepoUrl},
+      );
+
   /// Get trust declarations issued by a polites.
   _i3.Future<List<_i9.TrustDeclarationRecord>> getTrustDeclarations(
     String pubkey,
@@ -329,7 +337,7 @@ class EndpointKoinon extends _i2.EndpointRef {
 
   /// Get post references for a polis (the agora).
   ///
-  /// Returns post references tagged for the given polis, ordered by timestamp.
+  /// Computes polis members via AGE, then returns posts from those members.
   _i3.Future<List<_i10.PostReference>> getAgora(
     String polisRepoUrl, {
     required int limit,
@@ -354,9 +362,6 @@ class EndpointWebhook extends _i2.EndpointRef {
   String get name => 'webhook';
 
   /// Processes a Forgejo push webhook payload.
-  ///
-  /// Parses the push event, checks for Koinon-relevant file changes,
-  /// and indexes them into the database.
   _i3.Future<void> handlePush(Map<String, dynamic> payload) =>
       caller.callServerEndpoint<void>(
         'webhook',

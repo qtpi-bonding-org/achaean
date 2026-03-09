@@ -27,10 +27,11 @@ import 'package:achaean_server/src/generated/koinon/polis_definition.dart'
     as _i12;
 import 'package:achaean_server/src/generated/koinon/readme_signature_record.dart'
     as _i13;
+import 'package:achaean_server/src/generated/koinon/politai_user.dart' as _i14;
 import 'package:achaean_server/src/generated/koinon/trust_declaration_record.dart'
-    as _i14;
-import 'package:achaean_server/src/generated/koinon/post_reference.dart'
     as _i15;
+import 'package:achaean_server/src/generated/koinon/post_reference.dart'
+    as _i16;
 export 'greetings/greeting.dart';
 export 'koinon/polis_definition.dart';
 export 'koinon/politai_user.dart';
@@ -628,15 +629,21 @@ class Protocol extends _i1.SerializationManagerServer {
               .toList()
           as T;
     }
-    if (t == List<_i14.TrustDeclarationRecord>) {
+    if (t == List<_i14.PolitaiUser>) {
       return (data as List)
-              .map((e) => deserialize<_i14.TrustDeclarationRecord>(e))
+              .map((e) => deserialize<_i14.PolitaiUser>(e))
               .toList()
           as T;
     }
-    if (t == List<_i15.PostReference>) {
+    if (t == List<_i15.TrustDeclarationRecord>) {
       return (data as List)
-              .map((e) => deserialize<_i15.PostReference>(e))
+              .map((e) => deserialize<_i15.TrustDeclarationRecord>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_i16.PostReference>) {
+      return (data as List)
+              .map((e) => deserialize<_i16.PostReference>(e))
               .toList()
           as T;
     }
