@@ -2,8 +2,6 @@
 
 ## A protocol for sovereign identity, voluntary community, and client-side moderation.
 
-### Achaean is the first implementation.
-
 *Koinon (Greek: κοινόν, "the common thing") was the word the ancient Greeks used for their confederacies — voluntary leagues of sovereign city-states. The Achaean League (5th century BC — 146 BC) was the most successful of these, balancing collective action with local autonomy. Through the writings of the Achaean statesman Polybius, this structure influenced the constitution of the United States and other modern federal states.*
 
 ---
@@ -13,7 +11,6 @@
 | Term | Meaning |
 |---|---|
 | **Koinon** | The protocol. The shared specification that defines how identity, trust, communities, and content work. |
-| **Achaean** | The first implementation of the Koinon protocol. A Flutter client app. |
 | **Polis** (plural: poleis) | A community. A self-governing, voluntary group bound by a shared document and mutual trust. |
 | **Polites** (plural: politai) | A citizen. A user identified by their cryptographic keypair. |
 | **Agora** | The community feed. The computed index of content from trusted members. The public square. |
@@ -146,7 +143,7 @@ The polis's social contract. A signed, versioned document in the polis's git rep
 
 ### 2. Trust Declaration
 
-A signed file: author keypair, subject keypair, trust level (`TRUST` or `PROVISIONAL`). Trust is between individuals — not scoped to any polis. Poleis compute membership from the global trust graph. Revocable by deletion.
+A signed file: author keypair, subject keypair, subject repo URL, trust level (`TRUST` or `PROVISIONAL`). Trust is between individuals — not scoped to any polis. Poleis compute membership from the global trust graph. Revocable by deletion. The repo URL enables trust graph traversal — aggregators follow these links to discover repos on any forge.
 
 ### 3. README Signature
 
@@ -162,82 +159,11 @@ Computed, not stored. Member = signed the current README version + mutual `TRUST
 
 ### JSON Is Canonical
 
-Every post starts as structured JSON. This is the universal format — every platform can consume it, every bridge can transform it, every client can render it. The `type` field tells the client how to render it. The protocol doesn't constrain what types exist — poleis can define their own.
+Every post starts as structured JSON — a normalized, layered schema that covers every text-based social platform (microblogging, link aggregation, forums, Q&A, polls, events, classifieds, code sharing, and more) with one format. No `type` field — the client inspects which fields are present and renders accordingly.
 
-**Short post (microblog):**
-```json
-{
-  "type": "post",
-  "text": "Linux is better than windows and here's why...",
-  "media": ["image1.png"],
-  "poleis": ["<polis-repo-id>"],
-  "timestamp": "2026-03-08T12:00:00Z",
-  "signature": "<your-web-crypto-signature>"
-}
-```
+The full schema is defined in **[PostSchema.md](PostSchema.md)** — two schemas (Post and Reply), five layers (content, routing, details, crosspost, presentation). A tweet, a Reddit link share, a classified listing, and a poll are all the same schema with different fields filled in.
 
-**Link post (Reddit/Lemmy style):**
-```json
-{
-  "type": "link",
-  "text": "This article about Rust memory safety is incredible",
-  "url": "https://example.com/rust-article",
-  "poleis": ["<polis-repo-id>"],
-  "timestamp": "2026-03-08T12:00:00Z",
-  "signature": "<your-web-crypto-signature>"
-}
-```
-
-**Poll:**
-```json
-{
-  "type": "poll",
-  "text": "Best systems language?",
-  "options": ["Rust", "Go", "Zig"],
-  "poleis": ["<polis-repo-id>"],
-  "timestamp": "2026-03-08T12:00:00Z",
-  "signature": "<your-web-crypto-signature>"
-}
-```
-
-**Event:**
-```json
-{
-  "type": "event",
-  "text": "FOSS meetup — all welcome",
-  "date": "2026-04-01T18:00:00Z",
-  "location": "Berlin, c-base",
-  "poleis": ["<polis-repo-id>"],
-  "timestamp": "2026-03-08T12:00:00Z",
-  "signature": "<your-web-crypto-signature>"
-}
-```
-
-It's all just JSON with different fields. The protocol doesn't change. The client renders each shape differently. A polis's README can declare what post types it expects — "this is a link aggregation polis" vs "this is a microblog polis" — and the client renders the agora accordingly.
-
-The JSON goes to your repo and gets crossposted to Nostr/Bluesky/Mastodon — each bridge knows how to turn JSON into a native post for its platform. Zero friction. Type, send, it goes everywhere.
-
-For replies, the `reply_to` field pins the reply to an exact version of the parent post via its git commit hash:
-
-```json
-{
-  "type": "post",
-  "text": "Totally agree, especially about package managers.",
-  "poleis": ["<polis-repo-id>"],
-  "reply_to": {
-    "author": "<their-public-key>",
-    "repo": "rad:z3gqcJ...",
-    "path": "posts/2026-03-08-why-i-love-rust/post.json",
-    "commit": "a1b2c3d4..."
-  },
-  "timestamp": "2026-03-08T13:00:00Z",
-  "signature": "<your-web-crypto-signature>"
-}
-```
-
-The commit hash is immutable. Even if the original author edits or deletes their post, your reply still points to the exact version you were responding to. Git gives you receipts for free. Threading is just a linked list of signed files across repos — a reply to a reply has its own `reply_to` pointing to the reply's commit hash. The client walks the chain and renders a thread.
-
-Cross-polis replies work naturally. Your reply lives in your repo, tagged for your polis, but it references a post in a different repo and potentially a different polis.
+The commit hash in reply references is immutable. Even if the original author edits or deletes their post, your reply still points to the exact version you were responding to. Git gives you receipts for free. Threading is just a linked list of signed files across repos. Cross-polis replies work naturally.
 
 ### The Pipeline
 
@@ -245,67 +171,11 @@ Cross-polis replies work naturally. Your reply lives in your repo, tagged for yo
 User input → JSON (canonical, stored in repo, signed)
                 ↓                          ↓
         Crosspost bridges          Optional: presentation hook
-        (Nostr, Bluesky,           (JSON → HTML+CSS or Markdown
+        (Nostr, Bluesky,           (JSON → HTML+CSS
          Mastodon, RSS)             for rich agora display)
 ```
 
-### Optional Rich Presentation
-
-By default, the agora renders posts from the JSON — clean, consistent, simple. But optionally, a presentation hook can transform the JSON into rich HTML+CSS or Markdown for display in the agora. This is how you get visual identity and creative expression without making it a requirement.
-
-The hook can be:
-- **A default template** — just renders the JSON text nicely.
-- **A custom template** — a reusable layout you've configured.
-- **A visual editor** — drag and drop blocks, pick colors, choose layouts. Generates HTML+CSS under the hood.
-- **An LLM** — generates a layout from your JSON content.
-
-When the hook runs, the post directory gets the presentation files alongside the canonical JSON:
-
-```
-posts/
-  2026-03-08-hello/
-    post.json               # canonical (always present)
-```
-
-```
-posts/
-  2026-03-08-why-i-love-rust/
-    post.json               # canonical (always present)
-    index.html              # rich presentation (optional)
-    style.css
-    hero.png
-    diagram.svg
-```
-
-**JavaScript is not allowed.** HTML + CSS is rendered in a sandboxed view with JS disabled. This is the security boundary. HTML without JS is a safe document format — no code execution, no injection attacks, no security risk. All the expressiveness, none of the danger.
-
-### Media Constraints
-
-All content lives in git repos. This means everything that fits within git's constraints works natively:
-
-**Native (stored in repo):**
-- Text in any format — short posts, long-form markdown, HTML+CSS essays, code
-- Small images — photos (compressed JPEG/WebP), illustrations, diagrams, SVGs, memes, screenshots, comics (under ~5-10MB per file)
-- Small documents — PDFs, CSVs, JSON datasets
-
-**Linked (hosted elsewhere, referenced by URL):**
-- Video — YouTube, PeerTube
-- Audio/podcasts — linked to host
-- Large high-res photography
-
-This covers every text-based community format: microblogging, link aggregation, forums, Q&A, wikis, newsletters, polls, event listings, code sharing. The only thing Koinon can't host natively is streaming media — and that's a different infrastructure problem. Let YouTube host video. Let the post link to it.
-
-### Why This Matters
-
-On Instagram, your post looks like everyone else's post. On Twitter, your thoughts are in the same text box as everyone else's thoughts. The platform owns the visual identity. You just fill in the content.
-
-On Koinon, most posts are simple and fast — type and send. But when you want to say something with visual weight, the presentation hook lets you make your post look like a magazine spread, a poster, a photo essay. Your visual identity is part of your expression. This is how the web was supposed to work.
-
-### Rendering Pipeline
-
-1. Client reads `post.json` for metadata and content.
-2. If rich presentation files exist (`index.html` or `index.md`) → render in sandbox (JS disabled) → display.
-3. If no presentation files → render from JSON using default template → display.
+Presentation, rendering rules, media constraints, and examples are all in **[PostSchema.md](PostSchema.md)**.
 
 ---
 
@@ -343,11 +213,14 @@ my-repo/
 {
   "type": "trust-declaration",
   "subject": "<their-public-key>",
+  "repo": "<their-repo-url>",
   "level": "TRUST",
   "timestamp": "2026-03-08T12:00:00Z",
   "signature": "<your-web-crypto-signature>"
 }
 ```
+
+The `repo` field is how trust graph traversal discovers new repos. When an aggregator indexes a trust declaration, it follows the repo URL to discover the subject's repo — even on self-hosted forges it has never seen before.
 
 ### README Signature Format
 
@@ -397,13 +270,14 @@ Every polites's repo hosts a `.well-known/koinon.json` manifest:
 
 1. **Crossposting** — the primary growth engine. Koinon posts crossposted to Nostr/Bluesky/Mastodon link back to the source. People discover the network through content they already see on other platforms.
 2. **Forge search** — repos live on GitHub/Codeberg, so they're searchable by anyone with a browser. Zero-friction early discovery with no extra infrastructure.
-3. **The Koinon Index** — a lightweight crawler/search engine that indexes `koinon.json` manifests across the network. Seeded by forge search (query for repos containing `.well-known/koinon.json`), then follows the trust graph to discover more repos. Serves a search API and browse UI for finding poleis by topic, size, and activity. Cheap to run — small JSON manifests over HTTPS, SQLite index, single VPS. Anyone can run a competing indexer since all the data is public and the manifest format is standardized.
+3. **The Koinon Index** — a lightweight crawler/search engine that indexes `koinon.json` manifests across the network. Seeded by forge search (query for repos containing `.well-known/koinon.json`), then follows the trust graph to discover more repos. Serves a search API and browse UI for finding poleis by topic, size, and activity. Cheap to run — small JSON manifests over HTTPS, Postgres index, single VPS. Anyone can run a competing indexer since all the data is public and the manifest format is standardized.
 
 **In-network discovery (once you're in):**
 
-4. **Trust graph navigation** — discover poleis through people you already trust. The strongest mechanism once you have connections.
-5. **Radicle gossip** — nodes tell each other about repos.
-6. **RSS** — subscribe to trusted politai, discover their poleis through their activity.
+4. **Trust graph traversal** — the aggregator follows repo URLs in trust declarations to discover new repos automatically. If Alice (on GitHub) trusts Bob (on self-hosted Forgejo), Alice's trust declaration contains Bob's repo URL. The aggregator follows the link, discovers Bob's repo, subscribes to his RSS feed. One trust link bridges the gap to any forge, anywhere.
+5. **Manual registration** — the aggregator exposes a registration endpoint: `POST /register` with `{ "repo": "<repo-url>" }`. A self-hosted user (or their client, automatically on account setup) hits it once. The aggregator fetches their `.well-known/koinon.json`, subscribes to their RSS, and they're in the index. This is the bootstrap for the first user on a forge that nobody has linked to yet.
+6. **Radicle gossip** — nodes tell each other about repos.
+7. **RSS** — subscribe to trusted politai, discover their poleis through their activity.
 
 ---
 
@@ -435,7 +309,7 @@ Every piece of content is signed and hosted in the author's own repo. You signed
 
 ### Why This Avoids the Fediverse CSAM Problem
 
-Federated platforms automatically replicate content across servers. Koinon is pull-based. Content lives in the author's repo only. The agora just points to it. Nobody unknowingly hosts anyone else's content.
+Federated platforms automatically replicate content across servers. Koinon is pull-based. Content lives in the author's repo only — the aggregator index stores only metadata references, never content. The agora is a list of pointers. Nobody unknowingly hosts anyone else's content. The forge hosting the repo has existing legal obligations and reporting mechanisms. Trust revocation instantly removes all references from every agora.
 
 ### No Protocol-Level Moderation
 
@@ -443,181 +317,11 @@ The protocol has no moderation layer. Content is signed (cryptographic accountab
 
 ---
 
-## Visibility: Public or Encrypted
+## Visibility
 
-Every polis is either **public** or **encrypted**. There is no middle ground. The README declares which.
+All poleis are **public**. Your repo, trust graph, and posts are public. Transparency is what makes the trust graph work — membership must be computable by anyone for the protocol to function.
 
-### Public Poleis (Default)
-
-Your repo, trust graph, and posts are public. Transparency is what makes the trust graph work. Most poleis are public.
-
-### Encrypted Poleis
-
-For communities that need privacy, a polis can declare itself encrypted. Content is readable only by current trusted members.
-
-**How it works — envelope encryption:**
-
-Each post is encrypted using a random **per-post AES content key**. The content files (`index.md`, `index.html`, assets) are encrypted with this key. Then the AES key itself is encrypted once per trusted member using their public key (RSA/ECDH). The result is one encrypted content blob plus N tiny encrypted copies of the content key — one per member.
-
-```
-posts/
-  2026-03-08-private-update/
-    post.json                   # metadata (unencrypted — polis tag, timestamp, signature)
-    keys.json                   # per-member encrypted content keys
-    content.enc                 # AES-encrypted content blob
-```
-
-**`keys.json`:**
-
-```json
-{
-  "algorithm": "AES-GCM-256",
-  "recipients": {
-    "<alice-public-key>": "<AES-key-encrypted-with-alice-pubkey>",
-    "<bob-public-key>": "<AES-key-encrypted-with-bob-pubkey>"
-  }
-}
-```
-
-**Why per-post, not per-polis keys:**
-
-- When a member loses trust, nothing needs to be re-keyed. They simply stop appearing in `recipients` for new posts.
-- Old posts they could already read remain readable — revoking access to ciphertext they already decrypted is security theater.
-- Each post is a self-contained encrypted unit. No shared secret to leak or rotate.
-
-**The polis still holds no keys.** Encryption is author-to-recipients. The author encrypts to the current trusted member set at time of posting. Sovereignty is preserved — the polis is not an actor, even in encrypted mode.
-
-**Trust graph remains public.** Even in encrypted poleis, trust declarations and the README are unencrypted. Who trusts whom is visible. Only content is encrypted. This is necessary — membership must be computable by anyone for the protocol to work.
-
-For truly private one-to-one or small-group conversations, use Signal, Matrix, etc. Encrypted poleis are for community-scoped privacy, not secret channels.
-
----
-
-## Achaean: The Reference Implementation
-
-### The Stack
-
-- **Web Crypto API** — identity and signing. Browser-native.
-- **Git** — the canonical data format. Content storage, history, hash-linking, forking. Git is the protocol's substrate, but the client never runs git directly. The Flutter app talks to git forges via their HTTPS/REST APIs (GitHub, Codeberg, Gitea) and to Radicle via its HTTP API. All git operations — commits, pushes, file reads — happen through API calls. No git binary on the device.
-- **Radicle + Git Forges (dual mode)** — P2P hosting AND traditional forge hosting simultaneously.
-- **RSS** — the notification layer. Each polites's repo contains a `feed.xml` that advertises new posts and trust changes. RSS doesn't contain content — it points to it. Aggregators and other clients subscribe to feeds to know when something changed, then fetch the actual content (markdown or HTML+CSS post directories) via forge APIs. RSS is forge-agnostic, trivial to generate (templated from `post.json` metadata), and means aggregators never need to understand specific forge APIs — they just subscribe to feeds. Regenerated on every push.
-- **Gemma (or similar) on-device** — client-side moderation.
-
-### Client-Side Resilience
-
-The Flutter client maintains a complete local copy of your repo on-device — every post, image, trust declaration, README signature, and asset. The client is your repo. When you create content, it writes locally first, then pushes to the forge. If the server dies, the client has everything and re-pushes to a new forge on next launch. The user never thinks about backups.
-
-Modern phones have 128GB+ storage. An active user's entire repo — posts, images, HTML+CSS layouts, trust declarations — is typically under 500MB. This is negligible.
-
-This gives Koinon a better resilience story than any existing platform. If Twitter dies, your tweets are gone. If your Koinon managed service dies, the client rebuilds everything automatically.
-
-### Dual-Mode Hosting
-
-Repos can be mirrored to any number of forges simultaneously. In the client, adding a mirror is as simple as "Add backup mirror" and entering a GitHub/Codeberg username. The client pushes to all remotes on every action. Users don't need to know what a git remote is.
-
-- **Managed Forgejo** (default) — the primary forge, provided by the managed service.
-- **GitHub / Codeberg / Gitea** — optional mirrors. Free, easy to add.
-- **Radicle** — P2P, fully sovereign. Discovery via gossip. No central dependency.
-
-If the primary goes down, any mirror already has everything. Switch primary and keep going. The protocol doesn't care where the repo lives.
-
-### The Client
-
-A Flutter app (cross-platform, mobile + desktop). The user sees a social media app.
-
-| Action | What the user sees | What happens under the hood |
-|---|---|---|
-| Create account | "Welcome. You're in." | Keypair generated, repo initialized, published to Radicle + forge |
-| Join polis | "Request sent." | README committed, waiting for vouch |
-| Trust someone | A follow/friend button | Trust declaration committed |
-| Vouch | "You vouched for Alice." | PROVISIONAL trust declaration committed |
-| Revoke trust | An unfriend button | Trust file deleted, committed |
-| Post | A text box | JSON committed to repo, crossposted to connected platforms |
-| Post (rich) | A visual editor | JSON + HTML+CSS presentation committed to repo via presentation hook |
-| Fork polis | "New polis created." | New README with parent pointer committed |
-| Read feed | A filtered, personalized feed | Agora fetched from aggregator API, content rendered, optionally filtered by on-device preferences |
-| Discover poleis | Browse/search page | Aggregator search API + trust graph navigation |
-
-### Interoperability via Crossposting
-
-The Flutter client crossposts directly to other platforms from the canonical JSON. No git hooks involved — the client talks to each platform's API natively.
-
-- **Nostr** — post JSON text as a Nostr event, signed with Nostr key.
-- **Bluesky** — post JSON text as an AT Protocol record.
-- **Mastodon** — POST JSON text to ActivityPub outbox.
-- **RSS** — `feed.xml` in the repo, regenerated on every push.
-
-Replies to crossposted content happen natively on whatever platform the conversation is on. The client posts directly to Bluesky/Nostr/Mastodon APIs — replies on other platforms don't go through the git repo. The repo is for canonical Koinon content, not a sync engine.
-
----
-
-## Scaling
-
-The protocol is simple. Scaling it requires optional infrastructure on top — the same way HTTP is simple but the web at scale requires CDNs, caches, and search engines.
-
-### Where the Bottlenecks Are
-
-**Individual operations are cheap.** A trust declaration is a few hundred bytes. A post is a small directory. A reply reference is a hash. Git is extremely efficient at storing and diffing small files.
-
-**Computing the agora is expensive.** To build the feed for a large polis, a naive client would need to fetch many repos, walk trust directories, verify mutual trust, collect tagged posts, and resolve reply chains across repos.
-
-### Server-Side Agora Computation
-
-The agora is always computed server-side by the aggregator. The client never computes the trust graph — it fetches pre-computed agoras from the aggregator API. This avoids duplicating graph computation logic in both client and server, and keeps the Flutter client thin: keypair management, posting to forge APIs, rendering content, calling the aggregator for feeds.
-
-The protocol still guarantees that anyone *could* independently verify the agora — all trust declarations and content are public. But in practice, the aggregator does the work.
-
-### The Aggregator
-
-A Go service with two responsibilities: **discovery** (indexing poleis and politai for search) and **computation** (building agoras from the trust graph).
-
-**Architecture:**
-
-- **RSS subscriber** — discovers polites repos (via forge search or trust graph traversal), subscribes to their `feed.xml`. Processes updates only when something changes. The only expensive job is finding new repos to subscribe to — everything after that is listening.
-- **Graph database** — stores the trust graph and computes membership/agoras. LadybugDB (embedded, columnar, Cypher queries, zero ops) is the default. The DB sits behind a Go interface (`GraphStore`) so it can be swapped to Postgres + Apache AGE or any other backend without changing the aggregator logic.
-- **REST API** — serves pre-computed agoras, polis search, polites lookup, membership data to the Flutter client.
-
-**The `GraphStore` interface:**
-
-```go
-type GraphStore interface {
-    UpsertPolis(polis Polis) error
-    GetPolis(readmeHash string) (*Polis, error)
-    SearchPoleis(query string) ([]Polis, error)
-    UpsertPolites(polites Polites) error
-    GetPolites(pubkey string) (*Polites, error)
-    SetTrust(from, to string, level TrustLevel) error
-    RevokeTrust(from, to string) error
-    GetMembers(polisHash string, threshold int) ([]Polites, error)
-    ComputeAgora(polisHash string) ([]Post, error)
-    AddFeed(pubkey string, feedURL string) error
-    GetStaleFeeds(since time.Time) ([]Feed, error)
-}
-```
-
-Start with `LadybugStore`. If LadybugDB doesn't hold up, write a `PostgresAGEStore`. The aggregator never knows the difference.
-
-**Anyone can run an aggregator.** All the data is public. Multiple competing aggregators can exist for the same polis. The client can be configured to use any aggregator, or compare results across multiple. No lock-in.
-
-### Scaling Tiers
-
-**Early (free tier):** Single aggregator instance, LadybugDB embedded, GitHub Actions cron for initial repo discovery.
-
-**Medium ($5-20/mo VPS):** Persistent aggregator service, real-time RSS processing, serves API to clients.
-
-**Large (real infrastructure):** Postgres + AGE, multiple aggregator instances, sharded by trust graph regions, CDN in front of the API.
-
-### What Makes This Tractable
-
-**`.well-known/koinon.json`** — aggregators don't need to clone full repos. They poll lightweight manifests, check for changes, fetch only what's new.
-
-**RSS feeds** — this is what makes the indexer scalable. The crawler doesn't poll — it subscribes. Once it discovers a polites's repo, it subscribes to their `feed.xml` and only processes updates when something changes. Most checks are a single `If-Modified-Since` header with zero bandwidth. The crawler's only expensive job is discovering new repos to subscribe to. Everything after that is listening. RSS turns polling into subscription — a solved problem at any scale.
-
-**Immutable commit hashes** — reply threads and content references are pinned to commit hashes. Once resolved, they can be cached permanently. Thread structure can't change retroactively.
-
-**The agora is deterministic** — given the same trust graph and tagged content, any client or aggregator computes the same agora. Results are independently verifiable.
-
-This is the same tradeoff the web made. HTTP is simple. At scale you need CDNs, caches, and search engines. Those are infrastructure on top of the protocol, not changes to the protocol. Koinon stays pure. Scaling is an infrastructure concern.
+For private conversations, use Signal, Matrix, etc. Koinon is for public communities. Encrypted poleis may be added in a future protocol version if there's demand, but they add significant complexity (envelope encryption, key distribution, member rotation) and are not needed for v1.
 
 ---
 
@@ -627,12 +331,12 @@ This is the same tradeoff the web made. HTTP is simple. At scale you need CDNs, 
 2. **Sovereignty is non-negotiable.** Your keypair. Your repo. Your content. Your layout.
 3. **Poleis are not actors.** Emergent patterns, not entities.
 4. **Content is owned.** Every post is signed. Accountability is cryptographic.
-5. **Content is expressive.** Your post, your design. Markdown for simplicity, HTML + CSS for full creative control. No cookie-cutter templates.
+5. **Content is expressive.** Your post, your design. HTML + CSS for full creative control. No cookie-cutter templates.
 6. **Forking is a feature.** Poleis split. History carries forward.
 7. **Moderation is personal.** The protocol doesn't moderate. People do.
-8. **Public or encrypted.** Poleis are either fully public or envelope-encrypted to members. No middle ground.
+8. **Public by default.** Transparency is what makes the trust graph work. Private comms go elsewhere.
 9. **Simplicity is strength.** Four primitives. Three trust states. Everything else is emergent.
-10. **No central dependencies.** Dual-mode hosting. No single point of failure.
+10. **No central dependencies.** No single point of failure.
 11. **Lying is futile.** Multi-party trust graph. Signed commits. Tamper evidence.
 12. **Scale is infrastructure, not protocol.** The protocol stays simple. Aggregators, caches, and indexers are optional layers anyone can provide.
 
@@ -640,14 +344,10 @@ This is the same tradeoff the web made. HTTP is simple. At scale you need CDNs, 
 
 ## Open Questions
 
-- **On-device model requirements** — minimum viable model, fallback for low-power devices
 - **Agora sorting** — how does the aggregator sort/rank content? Chronological, reply count, trust-weighted signals? Per-polis configuration?
 - **Reverse bridges** — pulling replies from other networks back into the agora
 - **`.well-known` standardization** — exact schema, update frequency
-- **Post templates** — shareable layout templates for non-technical users
-- **Visual editor** — WYSIWYG post editor that generates HTML + CSS
-- **Aggregator API spec** — exact REST endpoints, response formats, pagination
 
 ---
 
-*This document is version 3.1 of the Koinon Protocol specification. Achaean is the first implementation. This is itself a README. Fork it freely.*
+*This document is version 4.0 of the Koinon Protocol specification. The first implementation is [Achaean](Achaean.md). This is itself a README. Fork it freely.*
