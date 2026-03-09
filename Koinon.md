@@ -160,48 +160,69 @@ Computed, not stored. Member = signed the current README version + mutual `TRUST
 
 ## Post Format
 
-Posts in the Koinon protocol are not flat text in a box. Every social platform today forces content into the same cookie-cutter template — the same text box, the same card layout, the same visual identity for everyone. Koinon gives content back to the creator.
+### JSON Is Canonical
 
-### A Post Is a Directory
+Every post starts as structured JSON. This is the universal format — every platform can consume it, every bridge can transform it, every client can render it. The `type` field tells the client how to render it. The protocol doesn't constrain what types exist — poleis can define their own.
 
-Each post is a directory in the polites's repo containing:
-
-- **`post.json`** — metadata: signature, polis tags, timestamp, content type.
-- **`index.md` or `index.html`** — the actual content.
-- **Any supporting assets** — images, CSS, fonts, data files.
-
-### Two Formats
-
-**Markdown (default)** — for most posts. Clean, readable, universal. Every developer knows it, every LLM speaks it natively, it converts to HTML trivially. Zero friction. A simple post is just a `.md` file.
-
-**HTML + CSS (power mode)** — for full creative control. Custom layouts, typography, colors, grids, CSS animations, responsive design. Make your post look like a magazine spread, a poster, a photo essay. Your visual identity is part of your expression.
-
-**JavaScript is not allowed.** HTML + CSS is rendered in a sandboxed view with JS disabled. This is the security boundary. HTML without JS is a safe document format — no code execution, no injection attacks, no security risk. All the expressiveness, none of the danger.
-
-### Why This Matters
-
-On Instagram, your post looks like everyone else's post. On Twitter, your thoughts are in the same text box as everyone else's thoughts. The platform owns the visual identity. You just fill in the content.
-
-On Koinon, the presentation is yours. How your post looks is part of what you're saying. This is how the web was supposed to work — everyone had their own page, their own style, their own identity. Social media flattened all of that. Koinon brings it back.
-
-### Post Metadata (`post.json`)
-
+**Short post (microblog):**
 ```json
 {
   "type": "post",
-  "format": "md",
+  "text": "Linux is better than windows and here's why...",
+  "media": ["image1.png"],
   "poleis": ["<polis-repo-id>"],
   "timestamp": "2026-03-08T12:00:00Z",
   "signature": "<your-web-crypto-signature>"
 }
 ```
 
+**Link post (Reddit/Lemmy style):**
+```json
+{
+  "type": "link",
+  "text": "This article about Rust memory safety is incredible",
+  "url": "https://example.com/rust-article",
+  "poleis": ["<polis-repo-id>"],
+  "timestamp": "2026-03-08T12:00:00Z",
+  "signature": "<your-web-crypto-signature>"
+}
+```
+
+**Poll:**
+```json
+{
+  "type": "poll",
+  "text": "Best systems language?",
+  "options": ["Rust", "Go", "Zig"],
+  "poleis": ["<polis-repo-id>"],
+  "timestamp": "2026-03-08T12:00:00Z",
+  "signature": "<your-web-crypto-signature>"
+}
+```
+
+**Event:**
+```json
+{
+  "type": "event",
+  "text": "FOSS meetup — all welcome",
+  "date": "2026-04-01T18:00:00Z",
+  "location": "Berlin, c-base",
+  "poleis": ["<polis-repo-id>"],
+  "timestamp": "2026-03-08T12:00:00Z",
+  "signature": "<your-web-crypto-signature>"
+}
+```
+
+It's all just JSON with different fields. The protocol doesn't change. The client renders each shape differently. A polis's README can declare what post types it expects — "this is a link aggregation polis" vs "this is a microblog polis" — and the client renders the agora accordingly.
+
+The JSON goes to your repo and gets crossposted to Nostr/Bluesky/Mastodon — each bridge knows how to turn JSON into a native post for its platform. Zero friction. Type, send, it goes everywhere.
+
 For replies, the `reply_to` field pins the reply to an exact version of the parent post via its git commit hash:
 
 ```json
 {
   "type": "post",
-  "format": "md",
+  "text": "Totally agree, especially about package managers.",
   "poleis": ["<polis-repo-id>"],
   "reply_to": {
     "author": "<their-public-key>",
@@ -218,41 +239,73 @@ The commit hash is immutable. Even if the original author edits or deletes their
 
 Cross-polis replies work naturally. Your reply lives in your repo, tagged for your polis, but it references a post in a different repo and potentially a different polis.
 
-The `format` field tells the client how to render: `"md"` for markdown, `"html"` for HTML + CSS.
+### The Pipeline
 
-### Examples
+```
+User input → JSON (canonical, stored in repo, signed)
+                ↓                          ↓
+        Crosspost bridges          Optional: presentation hook
+        (Nostr, Bluesky,           (JSON → HTML+CSS or Markdown
+         Mastodon, RSS)             for rich agora display)
+```
 
-A simple markdown post:
+### Optional Rich Presentation
+
+By default, the agora renders posts from the JSON — clean, consistent, simple. But optionally, a presentation hook can transform the JSON into rich HTML+CSS or Markdown for display in the agora. This is how you get visual identity and creative expression without making it a requirement.
+
+The hook can be:
+- **A default template** — just renders the JSON text nicely.
+- **A custom template** — a reusable layout you've configured.
+- **A visual editor** — drag and drop blocks, pick colors, choose layouts. Generates HTML+CSS under the hood.
+- **An LLM** — generates a layout from your JSON content.
+
+When the hook runs, the post directory gets the presentation files alongside the canonical JSON:
 
 ```
 posts/
   2026-03-08-hello/
-    post.json
-    index.md
+    post.json               # canonical (always present)
 ```
-
-A rich HTML + CSS post with custom styling and images:
 
 ```
 posts/
   2026-03-08-why-i-love-rust/
-    post.json
-    index.html
+    post.json               # canonical (always present)
+    index.html              # rich presentation (optional)
     style.css
     hero.png
     diagram.svg
 ```
 
+**JavaScript is not allowed.** HTML + CSS is rendered in a sandboxed view with JS disabled. This is the security boundary. HTML without JS is a safe document format — no code execution, no injection attacks, no security risk. All the expressiveness, none of the danger.
+
+### Media Constraints
+
+All content lives in git repos. This means everything that fits within git's constraints works natively:
+
+**Native (stored in repo):**
+- Text in any format — short posts, long-form markdown, HTML+CSS essays, code
+- Small images — photos (compressed JPEG/WebP), illustrations, diagrams, SVGs, memes, screenshots, comics (under ~5-10MB per file)
+- Small documents — PDFs, CSVs, JSON datasets
+
+**Linked (hosted elsewhere, referenced by URL):**
+- Video — YouTube, PeerTube
+- Audio/podcasts — linked to host
+- Large high-res photography
+
+This covers every text-based community format: microblogging, link aggregation, forums, Q&A, wikis, newsletters, polls, event listings, code sharing. The only thing Koinon can't host natively is streaming media — and that's a different infrastructure problem. Let YouTube host video. Let the post link to it.
+
+### Why This Matters
+
+On Instagram, your post looks like everyone else's post. On Twitter, your thoughts are in the same text box as everyone else's thoughts. The platform owns the visual identity. You just fill in the content.
+
+On Koinon, most posts are simple and fast — type and send. But when you want to say something with visual weight, the presentation hook lets you make your post look like a magazine spread, a poster, a photo essay. Your visual identity is part of your expression. This is how the web was supposed to work.
+
 ### Rendering Pipeline
 
-1. Client reads `post.json` for metadata and routing.
-2. If `format: "md"` → render markdown to HTML → display.
-3. If `format: "html"` → render HTML + CSS in sandbox (JS disabled) → display.
-4. Both end up as HTML in the render layer. Markdown is a convenient shorthand for simple HTML.
-
-### Authoring
-
-Most people will write markdown. Power users will write HTML + CSS. The Achaean client can provide a visual editor — drag and drop blocks, pick colors, choose layouts — that generates HTML + CSS under the hood. LLMs can generate either format. But the output is always just files in a git repo.
+1. Client reads `post.json` for metadata and content.
+2. If rich presentation files exist (`index.html` or `index.md`) → render in sandbox (JS disabled) → display.
+3. If no presentation files → render from JSON using default template → display.
 
 ---
 
@@ -450,14 +503,23 @@ For truly private one-to-one or small-group conversations, use Signal, Matrix, e
 - **RSS** — the notification layer. Each polites's repo contains a `feed.xml` that advertises new posts and trust changes. RSS doesn't contain content — it points to it. Aggregators and other clients subscribe to feeds to know when something changed, then fetch the actual content (markdown or HTML+CSS post directories) via forge APIs. RSS is forge-agnostic, trivial to generate (templated from `post.json` metadata), and means aggregators never need to understand specific forge APIs — they just subscribe to feeds. Regenerated on every push.
 - **Gemma (or similar) on-device** — client-side moderation.
 
+### Client-Side Resilience
+
+The Flutter client maintains a complete local copy of your repo on-device — every post, image, trust declaration, README signature, and asset. The client is your repo. When you create content, it writes locally first, then pushes to the forge. If the server dies, the client has everything and re-pushes to a new forge on next launch. The user never thinks about backups.
+
+Modern phones have 128GB+ storage. An active user's entire repo — posts, images, HTML+CSS layouts, trust declarations — is typically under 500MB. This is negligible.
+
+This gives Koinon a better resilience story than any existing platform. If Twitter dies, your tweets are gone. If your Koinon managed service dies, the client rebuilds everything automatically.
+
 ### Dual-Mode Hosting
 
-Repos live on both Radicle's P2P network and a traditional git forge simultaneously.
+Repos can be mirrored to any number of forges simultaneously. In the client, adding a mirror is as simple as "Add backup mirror" and entering a GitHub/Codeberg username. The client pushes to all remotes on every action. Users don't need to know what a git remote is.
 
+- **Managed Forgejo** (default) — the primary forge, provided by the managed service.
+- **GitHub / Codeberg / Gitea** — optional mirrors. Free, easy to add.
 - **Radicle** — P2P, fully sovereign. Discovery via gossip. No central dependency.
-- **Forge** — easy HTTPS access, web UI, familiar on-ramp. GitHub, Codeberg, Gitea.
 
-Push to both. If one fails, the other works. The protocol doesn't care where the repo lives.
+If the primary goes down, any mirror already has everything. Switch primary and keep going. The protocol doesn't care where the repo lives.
 
 ### The Client
 
@@ -470,22 +532,22 @@ A Flutter app (cross-platform, mobile + desktop). The user sees a social media a
 | Trust someone | A follow/friend button | Trust declaration committed |
 | Vouch | "You vouched for Alice." | PROVISIONAL trust declaration committed |
 | Revoke trust | An unfriend button | Trust file deleted, committed |
-| Post (simple) | A markdown editor | Signed post directory committed, RSS regenerated, pushed |
-| Post (rich) | A visual editor / HTML+CSS | Rich post directory with custom layout committed, pushed |
+| Post | A text box | JSON committed to repo, crossposted to connected platforms |
+| Post (rich) | A visual editor | JSON + HTML+CSS presentation committed to repo via presentation hook |
 | Fork polis | "New polis created." | New README with parent pointer committed |
 | Read feed | A filtered, personalized feed | Agora fetched from aggregator API, content rendered, optionally filtered by on-device preferences |
 | Discover poleis | Browse/search page | Aggregator search API + trust graph navigation |
 
 ### Interoperability via Crossposting
 
-Git repo is canonical. Git hook crossposts on every push:
+The Flutter client crossposts directly to other platforms from the canonical JSON. No git hooks involved — the client talks to each platform's API natively.
 
-- **Nostr** — sign as Nostr event.
-- **Bluesky** — create AT Protocol record.
-- **Mastodon** — POST to ActivityPub outbox.
-- **RSS** — already handled.
+- **Nostr** — post JSON text as a Nostr event, signed with Nostr key.
+- **Bluesky** — post JSON text as an AT Protocol record.
+- **Mastodon** — POST JSON text to ActivityPub outbox.
+- **RSS** — `feed.xml` in the repo, regenerated on every push.
 
-Reverse bridges can pull replies back. But that's an optimization.
+Replies to crossposted content happen natively on whatever platform the conversation is on. The client posts directly to Bluesky/Nostr/Mastodon APIs — replies on other platforms don't go through the git repo. The repo is for canonical Koinon content, not a sync engine.
 
 ---
 
@@ -579,7 +641,7 @@ This is the same tradeoff the web made. HTTP is simple. At scale you need CDNs, 
 ## Open Questions
 
 - **On-device model requirements** — minimum viable model, fallback for low-power devices
-- **Large media** — git + large binaries. Git LFS? External hosting with hash references?
+- **Agora sorting** — how does the aggregator sort/rank content? Chronological, reply count, trust-weighted signals? Per-polis configuration?
 - **Reverse bridges** — pulling replies from other networks back into the agora
 - **`.well-known` standardization** — exact schema, update frequency
 - **Post templates** — shareable layout templates for non-technical users
@@ -588,4 +650,4 @@ This is the same tradeoff the web made. HTTP is simple. At scale you need CDNs, 
 
 ---
 
-*This document is version 3.0 of the Koinon Protocol specification. Achaean is the first implementation. This is itself a README. Fork it freely.*
+*This document is version 3.1 of the Koinon Protocol specification. Achaean is the first implementation. This is itself a README. Fork it freely.*
