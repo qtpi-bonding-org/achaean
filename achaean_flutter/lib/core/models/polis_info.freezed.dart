@@ -24,7 +24,8 @@ mixin _$PolisInfo {
   String get name => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   String? get norms => throw _privateConstructorUsedError;
-  int? get threshold => throw _privateConstructorUsedError;
+  int? get membershipThreshold => throw _privateConstructorUsedError;
+  int? get flagThreshold => throw _privateConstructorUsedError;
   String? get parentRepo => throw _privateConstructorUsedError;
 
   /// Serializes this PolisInfo to a JSON map.
@@ -46,7 +47,8 @@ abstract class $PolisInfoCopyWith<$Res> {
     String name,
     String? description,
     String? norms,
-    int? threshold,
+    int? membershipThreshold,
+    int? flagThreshold,
     String? parentRepo,
   });
 }
@@ -69,7 +71,8 @@ class _$PolisInfoCopyWithImpl<$Res, $Val extends PolisInfo>
     Object? name = null,
     Object? description = freezed,
     Object? norms = freezed,
-    Object? threshold = freezed,
+    Object? membershipThreshold = freezed,
+    Object? flagThreshold = freezed,
     Object? parentRepo = freezed,
   }) {
     return _then(
@@ -86,9 +89,13 @@ class _$PolisInfoCopyWithImpl<$Res, $Val extends PolisInfo>
                 ? _value.norms
                 : norms // ignore: cast_nullable_to_non_nullable
                       as String?,
-            threshold: freezed == threshold
-                ? _value.threshold
-                : threshold // ignore: cast_nullable_to_non_nullable
+            membershipThreshold: freezed == membershipThreshold
+                ? _value.membershipThreshold
+                : membershipThreshold // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            flagThreshold: freezed == flagThreshold
+                ? _value.flagThreshold
+                : flagThreshold // ignore: cast_nullable_to_non_nullable
                       as int?,
             parentRepo: freezed == parentRepo
                 ? _value.parentRepo
@@ -113,7 +120,8 @@ abstract class _$$PolisInfoImplCopyWith<$Res>
     String name,
     String? description,
     String? norms,
-    int? threshold,
+    int? membershipThreshold,
+    int? flagThreshold,
     String? parentRepo,
   });
 }
@@ -135,7 +143,8 @@ class __$$PolisInfoImplCopyWithImpl<$Res>
     Object? name = null,
     Object? description = freezed,
     Object? norms = freezed,
-    Object? threshold = freezed,
+    Object? membershipThreshold = freezed,
+    Object? flagThreshold = freezed,
     Object? parentRepo = freezed,
   }) {
     return _then(
@@ -152,9 +161,13 @@ class __$$PolisInfoImplCopyWithImpl<$Res>
             ? _value.norms
             : norms // ignore: cast_nullable_to_non_nullable
                   as String?,
-        threshold: freezed == threshold
-            ? _value.threshold
-            : threshold // ignore: cast_nullable_to_non_nullable
+        membershipThreshold: freezed == membershipThreshold
+            ? _value.membershipThreshold
+            : membershipThreshold // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        flagThreshold: freezed == flagThreshold
+            ? _value.flagThreshold
+            : flagThreshold // ignore: cast_nullable_to_non_nullable
                   as int?,
         parentRepo: freezed == parentRepo
             ? _value.parentRepo
@@ -172,7 +185,8 @@ class _$PolisInfoImpl implements _PolisInfo {
     required this.name,
     this.description,
     this.norms,
-    this.threshold,
+    this.membershipThreshold,
+    this.flagThreshold,
     this.parentRepo,
   });
 
@@ -186,13 +200,15 @@ class _$PolisInfoImpl implements _PolisInfo {
   @override
   final String? norms;
   @override
-  final int? threshold;
+  final int? membershipThreshold;
+  @override
+  final int? flagThreshold;
   @override
   final String? parentRepo;
 
   @override
   String toString() {
-    return 'PolisInfo(name: $name, description: $description, norms: $norms, threshold: $threshold, parentRepo: $parentRepo)';
+    return 'PolisInfo(name: $name, description: $description, norms: $norms, membershipThreshold: $membershipThreshold, flagThreshold: $flagThreshold, parentRepo: $parentRepo)';
   }
 
   @override
@@ -204,16 +220,25 @@ class _$PolisInfoImpl implements _PolisInfo {
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.norms, norms) || other.norms == norms) &&
-            (identical(other.threshold, threshold) ||
-                other.threshold == threshold) &&
+            (identical(other.membershipThreshold, membershipThreshold) ||
+                other.membershipThreshold == membershipThreshold) &&
+            (identical(other.flagThreshold, flagThreshold) ||
+                other.flagThreshold == flagThreshold) &&
             (identical(other.parentRepo, parentRepo) ||
                 other.parentRepo == parentRepo));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, name, description, norms, threshold, parentRepo);
+  int get hashCode => Object.hash(
+    runtimeType,
+    name,
+    description,
+    norms,
+    membershipThreshold,
+    flagThreshold,
+    parentRepo,
+  );
 
   /// Create a copy of PolisInfo
   /// with the given fields replaced by the non-null parameter values.
@@ -234,7 +259,8 @@ abstract class _PolisInfo implements PolisInfo {
     required final String name,
     final String? description,
     final String? norms,
-    final int? threshold,
+    final int? membershipThreshold,
+    final int? flagThreshold,
     final String? parentRepo,
   }) = _$PolisInfoImpl;
 
@@ -248,7 +274,9 @@ abstract class _PolisInfo implements PolisInfo {
   @override
   String? get norms;
   @override
-  int? get threshold;
+  int? get membershipThreshold;
+  @override
+  int? get flagThreshold;
   @override
   String? get parentRepo;
 

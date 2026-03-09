@@ -11,7 +11,8 @@ _$PolisInfoImpl _$$PolisInfoImplFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String,
       description: json['description'] as String?,
       norms: json['norms'] as String?,
-      threshold: (json['threshold'] as num?)?.toInt(),
+      membershipThreshold: (json['membershipThreshold'] as num?)?.toInt(),
+      flagThreshold: (json['flagThreshold'] as num?)?.toInt(),
       parentRepo: json['parentRepo'] as String?,
     );
 
@@ -20,6 +21,7 @@ Map<String, dynamic> _$$PolisInfoImplToJson(_$PolisInfoImpl instance) =>
       'name': instance.name,
       'description': instance.description,
       'norms': instance.norms,
-      'threshold': instance.threshold,
+      'membershipThreshold': instance.membershipThreshold,
+      'flagThreshold': instance.flagThreshold,
       'parentRepo': instance.parentRepo,
     };

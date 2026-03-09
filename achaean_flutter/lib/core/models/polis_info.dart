@@ -10,7 +10,8 @@ class PolisInfo with _$PolisInfo {
     required String name,
     String? description,
     String? norms,
-    int? threshold,
+    int? membershipThreshold,
+    int? flagThreshold,
     String? parentRepo,
   }) = _PolisInfo;
 

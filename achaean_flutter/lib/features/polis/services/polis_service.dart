@@ -59,7 +59,7 @@ class PolisService implements IPolisService {
           frontmatter.writeln('description: "$description"');
         }
         if (norms != null) frontmatter.writeln('norms: "$norms"');
-        if (threshold != null) frontmatter.writeln('threshold: $threshold');
+        if (threshold != null) frontmatter.writeln('membership_threshold: $threshold');
         frontmatter.writeln('---\n');
         frontmatter.writeln('# $name');
         if (description != null) frontmatter.writeln('\n$description');
@@ -306,7 +306,8 @@ class PolisService implements IPolisService {
       name: yaml['name'] as String? ?? 'Unknown',
       description: yaml['description'] as String?,
       norms: yaml['norms'] as String?,
-      threshold: yaml['threshold'] as int?,
+      membershipThreshold: yaml['membership_threshold'] as int?,
+      flagThreshold: yaml['flag_threshold'] as int?,
       parentRepo: yaml['parent_repo'] as String?,
     );
   }
