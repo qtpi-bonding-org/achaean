@@ -114,6 +114,12 @@ fn mirror_repo(
         }
     }
 
+    // Only mirror Achaean repos (must have .well-known/koinon.json)
+    if !work_dir.join(".well-known/koinon.json").exists() {
+        info!("skipping {owner}/{repo_name}: not an achaean repo (no .well-known/koinon.json)");
+        return Ok(());
+    }
+
     // Check if rad remote exists
     let has_rad = Command::new("git")
         .args(["remote"])

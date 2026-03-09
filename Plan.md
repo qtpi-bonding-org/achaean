@@ -28,7 +28,7 @@ The client writes directly to Forgejo rather than going through Serverpod. Ratio
 - **Simpler infrastructure** — Serverpod is the aggregator/indexer, not a write proxy
 - **Same code either way** — Forgejo API calls are identical regardless of where they run
 
-After writing, Forgejo fires webhooks to all registered aggregators (Serverpod instances) so they can index immediately. When a user registers with an aggregator, that aggregator adds its webhook URL to the user's Forgejo repo. Multiple aggregators = multiple webhooks, Forgejo handles delivery and retries. RSS serves as a fallback for cross-instance discovery where webhooks aren't set up.
+After writing, Forgejo fires a system webhook to the aggregator (Serverpod) so it can index immediately. The system webhook applies globally to all repos — no per-user registration needed. The aggregator discovers new users automatically when it sees a repo with `.well-known/koinon.json`. RSS serves as a fallback for cross-instance discovery where webhooks aren't available.
 
 ---
 
@@ -65,7 +65,7 @@ After writing, Forgejo fires webhooks to all registered aggregators (Serverpod i
 - Register with Serverpod via anonaccred challenge-response
 - Client creates Forgejo repo directly via Forgejo API package
 - Client scaffolds repo and pushes `identity/pubkey.json` and `.well-known/koinon.json`
-- Client registers with Serverpod → Serverpod adds its webhook URL to the user's repo
+- Forgejo system webhook fires → Serverpod auto-discovers the new user
 
 ### 1.4 Post creation
 - Client writes `post.json` with content, routing, timestamp
@@ -142,12 +142,11 @@ After writing, Forgejo fires webhooks to all registered aggregators (Serverpod i
 - Post composer (text, optional title, URL, media, tags, polis selection)
 - Reply composer
 
-### 3.5 Registration endpoint
-- `POST /register` with `{ "repo": "<repo-url>" }`
-- Serverpod fetches `.well-known/koinon.json`
-- Serverpod adds its webhook URL to the user's repo via Forgejo API
-- If foreign forge (no API access), falls back to RSS subscription
-- Client calls this automatically on account setup
+### 3.5 User discovery
+- Forgejo system webhook fires on every push → Serverpod checks for `.well-known/koinon.json`
+- If found, Serverpod auto-indexes the user (pubkey, repo URL, metadata)
+- No explicit registration step needed — users are discovered by pushing to Forgejo
+- For foreign forge instances (no system webhook), RSS crawling discovers new users
 
 **Milestone: working social network. Users post, see each other's content in polis feeds.**
 
@@ -214,12 +213,13 @@ After writing, Forgejo fires webhooks to all registered aggregators (Serverpod i
 ```
 Flutter (Cubit + GoRouter + get_it)
     ├── → Forgejo (REST API) — direct reads AND writes via Forgejo API package
-    ├── → Serverpod (register) — aggregator adds webhook to user's repo
     └── ← Serverpod (query) — agora, trust graph, discovery, search
 Serverpod (forked anonaccred)
     ├── ← Forgejo webhooks — real-time indexing on push
     ├── ← Forgejo RSS — fallback for cross-instance discovery
     └── ↕ PostgreSQL + Apache AGE — trust graph, membership, agora
+
+Forgejo → Radicle (system webhook → radicle-mirror → P2P replication)
 
 Forgejo API package (pure Dart, no Serverpod dependency)
 dart_jwk_duo (ECDSA P-256 signing)
@@ -230,5 +230,5 @@ dart_jwk_duo (ECDSA P-256 signing)
 - Crossposting platform details (Phase 4, figure out SDKs later)
 - Commerce/billing for managed service (keep original anonaccred, revisit if needed)
 - Encrypted poleis (future protocol version)
-- Radicle integration (optional mirror, not critical path)
+- ~~Radicle integration~~ ✓ Done — auto-mirrors all repos via system webhook
 - On-device moderation model selection
