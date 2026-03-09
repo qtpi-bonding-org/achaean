@@ -10,8 +10,10 @@ import 'package:serverpod_auth_idp_flutter/serverpod_auth_idp_flutter.dart';
 import '../core/services/git_service.dart';
 import '../core/services/i_git_service.dart';
 import '../core/services/i_key_service.dart';
+import '../core/services/i_serverpod_auth_service.dart';
 import '../core/services/i_signing_service.dart';
 import '../core/services/key_service.dart';
+import '../core/services/serverpod_auth_service.dart';
 import '../core/services/signing_service.dart';
 import '../features/account_creation/cubit/account_creation_cubit.dart';
 import '../features/account_creation/services/account_creation_service.dart';
@@ -133,6 +135,11 @@ void _registerCoreServices() {
   // Signing service (shared canonical-JSON signer)
   getIt.registerLazySingleton<ISigningService>(
     () => SigningService(getIt<IKeyService>()),
+  );
+
+  // Serverpod auth header service
+  getIt.registerLazySingleton<IServerpodAuthService>(
+    () => ServerpodAuthService(getIt<IKeyService>()),
   );
 
   // Post signing service (delegates to ISigningService)
