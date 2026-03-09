@@ -2,9 +2,12 @@
 library dart_git;
 
 // Client interfaces
+export 'src/client/git_credentials.dart';
 export 'src/client/git_exception.dart';
+export 'src/client/git_host_type.dart';
 export 'src/client/i_git_auth.dart';
 export 'src/client/i_git_client.dart';
+export 'src/client/i_git_registration.dart';
 
 // Models
 export 'src/models/git_commit.dart';
@@ -15,6 +18,7 @@ export 'src/models/git_repo.dart';
 // Forgejo
 export 'src/forgejo/forgejo_client.dart';
 export 'src/forgejo/forgejo_endpoints.dart';
+export 'src/forgejo/forgejo_registration.dart';
 
 // Webhooks
 export 'src/webhook/forgejo_webhook_parser.dart';

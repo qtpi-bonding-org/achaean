@@ -62,7 +62,7 @@ import 'app_localizations_en.dart';
 /// property.
 abstract class AppLocalizations {
   AppLocalizations(String locale)
-      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -85,11 +85,11 @@ abstract class AppLocalizations {
   /// of delegates is preferred or required.
   static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
       <LocalizationsDelegate<dynamic>>[
-    delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-  ];
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[Locale('en')];
@@ -129,6 +129,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong'**
   String get errorGeneric;
+
+  /// No description provided for @validationRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get validationRequired;
+
+  /// No description provided for @labelUsername.
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get labelUsername;
+
+  /// No description provided for @labelEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get labelEmail;
+
+  /// No description provided for @labelPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get labelPassword;
+
+  /// No description provided for @accountCreationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get accountCreationTitle;
+
+  /// No description provided for @accountCreationSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get accountCreationSubmit;
+
+  /// No description provided for @accountCreationSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Account created successfully'**
+  String get accountCreationSuccess;
+
+  /// No description provided for @accountCreationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to create account'**
+  String get accountCreationError;
+
+  /// No description provided for @postCreationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Post'**
+  String get postCreationTitle;
+
+  /// No description provided for @postCreationSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Post published successfully'**
+  String get postCreationSuccess;
+
+  /// No description provided for @postCreationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to create post'**
+  String get postCreationError;
+
+  /// No description provided for @postCreationTextHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s on your mind?'**
+  String get postCreationTextHint;
+
+  /// No description provided for @postCreationTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Title (optional)'**
+  String get postCreationTitleHint;
+
+  /// No description provided for @postCreationSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Publish'**
+  String get postCreationSubmit;
+
+  /// No description provided for @ownPostsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My Posts'**
+  String get ownPostsTitle;
+
+  /// No description provided for @ownPostsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No posts yet'**
+  String get ownPostsEmpty;
 }
 
 class _AppLocalizationsDelegate
@@ -156,8 +252,9 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   }
 
   throw FlutterError(
-      'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-      'an issue with the localizations generation tool. Please file an issue '
-      'on GitHub with a reproducible sample app and the gen-l10n configuration '
-      'that was used.');
+    'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.',
+  );
 }

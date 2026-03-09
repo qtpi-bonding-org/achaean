@@ -1,3 +1,4 @@
+import 'package:dart_git/dart_git.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,22 @@ import 'package:cubit_ui_flow/cubit_ui_flow.dart' as cubit_ui_flow;
 import 'package:achaean_client/achaean_client.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 import 'package:serverpod_auth_idp_flutter/serverpod_auth_idp_flutter.dart';
+
+import '../core/services/git_service.dart';
+import '../core/services/i_git_service.dart';
+import '../core/services/i_key_service.dart';
+import '../core/services/key_service.dart';
+import '../features/account_creation/cubit/account_creation_cubit.dart';
+import '../features/account_creation/services/account_creation_service.dart';
+import '../features/account_creation/services/i_account_creation_service.dart';
+import '../features/post_creation/cubit/own_posts_cubit.dart';
+import '../features/post_creation/cubit/post_creation_cubit.dart';
+import '../features/post_creation/services/feed_generation_service.dart';
+import '../features/post_creation/services/i_feed_generation_service.dart';
+import '../features/post_creation/services/i_post_creation_service.dart';
+import '../features/post_creation/services/i_post_signing_service.dart';
+import '../features/post_creation/services/post_creation_service.dart';
+import '../features/post_creation/services/post_signing_service.dart';
 import 'bootstrap.config.dart';
 
 /// Global service locator instance
@@ -25,12 +42,17 @@ Future<void> bootstrap() async {
   debugPrint('Bootstrap: Starting...');
 
   try {
-    // 1. Configure all injectable dependencies
+    // 1. Configure all injectable dependencies (includes InjectionModule)
     debugPrint('Bootstrap: Configuring dependencies...');
     configureDependencies();
     debugPrint('Bootstrap: Dependencies configured');
 
-    // 2. Initialize Serverpod client
+    // 2. Register services with complex dependencies
+    debugPrint('Bootstrap: Registering core services...');
+    _registerCoreServices();
+    debugPrint('Bootstrap: Core services registered');
+
+    // 3. Initialize Serverpod client
     debugPrint('Bootstrap: Initializing Serverpod client...');
     final serverUrl = await getServerUrl();
     final client = Client(serverUrl)
@@ -40,12 +62,12 @@ Future<void> bootstrap() async {
     getIt.registerSingleton<Client>(client);
     debugPrint('Bootstrap: Serverpod client initialized');
 
-    // 3. Register UI flow service (depends on localization/feedback/loading)
+    // 4. Register UI flow service (depends on localization/feedback/loading)
     debugPrint('Bootstrap: Registering UI flow service...');
     _registerUiFlowService();
     debugPrint('Bootstrap: UI flow service registered');
 
-    // 4. Configure ErrorPrivserver for privacy-preserving error reporting
+    // 5. Configure ErrorPrivserver for privacy-preserving error reporting
     debugPrint('Bootstrap: Configuring ErrorPrivserver...');
     _configureErrorPrivserver();
     debugPrint('Bootstrap: ErrorPrivserver configured');
@@ -56,6 +78,76 @@ Future<void> bootstrap() async {
     debugPrint('Bootstrap: Stack trace:\n$stack');
     rethrow;
   }
+}
+
+/// Registers services that have complex/manual dependencies.
+/// This is the ONLY place in the Flutter app that imports Forgejo-specific code.
+void _registerCoreServices() {
+  final storage = getIt<FlutterSecureStorage>();
+
+  // Git client factory — dispatches to the right IGitClient by host type
+  getIt.registerSingleton<GitClientFactory>(({
+    required String baseUrl,
+    required IGitAuth auth,
+    required GitHostType hostType,
+  }) {
+    return switch (hostType) {
+      GitHostType.forgejo ||
+      GitHostType.gitea ||
+      GitHostType.codeberg =>
+        ForgejoClient(baseUrl: baseUrl, auth: auth),
+      GitHostType.github => throw UnimplementedError('GitHub support coming'),
+    };
+  });
+
+  // Key management service
+  getIt.registerLazySingleton<IKeyService>(
+    () => KeyService(storage),
+  );
+
+  // Git service (manages IGitClient lifecycle)
+  getIt.registerLazySingleton<IGitService>(
+    () => GitService(getIt<GitClientFactory>(), storage),
+  );
+
+  // Account creation orchestrator
+  getIt.registerLazySingleton<IAccountCreationService>(
+    () => AccountCreationService(
+      getIt<IKeyService>(),
+      getIt<IGitRegistration>(),
+      getIt<IGitService>(),
+    ),
+  );
+
+  // Post signing service
+  getIt.registerLazySingleton<IPostSigningService>(
+    () => PostSigningService(getIt<IKeyService>()),
+  );
+
+  // Feed generation service
+  getIt.registerLazySingleton<IFeedGenerationService>(
+    () => FeedGenerationService(getIt<IGitService>()),
+  );
+
+  // Post creation orchestrator
+  getIt.registerLazySingleton<IPostCreationService>(
+    () => PostCreationService(
+      getIt<IGitService>(),
+      getIt<IPostSigningService>(),
+      getIt<IFeedGenerationService>(),
+    ),
+  );
+
+  // Cubits (factory — new instance per use)
+  getIt.registerFactory<AccountCreationCubit>(
+    () => AccountCreationCubit(getIt<IAccountCreationService>()),
+  );
+  getIt.registerFactory<PostCreationCubit>(
+    () => PostCreationCubit(getIt<IPostCreationService>()),
+  );
+  getIt.registerFactory<OwnPostsCubit>(
+    () => OwnPostsCubit(getIt<IPostCreationService>()),
+  );
 }
 
 void _registerUiFlowService() {

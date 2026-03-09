@@ -8,5 +8,21 @@
   "errorTimeout": "Operation timed out",
   "errorAuthUnauthorized": "Unauthorized access",
   "errorAuthFailed": "Authentication failed",
-  "errorGeneric": "Something went wrong"
+  "errorGeneric": "Something went wrong",
+  "validationRequired": "Required",
+  "labelUsername": "Username",
+  "labelEmail": "Email",
+  "labelPassword": "Password",
+  "accountCreationTitle": "Create Account",
+  "accountCreationSubmit": "Create Account",
+  "accountCreationSuccess": "Account created successfully",
+  "accountCreationError": "Failed to create account",
+  "postCreationTitle": "Create Post",
+  "postCreationSuccess": "Post published successfully",
+  "postCreationError": "Failed to create post",
+  "postCreationTextHint": "What's on your mind?",
+  "postCreationTitleHint": "Title (optional)",
+  "postCreationSubmit": "Publish",
+  "ownPostsTitle": "My Posts",
+  "ownPostsEmpty": "No posts yet"
 }

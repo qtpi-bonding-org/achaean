@@ -25,4 +25,52 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorGeneric => 'Something went wrong';
+
+  @override
+  String get validationRequired => 'Required';
+
+  @override
+  String get labelUsername => 'Username';
+
+  @override
+  String get labelEmail => 'Email';
+
+  @override
+  String get labelPassword => 'Password';
+
+  @override
+  String get accountCreationTitle => 'Create Account';
+
+  @override
+  String get accountCreationSubmit => 'Create Account';
+
+  @override
+  String get accountCreationSuccess => 'Account created successfully';
+
+  @override
+  String get accountCreationError => 'Failed to create account';
+
+  @override
+  String get postCreationTitle => 'Create Post';
+
+  @override
+  String get postCreationSuccess => 'Post published successfully';
+
+  @override
+  String get postCreationError => 'Failed to create post';
+
+  @override
+  String get postCreationTextHint => 'What\'s on your mind?';
+
+  @override
+  String get postCreationTitleHint => 'Title (optional)';
+
+  @override
+  String get postCreationSubmit => 'Publish';
+
+  @override
+  String get ownPostsTitle => 'My Posts';
+
+  @override
+  String get ownPostsEmpty => 'No posts yet';
 }
