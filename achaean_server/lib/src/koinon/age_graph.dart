@@ -56,13 +56,13 @@ class AgeGraph {
   static Future<void> upsertPolis(
     Session session,
     String repoUrl,
-    int threshold,
+    int membershipThreshold,
   ) async {
     await _loadAge(session);
     await session.db.unsafeExecute(
       "SELECT * FROM cypher('koinon', \$\$"
       "MERGE (p:Polis {repo_url: '${_s(repoUrl)}'})"
-      " SET p.threshold = $threshold"
+      " SET p.membership_threshold = $membershipThreshold"
       "\$\$) AS (v agtype)",
     );
   }

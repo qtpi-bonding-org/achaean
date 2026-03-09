@@ -12,25 +12,27 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'greetings/greeting.dart' as _i2;
-import 'koinon/polis_definition.dart' as _i3;
-import 'koinon/politai_user.dart' as _i4;
-import 'koinon/post_reference.dart' as _i5;
-import 'koinon/readme_signature_record.dart' as _i6;
-import 'koinon/trust_declaration_record.dart' as _i7;
+import 'koinon/flag_record.dart' as _i3;
+import 'koinon/polis_definition.dart' as _i4;
+import 'koinon/politai_user.dart' as _i5;
+import 'koinon/post_reference.dart' as _i6;
+import 'koinon/readme_signature_record.dart' as _i7;
+import 'koinon/trust_declaration_record.dart' as _i8;
 import 'package:achaean_client/src/protocol/koinon/polis_definition.dart'
-    as _i8;
-import 'package:achaean_client/src/protocol/koinon/readme_signature_record.dart'
     as _i9;
-import 'package:achaean_client/src/protocol/koinon/politai_user.dart' as _i10;
+import 'package:achaean_client/src/protocol/koinon/readme_signature_record.dart'
+    as _i10;
+import 'package:achaean_client/src/protocol/koinon/politai_user.dart' as _i11;
 import 'package:achaean_client/src/protocol/koinon/trust_declaration_record.dart'
-    as _i11;
-import 'package:achaean_client/src/protocol/koinon/post_reference.dart' as _i12;
+    as _i12;
+import 'package:achaean_client/src/protocol/koinon/post_reference.dart' as _i13;
 import 'package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart'
-    as _i13;
-import 'package:anonaccount_client/anonaccount_client.dart' as _i14;
+    as _i14;
+import 'package:anonaccount_client/anonaccount_client.dart' as _i15;
 import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
-    as _i15;
+    as _i16;
 export 'greetings/greeting.dart';
+export 'koinon/flag_record.dart';
 export 'koinon/polis_definition.dart';
 export 'koinon/politai_user.dart';
 export 'koinon/post_reference.dart';
@@ -75,68 +77,74 @@ class Protocol extends _i1.SerializationManager {
     if (t == _i2.Greeting) {
       return _i2.Greeting.fromJson(data) as T;
     }
-    if (t == _i3.PolisDefinition) {
-      return _i3.PolisDefinition.fromJson(data) as T;
+    if (t == _i3.FlagRecord) {
+      return _i3.FlagRecord.fromJson(data) as T;
     }
-    if (t == _i4.PolitaiUser) {
-      return _i4.PolitaiUser.fromJson(data) as T;
+    if (t == _i4.PolisDefinition) {
+      return _i4.PolisDefinition.fromJson(data) as T;
     }
-    if (t == _i5.PostReference) {
-      return _i5.PostReference.fromJson(data) as T;
+    if (t == _i5.PolitaiUser) {
+      return _i5.PolitaiUser.fromJson(data) as T;
     }
-    if (t == _i6.ReadmeSignatureRecord) {
-      return _i6.ReadmeSignatureRecord.fromJson(data) as T;
+    if (t == _i6.PostReference) {
+      return _i6.PostReference.fromJson(data) as T;
     }
-    if (t == _i7.TrustDeclarationRecord) {
-      return _i7.TrustDeclarationRecord.fromJson(data) as T;
+    if (t == _i7.ReadmeSignatureRecord) {
+      return _i7.ReadmeSignatureRecord.fromJson(data) as T;
+    }
+    if (t == _i8.TrustDeclarationRecord) {
+      return _i8.TrustDeclarationRecord.fromJson(data) as T;
     }
     if (t == _i1.getType<_i2.Greeting?>()) {
       return (data != null ? _i2.Greeting.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i3.PolisDefinition?>()) {
-      return (data != null ? _i3.PolisDefinition.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i3.FlagRecord?>()) {
+      return (data != null ? _i3.FlagRecord.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i4.PolitaiUser?>()) {
-      return (data != null ? _i4.PolitaiUser.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i4.PolisDefinition?>()) {
+      return (data != null ? _i4.PolisDefinition.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i5.PostReference?>()) {
-      return (data != null ? _i5.PostReference.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i5.PolitaiUser?>()) {
+      return (data != null ? _i5.PolitaiUser.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i6.ReadmeSignatureRecord?>()) {
-      return (data != null ? _i6.ReadmeSignatureRecord.fromJson(data) : null)
+    if (t == _i1.getType<_i6.PostReference?>()) {
+      return (data != null ? _i6.PostReference.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i7.ReadmeSignatureRecord?>()) {
+      return (data != null ? _i7.ReadmeSignatureRecord.fromJson(data) : null)
           as T;
     }
-    if (t == _i1.getType<_i7.TrustDeclarationRecord?>()) {
-      return (data != null ? _i7.TrustDeclarationRecord.fromJson(data) : null)
+    if (t == _i1.getType<_i8.TrustDeclarationRecord?>()) {
+      return (data != null ? _i8.TrustDeclarationRecord.fromJson(data) : null)
           as T;
     }
-    if (t == List<_i8.PolisDefinition>) {
+    if (t == List<_i9.PolisDefinition>) {
       return (data as List)
-              .map((e) => deserialize<_i8.PolisDefinition>(e))
+              .map((e) => deserialize<_i9.PolisDefinition>(e))
               .toList()
           as T;
     }
-    if (t == List<_i9.ReadmeSignatureRecord>) {
+    if (t == List<_i10.ReadmeSignatureRecord>) {
       return (data as List)
-              .map((e) => deserialize<_i9.ReadmeSignatureRecord>(e))
+              .map((e) => deserialize<_i10.ReadmeSignatureRecord>(e))
               .toList()
           as T;
     }
-    if (t == List<_i10.PolitaiUser>) {
+    if (t == List<_i11.PolitaiUser>) {
       return (data as List)
-              .map((e) => deserialize<_i10.PolitaiUser>(e))
+              .map((e) => deserialize<_i11.PolitaiUser>(e))
               .toList()
           as T;
     }
-    if (t == List<_i11.TrustDeclarationRecord>) {
+    if (t == List<_i12.TrustDeclarationRecord>) {
       return (data as List)
-              .map((e) => deserialize<_i11.TrustDeclarationRecord>(e))
+              .map((e) => deserialize<_i12.TrustDeclarationRecord>(e))
               .toList()
           as T;
     }
-    if (t == List<_i12.PostReference>) {
+    if (t == List<_i13.PostReference>) {
       return (data as List)
-              .map((e) => deserialize<_i12.PostReference>(e))
+              .map((e) => deserialize<_i13.PostReference>(e))
               .toList()
           as T;
     }
@@ -147,13 +155,13 @@ class Protocol extends _i1.SerializationManager {
           as T;
     }
     try {
-      return _i13.Protocol().deserialize<T>(data, t);
-    } on _i1.DeserializationTypeNotFoundException catch (_) {}
-    try {
       return _i14.Protocol().deserialize<T>(data, t);
     } on _i1.DeserializationTypeNotFoundException catch (_) {}
     try {
       return _i15.Protocol().deserialize<T>(data, t);
+    } on _i1.DeserializationTypeNotFoundException catch (_) {}
+    try {
+      return _i16.Protocol().deserialize<T>(data, t);
     } on _i1.DeserializationTypeNotFoundException catch (_) {}
     return super.deserialize<T>(data, t);
   }
@@ -161,11 +169,12 @@ class Protocol extends _i1.SerializationManager {
   static String? getClassNameForType(Type type) {
     return switch (type) {
       _i2.Greeting => 'Greeting',
-      _i3.PolisDefinition => 'PolisDefinition',
-      _i4.PolitaiUser => 'PolitaiUser',
-      _i5.PostReference => 'PostReference',
-      _i6.ReadmeSignatureRecord => 'ReadmeSignatureRecord',
-      _i7.TrustDeclarationRecord => 'TrustDeclarationRecord',
+      _i3.FlagRecord => 'FlagRecord',
+      _i4.PolisDefinition => 'PolisDefinition',
+      _i5.PolitaiUser => 'PolitaiUser',
+      _i6.PostReference => 'PostReference',
+      _i7.ReadmeSignatureRecord => 'ReadmeSignatureRecord',
+      _i8.TrustDeclarationRecord => 'TrustDeclarationRecord',
       _ => null,
     };
   }
@@ -182,26 +191,28 @@ class Protocol extends _i1.SerializationManager {
     switch (data) {
       case _i2.Greeting():
         return 'Greeting';
-      case _i3.PolisDefinition():
+      case _i3.FlagRecord():
+        return 'FlagRecord';
+      case _i4.PolisDefinition():
         return 'PolisDefinition';
-      case _i4.PolitaiUser():
+      case _i5.PolitaiUser():
         return 'PolitaiUser';
-      case _i5.PostReference():
+      case _i6.PostReference():
         return 'PostReference';
-      case _i6.ReadmeSignatureRecord():
+      case _i7.ReadmeSignatureRecord():
         return 'ReadmeSignatureRecord';
-      case _i7.TrustDeclarationRecord():
+      case _i8.TrustDeclarationRecord():
         return 'TrustDeclarationRecord';
-    }
-    className = _i13.Protocol().getClassNameForObject(data);
-    if (className != null) {
-      return 'serverpod_auth_idp.$className';
     }
     className = _i14.Protocol().getClassNameForObject(data);
     if (className != null) {
-      return 'anonaccount.$className';
+      return 'serverpod_auth_idp.$className';
     }
     className = _i15.Protocol().getClassNameForObject(data);
+    if (className != null) {
+      return 'anonaccount.$className';
+    }
+    className = _i16.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod_auth_core.$className';
     }
@@ -217,32 +228,35 @@ class Protocol extends _i1.SerializationManager {
     if (dataClassName == 'Greeting') {
       return deserialize<_i2.Greeting>(data['data']);
     }
+    if (dataClassName == 'FlagRecord') {
+      return deserialize<_i3.FlagRecord>(data['data']);
+    }
     if (dataClassName == 'PolisDefinition') {
-      return deserialize<_i3.PolisDefinition>(data['data']);
+      return deserialize<_i4.PolisDefinition>(data['data']);
     }
     if (dataClassName == 'PolitaiUser') {
-      return deserialize<_i4.PolitaiUser>(data['data']);
+      return deserialize<_i5.PolitaiUser>(data['data']);
     }
     if (dataClassName == 'PostReference') {
-      return deserialize<_i5.PostReference>(data['data']);
+      return deserialize<_i6.PostReference>(data['data']);
     }
     if (dataClassName == 'ReadmeSignatureRecord') {
-      return deserialize<_i6.ReadmeSignatureRecord>(data['data']);
+      return deserialize<_i7.ReadmeSignatureRecord>(data['data']);
     }
     if (dataClassName == 'TrustDeclarationRecord') {
-      return deserialize<_i7.TrustDeclarationRecord>(data['data']);
+      return deserialize<_i8.TrustDeclarationRecord>(data['data']);
     }
     if (dataClassName.startsWith('serverpod_auth_idp.')) {
       data['className'] = dataClassName.substring(19);
-      return _i13.Protocol().deserializeByClassName(data);
+      return _i14.Protocol().deserializeByClassName(data);
     }
     if (dataClassName.startsWith('anonaccount.')) {
       data['className'] = dataClassName.substring(12);
-      return _i14.Protocol().deserializeByClassName(data);
+      return _i15.Protocol().deserializeByClassName(data);
     }
     if (dataClassName.startsWith('serverpod_auth_core.')) {
       data['className'] = dataClassName.substring(20);
-      return _i15.Protocol().deserializeByClassName(data);
+      return _i16.Protocol().deserializeByClassName(data);
     }
     return super.deserializeByClassName(data);
   }
@@ -257,13 +271,13 @@ class Protocol extends _i1.SerializationManager {
       return null;
     }
     try {
-      return _i13.Protocol().mapRecordToJson(record);
-    } catch (_) {}
-    try {
       return _i14.Protocol().mapRecordToJson(record);
     } catch (_) {}
     try {
       return _i15.Protocol().mapRecordToJson(record);
+    } catch (_) {}
+    try {
+      return _i16.Protocol().mapRecordToJson(record);
     } catch (_) {}
     throw Exception('Unsupported record type ${record.runtimeType}');
   }

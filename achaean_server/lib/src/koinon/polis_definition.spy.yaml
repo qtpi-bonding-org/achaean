@@ -9,7 +9,9 @@ fields:
   ### Description / about text.
   description: String?
   ### Membership threshold — mutual trust links required.
-  threshold: int
+  membershipThreshold: int
+  ### Flag threshold — number of flags before NSFW blur.
+  flagThreshold: int
   ### Parent polis repo URL (null for genesis poleis).
   parentRepoUrl: String?
   ### Public key of the repo owner.

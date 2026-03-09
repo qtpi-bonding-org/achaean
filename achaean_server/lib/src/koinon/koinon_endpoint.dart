@@ -79,7 +79,7 @@ class KoinonEndpoint extends Endpoint {
       session,
       where: (t) => t.repoUrl.equals(polisRepoUrl),
     );
-    final threshold = polis?.threshold ?? 1;
+    final threshold = polis?.membershipThreshold ?? 1;
 
     final memberPubkeys = await AgeGraph.computeMembers(
       session,
@@ -127,7 +127,7 @@ class KoinonEndpoint extends Endpoint {
       session,
       where: (t) => t.repoUrl.equals(polisRepoUrl),
     );
-    final threshold = polis?.threshold ?? 1;
+    final threshold = polis?.membershipThreshold ?? 1;
 
     final memberPubkeys = await AgeGraph.computeMembers(
       session,

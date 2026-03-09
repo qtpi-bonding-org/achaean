@@ -19,7 +19,8 @@ abstract class PolisDefinition implements _i1.SerializableModel {
     required this.repoUrl,
     required this.name,
     this.description,
-    required this.threshold,
+    required this.membershipThreshold,
+    required this.flagThreshold,
     this.parentRepoUrl,
     required this.ownerPubkey,
     this.readmeCommit,
@@ -32,7 +33,8 @@ abstract class PolisDefinition implements _i1.SerializableModel {
     required String repoUrl,
     required String name,
     String? description,
-    required int threshold,
+    required int membershipThreshold,
+    required int flagThreshold,
     String? parentRepoUrl,
     required String ownerPubkey,
     String? readmeCommit,
@@ -46,7 +48,8 @@ abstract class PolisDefinition implements _i1.SerializableModel {
       repoUrl: jsonSerialization['repoUrl'] as String,
       name: jsonSerialization['name'] as String,
       description: jsonSerialization['description'] as String?,
-      threshold: jsonSerialization['threshold'] as int,
+      membershipThreshold: jsonSerialization['membershipThreshold'] as int,
+      flagThreshold: jsonSerialization['flagThreshold'] as int,
       parentRepoUrl: jsonSerialization['parentRepoUrl'] as String?,
       ownerPubkey: jsonSerialization['ownerPubkey'] as String,
       readmeCommit: jsonSerialization['readmeCommit'] as String?,
@@ -76,7 +79,10 @@ abstract class PolisDefinition implements _i1.SerializableModel {
   String? description;
 
   /// Membership threshold — mutual trust links required.
-  int threshold;
+  int membershipThreshold;
+
+  /// Flag threshold — number of flags before NSFW blur.
+  int flagThreshold;
 
   /// Parent polis repo URL (null for genesis poleis).
   String? parentRepoUrl;
@@ -101,7 +107,8 @@ abstract class PolisDefinition implements _i1.SerializableModel {
     String? repoUrl,
     String? name,
     String? description,
-    int? threshold,
+    int? membershipThreshold,
+    int? flagThreshold,
     String? parentRepoUrl,
     String? ownerPubkey,
     String? readmeCommit,
@@ -116,7 +123,8 @@ abstract class PolisDefinition implements _i1.SerializableModel {
       'repoUrl': repoUrl,
       'name': name,
       if (description != null) 'description': description,
-      'threshold': threshold,
+      'membershipThreshold': membershipThreshold,
+      'flagThreshold': flagThreshold,
       if (parentRepoUrl != null) 'parentRepoUrl': parentRepoUrl,
       'ownerPubkey': ownerPubkey,
       if (readmeCommit != null) 'readmeCommit': readmeCommit,
@@ -139,7 +147,8 @@ class _PolisDefinitionImpl extends PolisDefinition {
     required String repoUrl,
     required String name,
     String? description,
-    required int threshold,
+    required int membershipThreshold,
+    required int flagThreshold,
     String? parentRepoUrl,
     required String ownerPubkey,
     String? readmeCommit,
@@ -150,7 +159,8 @@ class _PolisDefinitionImpl extends PolisDefinition {
          repoUrl: repoUrl,
          name: name,
          description: description,
-         threshold: threshold,
+         membershipThreshold: membershipThreshold,
+         flagThreshold: flagThreshold,
          parentRepoUrl: parentRepoUrl,
          ownerPubkey: ownerPubkey,
          readmeCommit: readmeCommit,
@@ -167,7 +177,8 @@ class _PolisDefinitionImpl extends PolisDefinition {
     String? repoUrl,
     String? name,
     Object? description = _Undefined,
-    int? threshold,
+    int? membershipThreshold,
+    int? flagThreshold,
     Object? parentRepoUrl = _Undefined,
     String? ownerPubkey,
     Object? readmeCommit = _Undefined,
@@ -179,7 +190,8 @@ class _PolisDefinitionImpl extends PolisDefinition {
       repoUrl: repoUrl ?? this.repoUrl,
       name: name ?? this.name,
       description: description is String? ? description : this.description,
-      threshold: threshold ?? this.threshold,
+      membershipThreshold: membershipThreshold ?? this.membershipThreshold,
+      flagThreshold: flagThreshold ?? this.flagThreshold,
       parentRepoUrl: parentRepoUrl is String?
           ? parentRepoUrl
           : this.parentRepoUrl,
