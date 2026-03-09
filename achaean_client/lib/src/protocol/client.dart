@@ -17,8 +17,16 @@ import 'dart:async' as _i3;
 import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
     as _i4;
 import 'package:achaean_client/src/protocol/greetings/greeting.dart' as _i5;
-import 'package:anonaccount_client/anonaccount_client.dart' as _i6;
-import 'protocol.dart' as _i7;
+import 'package:achaean_client/src/protocol/koinon/politai_user.dart' as _i6;
+import 'package:achaean_client/src/protocol/koinon/polis_definition.dart'
+    as _i7;
+import 'package:achaean_client/src/protocol/koinon/readme_signature_record.dart'
+    as _i8;
+import 'package:achaean_client/src/protocol/koinon/trust_declaration_record.dart'
+    as _i9;
+import 'package:achaean_client/src/protocol/koinon/post_reference.dart' as _i10;
+import 'package:anonaccount_client/anonaccount_client.dart' as _i11;
+import 'protocol.dart' as _i12;
 
 /// By extending [EmailIdpBaseEndpoint], the email identity provider endpoints
 /// are made available on the server and enable the corresponding sign-in widget
@@ -259,16 +267,114 @@ class EndpointGreeting extends _i2.EndpointRef {
       );
 }
 
+/// Koinon query endpoints — discovery, agora, trust graph lookups.
+/// {@category Endpoint}
+class EndpointKoinon extends _i2.EndpointRef {
+  EndpointKoinon(_i2.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'koinon';
+
+  /// Register a repo URL for indexing.
+  ///
+  /// Used by clients to manually register their repo with the aggregator
+  /// (bootstrap for first user on a forge without system webhooks).
+  _i3.Future<void> register(String repoUrl) => caller.callServerEndpoint<void>(
+    'koinon',
+    'register',
+    {'repoUrl': repoUrl},
+  );
+
+  /// Look up a polites by public key.
+  _i3.Future<_i6.PolitaiUser?> getUser(String pubkey) =>
+      caller.callServerEndpoint<_i6.PolitaiUser?>(
+        'koinon',
+        'getUser',
+        {'pubkey': pubkey},
+      );
+
+  /// List all known poleis.
+  _i3.Future<List<_i7.PolisDefinition>> listPoleis() =>
+      caller.callServerEndpoint<List<_i7.PolisDefinition>>(
+        'koinon',
+        'listPoleis',
+        {},
+      );
+
+  /// Get a polis by repo URL.
+  _i3.Future<_i7.PolisDefinition?> getPolis(String repoUrl) =>
+      caller.callServerEndpoint<_i7.PolisDefinition?>(
+        'koinon',
+        'getPolis',
+        {'repoUrl': repoUrl},
+      );
+
+  /// Get all README signers for a polis.
+  _i3.Future<List<_i8.ReadmeSignatureRecord>> getPolisSigners(
+    String polisRepoUrl,
+  ) => caller.callServerEndpoint<List<_i8.ReadmeSignatureRecord>>(
+    'koinon',
+    'getPolisSigners',
+    {'polisRepoUrl': polisRepoUrl},
+  );
+
+  /// Get trust declarations issued by a polites.
+  _i3.Future<List<_i9.TrustDeclarationRecord>> getTrustDeclarations(
+    String pubkey,
+  ) => caller.callServerEndpoint<List<_i9.TrustDeclarationRecord>>(
+    'koinon',
+    'getTrustDeclarations',
+    {'pubkey': pubkey},
+  );
+
+  /// Get post references for a polis (the agora).
+  ///
+  /// Returns post references tagged for the given polis, ordered by timestamp.
+  _i3.Future<List<_i10.PostReference>> getAgora(
+    String polisRepoUrl, {
+    required int limit,
+    required int offset,
+  }) => caller.callServerEndpoint<List<_i10.PostReference>>(
+    'koinon',
+    'getAgora',
+    {
+      'polisRepoUrl': polisRepoUrl,
+      'limit': limit,
+      'offset': offset,
+    },
+  );
+}
+
+/// Receives Forgejo system webhook push events and indexes Koinon data.
+/// {@category Endpoint}
+class EndpointWebhook extends _i2.EndpointRef {
+  EndpointWebhook(_i2.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'webhook';
+
+  /// Processes a Forgejo push webhook payload.
+  ///
+  /// Parses the push event, checks for Koinon-relevant file changes,
+  /// and indexes them into the database.
+  _i3.Future<void> handlePush(Map<String, dynamic> payload) =>
+      caller.callServerEndpoint<void>(
+        'webhook',
+        'handlePush',
+        {'payload': payload},
+      );
+}
+
 class Modules {
   Modules(Client client) {
     serverpod_auth_idp = _i1.Caller(client);
-    anonaccount = _i6.Caller(client);
+    anonaccount = _i11.Caller(client);
     serverpod_auth_core = _i4.Caller(client);
   }
 
   late final _i1.Caller serverpod_auth_idp;
 
-  late final _i6.Caller anonaccount;
+  late final _i11.Caller anonaccount;
 
   late final _i4.Caller serverpod_auth_core;
 }
@@ -293,7 +399,7 @@ class Client extends _i2.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
          host,
-         _i7.Protocol(),
+         _i12.Protocol(),
          securityContext: securityContext,
          streamingConnectionTimeout: streamingConnectionTimeout,
          connectionTimeout: connectionTimeout,
@@ -305,6 +411,8 @@ class Client extends _i2.ServerpodClientShared {
     emailIdp = EndpointEmailIdp(this);
     jwtRefresh = EndpointJwtRefresh(this);
     greeting = EndpointGreeting(this);
+    koinon = EndpointKoinon(this);
+    webhook = EndpointWebhook(this);
     modules = Modules(this);
   }
 
@@ -314,6 +422,10 @@ class Client extends _i2.ServerpodClientShared {
 
   late final EndpointGreeting greeting;
 
+  late final EndpointKoinon koinon;
+
+  late final EndpointWebhook webhook;
+
   late final Modules modules;
 
   @override
@@ -321,6 +433,8 @@ class Client extends _i2.ServerpodClientShared {
     'emailIdp': emailIdp,
     'jwtRefresh': jwtRefresh,
     'greeting': greeting,
+    'koinon': koinon,
+    'webhook': webhook,
   };
 
   @override

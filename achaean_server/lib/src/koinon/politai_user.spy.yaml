@@ -1,0 +1,21 @@
+### An indexed polites (user) discovered by the aggregator.
+class: PolitaiUser
+table: politai_users
+fields:
+  ### The polites's public key (unique identity).
+  pubkey: String
+  ### HTTPS URL of the polites's git repo.
+  repoUrl: String
+  ### Display name (optional, from profile).
+  displayName: String?
+  ### When the aggregator first discovered this user.
+  discoveredAt: DateTime
+  ### When the aggregator last indexed this user's repo.
+  lastIndexedAt: DateTime?
+indexes:
+  politai_users_pubkey_idx:
+    fields: pubkey
+    unique: true
+  politai_users_repo_url_idx:
+    fields: repoUrl
+    unique: true

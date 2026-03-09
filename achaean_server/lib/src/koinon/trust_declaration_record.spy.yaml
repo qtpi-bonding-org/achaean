@@ -1,0 +1,22 @@
+### An indexed trust declaration — an edge in the trust graph.
+class: TrustDeclarationRecord
+table: trust_declarations
+fields:
+  ### Public key of the truster (author).
+  fromPubkey: String
+  ### Public key of the trusted subject.
+  toPubkey: String
+  ### Repo URL of the subject (for graph traversal).
+  subjectRepoUrl: String
+  ### Trust level: "trust" or "provisional".
+  level: String
+  ### When the declaration was made.
+  timestamp: DateTime
+  ### When the aggregator indexed this declaration.
+  indexedAt: DateTime
+indexes:
+  trust_declarations_from_to_idx:
+    fields: fromPubkey, toPubkey
+    unique: true
+  trust_declarations_to_pubkey_idx:
+    fields: toPubkey

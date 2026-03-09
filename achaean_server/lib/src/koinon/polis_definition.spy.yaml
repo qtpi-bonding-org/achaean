@@ -1,0 +1,26 @@
+### An indexed polis — a community repo known to the aggregator.
+class: PolisDefinition
+table: polis_definitions
+fields:
+  ### HTTPS URL of the polis git repo (stable identity).
+  repoUrl: String
+  ### Display name of the polis.
+  name: String
+  ### Description / about text.
+  description: String?
+  ### Membership threshold — mutual trust links required.
+  threshold: int
+  ### Parent polis repo URL (null for genesis poleis).
+  parentRepoUrl: String?
+  ### Public key of the repo owner.
+  ownerPubkey: String
+  ### Current README commit hash.
+  readmeCommit: String?
+  ### When the aggregator first discovered this polis.
+  discoveredAt: DateTime
+  ### When the aggregator last indexed this polis.
+  lastIndexedAt: DateTime?
+indexes:
+  polis_definitions_repo_url_idx:
+    fields: repoUrl
+    unique: true

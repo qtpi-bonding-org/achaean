@@ -18,7 +18,25 @@ import 'package:anonaccount_server/anonaccount_server.dart' as _i4;
 import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
     as _i5;
 import 'greetings/greeting.dart' as _i6;
+import 'koinon/polis_definition.dart' as _i7;
+import 'koinon/politai_user.dart' as _i8;
+import 'koinon/post_reference.dart' as _i9;
+import 'koinon/readme_signature_record.dart' as _i10;
+import 'koinon/trust_declaration_record.dart' as _i11;
+import 'package:achaean_server/src/generated/koinon/polis_definition.dart'
+    as _i12;
+import 'package:achaean_server/src/generated/koinon/readme_signature_record.dart'
+    as _i13;
+import 'package:achaean_server/src/generated/koinon/trust_declaration_record.dart'
+    as _i14;
+import 'package:achaean_server/src/generated/koinon/post_reference.dart'
+    as _i15;
 export 'greetings/greeting.dart';
+export 'koinon/polis_definition.dart';
+export 'koinon/politai_user.dart';
+export 'koinon/post_reference.dart';
+export 'koinon/readme_signature_record.dart';
+export 'koinon/trust_declaration_record.dart';
 
 class Protocol extends _i1.SerializationManagerServer {
   Protocol._();
@@ -28,6 +46,505 @@ class Protocol extends _i1.SerializationManagerServer {
   static final Protocol _instance = Protocol._();
 
   static final List<_i2.TableDefinition> targetTableDefinitions = [
+    _i2.TableDefinition(
+      name: 'polis_definitions',
+      dartName: 'PolisDefinition',
+      schema: 'public',
+      module: 'achaean',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'polis_definitions_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'repoUrl',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'name',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'description',
+          columnType: _i2.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'threshold',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'parentRepoUrl',
+          columnType: _i2.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'ownerPubkey',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'readmeCommit',
+          columnType: _i2.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'discoveredAt',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+        _i2.ColumnDefinition(
+          name: 'lastIndexedAt',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: true,
+          dartType: 'DateTime?',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'polis_definitions_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'polis_definitions_repo_url_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'repoUrl',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _i2.TableDefinition(
+      name: 'politai_users',
+      dartName: 'PolitaiUser',
+      schema: 'public',
+      module: 'achaean',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'politai_users_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'pubkey',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'repoUrl',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'displayName',
+          columnType: _i2.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'discoveredAt',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+        _i2.ColumnDefinition(
+          name: 'lastIndexedAt',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: true,
+          dartType: 'DateTime?',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'politai_users_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'politai_users_pubkey_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'pubkey',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'politai_users_repo_url_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'repoUrl',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _i2.TableDefinition(
+      name: 'post_references',
+      dartName: 'PostReference',
+      schema: 'public',
+      module: 'achaean',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'post_references_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'authorPubkey',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'authorRepoUrl',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'path',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'commitHash',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'title',
+          columnType: _i2.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'poleisTags',
+          columnType: _i2.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'timestamp',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+        _i2.ColumnDefinition(
+          name: 'isReply',
+          columnType: _i2.ColumnType.boolean,
+          isNullable: false,
+          dartType: 'bool',
+        ),
+        _i2.ColumnDefinition(
+          name: 'indexedAt',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'post_references_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'post_references_author_path_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'authorPubkey',
+            ),
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'path',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'post_references_timestamp_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'timestamp',
+            ),
+          ],
+          type: 'btree',
+          isUnique: false,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _i2.TableDefinition(
+      name: 'readme_signatures',
+      dartName: 'ReadmeSignatureRecord',
+      schema: 'public',
+      module: 'achaean',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'readme_signatures_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'signerPubkey',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'polisRepoUrl',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'readmeCommit',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'readmeHash',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'timestamp',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+        _i2.ColumnDefinition(
+          name: 'indexedAt',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'readme_signatures_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'readme_signatures_signer_polis_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'signerPubkey',
+            ),
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'polisRepoUrl',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'readme_signatures_polis_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'polisRepoUrl',
+            ),
+          ],
+          type: 'btree',
+          isUnique: false,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _i2.TableDefinition(
+      name: 'trust_declarations',
+      dartName: 'TrustDeclarationRecord',
+      schema: 'public',
+      module: 'achaean',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'trust_declarations_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'fromPubkey',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'toPubkey',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'subjectRepoUrl',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'level',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'timestamp',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+        _i2.ColumnDefinition(
+          name: 'indexedAt',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'trust_declarations_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'trust_declarations_from_to_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'fromPubkey',
+            ),
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'toPubkey',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'trust_declarations_to_pubkey_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'toPubkey',
+            ),
+          ],
+          type: 'btree',
+          isUnique: false,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
     ..._i3.Protocol.targetTableDefinitions,
     ..._i4.Protocol.targetTableDefinitions,
     ..._i5.Protocol.targetTableDefinitions,
@@ -64,8 +581,70 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i6.Greeting) {
       return _i6.Greeting.fromJson(data) as T;
     }
+    if (t == _i7.PolisDefinition) {
+      return _i7.PolisDefinition.fromJson(data) as T;
+    }
+    if (t == _i8.PolitaiUser) {
+      return _i8.PolitaiUser.fromJson(data) as T;
+    }
+    if (t == _i9.PostReference) {
+      return _i9.PostReference.fromJson(data) as T;
+    }
+    if (t == _i10.ReadmeSignatureRecord) {
+      return _i10.ReadmeSignatureRecord.fromJson(data) as T;
+    }
+    if (t == _i11.TrustDeclarationRecord) {
+      return _i11.TrustDeclarationRecord.fromJson(data) as T;
+    }
     if (t == _i1.getType<_i6.Greeting?>()) {
       return (data != null ? _i6.Greeting.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i7.PolisDefinition?>()) {
+      return (data != null ? _i7.PolisDefinition.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i8.PolitaiUser?>()) {
+      return (data != null ? _i8.PolitaiUser.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i9.PostReference?>()) {
+      return (data != null ? _i9.PostReference.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i10.ReadmeSignatureRecord?>()) {
+      return (data != null ? _i10.ReadmeSignatureRecord.fromJson(data) : null)
+          as T;
+    }
+    if (t == _i1.getType<_i11.TrustDeclarationRecord?>()) {
+      return (data != null ? _i11.TrustDeclarationRecord.fromJson(data) : null)
+          as T;
+    }
+    if (t == List<_i12.PolisDefinition>) {
+      return (data as List)
+              .map((e) => deserialize<_i12.PolisDefinition>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_i13.ReadmeSignatureRecord>) {
+      return (data as List)
+              .map((e) => deserialize<_i13.ReadmeSignatureRecord>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_i14.TrustDeclarationRecord>) {
+      return (data as List)
+              .map((e) => deserialize<_i14.TrustDeclarationRecord>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_i15.PostReference>) {
+      return (data as List)
+              .map((e) => deserialize<_i15.PostReference>(e))
+              .toList()
+          as T;
+    }
+    if (t == Map<String, dynamic>) {
+      return (data as Map).map(
+            (k, v) => MapEntry(deserialize<String>(k), deserialize<dynamic>(v)),
+          )
+          as T;
     }
     try {
       return _i3.Protocol().deserialize<T>(data, t);
@@ -85,6 +664,11 @@ class Protocol extends _i1.SerializationManagerServer {
   static String? getClassNameForType(Type type) {
     return switch (type) {
       _i6.Greeting => 'Greeting',
+      _i7.PolisDefinition => 'PolisDefinition',
+      _i8.PolitaiUser => 'PolitaiUser',
+      _i9.PostReference => 'PostReference',
+      _i10.ReadmeSignatureRecord => 'ReadmeSignatureRecord',
+      _i11.TrustDeclarationRecord => 'TrustDeclarationRecord',
       _ => null,
     };
   }
@@ -101,6 +685,16 @@ class Protocol extends _i1.SerializationManagerServer {
     switch (data) {
       case _i6.Greeting():
         return 'Greeting';
+      case _i7.PolisDefinition():
+        return 'PolisDefinition';
+      case _i8.PolitaiUser():
+        return 'PolitaiUser';
+      case _i9.PostReference():
+        return 'PostReference';
+      case _i10.ReadmeSignatureRecord():
+        return 'ReadmeSignatureRecord';
+      case _i11.TrustDeclarationRecord():
+        return 'TrustDeclarationRecord';
     }
     className = _i2.Protocol().getClassNameForObject(data);
     if (className != null) {
@@ -129,6 +723,21 @@ class Protocol extends _i1.SerializationManagerServer {
     }
     if (dataClassName == 'Greeting') {
       return deserialize<_i6.Greeting>(data['data']);
+    }
+    if (dataClassName == 'PolisDefinition') {
+      return deserialize<_i7.PolisDefinition>(data['data']);
+    }
+    if (dataClassName == 'PolitaiUser') {
+      return deserialize<_i8.PolitaiUser>(data['data']);
+    }
+    if (dataClassName == 'PostReference') {
+      return deserialize<_i9.PostReference>(data['data']);
+    }
+    if (dataClassName == 'ReadmeSignatureRecord') {
+      return deserialize<_i10.ReadmeSignatureRecord>(data['data']);
+    }
+    if (dataClassName == 'TrustDeclarationRecord') {
+      return deserialize<_i11.TrustDeclarationRecord>(data['data']);
     }
     if (dataClassName.startsWith('serverpod.')) {
       data['className'] = dataClassName.substring(10);
@@ -174,6 +783,18 @@ class Protocol extends _i1.SerializationManagerServer {
       if (table != null) {
         return table;
       }
+    }
+    switch (t) {
+      case _i7.PolisDefinition:
+        return _i7.PolisDefinition.t;
+      case _i8.PolitaiUser:
+        return _i8.PolitaiUser.t;
+      case _i9.PostReference:
+        return _i9.PostReference.t;
+      case _i10.ReadmeSignatureRecord:
+        return _i10.ReadmeSignatureRecord.t;
+      case _i11.TrustDeclarationRecord:
+        return _i11.TrustDeclarationRecord.t;
     }
     return null;
   }

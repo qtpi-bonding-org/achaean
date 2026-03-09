@@ -11,3 +11,13 @@ jwtRefresh:
   - refreshAccessToken:
 greeting:
   - hello:
+koinon:
+  - register:
+  - getUser:
+  - listPoleis:
+  - getPolis:
+  - getPolisSigners:
+  - getTrustDeclarations:
+  - getAgora:
+webhook:
+  - handlePush:

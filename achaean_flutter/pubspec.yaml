@@ -33,6 +33,12 @@ dependencies:
   get_it: ^7.6.4
   injectable: ^2.3.2
 
+  # Koinon
+  dart_git:
+    path: ../dart_git
+  dart_koinon:
+    path: ../dart_koinon
+
   # Custom Libraries
   cubit_ui_flow:
     git:
