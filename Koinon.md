@@ -32,7 +32,7 @@ A polis is not an actor. It does not sign things, hold keys, or take actions. On
 ### 1. Sovereign Identity
 
 - Identity is a cryptographic keypair generated via the Web Crypto API in the browser.
-- No server owns your identity. No admin can delete you. You exist independent of any polis, relay, or platform.
+- No synedrion owns your identity. No admin can delete you. You exist independent of any polis, archeion, or synedrion.
 - You are responsible for your own key. Key recovery (Shamir's secret sharing, social recovery, encrypted backups) is an application-layer concern, not a protocol concern.
 
 ### 2. Voluntary Community (Confederation)
@@ -45,7 +45,7 @@ A polis is not an actor. It does not sign things, hold keys, or take actions. On
 
 ### 3. Client-Side Moderation
 
-- Subjective content moderation happens **on-device**, not on the server.
+- Subjective content moderation happens **on-device**, not on the synedrion.
 - Users run a local model (e.g., Gemma) that filters content according to their personal preferences.
 - Everything — politics, NSFW, opinions, vibes — is the user's choice to see or not see.
 
@@ -55,7 +55,7 @@ A polis is not an actor. It does not sign things, hold keys, or take actions. On
 
 **Politai are git repos.** Each polites has a signed log of their content — posts, messages, media. Signed by their Web Crypto keypair. This is theirs forever.
 
-**Poleis are git repos.** A polis is a repo containing a README — the social contract. Members cosign it. The agora is **computed** by the aggregator from the trust graph: collect all content that trusted, signed members have tagged for this polis.
+**Poleis are git repos.** A polis is a repo containing a README — the social contract. Members cosign it. The agora is **computed** by the synedrion from the trust graph: collect all content that trusted, signed members have tagged for this polis.
 
 **Forks are just forked repos.** Anyone forks the polis repo, writes a new README, signs it. People sign the fork or they don't. The fork inherits the old agora by default (minus any exclusions). No permission needed. No vote required.
 
@@ -145,15 +145,15 @@ The polis's social contract. A signed, versioned document in the polis's git rep
 
 ### 2. Trust Declaration
 
-A signed file: author keypair, subject keypair, subject repo URL, trust level (`TRUST` or `PROVISIONAL`). Trust is between individuals — not scoped to any polis. Poleis compute membership from the global trust graph. Revocable by deletion. The repo URL enables trust graph traversal — aggregators follow these links to discover repos on any forge.
+A signed file: author keypair, subject keypair, subject repo URL, trust level (`TRUST` or `PROVISIONAL`). Trust is between individuals — not scoped to any polis. Poleis compute membership from the global trust graph. Revocable by deletion. The repo URL enables trust graph traversal — synedrions follow these links to discover repos on any archeion.
 
 ### 3. README Signature
 
-A signed file in the polites's own repo: the README content (or its hash), the polis repo ID, the README commit hash, and the polites's signature. This is the act of cosigning the social contract. Signatures are decentralized — scattered across member repos — and assembled by the aggregator.
+A signed file in the polites's own repo: the README content (or its hash), the polis repo ID, the README commit hash, and the polites's signature. This is the act of cosigning the social contract. Signatures are decentralized — scattered across member repos — and assembled by the synedrion.
 
 ### 4. Flag
 
-A signed entry in the polites's `koinon.json` manifest: the flagged post path, the polis repo URL, and a free-form reason. Flagging is a sovereign act — you sign it with your keypair, stored in your own repo, indexed by the aggregator. When the number of flags on a post reaches the polis's `flag_threshold`, the post is blurred in the agora. Vouchers can query flagged posts by people they trust and decide whether to revoke trust on the author. Flags are accountable — if someone abuses flagging, the community can trace it and revoke their trust. This is distributed moderation without moderators.
+A signed entry in the polites's `koinon.json` manifest: the flagged post path, the polis repo URL, and a free-form reason. Flagging is a sovereign act — you sign it with your keypair, stored in your own repo, indexed by the synedrion. When the number of flags on a post reaches the polis's `flag_threshold`, the post is blurred in the agora. Vouchers can query flagged posts by people they trust and decide whether to revoke trust on the author. Flags are accountable — if someone abuses flagging, the community can trace it and revoke their trust. This is distributed moderation without moderators.
 
 ### 5. Membership Function
 
@@ -226,7 +226,7 @@ my-repo/
 }
 ```
 
-The `repo` field is how trust graph traversal discovers new repos. When an aggregator indexes a trust declaration, it follows the repo URL to discover the subject's repo — even on self-hosted forges it has never seen before.
+The `repo` field is how trust graph traversal discovers new repos. When a synedrion indexes a trust declaration, it follows the repo URL to discover the subject's repo — even on archeions it has never seen before.
 
 ### README Signature Format
 
@@ -245,7 +245,7 @@ The `repo` field is how trust graph traversal discovers new repos. When an aggre
 
 ## Discovery via `.well-known`
 
-The `.well-known/koinon.json` file is a directory inside the git repo — not a web domain endpoint. No domain or hosting required. It sits in the repo alongside `posts/` and `trust/`, and is auto-generated by the client. The indexer finds it by searching forges for repos containing this file path, or by following trust graph links between repos.
+The `.well-known/koinon.json` file is a directory inside the git repo — not a web domain endpoint. No domain or hosting required. It sits in the repo alongside `posts/` and `trust/`, and is auto-generated by the client. The synedrion finds it by searching archeions for repos containing this file path, or by following trust graph links between repos.
 
 Optionally, a polites with their own domain can also host `https://theirdomain.com/.well-known/koinon.json` pointing to their repo — useful for verification and vanity, but not required.
 
@@ -275,13 +275,13 @@ Every polites's repo hosts a `.well-known/koinon.json` manifest:
 **Onboarding discovery (how new users find Koinon):**
 
 1. **Crossposting** — the primary growth engine. Koinon posts crossposted to Nostr/Bluesky/Mastodon link back to the source. People discover the network through content they already see on other platforms.
-2. **Forge search** — repos live on GitHub/Codeberg, so they're searchable by anyone with a browser. Zero-friction early discovery with no extra infrastructure.
-3. **The Koinon Index** — a lightweight crawler/search engine that indexes `koinon.json` manifests across the network. Seeded by forge search (query for repos containing `.well-known/koinon.json`), then follows the trust graph to discover more repos. Serves a search API and browse UI for finding poleis by topic, size, and activity. Cheap to run — small JSON manifests over HTTPS, Postgres index, single VPS. Anyone can run a competing indexer since all the data is public and the manifest format is standardized.
+2. **Archeion search** — repos live on GitHub/Codeberg, so they're searchable by anyone with a browser. Zero-friction early discovery with no extra infrastructure.
+3. **The Koinon Index** — a lightweight crawler/search engine that indexes `koinon.json` manifests across the network. Seeded by archeion search (query for repos containing `.well-known/koinon.json`), then follows the trust graph to discover more repos. Serves a search API and browse UI for finding poleis by topic, size, and activity. Cheap to run — small JSON manifests over HTTPS, Postgres index, single VPS. Anyone can run a competing indexer since all the data is public and the manifest format is standardized.
 
 **In-network discovery (once you're in):**
 
-4. **Trust graph traversal** — the aggregator follows repo URLs in trust declarations to discover new repos automatically. If Alice (on GitHub) trusts Bob (on self-hosted Forgejo), Alice's trust declaration contains Bob's repo URL. The aggregator follows the link, discovers Bob's repo, subscribes to his RSS feed. One trust link bridges the gap to any forge, anywhere.
-5. **Manual registration** — the aggregator exposes a registration endpoint: `POST /register` with `{ "repo": "<repo-url>" }`. A self-hosted user (or their client, automatically on account setup) hits it once. The aggregator fetches their `.well-known/koinon.json`, subscribes to their RSS, and they're in the index. This is the bootstrap for the first user on a forge that nobody has linked to yet.
+4. **Trust graph traversal** — the synedrion follows repo URLs in trust declarations to discover new repos automatically. If Alice (on GitHub) trusts Bob (on a self-hosted archeion), Alice's trust declaration contains Bob's repo URL. The synedrion follows the link, discovers Bob's repo, subscribes to his RSS feed. One trust link bridges the gap to any archeion, anywhere.
+5. **Manual registration** — the synedrion exposes a registration endpoint: `POST /register` with `{ "repo": "<repo-url>" }`. A self-hosted user (or their client, automatically on account setup) hits it once. The synedrion fetches their `.well-known/koinon.json`, subscribes to their RSS, and they're in the index. This is the bootstrap for the first user on an archeion that nobody has linked to yet.
 6. **Radicle gossip** — nodes tell each other about repos.
 7. **RSS** — subscribe to trusted politai, discover their poleis through their activity.
 
@@ -315,7 +315,7 @@ Every piece of content is signed and hosted in the author's own repo. You signed
 
 ### Why This Avoids the Fediverse CSAM Problem
 
-Federated platforms automatically replicate content across servers. Koinon is pull-based. Content lives in the author's repo only — the aggregator index stores only metadata references, never content. The agora is a list of pointers. Nobody unknowingly hosts anyone else's content. The forge hosting the repo has existing legal obligations and reporting mechanisms. Trust revocation instantly removes all references from every agora.
+Federated platforms automatically replicate content across servers. Koinon is pull-based. Content lives in the author's repo only — the synedrion stores only metadata references, never content. The agora is a list of pointers. Nobody unknowingly hosts anyone else's content. The archeion hosting the repo has existing legal obligations and reporting mechanisms. Trust revocation instantly removes all references from every agora.
 
 ### No Protocol-Level Moderation
 
@@ -344,16 +344,16 @@ For private conversations, use Signal, Matrix, etc. Koinon is for public communi
 9. **Simplicity is strength.** Five primitives. Three trust states. Everything else is emergent.
 10. **No central dependencies.** No single point of failure.
 11. **Lying is futile.** Multi-party trust graph. Signed commits. Tamper evidence.
-12. **Scale is infrastructure, not protocol.** The protocol stays simple. Aggregators, caches, and indexers are optional layers anyone can provide.
+12. **Scale is infrastructure, not protocol.** The protocol stays simple. Synedrions, caches, and archeions are optional layers anyone can provide.
 
 ---
 
 ## Open Questions
 
-- **Agora sorting** — how does the aggregator sort/rank content? Chronological, reply count, trust-weighted signals? Per-polis configuration?
+- **Agora sorting** — how does the synedrion sort/rank content? Chronological, reply count, trust-weighted signals? Per-polis configuration?
 - **Reverse bridges** — pulling replies from other networks back into the agora
 - **`.well-known` standardization** — exact schema, update frequency
 
 ---
 
-*This document is version 4.0 of the Koinon Protocol specification. The first implementation is [Achaean](Achaean.md). This is itself a README. Fork it freely.*
+*This document is version 5.0 of the Koinon Protocol specification. The first implementation is [Achaean](Achaean.md). This is itself a README. Fork it freely.*
