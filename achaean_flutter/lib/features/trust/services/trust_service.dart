@@ -84,6 +84,41 @@ class TrustService implements ITrustService {
           message: 'Trust: ${level.name} $fileName',
           sha: sha,
         );
+
+        // Update koinon.json trust array
+        final manifestFile = await client.readFile(
+          owner: owner,
+          repo: repo,
+          path: '.well-known/koinon.json',
+        );
+        final manifestJson =
+            jsonDecode(manifestFile.content) as Map<String, dynamic>;
+        final manifest = KoinonManifest.fromJson(manifestJson);
+
+        // Add trust entry if not already present
+        if (!manifest.trust.any((t) => t.subject == subjectPubkey)) {
+          final updated = manifest.copyWith(
+            trust: [
+              ...manifest.trust,
+              TrustEntry(
+                subject: subjectPubkey,
+                repo: subjectRepo,
+                level: level,
+              ),
+            ],
+          );
+
+          final updatedJson =
+              const JsonEncoder.withIndent('  ').convert(updated.toJson());
+          await client.commitFile(
+            owner: owner,
+            repo: repo,
+            path: '.well-known/koinon.json',
+            content: updatedJson,
+            message: 'Update trust index: add ${level.name} $fileName',
+            sha: manifestFile.sha,
+          );
+        }
       },
       TrustException.new,
       'declareTrust',
@@ -115,6 +150,33 @@ class TrustService implements ITrustService {
           path: path,
           sha: file.sha,
           message: 'Revoke trust: $subjectName',
+        );
+
+        // Update koinon.json trust array
+        final manifestFile = await client.readFile(
+          owner: owner,
+          repo: repo,
+          path: '.well-known/koinon.json',
+        );
+        final manifestJson =
+            jsonDecode(manifestFile.content) as Map<String, dynamic>;
+        final manifest = KoinonManifest.fromJson(manifestJson);
+
+        final updated = manifest.copyWith(
+          trust: manifest.trust
+              .where((t) => !t.subject.startsWith(subjectName))
+              .toList(),
+        );
+
+        final updatedJson =
+            const JsonEncoder.withIndent('  ').convert(updated.toJson());
+        await client.commitFile(
+          owner: owner,
+          repo: repo,
+          path: '.well-known/koinon.json',
+          content: updatedJson,
+          message: 'Update trust index: revoke $subjectName',
+          sha: manifestFile.sha,
         );
       },
       TrustException.new,
