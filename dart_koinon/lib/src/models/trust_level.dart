@@ -1,0 +1,4 @@
+enum TrustLevel {
+  trust,
+  provisional,
+}

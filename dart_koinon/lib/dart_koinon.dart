@@ -1,0 +1,16 @@
+/// Koinon protocol primitives — models, enums, and repo scaffolding.
+library dart_koinon;
+
+// Models
+export 'src/models/koinon_manifest.dart';
+export 'src/models/polis_membership.dart';
+export 'src/models/post.dart';
+export 'src/models/post_content.dart';
+export 'src/models/post_parent.dart';
+export 'src/models/post_routing.dart';
+export 'src/models/readme_signature.dart';
+export 'src/models/trust_declaration.dart';
+export 'src/models/trust_level.dart';
+
+// Scaffolder
+export 'src/scaffolder/repo_scaffolder.dart';

@@ -1,0 +1,36 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+import 'polis_membership.dart';
+
+part 'koinon_manifest.freezed.dart';
+part 'koinon_manifest.g.dart';
+
+/// The .well-known/koinon.json discovery manifest.
+@freezed
+class KoinonManifest with _$KoinonManifest {
+  const factory KoinonManifest({
+    /// Always "koinon".
+    @Default('koinon') String protocol,
+
+    /// Protocol version.
+    @Default('1.0') String version,
+
+    /// The polites's public key.
+    required String pubkey,
+
+    /// Radicle repo identifier (optional).
+    @JsonKey(name: 'repo_radicle') String? repoRadicle,
+
+    /// HTTPS repo URL.
+    @JsonKey(name: 'repo_https') required String repoHttps,
+
+    /// Poleis the user belongs to.
+    @Default([]) List<PolisMembership> poleis,
+
+    /// Path to trust index file.
+    @JsonKey(name: 'trust_index') @Default('/trust/index.json') String trustIndex,
+  }) = _KoinonManifest;
+
+  factory KoinonManifest.fromJson(Map<String, dynamic> json) =>
+      _$KoinonManifestFromJson(json);
+}
