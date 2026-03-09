@@ -14,6 +14,8 @@ import 'package:achaean_flutter/design_system/theme/theme_service.dart'
     as _i1040;
 import 'package:achaean_flutter/features/account_creation/services/account_creation_message_mapper.dart'
     as _i928;
+import 'package:achaean_flutter/features/flag/services/flag_message_mapper.dart'
+    as _i1021;
 import 'package:achaean_flutter/features/inspection/services/inspection_message_mapper.dart'
     as _i548;
 import 'package:achaean_flutter/features/polis/services/polis_message_mapper.dart'
@@ -51,6 +53,7 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i37.TrustMessageMapper>(() => _i37.TrustMessageMapper());
     gh.factory<_i224.PolisMessageMapper>(() => _i224.PolisMessageMapper());
+    gh.factory<_i1021.FlagMessageMapper>(() => _i1021.FlagMessageMapper());
     gh.singleton<_i1040.ThemeService>(() => _i1040.ThemeService());
     gh.singleton<_i558.FlutterSecureStorage>(
       () => injectionModule.secureStorage,
