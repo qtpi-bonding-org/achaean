@@ -188,6 +188,7 @@ This is the same tradeoff the web made. HTTP is simple. At scale you need CDNs, 
 - **Post templates** — shareable layout templates for non-technical users
 - **Visual editor** — WYSIWYG post editor that generates HTML + CSS
 - **Serverpod API spec** — exact RPC endpoints, response formats, pagination
+- **Trust revocation urgency** — in large poleis, there's a visibility window between a bad actor posting and their vouchers revoking trust. Serverpod could implement flagging, auto-hide thresholds, or circuit breakers to shrink this window. Protocol-clean — purely an aggregator-level concern.
 
 ---
 

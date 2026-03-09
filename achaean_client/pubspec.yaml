@@ -9,3 +9,8 @@ resolution: workspace
 dependencies:
   serverpod_auth_idp_client: 3.4.1
   serverpod_client: 3.4.1
+  anonaccount_client:
+    git:
+      url: https://github.com/qtpi-bonding-org/serverpod_anonaccred.git
+      ref: 5f364aee45cb6a39e7f07b7aaf8187a5164d3f88
+      path: anonaccount_client

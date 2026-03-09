@@ -21,6 +21,11 @@ dependencies:
     path: ../achaean_client
   serverpod_flutter: 3.4.1
   serverpod_auth_idp_flutter: 3.4.1
+  anonaccount_client:
+    git:
+      url: https://github.com/qtpi-bonding-org/serverpod_anonaccred.git
+      ref: 5f364aee45cb6a39e7f07b7aaf8187a5164d3f88
+      path: anonaccount_client
 
   # Architecture & State Management
   flutter_bloc: ^8.1.3
@@ -43,6 +48,10 @@ dependencies:
     git:
       url: git@github.com:qtpi-bonding-org/dart_l10n_key_resolver.git
       ref: 0ca0e58
+  dart_jwk_duo:
+    git:
+      url: https://github.com/qtpi-bonding-org/dart_jwk_duo.git
+      ref: 57951f2de99784c3fc4664f7b66bb13ce6e80bc7
 
   # Navigation
   go_router: ^14.0.0

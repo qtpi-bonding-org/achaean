@@ -16,8 +16,9 @@ import '../auth/jwt_refresh_endpoint.dart' as _i3;
 import '../greetings/greeting_endpoint.dart' as _i4;
 import 'package:serverpod_auth_idp_server/serverpod_auth_idp_server.dart'
     as _i5;
+import 'package:anonaccount_server/anonaccount_server.dart' as _i6;
 import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
-    as _i6;
+    as _i7;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -272,7 +273,8 @@ class Endpoints extends _i1.EndpointDispatch {
     );
     modules['serverpod_auth_idp'] = _i5.Endpoints()
       ..initializeEndpoints(server);
-    modules['serverpod_auth_core'] = _i6.Endpoints()
+    modules['anonaccount'] = _i6.Endpoints()..initializeEndpoints(server);
+    modules['serverpod_auth_core'] = _i7.Endpoints()
       ..initializeEndpoints(server);
   }
 }

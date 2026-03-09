@@ -41,6 +41,24 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  anonaccount_client:
+    dependency: transitive
+    description:
+      path: anonaccount_client
+      ref: "5f364aee45cb6a39e7f07b7aaf8187a5164d3f88"
+      resolved-ref: "5f364aee45cb6a39e7f07b7aaf8187a5164d3f88"
+      url: "https://github.com/qtpi-bonding-org/serverpod_anonaccred.git"
+    source: git
+    version: "0.1.0"
+  anonaccount_server:
+    dependency: transitive
+    description:
+      path: anonaccount_server
+      ref: "5f364aee45cb6a39e7f07b7aaf8187a5164d3f88"
+      resolved-ref: "5f364aee45cb6a39e7f07b7aaf8187a5164d3f88"
+      url: "https://github.com/qtpi-bonding-org/serverpod_anonaccred.git"
+    source: git
+    version: "0.1.0"
   archive:
     dependency: transitive
     description:
@@ -298,6 +316,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.2"
+  dart_jwk_duo:
+    dependency: transitive
+    description:
+      path: "."
+      ref: "57951f2de99784c3fc4664f7b66bb13ce6e80bc7"
+      resolved-ref: "57951f2de99784c3fc4664f7b66bb13ce6e80bc7"
+      url: "https://github.com/qtpi-bonding-org/dart_jwk_duo.git"
+    source: git
+    version: "1.0.0"
   dart_style:
     dependency: transitive
     description:
@@ -748,8 +775,8 @@ packages:
     dependency: transitive
     description:
       path: "."
-      ref: cba64958fe77c9f36a0150c88a8e342aeda052e8
-      resolved-ref: cba64958fe77c9f36a0150c88a8e342aeda052e8
+      ref: "0ca0e58"
+      resolved-ref: "0ca0e5851d139c9efcfa5ede113b4d5dc5e82d0d"
       url: "git@github.com:qtpi-bonding-org/dart_l10n_key_resolver.git"
     source: git
     version: "0.1.0"
@@ -1614,6 +1641,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.3"
+  webcrypto:
+    dependency: transitive
+    description:
+      name: webcrypto
+      sha256: "6b43001c4110856ff7fa5e5e65e7b2d44bec1d8b54a4d84d5fa2c7622267c5c1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.0"
   webkit_inspection_protocol:
     dependency: transitive
     description:
