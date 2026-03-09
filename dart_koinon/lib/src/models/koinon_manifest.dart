@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'flag_entry.dart';
 import 'polis_membership.dart';
 import 'trust_entry.dart';
 
@@ -30,6 +31,9 @@ class KoinonManifest with _$KoinonManifest {
 
     /// Inline trust declarations.
     @Default([]) List<TrustEntry> trust,
+
+    /// Post flags.
+    @Default([]) List<FlagEntry> flags,
   }) = _KoinonManifest;
 
   factory KoinonManifest.fromJson(Map<String, dynamic> json) =>

@@ -44,6 +44,9 @@ mixin _$KoinonManifest {
   /// Inline trust declarations.
   List<TrustEntry> get trust => throw _privateConstructorUsedError;
 
+  /// Post flags.
+  List<FlagEntry> get flags => throw _privateConstructorUsedError;
+
   /// Serializes this KoinonManifest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -69,6 +72,7 @@ abstract class $KoinonManifestCopyWith<$Res> {
     @JsonKey(name: 'repo_https') String repoHttps,
     List<PolisMembership> poleis,
     List<TrustEntry> trust,
+    List<FlagEntry> flags,
   });
 }
 
@@ -94,6 +98,7 @@ class _$KoinonManifestCopyWithImpl<$Res, $Val extends KoinonManifest>
     Object? repoHttps = null,
     Object? poleis = null,
     Object? trust = null,
+    Object? flags = null,
   }) {
     return _then(
       _value.copyWith(
@@ -125,6 +130,10 @@ class _$KoinonManifestCopyWithImpl<$Res, $Val extends KoinonManifest>
                 ? _value.trust
                 : trust // ignore: cast_nullable_to_non_nullable
                       as List<TrustEntry>,
+            flags: null == flags
+                ? _value.flags
+                : flags // ignore: cast_nullable_to_non_nullable
+                      as List<FlagEntry>,
           )
           as $Val,
     );
@@ -148,6 +157,7 @@ abstract class _$$KoinonManifestImplCopyWith<$Res>
     @JsonKey(name: 'repo_https') String repoHttps,
     List<PolisMembership> poleis,
     List<TrustEntry> trust,
+    List<FlagEntry> flags,
   });
 }
 
@@ -172,6 +182,7 @@ class __$$KoinonManifestImplCopyWithImpl<$Res>
     Object? repoHttps = null,
     Object? poleis = null,
     Object? trust = null,
+    Object? flags = null,
   }) {
     return _then(
       _$KoinonManifestImpl(
@@ -203,6 +214,10 @@ class __$$KoinonManifestImplCopyWithImpl<$Res>
             ? _value._trust
             : trust // ignore: cast_nullable_to_non_nullable
                   as List<TrustEntry>,
+        flags: null == flags
+            ? _value._flags
+            : flags // ignore: cast_nullable_to_non_nullable
+                  as List<FlagEntry>,
       ),
     );
   }
@@ -219,8 +234,10 @@ class _$KoinonManifestImpl implements _KoinonManifest {
     @JsonKey(name: 'repo_https') required this.repoHttps,
     final List<PolisMembership> poleis = const [],
     final List<TrustEntry> trust = const [],
+    final List<FlagEntry> flags = const [],
   }) : _poleis = poleis,
-       _trust = trust;
+       _trust = trust,
+       _flags = flags;
 
   factory _$KoinonManifestImpl.fromJson(Map<String, dynamic> json) =>
       _$$KoinonManifestImplFromJson(json);
@@ -273,9 +290,21 @@ class _$KoinonManifestImpl implements _KoinonManifest {
     return EqualUnmodifiableListView(_trust);
   }
 
+  /// Post flags.
+  final List<FlagEntry> _flags;
+
+  /// Post flags.
+  @override
+  @JsonKey()
+  List<FlagEntry> get flags {
+    if (_flags is EqualUnmodifiableListView) return _flags;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_flags);
+  }
+
   @override
   String toString() {
-    return 'KoinonManifest(protocol: $protocol, version: $version, pubkey: $pubkey, repoRadicle: $repoRadicle, repoHttps: $repoHttps, poleis: $poleis, trust: $trust)';
+    return 'KoinonManifest(protocol: $protocol, version: $version, pubkey: $pubkey, repoRadicle: $repoRadicle, repoHttps: $repoHttps, poleis: $poleis, trust: $trust, flags: $flags)';
   }
 
   @override
@@ -292,7 +321,8 @@ class _$KoinonManifestImpl implements _KoinonManifest {
             (identical(other.repoHttps, repoHttps) ||
                 other.repoHttps == repoHttps) &&
             const DeepCollectionEquality().equals(other._poleis, _poleis) &&
-            const DeepCollectionEquality().equals(other._trust, _trust));
+            const DeepCollectionEquality().equals(other._trust, _trust) &&
+            const DeepCollectionEquality().equals(other._flags, _flags));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -306,6 +336,7 @@ class _$KoinonManifestImpl implements _KoinonManifest {
     repoHttps,
     const DeepCollectionEquality().hash(_poleis),
     const DeepCollectionEquality().hash(_trust),
+    const DeepCollectionEquality().hash(_flags),
   );
 
   /// Create a copy of KoinonManifest
@@ -334,6 +365,7 @@ abstract class _KoinonManifest implements KoinonManifest {
     @JsonKey(name: 'repo_https') required final String repoHttps,
     final List<PolisMembership> poleis,
     final List<TrustEntry> trust,
+    final List<FlagEntry> flags,
   }) = _$KoinonManifestImpl;
 
   factory _KoinonManifest.fromJson(Map<String, dynamic> json) =
@@ -368,6 +400,10 @@ abstract class _KoinonManifest implements KoinonManifest {
   /// Inline trust declarations.
   @override
   List<TrustEntry> get trust;
+
+  /// Post flags.
+  @override
+  List<FlagEntry> get flags;
 
   /// Create a copy of KoinonManifest
   /// with the given fields replaced by the non-null parameter values.

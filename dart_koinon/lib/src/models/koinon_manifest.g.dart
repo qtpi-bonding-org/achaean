@@ -23,6 +23,11 @@ _$KoinonManifestImpl _$$KoinonManifestImplFromJson(Map<String, dynamic> json) =>
               ?.map((e) => TrustEntry.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      flags:
+          (json['flags'] as List<dynamic>?)
+              ?.map((e) => FlagEntry.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$KoinonManifestImplToJson(
@@ -35,4 +40,5 @@ Map<String, dynamic> _$$KoinonManifestImplToJson(
   'repo_https': instance.repoHttps,
   'poleis': instance.poleis.map((e) => e.toJson()).toList(),
   'trust': instance.trust.map((e) => e.toJson()).toList(),
+  'flags': instance.flags.map((e) => e.toJson()).toList(),
 };
