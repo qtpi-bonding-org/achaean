@@ -158,6 +158,36 @@ class WebhookEndpoint extends Endpoint {
           transaction: transaction,
         );
       }
+
+      // 4. Replace flags
+      await FlagRecord.db.deleteWhere(
+        session,
+        where: (t) => t.flaggedByPubkey.equals(pubkey),
+        transaction: transaction,
+      );
+
+      for (final flag in manifest.flags) {
+        // Look up post author from post_references
+        final postRef = await PostReference.db.findFirstRow(
+          session,
+          where: (t) => t.path.equals(flag.post),
+          transaction: transaction,
+        );
+
+        await FlagRecord.db.insertRow(
+          session,
+          FlagRecord(
+            flaggedByPubkey: pubkey,
+            postAuthorPubkey: postRef?.authorPubkey ?? '',
+            postPath: flag.post,
+            polisRepoUrl: flag.polis,
+            reason: flag.reason,
+            timestamp: now,
+            indexedAt: now,
+          ),
+          transaction: transaction,
+        );
+      }
     });
 
     // 4. Update AGE graph (outside transaction — AGE uses its own tx)
@@ -177,7 +207,8 @@ class WebhookEndpoint extends Endpoint {
 
     session.log(
       'Indexed manifest for $pubkey: '
-      '${manifest.trust.length} trust, ${manifest.poleis.length} poleis',
+      '${manifest.trust.length} trust, ${manifest.poleis.length} poleis, '
+      '${manifest.flags.length} flags',
       level: LogLevel.info,
     );
   }

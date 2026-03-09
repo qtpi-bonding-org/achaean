@@ -112,6 +112,41 @@ class KoinonEndpoint extends Endpoint {
     );
   }
 
+  /// Get all flags for posts in a polis.
+  Future<List<FlagRecord>> getFlagsForPolis(
+    Session session,
+    String polisRepoUrl,
+  ) async {
+    await KoinonAuth.verify(session);
+    return await FlagRecord.db.find(
+      session,
+      where: (t) => t.polisRepoUrl.equals(polisRepoUrl),
+    );
+  }
+
+  /// Get flags on posts by people the caller trusts.
+  Future<List<FlagRecord>> getFlaggedPostsForVouchers(
+    Session session,
+  ) async {
+    final callerPubkey = await KoinonAuth.verify(session);
+
+    // Find who the caller trusts
+    final trustDeclarations = await TrustDeclarationRecord.db.find(
+      session,
+      where: (t) => t.fromPubkey.equals(callerPubkey),
+    );
+
+    if (trustDeclarations.isEmpty) return [];
+
+    final trustedPubkeys = trustDeclarations.map((t) => t.toPubkey).toSet();
+
+    // Find flags on posts by people the caller trusts
+    return await FlagRecord.db.find(
+      session,
+      where: (t) => t.postAuthorPubkey.inSet(trustedPubkeys),
+    );
+  }
+
   /// Get post references for a polis (the agora).
   ///
   /// Computes polis members via AGE, then returns posts from those members.
