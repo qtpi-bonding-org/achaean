@@ -10,7 +10,9 @@ import 'package:serverpod_auth_idp_flutter/serverpod_auth_idp_flutter.dart';
 import '../core/services/git_service.dart';
 import '../core/services/i_git_service.dart';
 import '../core/services/i_key_service.dart';
+import '../core/services/i_signing_service.dart';
 import '../core/services/key_service.dart';
+import '../core/services/signing_service.dart';
 import '../features/account_creation/cubit/account_creation_cubit.dart';
 import '../features/account_creation/services/account_creation_service.dart';
 import '../features/account_creation/services/i_account_creation_service.dart';
@@ -22,6 +24,15 @@ import '../features/post_creation/services/i_post_creation_service.dart';
 import '../features/post_creation/services/i_post_signing_service.dart';
 import '../features/post_creation/services/post_creation_service.dart';
 import '../features/post_creation/services/post_signing_service.dart';
+import '../features/trust/services/i_trust_service.dart';
+import '../features/trust/services/trust_service.dart';
+import '../features/trust/cubit/trust_cubit.dart';
+import '../features/polis/services/i_polis_service.dart';
+import '../features/polis/services/polis_service.dart';
+import '../features/polis/cubit/polis_cubit.dart';
+import '../features/inspection/services/i_repo_inspection_service.dart';
+import '../features/inspection/services/repo_inspection_service.dart';
+import '../features/inspection/cubit/repo_inspection_cubit.dart';
 import 'bootstrap.config.dart';
 
 /// Global service locator instance
@@ -119,9 +130,14 @@ void _registerCoreServices() {
     ),
   );
 
-  // Post signing service
+  // Signing service (shared canonical-JSON signer)
+  getIt.registerLazySingleton<ISigningService>(
+    () => SigningService(getIt<IKeyService>()),
+  );
+
+  // Post signing service (delegates to ISigningService)
   getIt.registerLazySingleton<IPostSigningService>(
-    () => PostSigningService(getIt<IKeyService>()),
+    () => PostSigningService(getIt<ISigningService>()),
   );
 
   // Feed generation service
@@ -138,6 +154,44 @@ void _registerCoreServices() {
     ),
   );
 
+  // Public (unauthenticated) git client factory for reading foreign repos
+  getIt.registerSingleton<PublicGitClientFactory>(({
+    required String baseUrl,
+    required GitHostType hostType,
+  }) {
+    return getIt<GitClientFactory>()(
+      baseUrl: baseUrl,
+      auth: const GitPublicAuth(),
+      hostType: hostType,
+    );
+  });
+
+  // Trust service
+  getIt.registerLazySingleton<ITrustService>(
+    () => TrustService(
+      getIt<IGitService>(),
+      getIt<ISigningService>(),
+      getIt<PublicGitClientFactory>(),
+    ),
+  );
+
+  // Polis service
+  getIt.registerLazySingleton<IPolisService>(
+    () => PolisService(
+      getIt<IGitService>(),
+      getIt<ISigningService>(),
+      getIt<PublicGitClientFactory>(),
+    ),
+  );
+
+  // Repo inspection service
+  getIt.registerLazySingleton<IRepoInspectionService>(
+    () => RepoInspectionService(
+      getIt<IGitService>(),
+      getIt<PublicGitClientFactory>(),
+    ),
+  );
+
   // Cubits (factory — new instance per use)
   getIt.registerFactory<AccountCreationCubit>(
     () => AccountCreationCubit(getIt<IAccountCreationService>()),
@@ -147,6 +201,17 @@ void _registerCoreServices() {
   );
   getIt.registerFactory<OwnPostsCubit>(
     () => OwnPostsCubit(getIt<IPostCreationService>()),
+  );
+
+  // Phase 2 cubits
+  getIt.registerFactory<TrustCubit>(
+    () => TrustCubit(getIt<ITrustService>()),
+  );
+  getIt.registerFactory<PolisCubit>(
+    () => PolisCubit(getIt<IPolisService>()),
+  );
+  getIt.registerFactory<RepoInspectionCubit>(
+    () => RepoInspectionCubit(getIt<IRepoInspectionService>()),
   );
 }
 

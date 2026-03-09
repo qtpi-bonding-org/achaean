@@ -73,4 +73,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ownPostsEmpty => 'No posts yet';
+
+  @override
+  String get trustDeclarationSuccess => 'Trust declared successfully';
+
+  @override
+  String get trustDeclarationError => 'Failed to declare trust';
+
+  @override
+  String get trustRevocationSuccess => 'Trust revoked';
+
+  @override
+  String get polisCreationSuccess => 'Polis created successfully';
+
+  @override
+  String get polisCreationError => 'Failed to create polis';
+
+  @override
+  String get polisOperationSuccess => 'Polis operation completed';
+
+  @override
+  String get polisOperationError => 'Failed to complete polis operation';
+
+  @override
+  String get inspectionComplete => 'Repo inspection complete';
+
+  @override
+  String get inspectionError => 'Failed to inspect repo';
 }

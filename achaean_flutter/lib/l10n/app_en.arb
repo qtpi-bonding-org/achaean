@@ -24,5 +24,14 @@
   "postCreationTitleHint": "Title (optional)",
   "postCreationSubmit": "Publish",
   "ownPostsTitle": "My Posts",
-  "ownPostsEmpty": "No posts yet"
+  "ownPostsEmpty": "No posts yet",
+  "trustDeclarationSuccess": "Trust declared successfully",
+  "trustDeclarationError": "Failed to declare trust",
+  "trustRevocationSuccess": "Trust revoked",
+  "polisCreationSuccess": "Polis created successfully",
+  "polisCreationError": "Failed to create polis",
+  "polisOperationSuccess": "Polis operation completed",
+  "polisOperationError": "Failed to complete polis operation",
+  "inspectionComplete": "Repo inspection complete",
+  "inspectionError": "Failed to inspect repo"
 }

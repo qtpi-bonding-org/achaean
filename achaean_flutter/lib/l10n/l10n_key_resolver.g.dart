@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // Generator: l10n_key_resolver
-// Generated at: 2026-03-09T10:57:13.756145
+// Generated at: 2026-03-09T12:25:39.930143
 
 import 'app_localizations.dart';
 
@@ -36,17 +36,26 @@ class L10nKeyResolver {
       'error.generic' => _l10n.errorGeneric,
       'error.network' => _l10n.errorNetwork,
       'error.timeout' => _l10n.errorTimeout,
+      'inspection.complete' => _l10n.inspectionComplete,
+      'inspection.error' => _l10n.inspectionError,
       'label.email' => _l10n.labelEmail,
       'label.password' => _l10n.labelPassword,
       'label.username' => _l10n.labelUsername,
       'own.posts.empty' => _l10n.ownPostsEmpty,
       'own.posts.title' => _l10n.ownPostsTitle,
+      'polis.creation.error' => _l10n.polisCreationError,
+      'polis.creation.success' => _l10n.polisCreationSuccess,
+      'polis.operation.error' => _l10n.polisOperationError,
+      'polis.operation.success' => _l10n.polisOperationSuccess,
       'post.creation.error' => _l10n.postCreationError,
       'post.creation.submit' => _l10n.postCreationSubmit,
       'post.creation.success' => _l10n.postCreationSuccess,
       'post.creation.text.hint' => _l10n.postCreationTextHint,
       'post.creation.title' => _l10n.postCreationTitle,
       'post.creation.title.hint' => _l10n.postCreationTitleHint,
+      'trust.declaration.error' => _l10n.trustDeclarationError,
+      'trust.declaration.success' => _l10n.trustDeclarationSuccess,
+      'trust.revocation.success' => _l10n.trustRevocationSuccess,
       'validation.required' => _l10n.validationRequired,
 
       _ => null,
@@ -65,17 +74,26 @@ class L10nKeyResolver {
     'error.generic',
     'error.network',
     'error.timeout',
+    'inspection.complete',
+    'inspection.error',
     'label.email',
     'label.password',
     'label.username',
     'own.posts.empty',
     'own.posts.title',
+    'polis.creation.error',
+    'polis.creation.success',
+    'polis.operation.error',
+    'polis.operation.success',
     'post.creation.error',
     'post.creation.submit',
     'post.creation.success',
     'post.creation.text.hint',
     'post.creation.title',
     'post.creation.title.hint',
+    'trust.declaration.error',
+    'trust.declaration.success',
+    'trust.revocation.success',
     'validation.required',
   };
 
@@ -94,17 +112,26 @@ class L10nKeyResolver {
     'errorGeneric': 'error.generic',
     'errorNetwork': 'error.network',
     'errorTimeout': 'error.timeout',
+    'inspectionComplete': 'inspection.complete',
+    'inspectionError': 'inspection.error',
     'labelEmail': 'label.email',
     'labelPassword': 'label.password',
     'labelUsername': 'label.username',
     'ownPostsEmpty': 'own.posts.empty',
     'ownPostsTitle': 'own.posts.title',
+    'polisCreationError': 'polis.creation.error',
+    'polisCreationSuccess': 'polis.creation.success',
+    'polisOperationError': 'polis.operation.error',
+    'polisOperationSuccess': 'polis.operation.success',
     'postCreationError': 'post.creation.error',
     'postCreationSubmit': 'post.creation.submit',
     'postCreationSuccess': 'post.creation.success',
     'postCreationTextHint': 'post.creation.text.hint',
     'postCreationTitle': 'post.creation.title',
     'postCreationTitleHint': 'post.creation.title.hint',
+    'trustDeclarationError': 'trust.declaration.error',
+    'trustDeclarationSuccess': 'trust.declaration.success',
+    'trustRevocationSuccess': 'trust.revocation.success',
     'validationRequired': 'validation.required',
   };
 
@@ -120,17 +147,26 @@ class L10nKeyResolver {
     'error.generic': 'errorGeneric',
     'error.network': 'errorNetwork',
     'error.timeout': 'errorTimeout',
+    'inspection.complete': 'inspectionComplete',
+    'inspection.error': 'inspectionError',
     'label.email': 'labelEmail',
     'label.password': 'labelPassword',
     'label.username': 'labelUsername',
     'own.posts.empty': 'ownPostsEmpty',
     'own.posts.title': 'ownPostsTitle',
+    'polis.creation.error': 'polisCreationError',
+    'polis.creation.success': 'polisCreationSuccess',
+    'polis.operation.error': 'polisOperationError',
+    'polis.operation.success': 'polisOperationSuccess',
     'post.creation.error': 'postCreationError',
     'post.creation.submit': 'postCreationSubmit',
     'post.creation.success': 'postCreationSuccess',
     'post.creation.text.hint': 'postCreationTextHint',
     'post.creation.title': 'postCreationTitle',
     'post.creation.title.hint': 'postCreationTitleHint',
+    'trust.declaration.error': 'trustDeclarationError',
+    'trust.declaration.success': 'trustDeclarationSuccess',
+    'trust.revocation.success': 'trustRevocationSuccess',
     'validation.required': 'validationRequired',
   };
 }
@@ -152,16 +188,25 @@ abstract class L10nKeys {
   static const errorGeneric = 'error.generic';
   static const errorNetwork = 'error.network';
   static const errorTimeout = 'error.timeout';
+  static const inspectionComplete = 'inspection.complete';
+  static const inspectionError = 'inspection.error';
   static const labelEmail = 'label.email';
   static const labelPassword = 'label.password';
   static const labelUsername = 'label.username';
   static const ownPostsEmpty = 'own.posts.empty';
   static const ownPostsTitle = 'own.posts.title';
+  static const polisCreationError = 'polis.creation.error';
+  static const polisCreationSuccess = 'polis.creation.success';
+  static const polisOperationError = 'polis.operation.error';
+  static const polisOperationSuccess = 'polis.operation.success';
   static const postCreationError = 'post.creation.error';
   static const postCreationSubmit = 'post.creation.submit';
   static const postCreationSuccess = 'post.creation.success';
   static const postCreationTextHint = 'post.creation.text.hint';
   static const postCreationTitle = 'post.creation.title';
   static const postCreationTitleHint = 'post.creation.title.hint';
+  static const trustDeclarationError = 'trust.declaration.error';
+  static const trustDeclarationSuccess = 'trust.declaration.success';
+  static const trustRevocationSuccess = 'trust.revocation.success';
   static const validationRequired = 'validation.required';
 }

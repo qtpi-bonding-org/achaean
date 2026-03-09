@@ -12,3 +12,11 @@ class GitTokenAuth implements IGitAuth {
   @override
   Map<String, String> get headers => {'Authorization': 'token $token'};
 }
+
+/// No-auth strategy for reading public repos.
+class GitPublicAuth implements IGitAuth {
+  const GitPublicAuth();
+
+  @override
+  Map<String, String> get headers => {};
+}

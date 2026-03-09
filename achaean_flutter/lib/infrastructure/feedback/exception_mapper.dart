@@ -3,7 +3,9 @@ import 'package:injectable/injectable.dart';
 import 'package:cubit_ui_flow/cubit_ui_flow.dart';
 
 import '../../core/exceptions/account_exception.dart';
+import '../../core/exceptions/polis_exception.dart';
 import '../../core/exceptions/post_exception.dart';
+import '../../core/exceptions/trust_exception.dart';
 
 /// Global exception mapper for the application.
 ///
@@ -16,6 +18,8 @@ class AppExceptionKeyMapper implements IExceptionKeyMapper {
     return switch (exception) {
       AccountException() => const MessageKey.error('account.creation.error'),
       PostException() => const MessageKey.error('post.creation.error'),
+      TrustException() => const MessageKey.error('trust.declaration.error'),
+      PolisException() => const MessageKey.error('polis.operation.error'),
       GitUnauthorizedException() =>
         const MessageKey.error('error.auth.unauthorized'),
       GitNotFoundException() => const MessageKey.error('error.generic'),

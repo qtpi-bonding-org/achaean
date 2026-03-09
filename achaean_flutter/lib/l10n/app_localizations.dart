@@ -225,6 +225,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No posts yet'**
   String get ownPostsEmpty;
+
+  /// No description provided for @trustDeclarationSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Trust declared successfully'**
+  String get trustDeclarationSuccess;
+
+  /// No description provided for @trustDeclarationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to declare trust'**
+  String get trustDeclarationError;
+
+  /// No description provided for @trustRevocationSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Trust revoked'**
+  String get trustRevocationSuccess;
+
+  /// No description provided for @polisCreationSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Polis created successfully'**
+  String get polisCreationSuccess;
+
+  /// No description provided for @polisCreationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to create polis'**
+  String get polisCreationError;
+
+  /// No description provided for @polisOperationSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Polis operation completed'**
+  String get polisOperationSuccess;
+
+  /// No description provided for @polisOperationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to complete polis operation'**
+  String get polisOperationError;
+
+  /// No description provided for @inspectionComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Repo inspection complete'**
+  String get inspectionComplete;
+
+  /// No description provided for @inspectionError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to inspect repo'**
+  String get inspectionError;
 }
 
 class _AppLocalizationsDelegate
