@@ -28,7 +28,15 @@ Accents stay the same across modes. The stone inverts, the decoration doesn't.
 
 ## Iconography
 
-Material Icons throughout, styled with consistent sizing and palette coloring. Custom logo for the app icon (Greek-inspired, designed separately).
+Material Icons throughout, styled with consistent sizing and palette coloring.
+
+## Logo
+
+Direction: stylized coin motif — represents community identity and shared agreement. Details TBD. Possibilities include abstracted owl, column, or letterform inside a coin shape. Should read as "civic seal" not "historical artifact."
+
+## Note on Naming
+
+"Achaean" and the Greek vocabulary (poleis, agora, politai) are structural inspiration — the architecture of civic participation, not an endorsement of ancient ethics. Keep the Greek flavor in the product structure, don't lean too hard on it in marketing or branding.
 
 ## Implementation
 
