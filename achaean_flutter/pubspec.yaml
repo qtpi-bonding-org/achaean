@@ -47,8 +47,8 @@ dependencies:
     git: git@github.com:qtpi-bonding-org/flutter_color_palette.git
   l10n_key_resolver:
     git:
-      url: git@github.com:qtpi-bonding-org/dart_l10n_key_resolver.git
-      ref: 0ca0e58
+      url: https://github.com/qtpi-bonding-org/dart_l10n_key_resolver.git
+      ref: 2e5c947
   dart_jwk_duo:
     git:
       url: https://github.com/qtpi-bonding-org/dart_jwk_duo.git

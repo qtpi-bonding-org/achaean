@@ -57,20 +57,19 @@ class TemplateMessageMapper implements IStateMessageMapper<TemplateState> {
 
 ### 4. Localization Keys
 
-Localization is handled automatically by the generated `L10nKeyResolver`. Keys use dot-notation that maps to camelCase ARB keys:
+Localization uses **type-safe generated keys**. The `L10nKeyResolver` (generated in `lib/l10n/l10n_key_resolver.g.dart`) maps dot-notation keys to type-safe `AppLocalizations` getters. No manual switch statements.
 
-| Dot Key | ARB Key |
-|---------|---------|
-| `template.saved` | `templateSaved` |
-| `error.network` | `errorNetwork` |
-| `error.generic` | `errorGeneric` |
+| Dot Key (used in code) | ARB Key (in app_en.arb) | Generated Getter |
+|------------------------|-------------------------|------------------|
+| `'template.saved'` | `templateSaved` | `_l10n.templateSaved` |
+| `'error.network'` | `errorNetwork` | `_l10n.errorNetwork` |
 
-The `AppLocalizationService` uses the generated resolver - no manual switch statements needed.
+The `AppLocalizationService` uses this resolver automatically.
 
 To add new keys:
-1. Add to `lib/l10n/app_en.arb` (camelCase)
+1. Add to `lib/l10n/app_en.arb` (camelCase key, English value)
 2. Run `dart run build_runner build --delete-conflicting-outputs`
-3. Use dot-notation in your code
+3. The resolver regenerates — use dot-notation in `MessageKey` instances
 
 ### 5. UI Integration
 ```dart
