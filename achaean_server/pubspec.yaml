@@ -20,6 +20,7 @@ dependencies:
       url: https://github.com/qtpi-bonding-org/serverpod_anonaccred.git
       ref: 5f364aee45cb6a39e7f07b7aaf8187a5164d3f88
       path: anonaccount_server
+  pointycastle: ^4.0.0
 
 dev_dependencies:
   lints: '>=3.0.0 <7.0.0'
