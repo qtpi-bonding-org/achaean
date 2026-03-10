@@ -36,6 +36,19 @@ import '../features/polis/cubit/polis_cubit.dart';
 import '../features/inspection/services/i_repo_inspection_service.dart';
 import '../features/inspection/services/repo_inspection_service.dart';
 import '../features/inspection/cubit/repo_inspection_cubit.dart';
+import '../features/agora/services/i_post_reading_service.dart';
+import '../features/agora/services/post_reading_service.dart';
+import '../features/agora/services/i_agora_service.dart';
+import '../features/agora/services/agora_service.dart';
+import '../features/agora/services/i_polis_query_service.dart';
+import '../features/agora/services/polis_query_service.dart';
+import '../features/agora/services/i_user_query_service.dart';
+import '../features/agora/services/user_query_service.dart';
+import '../features/agora/services/i_voucher_review_service.dart';
+import '../features/agora/services/voucher_review_service.dart';
+import '../features/agora/cubit/agora_cubit.dart';
+import '../features/agora/cubit/polis_discovery_cubit.dart';
+import '../features/agora/cubit/voucher_review_cubit.dart';
 import 'bootstrap.config.dart';
 
 /// Global service locator instance
@@ -77,6 +90,11 @@ Future<void> bootstrap() async {
     )..connectivityMonitor = FlutterConnectivityMonitor();
     getIt.registerSingleton<Client>(client);
     debugPrint('Bootstrap: Serverpod client initialized');
+
+    // 3.5 Register query services (depend on Client)
+    debugPrint('Bootstrap: Registering query services...');
+    _registerQueryServices();
+    debugPrint('Bootstrap: Query services registered');
 
     // 4. Register UI flow service (depends on localization/feedback/loading)
     debugPrint('Bootstrap: Registering UI flow service...');
@@ -225,6 +243,46 @@ void _registerCoreServices() {
   );
   getIt.registerFactory<RepoInspectionCubit>(
     () => RepoInspectionCubit(getIt<IRepoInspectionService>()),
+  );
+}
+
+void _registerQueryServices() {
+  final client = getIt<Client>();
+
+  // Post reading service (reads from foreign repos)
+  getIt.registerLazySingleton<IPostReadingService>(
+    () => PostReadingService(
+      getIt<PublicGitClientFactory>(),
+      GitHostType.forgejo,
+    ),
+  );
+
+  // Serverpod query services
+  getIt.registerLazySingleton<IAgoraService>(
+    () => AgoraService(client),
+  );
+  getIt.registerLazySingleton<IPolisQueryService>(
+    () => PolisQueryService(client),
+  );
+  getIt.registerLazySingleton<IUserQueryService>(
+    () => UserQueryService(client),
+  );
+  getIt.registerLazySingleton<IVoucherReviewService>(
+    () => VoucherReviewService(client),
+  );
+
+  // Query cubits
+  getIt.registerFactory<AgoraCubit>(
+    () => AgoraCubit(
+      getIt<IAgoraService>(),
+      getIt<IPolisQueryService>(),
+    ),
+  );
+  getIt.registerFactory<PolisDiscoveryCubit>(
+    () => PolisDiscoveryCubit(getIt<IPolisQueryService>()),
+  );
+  getIt.registerFactory<VoucherReviewCubit>(
+    () => VoucherReviewCubit(getIt<IVoucherReviewService>()),
   );
 }
 

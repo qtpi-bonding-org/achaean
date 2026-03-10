@@ -297,6 +297,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to inspect repo'**
   String get inspectionError;
+
+  /// No description provided for @queryError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load data. Check your connection and try again.'**
+  String get queryError;
 }
 
 class _AppLocalizationsDelegate

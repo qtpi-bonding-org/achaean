@@ -109,4 +109,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get inspectionError => 'Failed to inspect repo';
+
+  @override
+  String get queryError => 'Unable to load data. Check your connection and try again.';
 }

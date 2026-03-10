@@ -6,6 +6,7 @@ import '../../core/exceptions/account_exception.dart';
 import '../../core/exceptions/polis_exception.dart';
 import '../../core/exceptions/post_exception.dart';
 import '../../core/exceptions/flag_exception.dart';
+import '../../core/exceptions/query_exception.dart';
 import '../../core/exceptions/trust_exception.dart';
 
 /// Global exception mapper for the application.
@@ -22,6 +23,7 @@ class AppExceptionKeyMapper implements IExceptionKeyMapper {
       TrustException() => const MessageKey.error('trust.declaration.error'),
       PolisException() => const MessageKey.error('polis.operation.error'),
       FlagException() => const MessageKey.error('flag.error'),
+      QueryException() => const MessageKey.error('query.error'),
       GitUnauthorizedException() =>
         const MessageKey.error('error.auth.unauthorized'),
       GitNotFoundException() => const MessageKey.error('error.generic'),

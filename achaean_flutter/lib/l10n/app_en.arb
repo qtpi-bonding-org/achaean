@@ -36,5 +36,6 @@
   "polisOperationSuccess": "Polis operation completed",
   "polisOperationError": "Failed to complete polis operation",
   "inspectionComplete": "Repo inspection complete",
-  "inspectionError": "Failed to inspect repo"
+  "inspectionError": "Failed to inspect repo",
+  "queryError": "Unable to load data. Check your connection and try again."
 }

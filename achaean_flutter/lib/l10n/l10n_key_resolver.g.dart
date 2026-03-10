@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // Generator: l10n_key_resolver
-// Generated at: 2026-03-09T12:25:39.930143
+// Generated at: 2026-03-09T18:47:35.011171
 
 import 'app_localizations.dart';
 
@@ -56,6 +56,7 @@ class L10nKeyResolver {
       'post.creation.text.hint' => _l10n.postCreationTextHint,
       'post.creation.title' => _l10n.postCreationTitle,
       'post.creation.title.hint' => _l10n.postCreationTitleHint,
+      'query.error' => _l10n.queryError,
       'trust.declaration.error' => _l10n.trustDeclarationError,
       'trust.declaration.success' => _l10n.trustDeclarationSuccess,
       'trust.revocation.success' => _l10n.trustRevocationSuccess,
@@ -97,6 +98,7 @@ class L10nKeyResolver {
     'post.creation.text.hint',
     'post.creation.title',
     'post.creation.title.hint',
+    'query.error',
     'trust.declaration.error',
     'trust.declaration.success',
     'trust.revocation.success',
@@ -138,6 +140,7 @@ class L10nKeyResolver {
     'postCreationTextHint': 'post.creation.text.hint',
     'postCreationTitle': 'post.creation.title',
     'postCreationTitleHint': 'post.creation.title.hint',
+    'queryError': 'query.error',
     'trustDeclarationError': 'trust.declaration.error',
     'trustDeclarationSuccess': 'trust.declaration.success',
     'trustRevocationSuccess': 'trust.revocation.success',
@@ -176,6 +179,7 @@ class L10nKeyResolver {
     'post.creation.text.hint': 'postCreationTextHint',
     'post.creation.title': 'postCreationTitle',
     'post.creation.title.hint': 'postCreationTitleHint',
+    'query.error': 'queryError',
     'trust.declaration.error': 'trustDeclarationError',
     'trust.declaration.success': 'trustDeclarationSuccess',
     'trust.revocation.success': 'trustRevocationSuccess',
@@ -220,6 +224,7 @@ abstract class L10nKeys {
   static const postCreationTextHint = 'post.creation.text.hint';
   static const postCreationTitle = 'post.creation.title';
   static const postCreationTitleHint = 'post.creation.title.hint';
+  static const queryError = 'query.error';
   static const trustDeclarationError = 'trust.declaration.error';
   static const trustDeclarationSuccess = 'trust.declaration.success';
   static const trustRevocationSuccess = 'trust.revocation.success';
