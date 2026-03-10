@@ -12,50 +12,71 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 
-/// An indexed post reference — a pointer to a post in a polites's repo.
-abstract class PostReference implements _i1.SerializableModel {
-  PostReference._({
+/// A cached post — full content from a polites's RSS feed.
+abstract class CachedPost implements _i1.SerializableModel {
+  CachedPost._({
     this.id,
     required this.authorPubkey,
     required this.authorRepoUrl,
     required this.path,
     required this.commitHash,
+    required this.link,
     this.title,
+    required this.text,
     this.poleisTags,
-    required this.timestamp,
+    this.tags,
     required this.isReply,
+    this.parentAuthorPubkey,
+    this.parentPath,
+    required this.contentJson,
+    required this.timestamp,
     required this.indexedAt,
+    required this.signature,
   });
 
-  factory PostReference({
+  factory CachedPost({
     int? id,
     required String authorPubkey,
     required String authorRepoUrl,
     required String path,
     required String commitHash,
+    required String link,
     String? title,
+    required String text,
     String? poleisTags,
-    required DateTime timestamp,
+    String? tags,
     required bool isReply,
+    String? parentAuthorPubkey,
+    String? parentPath,
+    required String contentJson,
+    required DateTime timestamp,
     required DateTime indexedAt,
-  }) = _PostReferenceImpl;
+    required String signature,
+  }) = _CachedPostImpl;
 
-  factory PostReference.fromJson(Map<String, dynamic> jsonSerialization) {
-    return PostReference(
+  factory CachedPost.fromJson(Map<String, dynamic> jsonSerialization) {
+    return CachedPost(
       id: jsonSerialization['id'] as int?,
       authorPubkey: jsonSerialization['authorPubkey'] as String,
       authorRepoUrl: jsonSerialization['authorRepoUrl'] as String,
       path: jsonSerialization['path'] as String,
       commitHash: jsonSerialization['commitHash'] as String,
+      link: jsonSerialization['link'] as String,
       title: jsonSerialization['title'] as String?,
+      text: jsonSerialization['text'] as String,
       poleisTags: jsonSerialization['poleisTags'] as String?,
+      tags: jsonSerialization['tags'] as String?,
+      isReply: _i1.BoolJsonExtension.fromJson(jsonSerialization['isReply']),
+      parentAuthorPubkey: jsonSerialization['parentAuthorPubkey'] as String?,
+      parentPath: jsonSerialization['parentPath'] as String?,
+      contentJson: jsonSerialization['contentJson'] as String,
       timestamp: _i1.DateTimeJsonExtension.fromJson(
         jsonSerialization['timestamp'],
       ),
-      isReply: _i1.BoolJsonExtension.fromJson(jsonSerialization['isReply']),
       indexedAt: _i1.DateTimeJsonExtension.fromJson(
         jsonSerialization['indexedAt'],
       ),
+      signature: jsonSerialization['signature'] as String,
     );
   }
 
@@ -76,50 +97,85 @@ abstract class PostReference implements _i1.SerializableModel {
   /// Git commit hash of this version of the post.
   String commitHash;
 
+  /// Full URL to post.json in the forge (link element in RSS).
+  String link;
+
   /// Post title (if present, for search/display).
   String? title;
+
+  /// Post text body.
+  String text;
 
   /// Polis repo URLs this post is tagged for (comma-separated).
   String? poleisTags;
 
-  /// When the post was created.
-  DateTime timestamp;
+  /// Hashtags / topic tags (comma-separated).
+  String? tags;
 
   /// Whether this is a reply (has parent reference).
   bool isReply;
 
+  /// Parent post author pubkey (for thread assembly).
+  String? parentAuthorPubkey;
+
+  /// Parent post path (for thread assembly).
+  String? parentPath;
+
+  /// Complete post.json as JSON string (returned to clients).
+  String contentJson;
+
+  /// When the post was created.
+  DateTime timestamp;
+
   /// When the aggregator indexed this post.
   DateTime indexedAt;
 
-  /// Returns a shallow copy of this [PostReference]
+  /// Author's signature for verification.
+  String signature;
+
+  /// Returns a shallow copy of this [CachedPost]
   /// with some or all fields replaced by the given arguments.
   @_i1.useResult
-  PostReference copyWith({
+  CachedPost copyWith({
     int? id,
     String? authorPubkey,
     String? authorRepoUrl,
     String? path,
     String? commitHash,
+    String? link,
     String? title,
+    String? text,
     String? poleisTags,
-    DateTime? timestamp,
+    String? tags,
     bool? isReply,
+    String? parentAuthorPubkey,
+    String? parentPath,
+    String? contentJson,
+    DateTime? timestamp,
     DateTime? indexedAt,
+    String? signature,
   });
   @override
   Map<String, dynamic> toJson() {
     return {
-      '__className__': 'PostReference',
+      '__className__': 'CachedPost',
       if (id != null) 'id': id,
       'authorPubkey': authorPubkey,
       'authorRepoUrl': authorRepoUrl,
       'path': path,
       'commitHash': commitHash,
+      'link': link,
       if (title != null) 'title': title,
+      'text': text,
       if (poleisTags != null) 'poleisTags': poleisTags,
-      'timestamp': timestamp.toJson(),
+      if (tags != null) 'tags': tags,
       'isReply': isReply,
+      if (parentAuthorPubkey != null) 'parentAuthorPubkey': parentAuthorPubkey,
+      if (parentPath != null) 'parentPath': parentPath,
+      'contentJson': contentJson,
+      'timestamp': timestamp.toJson(),
       'indexedAt': indexedAt.toJson(),
+      'signature': signature,
     };
   }
 
@@ -131,58 +187,88 @@ abstract class PostReference implements _i1.SerializableModel {
 
 class _Undefined {}
 
-class _PostReferenceImpl extends PostReference {
-  _PostReferenceImpl({
+class _CachedPostImpl extends CachedPost {
+  _CachedPostImpl({
     int? id,
     required String authorPubkey,
     required String authorRepoUrl,
     required String path,
     required String commitHash,
+    required String link,
     String? title,
+    required String text,
     String? poleisTags,
-    required DateTime timestamp,
+    String? tags,
     required bool isReply,
+    String? parentAuthorPubkey,
+    String? parentPath,
+    required String contentJson,
+    required DateTime timestamp,
     required DateTime indexedAt,
+    required String signature,
   }) : super._(
          id: id,
          authorPubkey: authorPubkey,
          authorRepoUrl: authorRepoUrl,
          path: path,
          commitHash: commitHash,
+         link: link,
          title: title,
+         text: text,
          poleisTags: poleisTags,
-         timestamp: timestamp,
+         tags: tags,
          isReply: isReply,
+         parentAuthorPubkey: parentAuthorPubkey,
+         parentPath: parentPath,
+         contentJson: contentJson,
+         timestamp: timestamp,
          indexedAt: indexedAt,
+         signature: signature,
        );
 
-  /// Returns a shallow copy of this [PostReference]
+  /// Returns a shallow copy of this [CachedPost]
   /// with some or all fields replaced by the given arguments.
   @_i1.useResult
   @override
-  PostReference copyWith({
+  CachedPost copyWith({
     Object? id = _Undefined,
     String? authorPubkey,
     String? authorRepoUrl,
     String? path,
     String? commitHash,
+    String? link,
     Object? title = _Undefined,
+    String? text,
     Object? poleisTags = _Undefined,
-    DateTime? timestamp,
+    Object? tags = _Undefined,
     bool? isReply,
+    Object? parentAuthorPubkey = _Undefined,
+    Object? parentPath = _Undefined,
+    String? contentJson,
+    DateTime? timestamp,
     DateTime? indexedAt,
+    String? signature,
   }) {
-    return PostReference(
+    return CachedPost(
       id: id is int? ? id : this.id,
       authorPubkey: authorPubkey ?? this.authorPubkey,
       authorRepoUrl: authorRepoUrl ?? this.authorRepoUrl,
       path: path ?? this.path,
       commitHash: commitHash ?? this.commitHash,
+      link: link ?? this.link,
       title: title is String? ? title : this.title,
+      text: text ?? this.text,
       poleisTags: poleisTags is String? ? poleisTags : this.poleisTags,
-      timestamp: timestamp ?? this.timestamp,
+      tags: tags is String? ? tags : this.tags,
       isReply: isReply ?? this.isReply,
+      parentAuthorPubkey: parentAuthorPubkey is String?
+          ? parentAuthorPubkey
+          : this.parentAuthorPubkey,
+      parentPath: parentPath is String? ? parentPath : this.parentPath,
+      contentJson: contentJson ?? this.contentJson,
+      timestamp: timestamp ?? this.timestamp,
       indexedAt: indexedAt ?? this.indexedAt,
+      signature: signature ?? this.signature,
     );
   }
 }
