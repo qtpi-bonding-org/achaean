@@ -83,6 +83,14 @@ class MockGitClient implements IGitClient {
       String? ref}) async {
     return false;
   }
+
+  @override
+  Future<GitRepo> forkRepo({
+    required String owner,
+    required String repo,
+  }) async {
+    throw UnimplementedError();
+  }
 }
 
 class _CommitCall {
