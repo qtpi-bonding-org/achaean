@@ -8,7 +8,7 @@ Wire up the Flutter client to query Serverpod endpoints. Replace anonaccount wit
 
 - **Stateless auth replaces anonaccount.** Client signs timestamp with ECDSA P-256 keypair on every request. Server verifies signature, no registration or sessions needed. Serverpod stays a replaceable, stateless index.
 - **Token format:** `pubkey:timestamp:signature` sent via Serverpod's built-in auth key manager. Handler parses, checks timestamp freshness (5 min), verifies ECDSA signature.
-- **Lazy content loading.** Serverpod returns `PostReference` metadata only. Flutter reads actual `post.json` from author's git repo via `PublicGitClientFactory`. Serverpod never stores post content.
+- **Full content caching.** Serverpod caches complete post content from RSS feeds and serves it directly. Flutter no longer reads `post.json` from the forge. See `2026-03-10-serverpod-rss-aggregation-design.md` for the updated architecture.
 - **Thin feature services** wrapping `client.koinon.*` calls. Each service composes multiple endpoint calls and adds domain logic. Follows existing `IService` → `Service` → `Cubit` pattern.
 
 ---

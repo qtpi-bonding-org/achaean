@@ -133,18 +133,24 @@ Flutter `IKeyService.signBytes()` returns raw bytes encoded as base64url. `Crypt
 
 ## Data Flow Summary
 
+> **NOTE:** The read path has been updated. See `2026-03-10-serverpod-rss-aggregation-design.md`.
+> Serverpod now caches full post content (from RSS feeds) and serves it directly.
+> Flutter no longer fetches post content from the forge — it reads from Serverpod.
+> The forge is the write layer; Serverpod is the read layer.
+
 ```
 User action (Flutter)
   → writes to Forgejo (direct, via IGitClient)
+  → regenerates feed.xml with full post.json content
   → Forgejo fires system webhook
   → Serverpod webhook endpoint
     → reads koinon.json from Forgejo (GitPublicAuth)
     → atomic replace: relational tables + AGE edges
+    → reads feed.xml, upserts new/updated posts
 
 Flutter query
   → sends pubkey + signed timestamp to Serverpod
   → Serverpod verifies signature (CryptoAuth)
-  → scopes query by pubkey's trust graph (AGE)
-  → returns references (PostReference, PolitaiUser, etc.)
-  → Flutter fetches actual content from Forgejo directly
+  → resolves user's trust graph (cached set of trusted pubkeys)
+  → returns full post content filtered by trust + polis
 ```
