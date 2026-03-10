@@ -14,6 +14,7 @@ class FeedGenerationService implements IFeedGenerationService {
   Future<String> generateFeed({
     required String owner,
     required String repo,
+    required String forgeBaseUrl,
   }) async {
     final client = await _gitService.getClient();
     final entries = await client.listFiles(
@@ -22,7 +23,7 @@ class FeedGenerationService implements IFeedGenerationService {
       path: 'posts',
     );
 
-    final posts = <Post>[];
+    final posts = <_PostWithPath>[];
     for (final entry in entries) {
       if (entry.type != GitEntryType.dir || entry.name == '.gitkeep') continue;
 
@@ -33,29 +34,35 @@ class FeedGenerationService implements IFeedGenerationService {
           path: '${entry.path}/post.json',
         );
         final json = jsonDecode(file.content) as Map<String, dynamic>;
-        posts.add(Post.fromJson(json));
+        posts.add(_PostWithPath(
+          post: Post.fromJson(json),
+          path: '${entry.path}/post.json',
+          rawJson: file.content,
+        ));
       } catch (_) {
-        // Skip entries that don't contain valid post.json
         continue;
       }
     }
 
-    posts.sort((a, b) => b.timestamp.compareTo(a.timestamp));
+    posts.sort((a, b) => b.post.timestamp.compareTo(a.post.timestamp));
 
-    return _buildRss(owner, repo, posts);
+    return _buildRss(owner, repo, forgeBaseUrl, posts);
   }
 
-  String _buildRss(String owner, String repo, List<Post> posts) {
+  String _buildRss(
+      String owner, String repo, String forgeBaseUrl, List<_PostWithPath> posts) {
     final buffer = StringBuffer()
       ..writeln('<?xml version="1.0" encoding="UTF-8"?>')
-      ..writeln('<rss version="2.0">')
+      ..writeln('<rss version="2.0" xmlns:koinon="https://koinon.org/rss">')
       ..writeln('  <channel>')
       ..writeln('    <title>$owner</title>')
       ..writeln('    <description>Koinon feed for $owner</description>')
       ..writeln(
           '    <lastBuildDate>${DateTime.now().toUtc().toIso8601String()}</lastBuildDate>');
 
-    for (final post in posts) {
+    for (final entry in posts) {
+      final post = entry.post;
+      final link = '$forgeBaseUrl/$owner/$repo/raw/branch/main/${entry.path}';
       buffer
         ..writeln('    <item>')
         ..writeln(
@@ -64,6 +71,9 @@ class FeedGenerationService implements IFeedGenerationService {
             '      <description>${_escapeXml(post.content.text)}</description>')
         ..writeln(
             '      <pubDate>${post.timestamp.toUtc().toIso8601String()}</pubDate>')
+        ..writeln('      <link>$link</link>')
+        ..writeln(
+            '      <koinon:post><![CDATA[${entry.rawJson}]]></koinon:post>')
         ..writeln('    </item>');
     }
 
@@ -87,4 +97,12 @@ class FeedGenerationService implements IFeedGenerationService {
     if (text.length <= maxLen) return text;
     return '${text.substring(0, maxLen)}...';
   }
+}
+
+class _PostWithPath {
+  final Post post;
+  final String path;
+  final String rawJson;
+
+  _PostWithPath({required this.post, required this.path, required this.rawJson});
 }

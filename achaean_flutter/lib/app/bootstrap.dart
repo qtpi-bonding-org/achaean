@@ -169,11 +169,14 @@ void _registerCoreServices() {
   );
 
   // Post creation orchestrator
+  final forgeBaseUrl =
+      (getIt<IGitRegistration>() as ForgejoRegistration).baseUrl;
   getIt.registerLazySingleton<IPostCreationService>(
     () => PostCreationService(
       getIt<IGitService>(),
       getIt<IPostSigningService>(),
       getIt<IFeedGenerationService>(),
+      forgeBaseUrl,
     ),
   );
 
