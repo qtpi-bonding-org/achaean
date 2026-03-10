@@ -91,15 +91,15 @@ class PostCreationService implements IPostCreationService {
             content: html,
             message: 'Add post presentation: $slug',
           );
-        }
-        if (css != null) {
-          await client.commitFile(
-            owner: owner,
-            repo: repo,
-            path: 'posts/$slug/style.css',
-            content: css,
-            message: 'Add post styles: $slug',
-          );
+          if (css != null) {
+            await client.commitFile(
+              owner: owner,
+              repo: repo,
+              path: 'posts/$slug/style.css',
+              content: css,
+              message: 'Add post styles: $slug',
+            );
+          }
         }
 
         // 5. Regenerate + commit feed.xml

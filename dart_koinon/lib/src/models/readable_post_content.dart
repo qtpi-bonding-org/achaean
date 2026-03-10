@@ -17,6 +17,14 @@ class JsonReadablePost extends ReadablePostContent {
   final Post post;
 
   const JsonReadablePost(this.post);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is JsonReadablePost && post == other.post;
+
+  @override
+  int get hashCode => post.hashCode;
 }
 
 /// A rich post — post.json plus HTML (and optional CSS) presentation.
@@ -31,4 +39,15 @@ class RichReadablePost extends ReadablePostContent {
   final String? css;
 
   const RichReadablePost(this.post, this.html, [this.css]);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RichReadablePost &&
+          post == other.post &&
+          html == other.html &&
+          css == other.css;
+
+  @override
+  int get hashCode => Object.hash(post, html, css);
 }
