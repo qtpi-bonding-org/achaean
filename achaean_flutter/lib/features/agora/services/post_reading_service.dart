@@ -17,7 +17,7 @@ class PostReadingService implements IPostReadingService {
   PostReadingService(this._publicClientFactory, this._defaultHostType);
 
   @override
-  Future<Post> getPost(PostReference ref) {
+  Future<ReadablePostContent> getPost(PostReference ref) {
     return tryMethod(
       () async {
         final repoId = _parseRepoUrl(ref.authorRepoUrl);
@@ -26,14 +26,56 @@ class PostReadingService implements IPostReadingService {
           hostType: _defaultHostType,
         );
 
+        // 1. Read post.json (always present)
         final file = await client.readFile(
           owner: repoId.owner,
           repo: repoId.repo,
           path: ref.path,
         );
-
         final json = jsonDecode(file.content) as Map<String, dynamic>;
-        return Post.fromJson(json);
+        final post = Post.fromJson(json);
+
+        // 2. Derive directory path from post.json path
+        final lastSlash = ref.path.lastIndexOf('/');
+        final dirPath = lastSlash > 0 ? ref.path.substring(0, lastSlash) : '';
+
+        // 3. Check for index.html
+        final htmlPath = '$dirPath/index.html';
+        final hasHtml = await client.exists(
+          owner: repoId.owner,
+          repo: repoId.repo,
+          path: htmlPath,
+        );
+
+        if (!hasHtml) {
+          return JsonReadablePost(post);
+        }
+
+        // 4. Read index.html
+        final htmlFile = await client.readFile(
+          owner: repoId.owner,
+          repo: repoId.repo,
+          path: htmlPath,
+        );
+
+        // 5. Optionally read style.css
+        final cssPath = '$dirPath/style.css';
+        String? css;
+        final hasCss = await client.exists(
+          owner: repoId.owner,
+          repo: repoId.repo,
+          path: cssPath,
+        );
+        if (hasCss) {
+          final cssFile = await client.readFile(
+            owner: repoId.owner,
+            repo: repoId.repo,
+            path: cssPath,
+          );
+          css = cssFile.content;
+        }
+
+        return RichReadablePost(post, htmlFile.content, css);
       },
       QueryException.new,
       'getPost',
