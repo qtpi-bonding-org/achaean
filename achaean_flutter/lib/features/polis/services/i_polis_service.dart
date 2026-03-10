@@ -25,4 +25,8 @@ abstract class IPolisService {
 
   /// List own poleis from koinon.json.
   Future<List<PolisMembership>> getOwnPoleis();
+
+  /// Fork an existing polis. Forks the repo, adds parent pointer to README
+  /// YAML frontmatter, signs README, and registers in koinon.json.
+  Future<RepoIdentifier> forkPolis(RepoIdentifier sourceRepoId);
 }

@@ -283,7 +283,119 @@ class PolisService implements IPolisService {
     );
   }
 
+  @override
+  Future<RepoIdentifier> forkPolis(RepoIdentifier sourceRepoId) {
+    return tryMethod(
+      () async {
+        final client = await _gitService.getClient();
+        final owner = requireNonNull(
+          await _gitService.getUsername(),
+          'username',
+          PolisException.new,
+        );
+        final baseUrl = requireNonNull(
+          await _gitService.getBaseUrl(),
+          'baseUrl',
+          PolisException.new,
+        );
+
+        // 1. Fork the repo
+        final forkedRepo = await client.forkRepo(
+          owner: sourceRepoId.owner,
+          repo: sourceRepoId.repo,
+        );
+
+        // 2. Read forked README
+        final readmeFile = await client.readFile(
+          owner: owner,
+          repo: forkedRepo.name,
+          path: 'README.md',
+        );
+
+        // 3. Add parent pointer to YAML frontmatter
+        final sourceUrl =
+            '${sourceRepoId.baseUrl}/${sourceRepoId.owner}/${sourceRepoId.repo}';
+        final updatedReadme =
+            _addParentToFrontmatter(readmeFile.content, sourceUrl);
+
+        // 4. Commit updated README
+        final readmeCommit = await client.commitFile(
+          owner: owner,
+          repo: forkedRepo.name,
+          path: 'README.md',
+          content: updatedReadme,
+          message:
+              'Initialize Koinon fork from ${sourceRepoId.owner}/${sourceRepoId.repo}',
+          sha: readmeFile.sha,
+        );
+
+        // 5. Sign README → commit signature to own koinon repo
+        final readmeHash = _computeContentHash(updatedReadme);
+        final repoIdString = '$owner/${forkedRepo.name}';
+
+        final readmeSig = ReadmeSignature(
+          polis: repoIdString,
+          readmeCommit: readmeCommit.sha,
+          readmeHash: readmeHash,
+          timestamp: DateTime.now().toUtc(),
+          signature: '',
+        );
+        final signature = await _signingService.sign(readmeSig.toJson());
+        final signedSig = readmeSig.copyWith(signature: signature);
+
+        final sigPath = 'poleis/$repoIdString/signature.json';
+        final sigJson =
+            const JsonEncoder.withIndent('  ').convert(signedSig.toJson());
+
+        await client.commitFile(
+          owner: owner,
+          repo: 'koinon',
+          path: sigPath,
+          content: sigJson,
+          message: 'Sign forked polis README: ${forkedRepo.name}',
+        );
+
+        // 6. Parse name from README for manifest
+        final info = _parseYamlFrontmatter(updatedReadme);
+
+        // 7. Update koinon.json
+        await _addPolisToManifest(client, owner, repoIdString, info.name);
+
+        return RepoIdentifier(
+          baseUrl: baseUrl,
+          owner: owner,
+          repo: forkedRepo.name,
+        );
+      },
+      PolisException.new,
+      'forkPolis',
+    );
+  }
+
   // --- Private helpers ---
+
+  String _addParentToFrontmatter(String readmeContent, String parentUrl) {
+    final lines = readmeContent.split('\n');
+    if (lines.isEmpty || lines.first.trim() != '---') {
+      throw const PolisException('README has no YAML frontmatter');
+    }
+
+    final endIndex = lines.indexWhere(
+      (l) => l.trim() == '---',
+      1,
+    );
+    if (endIndex == -1) {
+      throw const PolisException('README frontmatter not closed');
+    }
+
+    // Insert parent line before closing ---
+    final updatedLines = [
+      ...lines.sublist(0, endIndex),
+      'parent: "$parentUrl"',
+      ...lines.sublist(endIndex),
+    ];
+    return updatedLines.join('\n');
+  }
 
   PolisInfo _parseYamlFrontmatter(String readmeContent) {
     final lines = readmeContent.split('\n');
