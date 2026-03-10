@@ -19,13 +19,8 @@ dependencies:
   # Serverpod
   achaean_client:
     path: ../achaean_client
+  serverpod_client: 3.4.1
   serverpod_flutter: 3.4.1
-  serverpod_auth_idp_flutter: 3.4.1
-  anonaccount_client:
-    git:
-      url: https://github.com/qtpi-bonding-org/serverpod_anonaccred.git
-      ref: 5f364aee45cb6a39e7f07b7aaf8187a5164d3f88
-      path: anonaccount_client
 
   # Architecture & State Management
   flutter_bloc: ^8.1.3

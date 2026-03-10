@@ -4,16 +4,14 @@ import 'package:injectable/injectable.dart';
 import 'package:flutter/material.dart';
 import 'package:cubit_ui_flow/cubit_ui_flow.dart' as cubit_ui_flow;
 import 'package:achaean_client/achaean_client.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
-import 'package:serverpod_auth_idp_flutter/serverpod_auth_idp_flutter.dart';
-
 import '../core/services/git_service.dart';
 import '../core/services/i_git_service.dart';
 import '../core/services/i_key_service.dart';
-import '../core/services/i_serverpod_auth_service.dart';
 import '../core/services/i_signing_service.dart';
 import '../core/services/key_service.dart';
-import '../core/services/serverpod_auth_service.dart';
+import '../core/services/koinon_key_manager.dart';
 import '../core/services/signing_service.dart';
 import '../features/account_creation/cubit/account_creation_cubit.dart';
 import '../features/account_creation/services/account_creation_service.dart';
@@ -71,10 +69,12 @@ Future<void> bootstrap() async {
     // 3. Initialize Serverpod client
     debugPrint('Bootstrap: Initializing Serverpod client...');
     final serverUrl = await getServerUrl();
-    final client = Client(serverUrl)
-      ..connectivityMonitor = FlutterConnectivityMonitor()
-      ..authSessionManager = FlutterAuthSessionManager();
-    client.auth.initialize();
+    final keyManager = KoinonKeyManager(getIt<IKeyService>());
+    // ignore: deprecated_member_use
+    final client = Client(
+      serverUrl,
+      authenticationKeyManager: keyManager,
+    )..connectivityMonitor = FlutterConnectivityMonitor();
     getIt.registerSingleton<Client>(client);
     debugPrint('Bootstrap: Serverpod client initialized');
 
@@ -138,11 +138,6 @@ void _registerCoreServices() {
   // Signing service (shared canonical-JSON signer)
   getIt.registerLazySingleton<ISigningService>(
     () => SigningService(getIt<IKeyService>()),
-  );
-
-  // Serverpod auth header service
-  getIt.registerLazySingleton<IServerpodAuthService>(
-    () => ServerpodAuthService(getIt<IKeyService>()),
   );
 
   // Post signing service (delegates to ISigningService)
