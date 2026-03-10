@@ -30,7 +30,7 @@ class KoinonEndpoint extends Endpoint {
 
   /// Look up a polites by public key.
   Future<PolitaiUser?> getUser(Session session, String pubkey) async {
-    await KoinonAuth.verify(session);
+    await KoinonAuthHandler.verifyFromSession(session);
     return await PolitaiUser.db.findFirstRow(
       session,
       where: (t) => t.pubkey.equals(pubkey),
@@ -39,7 +39,7 @@ class KoinonEndpoint extends Endpoint {
 
   /// List all known poleis.
   Future<List<PolisDefinition>> listPoleis(Session session) async {
-    await KoinonAuth.verify(session);
+    await KoinonAuthHandler.verifyFromSession(session);
     return await PolisDefinition.db.find(
       session,
       orderBy: (t) => t.discoveredAt,
@@ -49,7 +49,7 @@ class KoinonEndpoint extends Endpoint {
 
   /// Get a polis by repo URL.
   Future<PolisDefinition?> getPolis(Session session, String repoUrl) async {
-    await KoinonAuth.verify(session);
+    await KoinonAuthHandler.verifyFromSession(session);
     return await PolisDefinition.db.findFirstRow(
       session,
       where: (t) => t.repoUrl.equals(repoUrl),
@@ -61,7 +61,7 @@ class KoinonEndpoint extends Endpoint {
     Session session,
     String polisRepoUrl,
   ) async {
-    await KoinonAuth.verify(session);
+    await KoinonAuthHandler.verifyFromSession(session);
     return await ReadmeSignatureRecord.db.find(
       session,
       where: (t) => t.polisRepoUrl.equals(polisRepoUrl),
@@ -73,7 +73,7 @@ class KoinonEndpoint extends Endpoint {
     Session session,
     String polisRepoUrl,
   ) async {
-    await KoinonAuth.verify(session);
+    await KoinonAuthHandler.verifyFromSession(session);
 
     final polis = await PolisDefinition.db.findFirstRow(
       session,
@@ -105,7 +105,7 @@ class KoinonEndpoint extends Endpoint {
     Session session,
     String pubkey,
   ) async {
-    await KoinonAuth.verify(session);
+    await KoinonAuthHandler.verifyFromSession(session);
     return await TrustDeclarationRecord.db.find(
       session,
       where: (t) => t.fromPubkey.equals(pubkey),
@@ -117,7 +117,7 @@ class KoinonEndpoint extends Endpoint {
     Session session,
     String polisRepoUrl,
   ) async {
-    await KoinonAuth.verify(session);
+    await KoinonAuthHandler.verifyFromSession(session);
     return await FlagRecord.db.find(
       session,
       where: (t) => t.polisRepoUrl.equals(polisRepoUrl),
@@ -128,7 +128,7 @@ class KoinonEndpoint extends Endpoint {
   Future<List<FlagRecord>> getFlaggedPostsForVouchers(
     Session session,
   ) async {
-    final callerPubkey = await KoinonAuth.verify(session);
+    final callerPubkey = await KoinonAuthHandler.verifyFromSession(session);
 
     // Find who the caller trusts
     final trustDeclarations = await TrustDeclarationRecord.db.find(
@@ -156,7 +156,7 @@ class KoinonEndpoint extends Endpoint {
     int limit = 50,
     int offset = 0,
   }) async {
-    await KoinonAuth.verify(session);
+    await KoinonAuthHandler.verifyFromSession(session);
 
     final polis = await PolisDefinition.db.findFirstRow(
       session,
