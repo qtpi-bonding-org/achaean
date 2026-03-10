@@ -66,6 +66,7 @@ Standardized widgets that enforce the design rules. All screens compose from the
 ### Content
 - **InscriptionTile** — List item with Cinzel title + League Spartan subtitle, separated by stone dividers (not cards)
 - **ReliefCard** — For when you truly need a card (e.g., post preview). Subtle stone border, no shadow, slight surface color shift.
+- **MuseumFrame** — Stone border wrapper for user-authored HTML content. Gives rich posts a "displayed artifact" feel — the building is consistent, the art inside is the author's. Keeps HTML content from clashing with the civic aesthetic. Think museum plinth, not browser iframe.
 
 ### Feedback
 - **StoneSnackBar** — Feedback messages styled in palette (success=olive, error=burnt terracotta). No Material default styling.
