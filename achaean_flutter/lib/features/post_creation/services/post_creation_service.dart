@@ -29,6 +29,8 @@ class PostCreationService implements IPostCreationService {
     String? url,
     List<String> poleis = const [],
     List<String> tags = const [],
+    String? html,
+    String? css,
   }) {
     return tryMethod(
       () async {
@@ -79,6 +81,26 @@ class PostCreationService implements IPostCreationService {
           content: postJson,
           message: 'Add post: $slug',
         );
+
+        // 4.5 Commit optional presentation files
+        if (html != null) {
+          await client.commitFile(
+            owner: owner,
+            repo: repo,
+            path: 'posts/$slug/index.html',
+            content: html,
+            message: 'Add post presentation: $slug',
+          );
+        }
+        if (css != null) {
+          await client.commitFile(
+            owner: owner,
+            repo: repo,
+            path: 'posts/$slug/style.css',
+            content: css,
+            message: 'Add post styles: $slug',
+          );
+        }
 
         // 5. Regenerate + commit feed.xml
         final feedXml = await _feedService.generateFeed(

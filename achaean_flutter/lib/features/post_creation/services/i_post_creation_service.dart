@@ -10,6 +10,8 @@ abstract class IPostCreationService {
     String? url,
     List<String> poleis = const [],
     List<String> tags = const [],
+    String? html,
+    String? css,
   });
 
   Future<List<Post>> getOwnPosts();
