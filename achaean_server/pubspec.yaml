@@ -10,16 +10,10 @@ resolution: workspace
 
 dependencies:
   serverpod: 3.4.1
-  serverpod_auth_idp_server: 3.4.1
   dart_git:
     path: ../dart_git
   dart_koinon:
     path: ../dart_koinon
-  anonaccount_server:
-    git:
-      url: https://github.com/qtpi-bonding-org/serverpod_anonaccred.git
-      ref: 5f364aee45cb6a39e7f07b7aaf8187a5164d3f88
-      path: anonaccount_server
   pointycastle: ^4.0.0
 
 dev_dependencies:
