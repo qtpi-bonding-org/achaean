@@ -7,6 +7,7 @@ import '../primitives/app_palette.dart';
 class ThemeService extends ChangeNotifier {
   bool _isDarkMode = false;
 
+  /// Returns the Athenian palette for the current mode.
   IColorPalette get currentPalette =>
       _isDarkMode ? AppPalette.dark : AppPalette.primary;
 

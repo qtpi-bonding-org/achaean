@@ -85,3 +85,39 @@ flutter:
 
   assets:
     - assets/config.json
+
+  fonts:
+    - family: Cinzel
+      fonts:
+        - asset: assets/Cinzel/static/Cinzel-Regular.ttf
+          weight: 400
+        - asset: assets/Cinzel/static/Cinzel-Medium.ttf
+          weight: 500
+        - asset: assets/Cinzel/static/Cinzel-SemiBold.ttf
+          weight: 600
+        - asset: assets/Cinzel/static/Cinzel-Bold.ttf
+          weight: 700
+        - asset: assets/Cinzel/static/Cinzel-ExtraBold.ttf
+          weight: 800
+        - asset: assets/Cinzel/static/Cinzel-Black.ttf
+          weight: 900
+    - family: LeagueSpartan
+      fonts:
+        - asset: assets/League_Spartan/static/LeagueSpartan-Thin.ttf
+          weight: 100
+        - asset: assets/League_Spartan/static/LeagueSpartan-ExtraLight.ttf
+          weight: 200
+        - asset: assets/League_Spartan/static/LeagueSpartan-Light.ttf
+          weight: 300
+        - asset: assets/League_Spartan/static/LeagueSpartan-Regular.ttf
+          weight: 400
+        - asset: assets/League_Spartan/static/LeagueSpartan-Medium.ttf
+          weight: 500
+        - asset: assets/League_Spartan/static/LeagueSpartan-SemiBold.ttf
+          weight: 600
+        - asset: assets/League_Spartan/static/LeagueSpartan-Bold.ttf
+          weight: 700
+        - asset: assets/League_Spartan/static/LeagueSpartan-ExtraBold.ttf
+          weight: 800
+        - asset: assets/League_Spartan/static/LeagueSpartan-Black.ttf
+          weight: 900

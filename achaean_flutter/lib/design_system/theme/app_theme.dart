@@ -4,12 +4,12 @@ import '../primitives/app_palette.dart';
 import '../primitives/app_fonts.dart';
 import '../primitives/app_sizes.dart';
 
-/// App theme implementation
+/// Athenian civic theme implementation.
 class AppTheme {
-  /// Light theme
+  /// Light theme — limestone and terracotta
   static ThemeData get lightTheme => _buildTheme(AppPalette.primary);
 
-  /// Dark theme
+  /// Dark theme — temple interior at night
   static ThemeData get darkTheme => _buildTheme(AppPalette.dark);
 
   static ThemeData _buildTheme(IColorPalette palette) {
@@ -26,14 +26,18 @@ class AppTheme {
         brightness: isDark ? Brightness.dark : Brightness.light,
         primary: palette.primaryColor,
         onPrimary: palette.backgroundPrimary,
-        secondary: palette.textSecondary,
-        onSecondary: palette.backgroundPrimary,
+        secondary: palette.highlightColor,
+        onSecondary: palette.textPrimary,
+        tertiary: palette.textSecondary,
+        onTertiary: palette.backgroundPrimary,
         error: palette.destructiveColor,
         onError: palette.backgroundPrimary,
         surface: palette.backgroundPrimary,
         onSurface: palette.textPrimary,
+        surfaceContainerHighest: palette.surfaceColor,
       ),
       scaffoldBackgroundColor: palette.backgroundPrimary,
+      dividerColor: palette.textSecondary.withValues(alpha: 0.3),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: palette.primaryColor,
@@ -49,11 +53,29 @@ class AppTheme {
           ),
         ),
       ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          backgroundColor: palette.primaryColor,
+          foregroundColor: palette.backgroundPrimary,
+          minimumSize: Size.fromHeight(AppSizes.buttonHeight),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppSizes.radiusSmall),
+          ),
+          textStyle: TextStyle(
+            fontFamily: AppFonts.bodyFamily,
+            fontSize: AppSizes.fontStandard,
+            fontWeight: AppFonts.medium,
+          ),
+        ),
+      ),
       cardTheme: CardThemeData(
-        color: palette.backgroundPrimary,
-        elevation: 2,
+        color: palette.surfaceColor,
+        elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
+          borderRadius: BorderRadius.circular(AppSizes.radiusSmall),
+          side: BorderSide(
+            color: palette.textSecondary.withValues(alpha: 0.2),
+          ),
         ),
       ),
       appBarTheme: AppBarTheme(
@@ -64,7 +86,7 @@ class AppTheme {
         toolbarHeight: AppSizes.appBarHeight,
         titleTextStyle: TextStyle(
           fontFamily: AppFonts.headerFamily,
-          fontSize: AppSizes.fontBig, // 20 roughly
+          fontSize: AppSizes.fontBig,
           fontWeight: AppFonts.heavy,
           color: palette.textPrimary,
         ),
