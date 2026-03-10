@@ -199,6 +199,40 @@ void main() {
     });
   });
 
+  group('forkRepo', () {
+    test('returns GitRepo on 202', () async {
+      final client = createClient((req) {
+        expect(req.method, 'POST');
+        expect(req.url.path, '/api/v1/repos/origOwner/origRepo/forks');
+        return http.Response(
+          jsonEncode({
+            'id': 99,
+            'name': 'origRepo',
+            'owner': {'login': 'myuser'},
+            'clone_url': 'https://forgejo.example.com/myuser/origRepo.git',
+            'html_url': 'https://forgejo.example.com/myuser/origRepo',
+            'description': 'Forked repo',
+            'private': false,
+          }),
+          202,
+        );
+      });
+
+      final repo = await client.forkRepo(owner: 'origOwner', repo: 'origRepo');
+      expect(repo.id, 99);
+      expect(repo.name, 'origRepo');
+      expect(repo.owner, 'myuser');
+    });
+
+    test('throws GitNotFoundException on 404', () async {
+      final client = createClient((_) => http.Response('', 404));
+      expect(
+        () => client.forkRepo(owner: 'x', repo: 'y'),
+        throwsA(isA<GitNotFoundException>()),
+      );
+    });
+  });
+
   group('deleteRepo', () {
     test('succeeds on 204', () async {
       final client = createClient((req) {

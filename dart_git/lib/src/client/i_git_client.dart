@@ -55,4 +55,9 @@ abstract class IGitClient {
     required String path,
     String? ref,
   });
+
+  Future<GitRepo> forkRepo({
+    required String owner,
+    required String repo,
+  });
 }

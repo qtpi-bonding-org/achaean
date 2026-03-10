@@ -218,4 +218,27 @@ class ForgejoClient implements IGitClient {
     );
     return response.statusCode == 200;
   }
+
+  @override
+  Future<GitRepo> forkRepo({
+    required String owner,
+    required String repo,
+  }) async {
+    final response = await httpClient.post(
+      endpoints.forkRepo(owner, repo),
+      headers: _headers,
+      body: jsonEncode({}),
+    );
+    if (response.statusCode != 202) _throw(response);
+    final json = _decodeJson(response);
+    return GitRepo(
+      id: json['id'] as int,
+      name: json['name'] as String,
+      owner: (json['owner'] as Map<String, dynamic>)['login'] as String,
+      cloneUrl: json['clone_url'] as String,
+      htmlUrl: json['html_url'] as String,
+      description: json['description'] as String?,
+      private: json['private'] as bool? ?? false,
+    );
+  }
 }

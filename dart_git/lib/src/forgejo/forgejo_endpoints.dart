@@ -25,4 +25,8 @@ class ForgejoEndpoints {
   /// DELETE /api/v1/repos/{owner}/{repo}/contents/{path}
   Uri deleteContents(String owner, String repo, String path) =>
       Uri.parse(_api('/repos/$owner/$repo/contents/$path'));
+
+  /// POST /api/v1/repos/{owner}/{repo}/forks
+  Uri forkRepo(String owner, String repo) =>
+      Uri.parse(_api('/repos/$owner/$repo/forks'));
 }
