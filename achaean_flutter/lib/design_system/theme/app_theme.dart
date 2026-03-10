@@ -44,7 +44,7 @@ class AppTheme {
           foregroundColor: palette.backgroundPrimary,
           minimumSize: Size.fromHeight(AppSizes.buttonHeight),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppSizes.radiusSmall),
+            borderRadius: BorderRadius.circular(AppSizes.radiusTiny),
           ),
           textStyle: TextStyle(
             fontFamily: AppFonts.bodyFamily,
@@ -59,7 +59,7 @@ class AppTheme {
           foregroundColor: palette.backgroundPrimary,
           minimumSize: Size.fromHeight(AppSizes.buttonHeight),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppSizes.radiusSmall),
+            borderRadius: BorderRadius.circular(AppSizes.radiusTiny),
           ),
           textStyle: TextStyle(
             fontFamily: AppFonts.bodyFamily,
@@ -93,18 +93,18 @@ class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppSizes.radiusSmall),
+          borderRadius: BorderRadius.circular(AppSizes.radiusTiny),
           borderSide: BorderSide(color: palette.textSecondary),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppSizes.radiusSmall),
+          borderRadius: BorderRadius.circular(AppSizes.radiusTiny),
           borderSide: BorderSide(
             color: palette.primaryColor,
             width: AppSizes.borderWidthThick,
           ),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppSizes.radiusSmall),
+          borderRadius: BorderRadius.circular(AppSizes.radiusTiny),
           borderSide: BorderSide(color: palette.destructiveColor),
         ),
         contentPadding: EdgeInsets.symmetric(
