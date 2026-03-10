@@ -54,6 +54,10 @@ dependencies:
       url: https://github.com/qtpi-bonding-org/dart_jwk_duo.git
       ref: 57951f2de99784c3fc4664f7b66bb13ce6e80bc7
 
+  # Layout
+  flutter_adaptable_group:
+    path: ../flutter_adaptable_group
+
   # Navigation
   go_router: ^14.0.0
 

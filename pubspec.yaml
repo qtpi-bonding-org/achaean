@@ -10,6 +10,7 @@ workspace:
   - achaean_flutter
   - dart_git
   - dart_koinon
+  - flutter_adaptable_group
 dependency_overrides:
   flutter_secure_storage: ^10.0.0
 

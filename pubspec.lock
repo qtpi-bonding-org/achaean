@@ -565,9 +565,9 @@ packages:
     dependency: transitive
     description:
       path: "."
-      ref: "0ca0e58"
-      resolved-ref: "0ca0e5851d139c9efcfa5ede113b4d5dc5e82d0d"
-      url: "git@github.com:qtpi-bonding-org/dart_l10n_key_resolver.git"
+      ref: "2e5c947"
+      resolved-ref: "2e5c947f6dc39037a7323409f42e1532b8502e5f"
+      url: "https://github.com/qtpi-bonding-org/dart_l10n_key_resolver.git"
     source: git
     version: "0.1.0"
   leak_tracker:
