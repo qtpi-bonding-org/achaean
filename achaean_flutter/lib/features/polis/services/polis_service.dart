@@ -391,7 +391,7 @@ class PolisService implements IPolisService {
     // Insert parent line before closing ---
     final updatedLines = [
       ...lines.sublist(0, endIndex),
-      'parent: "$parentUrl"',
+      'parent_repo: "$parentUrl"',
       ...lines.sublist(endIndex),
     ];
     return updatedLines.join('\n');
