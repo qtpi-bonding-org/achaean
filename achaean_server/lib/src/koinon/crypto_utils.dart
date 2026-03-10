@@ -36,12 +36,11 @@ class CryptoUtils {
         return false;
       }
 
-      // Hash message with SHA-256
-      final messageBytes = utf8.encode(message);
-      final digest = SHA256Digest();
-      final hashedMessage = Uint8List(digest.digestSize);
-      digest.update(Uint8List.fromList(messageBytes), 0, messageBytes.length);
-      digest.doFinal(hashedMessage, 0);
+      // Encode message to bytes — ECDSASigner handles SHA-256 hashing
+      // internally when initialized with SHA256Digest().
+      // dart_jwk_duo's signBytes() also hashes internally via webcrypto,
+      // so both sides do exactly one SHA-256 hash.
+      final messageBytes = Uint8List.fromList(utf8.encode(message));
 
       // Parse public key — extract x||y coordinates
       final pubKeyHex = publicKey.length == 130
@@ -70,7 +69,7 @@ class CryptoUtils {
         false,
         PublicKeyParameter<ECPublicKey>(ecPublicKey),
       );
-      return signer.verifySignature(hashedMessage, ecSignature);
+      return signer.verifySignature(messageBytes, ecSignature);
     } catch (_) {
       return false;
     }
