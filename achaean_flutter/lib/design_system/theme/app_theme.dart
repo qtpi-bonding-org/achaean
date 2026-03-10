@@ -112,6 +112,16 @@ class AppTheme {
           vertical: AppSizes.space * 1.5,
         ),
       ),
+      // Disable FAB — actions go in app bar or inline
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        sizeConstraints: BoxConstraints.tightFor(width: 0, height: 0),
+      ),
+      // Bottom nav uses stone colors
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: palette.backgroundPrimary,
+        selectedItemColor: palette.primaryColor,
+        unselectedItemColor: palette.textSecondary,
+      ),
     );
   }
 }
