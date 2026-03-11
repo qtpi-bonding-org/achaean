@@ -1,2 +1,17 @@
 greeting:
   - hello:
+koinon:
+  - register:
+  - getUser:
+  - listPoleis:
+  - getPolis:
+  - getPolisSigners:
+  - getPolisMembers:
+  - getTrustDeclarations:
+  - getFlagsForPolis:
+  - getFlaggedPostsForVouchers:
+  - getAgora:
+  - getPersonalFeed:
+  - getThread:
+webhook:
+  - handlePush:
