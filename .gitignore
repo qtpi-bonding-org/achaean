@@ -1,2 +1,4 @@
 .env
 .dart_tool/
+flutter_goldgen/
+flutter_adaptable_group/
