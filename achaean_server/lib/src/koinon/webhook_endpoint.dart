@@ -7,6 +7,7 @@ import 'package:serverpod/serverpod.dart';
 
 import '../generated/protocol.dart';
 import 'age_graph.dart';
+import 'rss_feed_parser.dart';
 
 /// Receives Forgejo system webhook push events and indexes Koinon data.
 class WebhookEndpoint extends Endpoint {
@@ -36,11 +37,15 @@ class WebhookEndpoint extends Endpoint {
     bool manifestChanged = false;
     final postChanges = <String>[];
 
+    bool feedChanged = false;
+
     for (final change in event.changes) {
       if (change.action == WebhookFileAction.removed) continue;
 
       if (change.path == '.well-known/koinon.json') {
         manifestChanged = true;
+      } else if (change.path == 'feed.xml') {
+        feedChanged = true;
       } else if (change.path.startsWith('posts/') &&
           change.path.endsWith('post.json')) {
         postChanges.add(change.path);
@@ -55,6 +60,10 @@ class WebhookEndpoint extends Endpoint {
     // Index post references
     for (final path in postChanges) {
       await _indexPost(session, event, path, now);
+    }
+
+    if (feedChanged) {
+      await _indexFeed(session, event, now);
     }
   }
 
@@ -168,7 +177,7 @@ class WebhookEndpoint extends Endpoint {
 
       for (final flag in manifest.flags) {
         // Look up post author from post_references
-        final postRef = await PostReference.db.findFirstRow(
+        final postRef = await CachedPost.db.findFirstRow(
           session,
           where: (t) => t.path.equals(flag.post),
           transaction: transaction,
@@ -219,37 +228,172 @@ class WebhookEndpoint extends Endpoint {
     String path,
     DateTime now,
   ) async {
-    // Upsert post reference
-    final existing = await PostReference.db.findFirstRow(
+    final client = ForgejoClient(
+      baseUrl: _extractBaseUrl(event.repoUrl),
+      auth: const GitPublicAuth(),
+    );
+
+    Post post;
+    String rawJson;
+    try {
+      final file = await client.readFile(
+        owner: event.repoOwner,
+        repo: event.repoName,
+        path: path,
+      );
+      rawJson = file.content;
+      final json = jsonDecode(rawJson) as Map<String, dynamic>;
+      post = Post.fromJson(json);
+    } catch (e) {
+      session.log('Failed to read $path from ${event.repoUrl}: $e',
+          level: LogLevel.warning);
+      return;
+    }
+
+    final user = await PolitaiUser.db.findFirstRow(
+      session,
+      where: (t) => t.repoUrl.equals(event.repoUrl),
+    );
+
+    await _upsertCachedPost(
+      session,
+      authorPubkey: user?.pubkey ?? '',
+      authorRepoUrl: event.repoUrl,
+      path: path,
+      commitHash: event.afterCommit,
+      link: '${event.repoUrl}/raw/branch/main/$path',
+      post: post,
+      rawJson: rawJson,
+      now: now,
+    );
+  }
+
+  /// Upsert a CachedPost from a parsed Post and raw JSON.
+  Future<void> _upsertCachedPost(
+    Session session, {
+    required String authorPubkey,
+    required String authorRepoUrl,
+    required String path,
+    required String commitHash,
+    required String link,
+    required Post post,
+    required String rawJson,
+    required DateTime now,
+  }) async {
+    final existing = await CachedPost.db.findFirstRow(
       session,
       where: (t) =>
-          t.authorRepoUrl.equals(event.repoUrl) & t.path.equals(path),
+          t.authorRepoUrl.equals(authorRepoUrl) & t.path.equals(path),
     );
 
     if (existing != null) {
-      existing.commitHash = event.afterCommit;
-      existing.indexedAt = now;
-      await PostReference.db.updateRow(session, existing);
+      existing
+        ..authorPubkey = authorPubkey.isNotEmpty ? authorPubkey : existing.authorPubkey
+        ..commitHash = commitHash
+        ..link = link
+        ..title = post.content.title
+        ..text = post.content.text
+        ..poleisTags = post.routing?.poleis.join(',')
+        ..tags = post.routing?.tags.join(',')
+        ..isReply = post.parent != null
+        ..parentAuthorPubkey = post.parent?.author
+        ..parentPath = post.parent?.path
+        ..contentJson = rawJson
+        ..timestamp = post.timestamp
+        ..indexedAt = now
+        ..signature = post.signature;
+      await CachedPost.db.updateRow(session, existing);
     } else {
-      // Look up author pubkey from known users
-      final user = await PolitaiUser.db.findFirstRow(
+      await CachedPost.db.insertRow(
         session,
-        where: (t) => t.repoUrl.equals(event.repoUrl),
-      );
-
-      await PostReference.db.insertRow(
-        session,
-        PostReference(
-          authorPubkey: user?.pubkey ?? '',
-          authorRepoUrl: event.repoUrl,
+        CachedPost(
+          authorPubkey: authorPubkey,
+          authorRepoUrl: authorRepoUrl,
           path: path,
-          commitHash: event.afterCommit,
-          timestamp: now,
-          isReply: false,
+          commitHash: commitHash,
+          link: link,
+          title: post.content.title,
+          text: post.content.text,
+          poleisTags: post.routing?.poleis.join(','),
+          tags: post.routing?.tags.join(','),
+          isReply: post.parent != null,
+          parentAuthorPubkey: post.parent?.author,
+          parentPath: post.parent?.path,
+          contentJson: rawJson,
+          timestamp: post.timestamp,
           indexedAt: now,
+          signature: post.signature,
         ),
       );
     }
+  }
+
+  /// Fetch feed.xml from repo, parse RSS, upsert all posts.
+  Future<void> _indexFeed(
+    Session session,
+    NormalizedPushEvent event,
+    DateTime now,
+  ) async {
+    final client = ForgejoClient(
+      baseUrl: _extractBaseUrl(event.repoUrl),
+      auth: const GitPublicAuth(),
+    );
+
+    String feedXml;
+    try {
+      final file = await client.readFile(
+        owner: event.repoOwner,
+        repo: event.repoName,
+        path: 'feed.xml',
+      );
+      feedXml = file.content;
+    } catch (e) {
+      session.log('Failed to read feed.xml from ${event.repoUrl}: $e',
+          level: LogLevel.warning);
+      return;
+    }
+
+    final user = await PolitaiUser.db.findFirstRow(
+      session,
+      where: (t) => t.repoUrl.equals(event.repoUrl),
+    );
+    final authorPubkey = user?.pubkey ?? '';
+
+    final items = RssFeedParser.parse(feedXml);
+
+    for (final item in items) {
+      Post post;
+      try {
+        final json = jsonDecode(item.postJson) as Map<String, dynamic>;
+        post = Post.fromJson(json);
+      } catch (e) {
+        session.log('Failed to parse post from feed item: $e',
+            level: LogLevel.warning);
+        continue;
+      }
+
+      // Extract path from link URL (after /raw/branch/main/)
+      final pathMatch = RegExp(r'/raw/branch/main/(.+)$').firstMatch(item.link);
+      final path = pathMatch?.group(1) ?? '';
+      if (path.isEmpty) continue;
+
+      await _upsertCachedPost(
+        session,
+        authorPubkey: authorPubkey,
+        authorRepoUrl: event.repoUrl,
+        path: path,
+        commitHash: event.afterCommit,
+        link: item.link,
+        post: post,
+        rawJson: item.postJson,
+        now: now,
+      );
+    }
+
+    session.log(
+      'Indexed feed for ${event.repoUrl}: ${items.length} items',
+      level: LogLevel.info,
+    );
   }
 
   /// Extract base URL from a full repo URL.
