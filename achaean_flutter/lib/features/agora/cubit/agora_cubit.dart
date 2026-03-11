@@ -30,7 +30,7 @@ class AgoraCubit extends AppCubit<AgoraState> {
           _agoraService.getFlagsForPolis(polisRepoUrl),
         ]);
 
-        final posts = results[0] as List<PostReference>;
+        final posts = results[0] as List<CachedPost>;
         final flags = results[1] as List<FlagRecord>;
 
         return state.copyWith(

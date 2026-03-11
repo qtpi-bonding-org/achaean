@@ -8,5 +8,5 @@ abstract class IPostReadingService {
   ///
   /// Returns [JsonReadablePost] if only post.json exists,
   /// or [RichReadablePost] if index.html is also present.
-  Future<ReadablePostContent> getPost(PostReference ref);
+  Future<ReadablePostContent> getPost(CachedPost ref);
 }

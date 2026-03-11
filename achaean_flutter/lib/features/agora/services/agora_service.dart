@@ -10,7 +10,7 @@ class AgoraService implements IAgoraService {
   AgoraService(this._client);
 
   @override
-  Future<List<PostReference>> getAgoraRefs(
+  Future<List<CachedPost>> getAgoraRefs(
     String polisRepoUrl, {
     int limit = 50,
     int offset = 0,

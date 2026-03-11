@@ -19,7 +19,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$AgoraState {
   UiFlowStatus get status => throw _privateConstructorUsedError;
   Object? get error => throw _privateConstructorUsedError;
-  List<PostReference> get posts => throw _privateConstructorUsedError;
+  List<CachedPost> get posts => throw _privateConstructorUsedError;
   Map<String, int> get flagCounts => throw _privateConstructorUsedError;
   int get flagThreshold => throw _privateConstructorUsedError;
   bool get hasMore => throw _privateConstructorUsedError;
@@ -42,7 +42,7 @@ abstract class $AgoraStateCopyWith<$Res> {
   $Res call({
     UiFlowStatus status,
     Object? error,
-    List<PostReference> posts,
+    List<CachedPost> posts,
     Map<String, int> flagCounts,
     int flagThreshold,
     bool hasMore,
@@ -83,7 +83,7 @@ class _$AgoraStateCopyWithImpl<$Res, $Val extends AgoraState>
             posts: null == posts
                 ? _value.posts
                 : posts // ignore: cast_nullable_to_non_nullable
-                      as List<PostReference>,
+                      as List<CachedPost>,
             flagCounts: null == flagCounts
                 ? _value.flagCounts
                 : flagCounts // ignore: cast_nullable_to_non_nullable
@@ -118,7 +118,7 @@ abstract class _$$AgoraStateImplCopyWith<$Res>
   $Res call({
     UiFlowStatus status,
     Object? error,
-    List<PostReference> posts,
+    List<CachedPost> posts,
     Map<String, int> flagCounts,
     int flagThreshold,
     bool hasMore,
@@ -158,7 +158,7 @@ class __$$AgoraStateImplCopyWithImpl<$Res>
         posts: null == posts
             ? _value._posts
             : posts // ignore: cast_nullable_to_non_nullable
-                  as List<PostReference>,
+                  as List<CachedPost>,
         flagCounts: null == flagCounts
             ? _value._flagCounts
             : flagCounts // ignore: cast_nullable_to_non_nullable
@@ -186,7 +186,7 @@ class _$AgoraStateImpl extends _AgoraState {
   const _$AgoraStateImpl({
     this.status = UiFlowStatus.idle,
     this.error,
-    final List<PostReference> posts = const [],
+    final List<CachedPost> posts = const [],
     final Map<String, int> flagCounts = const {},
     this.flagThreshold = 1,
     this.hasMore = false,
@@ -200,10 +200,10 @@ class _$AgoraStateImpl extends _AgoraState {
   final UiFlowStatus status;
   @override
   final Object? error;
-  final List<PostReference> _posts;
+  final List<CachedPost> _posts;
   @override
   @JsonKey()
-  List<PostReference> get posts {
+  List<CachedPost> get posts {
     if (_posts is EqualUnmodifiableListView) return _posts;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_posts);
@@ -276,7 +276,7 @@ abstract class _AgoraState extends AgoraState {
   const factory _AgoraState({
     final UiFlowStatus status,
     final Object? error,
-    final List<PostReference> posts,
+    final List<CachedPost> posts,
     final Map<String, int> flagCounts,
     final int flagThreshold,
     final bool hasMore,
@@ -289,7 +289,7 @@ abstract class _AgoraState extends AgoraState {
   @override
   Object? get error;
   @override
-  List<PostReference> get posts;
+  List<CachedPost> get posts;
   @override
   Map<String, int> get flagCounts;
   @override

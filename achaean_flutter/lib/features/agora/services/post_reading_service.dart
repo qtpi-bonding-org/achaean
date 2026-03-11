@@ -17,7 +17,7 @@ class PostReadingService implements IPostReadingService {
   PostReadingService(this._publicClientFactory, this._defaultHostType);
 
   @override
-  Future<ReadablePostContent> getPost(PostReference ref) {
+  Future<ReadablePostContent> getPost(CachedPost ref) {
     return tryMethod(
       () async {
         final repoId = _parseRepoUrl(ref.authorRepoUrl);
