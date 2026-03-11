@@ -1,0 +1,20 @@
+sizes:
+  - name: phoneSE
+    width: 375
+    height: 812
+  - name: phoneMax
+    width: 430
+    height: 932
+  - name: tablet
+    width: 768
+    height: 1024
+
+locales:
+  - en
+
+theme_import: "package:achaean_flutter/design_system/theme/app_theme.dart"
+theme_variable: AppTheme.lightTheme
+
+l10n_delegates_import: "package:achaean_flutter/l10n/app_localizations.dart"
+l10n_delegates_variable: "AppLocalizations.localizationsDelegates"
+l10n_supported_locales_variable: "AppLocalizations.supportedLocales"
