@@ -29,26 +29,35 @@ The user's koinon manifest (which lives in their git repo, signed by their keypa
 
 Because the manifest is signed, anyone can verify that the owner of public key `X` claims to be `@alice:polis.example.org`.
 
-For the reverse direction (proving the Matrix account is owned by the same person), the user's client sets a **room state event** in each polis room they join:
+For the reverse direction (proving the Matrix account is owned by the same person), the client **signs every message** with the koinon private key:
 
 ```json
 {
-  "type": "org.koinon.identity",
-  "state_key": "@alice:polis.example.org",
+  "type": "m.room.message",
   "content": {
-    "pubkey": "<achaean-public-key>",
-    "signature": "<sign('@alice:polis.example.org', private_key)>"
+    "msgtype": "m.text",
+    "body": "hey everyone",
+    "org.koinon.pubkey": "<achaean-public-key>",
+    "org.koinon.signature": "<sign('hey everyone', private_key)>"
   }
 }
 ```
 
-Why a room state event and not account data? Matrix account data is **private to the user** — other users cannot read it through the API. Room state events are visible to all room members, so any polis member can verify the binding.
+Any recipient verifies inline: check the signature against the pubkey, then confirm that pubkey's manifest declares this Matrix ID. No setup ceremony, no state events, no join hooks.
 
 Now the binding is bidirectional and trustless:
 1. Manifest says pubkey `X` → `@alice:server` (verified by git signature)
-2. Room state event says `@alice:server` → pubkey `X` (verified by checking the ECDSA signature)
+2. Every message proves `@alice:server` → pubkey `X` (verified by checking the ECDSA signature on the message body)
 
-Neither direction requires trusting any server. The client verifies both signatures locally. The state event is set once per room join — the client does it automatically.
+Neither direction requires trusting any server. The client verifies both signatures locally.
+
+### Why per-message signing instead of a one-time proof?
+
+- **Works in DMs and group rooms equally** — no room state to manage
+- **No stale state** — key rotation is instant, next message uses the new key
+- **Simpler client logic** — sign on send, verify on receive
+- **Messages are self-proving** — a forwarded message is still verifiable without being in the original room
+- **Negligible cost** — ECDSA P-256 signing is fast, even on mobile
 
 ### Why not simpler approaches?
 
