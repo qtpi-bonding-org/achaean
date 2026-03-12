@@ -1,22 +1,16 @@
 import 'package:flutter/material.dart';
-import '../accessibility/accessible_widget.dart';
 
 /// App scaffold — stone background with Cinzel-titled app bar.
 ///
 /// Every screen should use this instead of raw [Scaffold].
 /// Provides consistent app bar styling, background color,
 /// and optional actions.
-class AchaeanScaffold extends StatelessWidget with AccessibleWidget {
+class AchaeanScaffold extends StatelessWidget {
   final String? title;
   final Widget body;
   final List<Widget>? actions;
   final bool showBackButton;
   final VoidCallback? onBack;
-
-  @override
-  final bool decorative;
-  @override
-  final String? semanticLabel;
 
   const AchaeanScaffold({
     super.key,
@@ -25,13 +19,11 @@ class AchaeanScaffold extends StatelessWidget with AccessibleWidget {
     this.actions,
     this.showBackButton = true,
     this.onBack,
-    this.decorative = false,
-    this.semanticLabel,
   });
 
   @override
   Widget build(BuildContext context) {
-    return buildAccessible(child: Scaffold(
+    return Scaffold(
       appBar: title != null
           ? AppBar(
               title: Text(title!),
@@ -49,6 +41,6 @@ class AchaeanScaffold extends StatelessWidget with AccessibleWidget {
         top: title == null,
         child: body,
       ),
-    ));
+    );
   }
 }

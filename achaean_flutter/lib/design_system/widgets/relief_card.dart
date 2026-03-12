@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../accessibility/accessible_widget.dart';
 import '../primitives/app_sizes.dart';
 import '../theme/app_theme.dart';
 
@@ -9,23 +8,16 @@ import '../theme/app_theme.dart';
 /// No shadow, no elevation. Slight surface color shift with a thin
 /// stone-colored border. Prefer [InscriptionTile] + [StoneDivider]
 /// for lists.
-class ReliefCard extends StatelessWidget with AccessibleWidget {
+class ReliefCard extends StatelessWidget {
   final Widget child;
   final EdgeInsetsGeometry? padding;
   final VoidCallback? onTap;
-
-  @override
-  final bool decorative;
-  @override
-  final String? semanticLabel;
 
   const ReliefCard({
     super.key,
     required this.child,
     this.padding,
     this.onTap,
-    required this.decorative,
-    this.semanticLabel,
   });
 
   @override
@@ -46,11 +38,11 @@ class ReliefCard extends StatelessWidget with AccessibleWidget {
     );
 
     if (onTap != null) {
-      return buildAccessible(child: GestureDetector(
+      return GestureDetector(
         onTap: onTap,
         child: content,
-      ));
+      );
     }
-    return buildAccessible(child: content);
+    return content;
   }
 }
