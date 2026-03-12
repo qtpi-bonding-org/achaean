@@ -29,11 +29,12 @@ The user's koinon manifest (which lives in their git repo, signed by their keypa
 
 Because the manifest is signed, anyone can verify that the owner of public key `X` claims to be `@alice:polis.example.org`.
 
-For the reverse direction (proving the Matrix account is owned by the same person), the user sets a signed proof as their Matrix account data or room state event:
+For the reverse direction (proving the Matrix account is owned by the same person), the user's client sets a **room state event** in each polis room they join:
 
 ```json
 {
   "type": "org.koinon.identity",
+  "state_key": "@alice:polis.example.org",
   "content": {
     "pubkey": "<achaean-public-key>",
     "signature": "<sign('@alice:polis.example.org', private_key)>"
@@ -41,11 +42,13 @@ For the reverse direction (proving the Matrix account is owned by the same perso
 }
 ```
 
+Why a room state event and not account data? Matrix account data is **private to the user** — other users cannot read it through the API. Room state events are visible to all room members, so any polis member can verify the binding.
+
 Now the binding is bidirectional and trustless:
 1. Manifest says pubkey `X` → `@alice:server` (verified by git signature)
-2. Matrix account data says `@alice:server` → pubkey `X` (verified by checking the signature)
+2. Room state event says `@alice:server` → pubkey `X` (verified by checking the ECDSA signature)
 
-Neither direction requires trusting any server. The client verifies both signatures locally.
+Neither direction requires trusting any server. The client verifies both signatures locally. The state event is set once per room join — the client does it automatically.
 
 ### Why not simpler approaches?
 
