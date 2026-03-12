@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../accessibility/accessible_widget.dart';
+
 /// A navigation destination for [AdaptiveNavShell].
 class NavItem {
   final IconData icon;
@@ -33,11 +35,16 @@ class NavItem {
 ///   ),
 /// )
 /// ```
-class AdaptiveNavShell extends StatelessWidget {
+class AdaptiveNavShell extends StatelessWidget with AccessibleWidget {
   final List<NavItem> items;
   final int currentIndex;
   final ValueChanged<int> onItemTapped;
   final Widget child;
+
+  @override
+  final bool decorative;
+  @override
+  final String? semanticLabel;
 
   const AdaptiveNavShell({
     super.key,
@@ -45,6 +52,8 @@ class AdaptiveNavShell extends StatelessWidget {
     required this.currentIndex,
     required this.onItemTapped,
     required this.child,
+    this.decorative = false,
+    this.semanticLabel,
   });
 
   @override
@@ -53,7 +62,7 @@ class AdaptiveNavShell extends StatelessWidget {
         MediaQuery.orientationOf(context) == Orientation.landscape;
 
     if (isLandscape) {
-      return Scaffold(
+      return buildAccessible(child: Scaffold(
         body: SafeArea(
           child: Row(
             children: [
@@ -76,10 +85,10 @@ class AdaptiveNavShell extends StatelessWidget {
             ],
           ),
         ),
-      );
+      ));
     }
 
-    return Scaffold(
+    return buildAccessible(child: Scaffold(
       body: SafeArea(child: child),
       bottomNavigationBar: NavigationBar(
         selectedIndex: currentIndex,
@@ -94,6 +103,6 @@ class AdaptiveNavShell extends StatelessWidget {
             ),
         ],
       ),
-    );
+    ));
   }
 }

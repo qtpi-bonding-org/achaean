@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../accessibility/accessible_widget.dart';
 import '../primitives/app_sizes.dart';
 import '../theme/app_theme.dart';
 import 'stone_divider.dart';
@@ -7,19 +8,26 @@ import 'stone_divider.dart';
 ///
 /// Use to mark major content sections. The title renders in Cinzel (via
 /// headlineMedium), the subtitle in League Spartan (via bodyMedium).
-class EntablatureHeader extends StatelessWidget {
+class EntablatureHeader extends StatelessWidget with AccessibleWidget {
   final String title;
   final String? subtitle;
+
+  @override
+  final bool decorative;
+  @override
+  final String? semanticLabel;
 
   const EntablatureHeader({
     super.key,
     required this.title,
     this.subtitle,
+    this.decorative = false,
+    this.semanticLabel,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return buildAccessible(child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
@@ -37,6 +45,6 @@ class EntablatureHeader extends StatelessWidget {
         ],
         const StoneDivider(),
       ],
-    );
+    ));
   }
 }

@@ -58,6 +58,30 @@ void main() {
             matchesGoldenFile('phoneSE_en/own_posts_screen_own_posts_state_${status.name}_$label.png'),
           );
 
+          // Semantics overlay golden
+          await tester.pumpWidget(
+            SemanticsDebugger(
+              child: MaterialApp(
+                theme: AppTheme.lightTheme,
+                locale: const Locale('en'),
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                supportedLocales: AppLocalizations.supportedLocales,
+                home: BlocProvider<OwnPostsCubit>.value(
+                  value: MockOwnPostsCubit(
+                    fixture.copyWith(status: status, error: status == UiFlowStatus.failure ? Exception('Test error') : null),
+                  ),
+                  child: const OwnPostsScreen(),
+                ),
+              ),
+            ),
+          );
+          await tester.pumpAndSettle();
+
+          await expectLater(
+            find.byType(SemanticsDebugger),
+            matchesGoldenFile('phoneSE_en/semantics/own_posts_screen_own_posts_state_${status.name}_$label.png'),
+          );
+
           addTearDown(() => tester.view.resetPhysicalSize());
         },
       );
@@ -94,6 +118,30 @@ void main() {
             matchesGoldenFile('phoneMax_en/own_posts_screen_own_posts_state_${status.name}_$label.png'),
           );
 
+          // Semantics overlay golden
+          await tester.pumpWidget(
+            SemanticsDebugger(
+              child: MaterialApp(
+                theme: AppTheme.lightTheme,
+                locale: const Locale('en'),
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                supportedLocales: AppLocalizations.supportedLocales,
+                home: BlocProvider<OwnPostsCubit>.value(
+                  value: MockOwnPostsCubit(
+                    fixture.copyWith(status: status, error: status == UiFlowStatus.failure ? Exception('Test error') : null),
+                  ),
+                  child: const OwnPostsScreen(),
+                ),
+              ),
+            ),
+          );
+          await tester.pumpAndSettle();
+
+          await expectLater(
+            find.byType(SemanticsDebugger),
+            matchesGoldenFile('phoneMax_en/semantics/own_posts_screen_own_posts_state_${status.name}_$label.png'),
+          );
+
           addTearDown(() => tester.view.resetPhysicalSize());
         },
       );
@@ -128,6 +176,30 @@ void main() {
           await expectLater(
             find.byType(OwnPostsScreen),
             matchesGoldenFile('tablet_en/own_posts_screen_own_posts_state_${status.name}_$label.png'),
+          );
+
+          // Semantics overlay golden
+          await tester.pumpWidget(
+            SemanticsDebugger(
+              child: MaterialApp(
+                theme: AppTheme.lightTheme,
+                locale: const Locale('en'),
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                supportedLocales: AppLocalizations.supportedLocales,
+                home: BlocProvider<OwnPostsCubit>.value(
+                  value: MockOwnPostsCubit(
+                    fixture.copyWith(status: status, error: status == UiFlowStatus.failure ? Exception('Test error') : null),
+                  ),
+                  child: const OwnPostsScreen(),
+                ),
+              ),
+            ),
+          );
+          await tester.pumpAndSettle();
+
+          await expectLater(
+            find.byType(SemanticsDebugger),
+            matchesGoldenFile('tablet_en/semantics/own_posts_screen_own_posts_state_${status.name}_$label.png'),
           );
 
           addTearDown(() => tester.view.resetPhysicalSize());

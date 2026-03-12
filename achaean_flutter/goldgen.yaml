@@ -18,3 +18,9 @@ theme_variable: AppTheme.lightTheme
 l10n_delegates_import: "package:achaean_flutter/l10n/app_localizations.dart"
 l10n_delegates_variable: "AppLocalizations.localizationsDelegates"
 l10n_supported_locales_variable: "AppLocalizations.supportedLocales"
+
+screen_suffixes:
+  - _screen.dart
+  - _page.dart
+
+generate_semantics: true

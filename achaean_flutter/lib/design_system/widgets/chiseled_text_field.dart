@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../accessibility/accessible_widget.dart';
 import '../primitives/app_sizes.dart';
 import '../theme/app_theme.dart';
 
@@ -6,7 +7,7 @@ import '../theme/app_theme.dart';
 ///
 /// Wraps [TextField] with consistent Athenian civic styling.
 /// Square corners, no rounded pills.
-class ChiseledTextField extends StatelessWidget {
+class ChiseledTextField extends StatelessWidget with AccessibleWidget {
   final TextEditingController? controller;
   final String? labelText;
   final String? hintText;
@@ -16,6 +17,11 @@ class ChiseledTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   final ValueChanged<String>? onChanged;
   final bool enabled;
+
+  @override
+  final bool decorative;
+  @override
+  final String? semanticLabel;
 
   const ChiseledTextField({
     super.key,
@@ -28,11 +34,13 @@ class ChiseledTextField extends StatelessWidget {
     this.validator,
     this.onChanged,
     this.enabled = true,
+    this.decorative = false,
+    this.semanticLabel,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
+    return buildAccessible(child: TextFormField(
       controller: controller,
       maxLines: obscureText ? 1 : maxLines,
       obscureText: obscureText,
@@ -74,6 +82,6 @@ class ChiseledTextField extends StatelessWidget {
           vertical: AppSizes.space * 1.5,
         ),
       ),
-    );
+    ));
   }
 }
