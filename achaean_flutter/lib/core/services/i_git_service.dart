@@ -12,6 +12,7 @@ abstract class IGitService {
     required String token,
     required String username,
     required GitHostType hostType,
+    String authType = 'token',
   });
   Future<String?> getUsername();
   Future<String?> getBaseUrl();

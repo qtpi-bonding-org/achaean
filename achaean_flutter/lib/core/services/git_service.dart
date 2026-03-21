@@ -52,7 +52,7 @@ class GitService implements IGitService {
 
         final client = _clientFactory(
           baseUrl: creds['baseUrl'] as String,
-          auth: GitTokenAuth(creds['token'] as String),
+          auth: _buildAuth(creds),
           hostType: hostType,
         );
         _cachedClient = client;
@@ -69,6 +69,7 @@ class GitService implements IGitService {
     required String token,
     required String username,
     required GitHostType hostType,
+    String authType = 'token',
   }) {
     return tryMethod(
       () async {
@@ -77,6 +78,7 @@ class GitService implements IGitService {
           'token': token,
           'username': username,
           'hostType': hostType.name,
+          'authType': authType,
         });
         await _storage.write(key: _storageKey, value: json);
         _cachedClient = null;
@@ -122,6 +124,15 @@ class GitService implements IGitService {
       GitServiceException.new,
       'getHostType',
     );
+  }
+
+  IGitAuth _buildAuth(Map<String, dynamic> creds) {
+    final token = creds['token'] as String;
+    final authType = creds['authType'] as String? ?? 'token';
+    return switch (authType) {
+      'bearer' => GitBearerAuth(token),
+      _ => GitTokenAuth(token),
+    };
   }
 
   Future<Map<String, dynamic>?> _readCredentials() async {
