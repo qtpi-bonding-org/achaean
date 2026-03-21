@@ -140,6 +140,7 @@ void _registerCoreServices() {
       GitHostType.codeberg =>
         ForgejoClient(baseUrl: baseUrl, auth: auth),
       GitHostType.github => throw UnimplementedError('GitHub support coming'),
+      GitHostType.gitlab => throw UnimplementedError('GitLab support coming'),
     };
   });
 
@@ -153,11 +154,16 @@ void _registerCoreServices() {
     () => GitService(getIt<GitClientFactory>(), storage),
   );
 
+  // OAuth service (Forgejo/Gitea PKCE flow)
+  getIt.registerLazySingleton<IGitOAuth>(
+    () => ForgejoOAuth(),
+  );
+
   // Account creation orchestrator
   getIt.registerLazySingleton<IAccountCreationService>(
     () => AccountCreationService(
       getIt<IKeyService>(),
-      getIt<IGitRegistration>(),
+      getIt<IGitOAuth>(),
       getIt<IGitService>(),
     ),
   );

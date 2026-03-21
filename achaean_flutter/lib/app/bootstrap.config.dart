@@ -29,7 +29,6 @@ import 'package:achaean_flutter/infrastructure/feedback/exception_mapper.dart'
 import 'package:achaean_flutter/infrastructure/feedback/localization_service.dart'
     as _i301;
 import 'package:cubit_ui_flow/cubit_ui_flow.dart' as _i653;
-import 'package:dart_git/dart_git.dart' as _i667;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
@@ -58,9 +57,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => injectionModule.secureStorage,
     );
     gh.singleton<_i1040.ThemeService>(() => _i1040.ThemeService());
-    gh.lazySingleton<_i667.IGitRegistration>(
-      () => injectionModule.gitRegistration,
-    );
     gh.lazySingleton<_i653.ILocalizationService>(
       () => _i301.AppLocalizationService(),
     );
