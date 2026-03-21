@@ -219,8 +219,7 @@ class WebhookEndpoint extends Endpoint {
     String path,
     DateTime now,
   ) async {
-    // Derive the full post URL from the repo URL and commit hash
-    final postUrl = '${event.repoUrl}/raw/commit/${event.afterCommit}/$path';
+    final postUrl = '${event.repoUrl}/$path';
 
     // Upsert post reference
     final existing = await PostReference.db.findFirstRow(
