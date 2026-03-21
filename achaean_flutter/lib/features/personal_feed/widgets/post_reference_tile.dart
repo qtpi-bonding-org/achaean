@@ -27,7 +27,7 @@ class PostReferenceTile extends StatelessWidget {
     final metadataLine = [
       author,
       time,
-      if (polis != null) polis,
+      ?polis,
     ].join(' · ');
 
     final contextLine = _buildContextLine();
