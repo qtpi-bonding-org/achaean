@@ -15,13 +15,11 @@ class PostCreationService implements IPostCreationService {
   final IGitService _gitService;
   final IPostSigningService _signingService;
   final IFeedGenerationService _feedService;
-  final String _forgeBaseUrl;
 
   PostCreationService(
     this._gitService,
     this._signingService,
     this._feedService,
-    this._forgeBaseUrl,
   );
 
   @override
@@ -108,7 +106,6 @@ class PostCreationService implements IPostCreationService {
         final feedXml = await _feedService.generateFeed(
           owner: owner,
           repo: repo,
-          forgeBaseUrl: _forgeBaseUrl,
         );
 
         // Check if feed.xml already exists (need sha for update)
