@@ -247,6 +247,49 @@ class Endpoints extends _i1.EndpointDispatch {
                 offset: params['offset'],
               ),
         ),
+        'getPersonalFeed': _i1.MethodConnector(
+          name: 'getPersonalFeed',
+          params: {
+            'limit': _i1.ParameterDescription(
+              name: 'limit',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'offset': _i1.ParameterDescription(
+              name: 'offset',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['koinon'] as _i3.KoinonEndpoint).getPersonalFeed(
+                    session,
+                    limit: params['limit'],
+                    offset: params['offset'],
+                  ),
+        ),
+        'getThread': _i1.MethodConnector(
+          name: 'getThread',
+          params: {
+            'rootPostUrl': _i1.ParameterDescription(
+              name: 'rootPostUrl',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['koinon'] as _i3.KoinonEndpoint).getThread(
+                session,
+                params['rootPostUrl'],
+              ),
+        ),
       },
     );
     connectors['webhook'] = _i1.EndpointConnector(

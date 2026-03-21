@@ -183,4 +183,57 @@ class KoinonEndpoint extends Endpoint {
       offset: offset,
     );
   }
+
+  /// Get post references from trusted authors (personal feed).
+  Future<List<PostReference>> getPersonalFeed(
+    Session session, {
+    int limit = 50,
+    int offset = 0,
+  }) async {
+    final callerPubkey = await KoinonAuthHandler.verifyFromSession(session);
+
+    final trustDeclarations = await TrustDeclarationRecord.db.find(
+      session,
+      where: (t) => t.fromPubkey.equals(callerPubkey),
+    );
+
+    final trustedPubkeys = trustDeclarations.map((t) => t.toPubkey).toSet();
+    trustedPubkeys.add(callerPubkey); // Include own posts
+
+    return await PostReference.db.find(
+      session,
+      where: (t) => t.authorPubkey.inSet(trustedPubkeys),
+      orderBy: (t) => t.timestamp,
+      orderDescending: true,
+      limit: limit,
+      offset: offset,
+    );
+  }
+
+  /// Get all posts in a thread (root + direct replies).
+  ///
+  /// Returns the root post and all posts whose parentPostUrl matches
+  /// the root. Single-level only — nested replies require the client
+  /// to call getThread again with a reply's postUrl.
+  Future<List<PostReference>> getThread(
+    Session session,
+    String rootPostUrl,
+  ) async {
+    await KoinonAuthHandler.verifyFromSession(session);
+
+    final root = await PostReference.db.findFirstRow(
+      session,
+      where: (t) => t.postUrl.equals(rootPostUrl),
+    );
+
+    if (root == null) return [];
+
+    final replies = await PostReference.db.find(
+      session,
+      where: (t) => t.parentPostUrl.equals(rootPostUrl),
+      orderBy: (t) => t.timestamp,
+    );
+
+    return [root, ...replies];
+  }
 }

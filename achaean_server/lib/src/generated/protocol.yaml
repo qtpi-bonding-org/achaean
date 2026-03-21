@@ -11,5 +11,7 @@ koinon:
   - getFlagsForPolis:
   - getFlaggedPostsForVouchers:
   - getAgora:
+  - getPersonalFeed:
+  - getThread:
 webhook:
   - handlePush:

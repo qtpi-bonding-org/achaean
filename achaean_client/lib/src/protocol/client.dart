@@ -142,6 +142,31 @@ class EndpointKoinon extends _i1.EndpointRef {
       'offset': offset,
     },
   );
+
+  /// Get post references from trusted authors (personal feed).
+  _i2.Future<List<_i9.PostReference>> getPersonalFeed({
+    required int limit,
+    required int offset,
+  }) => caller.callServerEndpoint<List<_i9.PostReference>>(
+    'koinon',
+    'getPersonalFeed',
+    {
+      'limit': limit,
+      'offset': offset,
+    },
+  );
+
+  /// Get all posts in a thread (root + direct replies).
+  ///
+  /// Returns the root post and all posts whose parentPostUrl matches
+  /// the root. Single-level only — nested replies require the client
+  /// to call getThread again with a reply's postUrl.
+  _i2.Future<List<_i9.PostReference>> getThread(String rootPostUrl) =>
+      caller.callServerEndpoint<List<_i9.PostReference>>(
+        'koinon',
+        'getThread',
+        {'rootPostUrl': rootPostUrl},
+      );
 }
 
 /// Receives Forgejo system webhook push events and indexes Koinon data.
