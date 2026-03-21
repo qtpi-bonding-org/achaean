@@ -103,7 +103,7 @@ achaean/
 
 ## License
 
-Dual-licensed:
+Copyright 2026 Qtpi Bonding LLC. Dual-licensed:
 
 - **Code** (Achaean implementation): [AGPL-3.0](LICENSE)
 - **Protocol spec & documentation** (Koinon.md, PostSchema.md, docs/): [CC-BY-SA-4.0](LICENSE-docs)
