@@ -7,11 +7,13 @@ import 'package:achaean_client/achaean_client.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 import '../app_router.dart';
+import '../core/services/flutter_secure_storage_adapter.dart';
 import '../core/services/git_service.dart';
 import '../core/services/i_git_service.dart';
 import '../core/services/i_key_service.dart';
 import '../core/services/i_signing_service.dart';
 import '../core/services/key_service.dart';
+import '../core/services/secure_preferences.dart';
 import '../core/services/koinon_key_manager.dart';
 import '../core/services/signing_service.dart';
 import '../features/account_creation/cubit/account_creation_cubit.dart';
@@ -126,7 +128,9 @@ Future<void> bootstrap() async {
 /// Registers services that have complex/manual dependencies.
 /// This is the ONLY place in the Flutter app that imports Forgejo-specific code.
 void _registerCoreServices() {
-  final storage = getIt<FlutterSecureStorage>();
+  final secureStorage = getIt<FlutterSecureStorage>();
+  final prefs = SecurePreferences(FlutterSecureStorageAdapter(secureStorage));
+  getIt.registerSingleton<SecurePreferences>(prefs);
 
   // Git client factory — dispatches to the right IGitClient by host type
   getIt.registerSingleton<GitClientFactory>(({
@@ -146,12 +150,12 @@ void _registerCoreServices() {
 
   // Key management service
   getIt.registerLazySingleton<IKeyService>(
-    () => KeyService(storage),
+    () => KeyService(prefs),
   );
 
   // Git service (manages IGitClient lifecycle)
   getIt.registerLazySingleton<IGitService>(
-    () => GitService(getIt<GitClientFactory>(), storage),
+    () => GitService(getIt<GitClientFactory>(), prefs),
   );
 
   // OAuth service (Forgejo/Gitea PKCE flow)

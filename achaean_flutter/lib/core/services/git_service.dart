@@ -1,13 +1,9 @@
-import 'dart:convert';
-
 import 'package:dart_git/dart_git.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../exceptions/git_service_exception.dart';
 import '../try_operation.dart';
 import 'i_git_service.dart';
-
-const _storageKey = 'achaean_git_credentials';
+import 'secure_preferences.dart';
 
 /// Factory function type for creating the right [IGitClient] by host type.
 typedef GitClientFactory = IGitClient Function({
@@ -17,19 +13,16 @@ typedef GitClientFactory = IGitClient Function({
 });
 
 class GitService implements IGitService {
-  final FlutterSecureStorage _storage;
+  final SecurePreferences _prefs;
   final GitClientFactory _clientFactory;
   IGitClient? _cachedClient;
 
-  GitService(this._clientFactory, this._storage);
+  GitService(this._clientFactory, this._prefs);
 
   @override
   Future<bool> isConfigured() {
     return tryMethod(
-      () async {
-        final json = await _storage.read(key: _storageKey);
-        return json != null;
-      },
+      () => _prefs.hasGitCredentials(),
       GitServiceException.new,
       'isConfigured',
     );
@@ -41,13 +34,12 @@ class GitService implements IGitService {
       () async {
         if (_cachedClient != null) return _cachedClient!;
 
-        final raw = requireNonNull(
-          await _storage.read(key: _storageKey),
+        final creds = requireNonNull(
+          await _prefs.getGitCredentials(),
           'git credentials',
           GitServiceException.new,
         );
 
-        final creds = jsonDecode(raw) as Map<String, dynamic>;
         final hostType = GitHostType.values.byName(creds['hostType'] as String);
 
         final client = _clientFactory(
@@ -73,14 +65,13 @@ class GitService implements IGitService {
   }) {
     return tryMethod(
       () async {
-        final json = jsonEncode({
-          'baseUrl': baseUrl,
-          'token': token,
-          'username': username,
-          'hostType': hostType.name,
-          'authType': authType,
-        });
-        await _storage.write(key: _storageKey, value: json);
+        await _prefs.setGitCredentials(
+          baseUrl: baseUrl,
+          token: token,
+          username: username,
+          hostType: hostType,
+          authType: authType,
+        );
         _cachedClient = null;
       },
       GitServiceException.new,
@@ -92,7 +83,7 @@ class GitService implements IGitService {
   Future<String?> getUsername() {
     return tryMethod(
       () async {
-        final creds = await _readCredentials();
+        final creds = await _prefs.getGitCredentials();
         return creds?['username'] as String?;
       },
       GitServiceException.new,
@@ -104,7 +95,7 @@ class GitService implements IGitService {
   Future<String?> getBaseUrl() {
     return tryMethod(
       () async {
-        final creds = await _readCredentials();
+        final creds = await _prefs.getGitCredentials();
         return creds?['baseUrl'] as String?;
       },
       GitServiceException.new,
@@ -116,7 +107,7 @@ class GitService implements IGitService {
   Future<GitHostType?> getHostType() {
     return tryMethod(
       () async {
-        final creds = await _readCredentials();
+        final creds = await _prefs.getGitCredentials();
         final name = creds?['hostType'] as String?;
         if (name == null) return null;
         return GitHostType.values.byName(name);
@@ -133,11 +124,5 @@ class GitService implements IGitService {
       'bearer' => GitBearerAuth(token),
       _ => GitTokenAuth(token),
     };
-  }
-
-  Future<Map<String, dynamic>?> _readCredentials() async {
-    final json = await _storage.read(key: _storageKey);
-    if (json == null) return null;
-    return jsonDecode(json) as Map<String, dynamic>;
   }
 }

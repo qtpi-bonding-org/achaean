@@ -1,18 +1,16 @@
 import 'dart:typed_data';
 
 import 'package:dart_jwk_duo/dart_jwk_duo.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../exceptions/key_exception.dart';
 import '../try_operation.dart';
 import 'i_key_service.dart';
-
-const _storageKey = 'achaean_jwk_set';
+import 'secure_preferences.dart';
 
 class KeyService implements IKeyService {
-  final FlutterSecureStorage _storage;
+  final SecurePreferences _prefs;
 
-  KeyService(this._storage);
+  KeyService(this._prefs);
 
   @override
   Future<String> generateAndStoreKeypair() {
@@ -20,7 +18,7 @@ class KeyService implements IKeyService {
       () async {
         final duo = await GenerationService.generateKeyDuo();
         final json = await const KeyDuoSerializer().exportKeyDuo(duo);
-        await _storage.write(key: _storageKey, value: json);
+        await _prefs.setKeypairJwk(json);
         return await duo.signingKeyPair.exportPublicKeyHex();
       },
       KeyException.new,
@@ -32,7 +30,7 @@ class KeyService implements IKeyService {
   Future<String?> getPublicKeyHex() {
     return tryMethod(
       () async {
-        final json = await _storage.read(key: _storageKey);
+        final json = await _prefs.getKeypairJwk();
         if (json == null) return null;
         return await KeyDuoSerializer.extractSigningPublicKeyHex(json);
       },
@@ -46,7 +44,7 @@ class KeyService implements IKeyService {
     return tryMethod(
       () async {
         final json = requireNonNull(
-          await _storage.read(key: _storageKey),
+          await _prefs.getKeypairJwk(),
           'stored keypair',
           KeyException.new,
         );
@@ -61,10 +59,7 @@ class KeyService implements IKeyService {
   @override
   Future<bool> hasKeypair() {
     return tryMethod(
-      () async {
-        final json = await _storage.read(key: _storageKey);
-        return json != null;
-      },
+      () => _prefs.hasKeypair(),
       KeyException.new,
       'hasKeypair',
     );
