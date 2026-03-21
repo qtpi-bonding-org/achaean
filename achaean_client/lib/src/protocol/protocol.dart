@@ -18,15 +18,6 @@ import 'koinon/polis_definition.dart' as _i5;
 import 'koinon/politai_user.dart' as _i6;
 import 'koinon/readme_signature_record.dart' as _i7;
 import 'koinon/trust_declaration_record.dart' as _i8;
-import 'package:achaean_client/src/protocol/koinon/polis_definition.dart'
-    as _i9;
-import 'package:achaean_client/src/protocol/koinon/readme_signature_record.dart'
-    as _i10;
-import 'package:achaean_client/src/protocol/koinon/politai_user.dart' as _i11;
-import 'package:achaean_client/src/protocol/koinon/trust_declaration_record.dart'
-    as _i12;
-import 'package:achaean_client/src/protocol/koinon/flag_record.dart' as _i13;
-import 'package:achaean_client/src/protocol/koinon/cached_post.dart' as _i14;
 export 'greetings/greeting.dart';
 export 'koinon/cached_post.dart';
 export 'koinon/flag_record.dart';
@@ -112,44 +103,6 @@ class Protocol extends _i1.SerializationManager {
     }
     if (t == _i1.getType<_i8.TrustDeclarationRecord?>()) {
       return (data != null ? _i8.TrustDeclarationRecord.fromJson(data) : null)
-          as T;
-    }
-    if (t == List<_i9.PolisDefinition>) {
-      return (data as List)
-              .map((e) => deserialize<_i9.PolisDefinition>(e))
-              .toList()
-          as T;
-    }
-    if (t == List<_i10.ReadmeSignatureRecord>) {
-      return (data as List)
-              .map((e) => deserialize<_i10.ReadmeSignatureRecord>(e))
-              .toList()
-          as T;
-    }
-    if (t == List<_i11.PolitaiUser>) {
-      return (data as List)
-              .map((e) => deserialize<_i11.PolitaiUser>(e))
-              .toList()
-          as T;
-    }
-    if (t == List<_i12.TrustDeclarationRecord>) {
-      return (data as List)
-              .map((e) => deserialize<_i12.TrustDeclarationRecord>(e))
-              .toList()
-          as T;
-    }
-    if (t == List<_i13.FlagRecord>) {
-      return (data as List).map((e) => deserialize<_i13.FlagRecord>(e)).toList()
-          as T;
-    }
-    if (t == List<_i14.CachedPost>) {
-      return (data as List).map((e) => deserialize<_i14.CachedPost>(e)).toList()
-          as T;
-    }
-    if (t == Map<String, dynamic>) {
-      return (data as Map).map(
-            (k, v) => MapEntry(deserialize<String>(k), deserialize<dynamic>(v)),
-          )
           as T;
     }
     return super.deserialize<T>(data, t);

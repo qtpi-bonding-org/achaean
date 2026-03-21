@@ -147,11 +147,10 @@ class KoinonEndpoint extends Endpoint {
     );
   }
 
-  /// Get posts for a polis (the agora).
+  /// Get post references for a polis (the agora).
   ///
-  /// Computes polis members via AGE, then returns full post content
-  /// from those members tagged for this polis.
-  Future<List<CachedPost>> getAgora(
+  /// Computes polis members via AGE, then returns posts from those members.
+  Future<List<PostReference>> getAgora(
     Session session,
     String polisRepoUrl, {
     int limit = 50,
@@ -173,7 +172,7 @@ class KoinonEndpoint extends Endpoint {
 
     if (memberPubkeys.isEmpty) return [];
 
-    return await CachedPost.db.find(
+    return await PostReference.db.find(
       session,
       where: (t) =>
           t.authorPubkey.inSet(memberPubkeys.toSet()) &
@@ -183,70 +182,5 @@ class KoinonEndpoint extends Endpoint {
       limit: limit,
       offset: offset,
     );
-  }
-
-  /// Get personalized feed — posts from everyone the caller trusts,
-  /// plus the caller's own posts.
-  ///
-  /// Spans all poleis. The caller's trust graph (from their koinon.json
-  /// trust declarations) determines which authors appear.
-  Future<List<CachedPost>> getPersonalFeed(
-    Session session, {
-    int limit = 50,
-    int offset = 0,
-  }) async {
-    final callerPubkey = await KoinonAuthHandler.verifyFromSession(session);
-
-    // Look up who the caller trusts
-    final trustDeclarations = await TrustDeclarationRecord.db.find(
-      session,
-      where: (t) => t.fromPubkey.equals(callerPubkey),
-    );
-
-    final feedPubkeys = trustDeclarations.map((t) => t.toPubkey).toSet();
-    feedPubkeys.add(callerPubkey); // Include caller's own posts
-
-    return await CachedPost.db.find(
-      session,
-      where: (t) => t.authorPubkey.inSet(feedPubkeys),
-      orderBy: (t) => t.timestamp,
-      orderDescending: true,
-      limit: limit,
-      offset: offset,
-    );
-  }
-
-  /// Get a thread — root post and all replies.
-  ///
-  /// Returns the post at the given path, plus all posts whose parent
-  /// references point to it.
-  Future<List<CachedPost>> getThread(
-    Session session,
-    String authorPubkey,
-    String path,
-  ) async {
-    await KoinonAuthHandler.verifyFromSession(session);
-
-    final results = <CachedPost>[];
-
-    // Get root post
-    final root = await CachedPost.db.findFirstRow(
-      session,
-      where: (t) =>
-          t.authorPubkey.equals(authorPubkey) & t.path.equals(path),
-    );
-    if (root != null) results.add(root);
-
-    // Get replies
-    final replies = await CachedPost.db.find(
-      session,
-      where: (t) =>
-          t.parentAuthorPubkey.equals(authorPubkey) &
-          t.parentPath.equals(path),
-      orderBy: (t) => t.timestamp,
-    );
-    results.addAll(replies);
-
-    return results;
   }
 }
