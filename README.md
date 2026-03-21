@@ -103,4 +103,9 @@ achaean/
 
 ## License
 
-AGPL-3.0
+Dual-licensed:
+
+- **Code** (Achaean implementation): [AGPL-3.0](LICENSE)
+- **Protocol spec & documentation** (Koinon.md, PostSchema.md, docs/): [CC-BY-SA-4.0](LICENSE-docs)
+
+Anyone can implement the Koinon protocol. If you modify and deploy the Achaean server code, you must open-source your changes.
