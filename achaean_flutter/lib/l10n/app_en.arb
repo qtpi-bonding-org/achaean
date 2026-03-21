@@ -43,5 +43,7 @@
   "accountCreationConnect": "Connect Account",
   "accountCreationSignup": "Create Account",
   "accountCreationConnecting": "Connecting...",
-  "accountCreationUrlHint": "https://git.example.com"
+  "accountCreationUrlHint": "https://git.example.com",
+  "labelIndexServerUrl": "Index server URL",
+  "indexServerUrlHint": "https://index.example.com"
 }

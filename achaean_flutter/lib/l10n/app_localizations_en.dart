@@ -131,4 +131,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountCreationUrlHint => 'https://git.example.com';
+
+  @override
+  String get labelIndexServerUrl => 'Index server URL';
+
+  @override
+  String get indexServerUrlHint => 'https://index.example.com';
 }

@@ -84,22 +84,29 @@ Future<void> bootstrap() async {
     _registerCoreServices();
     debugPrint('Bootstrap: Core services registered');
 
-    // 3. Initialize Serverpod client
+    // 3. Initialize Serverpod client (if index server URL is configured)
     debugPrint('Bootstrap: Initializing Serverpod client...');
-    final serverUrl = await getServerUrl();
-    final keyManager = KoinonKeyManager(getIt<IKeyService>());
-    // ignore: deprecated_member_use
-    final client = Client(
-      serverUrl,
-      authenticationKeyManager: keyManager,
-    )..connectivityMonitor = FlutterConnectivityMonitor();
-    getIt.registerSingleton<Client>(client);
-    debugPrint('Bootstrap: Serverpod client initialized');
+    final prefs = getIt<SecurePreferences>();
+    final indexServerUrl = await prefs.getIndexServerUrl();
+    if (indexServerUrl != null) {
+      final keyManager = KoinonKeyManager(getIt<IKeyService>());
+      // ignore: deprecated_member_use
+      final client = Client(
+        indexServerUrl,
+        authenticationKeyManager: keyManager,
+      )..connectivityMonitor = FlutterConnectivityMonitor();
+      getIt.registerSingleton<Client>(client);
+      debugPrint('Bootstrap: Serverpod client initialized at $indexServerUrl');
+    } else {
+      debugPrint('Bootstrap: No index server URL configured, skipping Serverpod client');
+    }
 
     // 3.5 Register query services (depend on Client)
-    debugPrint('Bootstrap: Registering query services...');
-    _registerQueryServices();
-    debugPrint('Bootstrap: Query services registered');
+    if (getIt.isRegistered<Client>()) {
+      debugPrint('Bootstrap: Registering query services...');
+      _registerQueryServices();
+      debugPrint('Bootstrap: Query services registered');
+    }
 
     // 4. Register UI flow service (depends on localization/feedback/loading)
     debugPrint('Bootstrap: Registering UI flow service...');
@@ -169,6 +176,7 @@ void _registerCoreServices() {
       getIt<IKeyService>(),
       getIt<IGitOAuth>(),
       getIt<IGitService>(),
+      getIt<SecurePreferences>(),
     ),
   );
 

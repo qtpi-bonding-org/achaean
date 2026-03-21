@@ -339,6 +339,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'https://git.example.com'**
   String get accountCreationUrlHint;
+
+  /// No description provided for @labelIndexServerUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Index server URL'**
+  String get labelIndexServerUrl;
+
+  /// No description provided for @indexServerUrlHint.
+  ///
+  /// In en, this message translates to:
+  /// **'https://index.example.com'**
+  String get indexServerUrlHint;
 }
 
 class _AppLocalizationsDelegate

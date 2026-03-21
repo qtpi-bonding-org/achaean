@@ -20,10 +20,12 @@ class AccountCreationScreen extends StatefulWidget {
 class _AccountCreationScreenState extends State<AccountCreationScreen> {
   final _formKey = GlobalKey<FormState>();
   final _urlController = TextEditingController();
+  final _indexUrlController = TextEditingController();
 
   @override
   void dispose() {
     _urlController.dispose();
+    _indexUrlController.dispose();
     super.dispose();
   }
 
@@ -52,6 +54,20 @@ class _AccountCreationScreenState extends State<AccountCreationScreen> {
                   child: ListView(
                     children: [
                       TextFormField(
+                        controller: _indexUrlController,
+                        decoration: InputDecoration(
+                          labelText: l10n.labelIndexServerUrl,
+                          hintText: l10n.indexServerUrlHint,
+                        ),
+                        keyboardType: TextInputType.url,
+                        autocorrect: false,
+                        validator: (v) =>
+                            v == null || v.trim().isEmpty
+                                ? l10n.validationRequired
+                                : null,
+                      ),
+                      SizedBox(height: AppSizes.space),
+                      TextFormField(
                         controller: _urlController,
                         decoration: InputDecoration(
                           labelText: l10n.labelGitServerUrl,
@@ -73,7 +89,8 @@ class _AccountCreationScreenState extends State<AccountCreationScreen> {
                                   context
                                       .read<AccountCreationCubit>()
                                       .connectAccount(
-                                        _urlController.text,
+                                        serverUrl: _urlController.text,
+                                        indexServerUrl: _indexUrlController.text,
                                       );
                                 }
                               },

@@ -12,12 +12,17 @@ class AccountCreationCubit extends AppCubit<AccountCreationState> {
       : super(const AccountCreationState());
 
   /// Run the full OAuth flow: opens browser, exchanges code, scaffolds repo.
-  Future<void> connectAccount(String serverUrl) async {
-    final normalized = _normalizeUrl(serverUrl);
+  Future<void> connectAccount({
+    required String serverUrl,
+    required String indexServerUrl,
+  }) async {
+    final normalizedServer = _normalizeUrl(serverUrl);
+    final normalizedIndex = _normalizeUrl(indexServerUrl);
     await tryOperation(
       () async {
         final result = await _service.connectViaOAuth(
-          serverUrl: normalized,
+          serverUrl: normalizedServer,
+          indexServerUrl: normalizedIndex,
         );
         return state.copyWith(
           status: UiFlowStatus.success,

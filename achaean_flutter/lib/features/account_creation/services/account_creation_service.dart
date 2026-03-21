@@ -5,6 +5,7 @@ import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import '../../../core/exceptions/account_exception.dart';
 import '../../../core/services/i_git_service.dart';
 import '../../../core/services/i_key_service.dart';
+import '../../../core/services/secure_preferences.dart';
 import '../../../core/try_operation.dart';
 import '../models/account_creation_result.dart';
 import 'i_account_creation_service.dart';
@@ -13,16 +14,20 @@ class AccountCreationService implements IAccountCreationService {
   final IKeyService _keyService;
   final IGitOAuth _oauth;
   final IGitService _gitService;
+  final SecurePreferences _prefs;
 
-  AccountCreationService(this._keyService, this._oauth, this._gitService);
+  AccountCreationService(this._keyService, this._oauth, this._gitService, this._prefs);
 
   @override
   Future<AccountCreationResult> connectViaOAuth({
     required String serverUrl,
+    required String indexServerUrl,
     String callbackUrlScheme = 'achaean',
   }) {
     return tryMethod(
       () async {
+        // 0. Store index server URL
+        await _prefs.setIndexServerUrl(indexServerUrl);
         // 1. Build OAuth URL with PKCE
         final authResult = _oauth.buildAuthorizationUrl(
           serverUrl: serverUrl,
