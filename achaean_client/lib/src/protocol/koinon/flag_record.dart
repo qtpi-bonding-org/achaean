@@ -18,7 +18,7 @@ abstract class FlagRecord implements _i1.SerializableModel {
     this.id,
     required this.flaggedByPubkey,
     required this.postAuthorPubkey,
-    required this.postPath,
+    required this.postUrl,
     required this.polisRepoUrl,
     required this.reason,
     required this.timestamp,
@@ -29,7 +29,7 @@ abstract class FlagRecord implements _i1.SerializableModel {
     int? id,
     required String flaggedByPubkey,
     required String postAuthorPubkey,
-    required String postPath,
+    required String postUrl,
     required String polisRepoUrl,
     required String reason,
     required DateTime timestamp,
@@ -41,7 +41,7 @@ abstract class FlagRecord implements _i1.SerializableModel {
       id: jsonSerialization['id'] as int?,
       flaggedByPubkey: jsonSerialization['flaggedByPubkey'] as String,
       postAuthorPubkey: jsonSerialization['postAuthorPubkey'] as String,
-      postPath: jsonSerialization['postPath'] as String,
+      postUrl: jsonSerialization['postUrl'] as String,
       polisRepoUrl: jsonSerialization['polisRepoUrl'] as String,
       reason: jsonSerialization['reason'] as String,
       timestamp: _i1.DateTimeJsonExtension.fromJson(
@@ -64,8 +64,8 @@ abstract class FlagRecord implements _i1.SerializableModel {
   /// Public key of the post author.
   String postAuthorPubkey;
 
-  /// Path to the flagged post file.
-  String postPath;
+  /// Full URL to the flagged post.json.
+  String postUrl;
 
   /// Polis repo URL where this flag applies.
   String polisRepoUrl;
@@ -86,7 +86,7 @@ abstract class FlagRecord implements _i1.SerializableModel {
     int? id,
     String? flaggedByPubkey,
     String? postAuthorPubkey,
-    String? postPath,
+    String? postUrl,
     String? polisRepoUrl,
     String? reason,
     DateTime? timestamp,
@@ -99,7 +99,7 @@ abstract class FlagRecord implements _i1.SerializableModel {
       if (id != null) 'id': id,
       'flaggedByPubkey': flaggedByPubkey,
       'postAuthorPubkey': postAuthorPubkey,
-      'postPath': postPath,
+      'postUrl': postUrl,
       'polisRepoUrl': polisRepoUrl,
       'reason': reason,
       'timestamp': timestamp.toJson(),
@@ -120,7 +120,7 @@ class _FlagRecordImpl extends FlagRecord {
     int? id,
     required String flaggedByPubkey,
     required String postAuthorPubkey,
-    required String postPath,
+    required String postUrl,
     required String polisRepoUrl,
     required String reason,
     required DateTime timestamp,
@@ -129,7 +129,7 @@ class _FlagRecordImpl extends FlagRecord {
          id: id,
          flaggedByPubkey: flaggedByPubkey,
          postAuthorPubkey: postAuthorPubkey,
-         postPath: postPath,
+         postUrl: postUrl,
          polisRepoUrl: polisRepoUrl,
          reason: reason,
          timestamp: timestamp,
@@ -144,7 +144,7 @@ class _FlagRecordImpl extends FlagRecord {
     Object? id = _Undefined,
     String? flaggedByPubkey,
     String? postAuthorPubkey,
-    String? postPath,
+    String? postUrl,
     String? polisRepoUrl,
     String? reason,
     DateTime? timestamp,
@@ -154,7 +154,7 @@ class _FlagRecordImpl extends FlagRecord {
       id: id is int? ? id : this.id,
       flaggedByPubkey: flaggedByPubkey ?? this.flaggedByPubkey,
       postAuthorPubkey: postAuthorPubkey ?? this.postAuthorPubkey,
-      postPath: postPath ?? this.postPath,
+      postUrl: postUrl ?? this.postUrl,
       polisRepoUrl: polisRepoUrl ?? this.polisRepoUrl,
       reason: reason ?? this.reason,
       timestamp: timestamp ?? this.timestamp,

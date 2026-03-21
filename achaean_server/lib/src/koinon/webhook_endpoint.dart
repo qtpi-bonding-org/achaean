@@ -179,7 +179,7 @@ class WebhookEndpoint extends Endpoint {
           FlagRecord(
             flaggedByPubkey: pubkey,
             postAuthorPubkey: postRef?.authorPubkey ?? '',
-            postPath: flag.post,
+            postUrl: flag.post,
             polisRepoUrl: flag.polis,
             reason: flag.reason,
             timestamp: now,

@@ -6,8 +6,8 @@ fields:
   flaggedByPubkey: String
   ### Public key of the post author.
   postAuthorPubkey: String
-  ### Path to the flagged post file.
-  postPath: String
+  ### Full URL to the flagged post.json.
+  postUrl: String
   ### Polis repo URL where this flag applies.
   polisRepoUrl: String
   ### Free-form reason for flagging.
@@ -18,9 +18,9 @@ fields:
   indexedAt: DateTime
 indexes:
   flag_records_flagger_post_polis_idx:
-    fields: flaggedByPubkey, postPath, polisRepoUrl
+    fields: flaggedByPubkey, postUrl, polisRepoUrl
     unique: true
   flag_records_post_polis_idx:
-    fields: postPath, polisRepoUrl
+    fields: postUrl, polisRepoUrl
   flag_records_author_idx:
     fields: postAuthorPubkey

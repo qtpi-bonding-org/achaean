@@ -19,7 +19,7 @@ abstract class FlagRecord
     this.id,
     required this.flaggedByPubkey,
     required this.postAuthorPubkey,
-    required this.postPath,
+    required this.postUrl,
     required this.polisRepoUrl,
     required this.reason,
     required this.timestamp,
@@ -30,7 +30,7 @@ abstract class FlagRecord
     int? id,
     required String flaggedByPubkey,
     required String postAuthorPubkey,
-    required String postPath,
+    required String postUrl,
     required String polisRepoUrl,
     required String reason,
     required DateTime timestamp,
@@ -42,7 +42,7 @@ abstract class FlagRecord
       id: jsonSerialization['id'] as int?,
       flaggedByPubkey: jsonSerialization['flaggedByPubkey'] as String,
       postAuthorPubkey: jsonSerialization['postAuthorPubkey'] as String,
-      postPath: jsonSerialization['postPath'] as String,
+      postUrl: jsonSerialization['postUrl'] as String,
       polisRepoUrl: jsonSerialization['polisRepoUrl'] as String,
       reason: jsonSerialization['reason'] as String,
       timestamp: _i1.DateTimeJsonExtension.fromJson(
@@ -67,8 +67,8 @@ abstract class FlagRecord
   /// Public key of the post author.
   String postAuthorPubkey;
 
-  /// Path to the flagged post file.
-  String postPath;
+  /// Full URL to the flagged post.json.
+  String postUrl;
 
   /// Polis repo URL where this flag applies.
   String polisRepoUrl;
@@ -92,7 +92,7 @@ abstract class FlagRecord
     int? id,
     String? flaggedByPubkey,
     String? postAuthorPubkey,
-    String? postPath,
+    String? postUrl,
     String? polisRepoUrl,
     String? reason,
     DateTime? timestamp,
@@ -105,7 +105,7 @@ abstract class FlagRecord
       if (id != null) 'id': id,
       'flaggedByPubkey': flaggedByPubkey,
       'postAuthorPubkey': postAuthorPubkey,
-      'postPath': postPath,
+      'postUrl': postUrl,
       'polisRepoUrl': polisRepoUrl,
       'reason': reason,
       'timestamp': timestamp.toJson(),
@@ -120,7 +120,7 @@ abstract class FlagRecord
       if (id != null) 'id': id,
       'flaggedByPubkey': flaggedByPubkey,
       'postAuthorPubkey': postAuthorPubkey,
-      'postPath': postPath,
+      'postUrl': postUrl,
       'polisRepoUrl': polisRepoUrl,
       'reason': reason,
       'timestamp': timestamp.toJson(),
@@ -165,7 +165,7 @@ class _FlagRecordImpl extends FlagRecord {
     int? id,
     required String flaggedByPubkey,
     required String postAuthorPubkey,
-    required String postPath,
+    required String postUrl,
     required String polisRepoUrl,
     required String reason,
     required DateTime timestamp,
@@ -174,7 +174,7 @@ class _FlagRecordImpl extends FlagRecord {
          id: id,
          flaggedByPubkey: flaggedByPubkey,
          postAuthorPubkey: postAuthorPubkey,
-         postPath: postPath,
+         postUrl: postUrl,
          polisRepoUrl: polisRepoUrl,
          reason: reason,
          timestamp: timestamp,
@@ -189,7 +189,7 @@ class _FlagRecordImpl extends FlagRecord {
     Object? id = _Undefined,
     String? flaggedByPubkey,
     String? postAuthorPubkey,
-    String? postPath,
+    String? postUrl,
     String? polisRepoUrl,
     String? reason,
     DateTime? timestamp,
@@ -199,7 +199,7 @@ class _FlagRecordImpl extends FlagRecord {
       id: id is int? ? id : this.id,
       flaggedByPubkey: flaggedByPubkey ?? this.flaggedByPubkey,
       postAuthorPubkey: postAuthorPubkey ?? this.postAuthorPubkey,
-      postPath: postPath ?? this.postPath,
+      postUrl: postUrl ?? this.postUrl,
       polisRepoUrl: polisRepoUrl ?? this.polisRepoUrl,
       reason: reason ?? this.reason,
       timestamp: timestamp ?? this.timestamp,
@@ -223,8 +223,8 @@ class FlagRecordUpdateTable extends _i1.UpdateTable<FlagRecordTable> {
         value,
       );
 
-  _i1.ColumnValue<String, String> postPath(String value) => _i1.ColumnValue(
-    table.postPath,
+  _i1.ColumnValue<String, String> postUrl(String value) => _i1.ColumnValue(
+    table.postUrl,
     value,
   );
 
@@ -262,8 +262,8 @@ class FlagRecordTable extends _i1.Table<int?> {
       'postAuthorPubkey',
       this,
     );
-    postPath = _i1.ColumnString(
-      'postPath',
+    postUrl = _i1.ColumnString(
+      'postUrl',
       this,
     );
     polisRepoUrl = _i1.ColumnString(
@@ -292,8 +292,8 @@ class FlagRecordTable extends _i1.Table<int?> {
   /// Public key of the post author.
   late final _i1.ColumnString postAuthorPubkey;
 
-  /// Path to the flagged post file.
-  late final _i1.ColumnString postPath;
+  /// Full URL to the flagged post.json.
+  late final _i1.ColumnString postUrl;
 
   /// Polis repo URL where this flag applies.
   late final _i1.ColumnString polisRepoUrl;
@@ -312,7 +312,7 @@ class FlagRecordTable extends _i1.Table<int?> {
     id,
     flaggedByPubkey,
     postAuthorPubkey,
-    postPath,
+    postUrl,
     polisRepoUrl,
     reason,
     timestamp,

@@ -71,7 +71,7 @@ class Protocol extends _i1.SerializationManagerServer {
           dartType: 'String',
         ),
         _i2.ColumnDefinition(
-          name: 'postPath',
+          name: 'postUrl',
           columnType: _i2.ColumnType.text,
           isNullable: false,
           dartType: 'String',
@@ -126,7 +126,7 @@ class Protocol extends _i1.SerializationManagerServer {
             ),
             _i2.IndexElementDefinition(
               type: _i2.IndexElementDefinitionType.column,
-              definition: 'postPath',
+              definition: 'postUrl',
             ),
             _i2.IndexElementDefinition(
               type: _i2.IndexElementDefinitionType.column,
@@ -143,7 +143,7 @@ class Protocol extends _i1.SerializationManagerServer {
           elements: [
             _i2.IndexElementDefinition(
               type: _i2.IndexElementDefinitionType.column,
-              definition: 'postPath',
+              definition: 'postUrl',
             ),
             _i2.IndexElementDefinition(
               type: _i2.IndexElementDefinitionType.column,
