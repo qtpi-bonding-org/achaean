@@ -34,19 +34,19 @@ Achaean is a social platform where communities are trust-gated, not moderation-g
 
 ### vs. Lemmy / Mastodon (ActivityPub)
 
-ActivityPub was designed when the mental model was "decentralized Twitter." Servers host content, servers federate, servers moderate. This works until it doesn't — federated harassment, CSAM attacks, admin burnout, and moderation as an endless arms race against bad actors. The architecture creates the very problems it then tries to solve.
+ActivityPub communities rely on server admins to moderate. This puts a real burden on volunteers — especially at scale, where federated harassment and content moderation become an ongoing time commitment. Koinon removes that role entirely by making community boundaries structural.
 
 ### vs. Bluesky (AT Protocol)
 
-Bluesky got the architecture half right — user-owned data repos, portable identity, separate aggregation layer. But they compromised on the trust model to chase scale. The aggregation layer (relay + appview) is the product, Bluesky the company runs it, and moderation is still centralized "labeling services." Architecturally decentralized, practically centralized.
+Bluesky introduced great ideas — user-owned data repos, portable identity, a separate aggregation layer. Koinon shares those instincts but goes further on the trust model. Where Bluesky uses centralized labeling services for moderation, Koinon computes community membership from the trust graph itself.
 
 ### vs. Nostr
 
-Nostr is the closest cousin — keypair identity, no server owns your stuff, client-side filtering. But Nostr has no community primitive. It's a global firehose of signed events with no structural answer to spam or community boundaries. Nostr said "what if Twitter but keypairs" and stopped. Koinon says "what if *community* but keypairs."
+Nostr shares Koinon's keypair identity and "no server owns your stuff" philosophy. The difference is community structure — Nostr is a global event stream without a built-in community primitive. Koinon adds that layer: trust-gated groups with computed membership.
 
-### Koinon's insight
+### What Koinon does differently
 
-Moderation is a symptom of broken architecture, not a missing feature. If your community is trust-gated — where membership requires mutual trust relationships above a threshold — then:
+Communities are trust-gated — membership requires mutual trust relationships above a threshold. This means:
 
 - **Harassment from strangers?** They're not in the trust graph, they don't exist in your agora.
 - **Alt-account flooding?** No trust edges = invisible.
