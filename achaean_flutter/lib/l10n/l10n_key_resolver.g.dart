@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // Generator: l10n_key_resolver
-// Generated at: 2026-03-09T18:47:35.011171
+// Generated at: 2026-03-20T20:18:42.338495
 
 import 'app_localizations.dart';
 
@@ -192,6 +192,7 @@ class L10nKeyResolver {
 /// Usage:
 /// ```dart
 /// l10n.translate(L10nKeys.errorTimeout);
+/// l10n.translate(...L10nKeys.fieldsCount(5));
 /// ```
 abstract class L10nKeys {
   static const accountCreationError = 'account.creation.error';
