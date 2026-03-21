@@ -26,18 +26,21 @@ class PostReadingService implements IPostReadingService {
           hostType: _defaultHostType,
         );
 
+        // Derive file path from postUrl by stripping the repo URL prefix
+        final path = ref.postUrl.substring(ref.authorRepoUrl.length + 1);
+
         // 1. Read post.json (always present)
         final file = await client.readFile(
           owner: repoId.owner,
           repo: repoId.repo,
-          path: ref.path,
+          path: path,
         );
         final json = jsonDecode(file.content) as Map<String, dynamic>;
         final post = Post.fromJson(json);
 
         // 2. Derive directory path from post.json path
-        final lastSlash = ref.path.lastIndexOf('/');
-        final dirPath = lastSlash > 0 ? ref.path.substring(0, lastSlash) : '';
+        final lastSlash = path.lastIndexOf('/');
+        final dirPath = lastSlash > 0 ? path.substring(0, lastSlash) : '';
 
         // 3. Check for index.html
         final htmlPath = '$dirPath/index.html';

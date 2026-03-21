@@ -75,7 +75,7 @@ class AgoraCubit extends AppCubit<AgoraState> {
   Map<String, int> _computeFlagCounts(List<FlagRecord> flags) {
     final counts = <String, int>{};
     for (final flag in flags) {
-      counts[flag.postPath] = (counts[flag.postPath] ?? 0) + 1;
+      counts[flag.postUrl] = (counts[flag.postUrl] ?? 0) + 1;
     }
     return counts;
   }

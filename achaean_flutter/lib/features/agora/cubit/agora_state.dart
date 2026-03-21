@@ -29,6 +29,6 @@ abstract class AgoraState with _$AgoraState implements IUiFlowState {
   bool get hasError => error != null;
 
   /// Check if a post is flagged (flag count >= threshold).
-  bool isPostFlagged(String postPath) =>
-      (flagCounts[postPath] ?? 0) >= flagThreshold;
+  bool isPostFlagged(String postUrl) =>
+      (flagCounts[postUrl] ?? 0) >= flagThreshold;
 }
