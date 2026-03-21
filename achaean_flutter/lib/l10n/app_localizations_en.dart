@@ -113,4 +113,22 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get queryError =>
       'Unable to load data. Check your connection and try again.';
+
+  @override
+  String get accountCreationConnectTitle => 'Connect to Git Server';
+
+  @override
+  String get labelGitServerUrl => 'Git server URL';
+
+  @override
+  String get accountCreationConnect => 'Connect Account';
+
+  @override
+  String get accountCreationSignup => 'Create Account';
+
+  @override
+  String get accountCreationConnecting => 'Connecting...';
+
+  @override
+  String get accountCreationUrlHint => 'https://git.example.com';
 }

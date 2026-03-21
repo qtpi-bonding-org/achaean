@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // Generator: l10n_key_resolver
-// Generated at: 2026-03-20T20:18:42.338495
+// Generated at: 2026-03-21T13:47:10.288568
 
 import 'app_localizations.dart';
 
@@ -26,10 +26,15 @@ class L10nKeyResolver {
   String? resolve(String key, {Map<String, dynamic>? args}) {
     return switch (key) {
       // Simple keys (no parameters)
+      'account.creation.connect' => _l10n.accountCreationConnect,
+      'account.creation.connect.title' => _l10n.accountCreationConnectTitle,
+      'account.creation.connecting' => _l10n.accountCreationConnecting,
       'account.creation.error' => _l10n.accountCreationError,
+      'account.creation.signup' => _l10n.accountCreationSignup,
       'account.creation.submit' => _l10n.accountCreationSubmit,
       'account.creation.success' => _l10n.accountCreationSuccess,
       'account.creation.title' => _l10n.accountCreationTitle,
+      'account.creation.url.hint' => _l10n.accountCreationUrlHint,
       'app.title' => _l10n.appTitle,
       'error.auth.failed' => _l10n.errorAuthFailed,
       'error.auth.unauthorized' => _l10n.errorAuthUnauthorized,
@@ -42,6 +47,7 @@ class L10nKeyResolver {
       'inspection.complete' => _l10n.inspectionComplete,
       'inspection.error' => _l10n.inspectionError,
       'label.email' => _l10n.labelEmail,
+      'label.git.server.url' => _l10n.labelGitServerUrl,
       'label.password' => _l10n.labelPassword,
       'label.username' => _l10n.labelUsername,
       'own.posts.empty' => _l10n.ownPostsEmpty,
@@ -68,10 +74,15 @@ class L10nKeyResolver {
 
   /// Set of all known keys (for validation/debugging).
   static const knownKeys = <String>{
+    'account.creation.connect',
+    'account.creation.connect.title',
+    'account.creation.connecting',
     'account.creation.error',
+    'account.creation.signup',
     'account.creation.submit',
     'account.creation.success',
     'account.creation.title',
+    'account.creation.url.hint',
     'app.title',
     'error.auth.failed',
     'error.auth.unauthorized',
@@ -84,6 +95,7 @@ class L10nKeyResolver {
     'inspection.complete',
     'inspection.error',
     'label.email',
+    'label.git.server.url',
     'label.password',
     'label.username',
     'own.posts.empty',
@@ -110,10 +122,15 @@ class L10nKeyResolver {
 
   /// Maps ARB camelCase keys to dot-notation keys.
   static const arbToDotKey = <String, String>{
+    'accountCreationConnect': 'account.creation.connect',
+    'accountCreationConnectTitle': 'account.creation.connect.title',
+    'accountCreationConnecting': 'account.creation.connecting',
     'accountCreationError': 'account.creation.error',
+    'accountCreationSignup': 'account.creation.signup',
     'accountCreationSubmit': 'account.creation.submit',
     'accountCreationSuccess': 'account.creation.success',
     'accountCreationTitle': 'account.creation.title',
+    'accountCreationUrlHint': 'account.creation.url.hint',
     'appTitle': 'app.title',
     'errorAuthFailed': 'error.auth.failed',
     'errorAuthUnauthorized': 'error.auth.unauthorized',
@@ -126,6 +143,7 @@ class L10nKeyResolver {
     'inspectionComplete': 'inspection.complete',
     'inspectionError': 'inspection.error',
     'labelEmail': 'label.email',
+    'labelGitServerUrl': 'label.git.server.url',
     'labelPassword': 'label.password',
     'labelUsername': 'label.username',
     'ownPostsEmpty': 'own.posts.empty',
@@ -149,10 +167,15 @@ class L10nKeyResolver {
 
   /// Maps dot-notation keys to ARB camelCase keys.
   static const dotToArbKey = <String, String>{
+    'account.creation.connect': 'accountCreationConnect',
+    'account.creation.connect.title': 'accountCreationConnectTitle',
+    'account.creation.connecting': 'accountCreationConnecting',
     'account.creation.error': 'accountCreationError',
+    'account.creation.signup': 'accountCreationSignup',
     'account.creation.submit': 'accountCreationSubmit',
     'account.creation.success': 'accountCreationSuccess',
     'account.creation.title': 'accountCreationTitle',
+    'account.creation.url.hint': 'accountCreationUrlHint',
     'app.title': 'appTitle',
     'error.auth.failed': 'errorAuthFailed',
     'error.auth.unauthorized': 'errorAuthUnauthorized',
@@ -165,6 +188,7 @@ class L10nKeyResolver {
     'inspection.complete': 'inspectionComplete',
     'inspection.error': 'inspectionError',
     'label.email': 'labelEmail',
+    'label.git.server.url': 'labelGitServerUrl',
     'label.password': 'labelPassword',
     'label.username': 'labelUsername',
     'own.posts.empty': 'ownPostsEmpty',
@@ -195,10 +219,15 @@ class L10nKeyResolver {
 /// l10n.translate(...L10nKeys.fieldsCount(5));
 /// ```
 abstract class L10nKeys {
+  static const accountCreationConnect = 'account.creation.connect';
+  static const accountCreationConnectTitle = 'account.creation.connect.title';
+  static const accountCreationConnecting = 'account.creation.connecting';
   static const accountCreationError = 'account.creation.error';
+  static const accountCreationSignup = 'account.creation.signup';
   static const accountCreationSubmit = 'account.creation.submit';
   static const accountCreationSuccess = 'account.creation.success';
   static const accountCreationTitle = 'account.creation.title';
+  static const accountCreationUrlHint = 'account.creation.url.hint';
   static const appTitle = 'app.title';
   static const errorAuthFailed = 'error.auth.failed';
   static const errorAuthUnauthorized = 'error.auth.unauthorized';
@@ -211,6 +240,7 @@ abstract class L10nKeys {
   static const inspectionComplete = 'inspection.complete';
   static const inspectionError = 'inspection.error';
   static const labelEmail = 'label.email';
+  static const labelGitServerUrl = 'label.git.server.url';
   static const labelPassword = 'label.password';
   static const labelUsername = 'label.username';
   static const ownPostsEmpty = 'own.posts.empty';

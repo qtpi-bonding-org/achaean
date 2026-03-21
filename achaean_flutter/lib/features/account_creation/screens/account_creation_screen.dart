@@ -19,15 +19,11 @@ class AccountCreationScreen extends StatefulWidget {
 
 class _AccountCreationScreenState extends State<AccountCreationScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _usernameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _urlController = TextEditingController();
 
   @override
   void dispose() {
-    _usernameController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
+    _urlController.dispose();
     super.dispose();
   }
 
@@ -38,7 +34,7 @@ class _AccountCreationScreenState extends State<AccountCreationScreen> {
     return BlocProvider(
       create: (_) => GetIt.instance<AccountCreationCubit>(),
       child: Scaffold(
-        appBar: AppBar(title: Text(l10n.accountCreationTitle)),
+        appBar: AppBar(title: Text(l10n.accountCreationConnectTitle)),
         body: UiFlowListener<AccountCreationCubit, AccountCreationState>(
           mapper: GetIt.instance<AccountCreationMessageMapper>(),
           listener: (context, state) {
@@ -56,47 +52,51 @@ class _AccountCreationScreenState extends State<AccountCreationScreen> {
                   child: ListView(
                     children: [
                       TextFormField(
-                        controller: _usernameController,
+                        controller: _urlController,
                         decoration: InputDecoration(
-                          labelText: l10n.labelUsername,
+                          labelText: l10n.labelGitServerUrl,
+                          hintText: l10n.accountCreationUrlHint,
                         ),
+                        keyboardType: TextInputType.url,
+                        autocorrect: false,
                         validator: (v) =>
-                            v == null || v.isEmpty ? l10n.validationRequired : null,
-                      ),
-                      SizedBox(height: AppSizes.space),
-                      TextFormField(
-                        controller: _emailController,
-                        decoration: InputDecoration(
-                          labelText: l10n.labelEmail,
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (v) =>
-                            v == null || v.isEmpty ? l10n.validationRequired : null,
-                      ),
-                      SizedBox(height: AppSizes.space),
-                      TextFormField(
-                        controller: _passwordController,
-                        decoration: InputDecoration(
-                          labelText: l10n.labelPassword,
-                        ),
-                        obscureText: true,
-                        validator: (v) =>
-                            v == null || v.isEmpty ? l10n.validationRequired : null,
+                            v == null || v.trim().isEmpty
+                                ? l10n.validationRequired
+                                : null,
                       ),
                       SizedBox(height: AppSizes.space * 3),
                       FilledButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            context
-                                .read<AccountCreationCubit>()
-                                .createAccount(
-                                  username: _usernameController.text.trim(),
-                                  email: _emailController.text.trim(),
-                                  password: _passwordController.text,
-                                );
-                          }
-                        },
-                        child: Text(l10n.accountCreationSubmit),
+                        onPressed: state.isLoading
+                            ? null
+                            : () {
+                                if (_formKey.currentState!.validate()) {
+                                  context
+                                      .read<AccountCreationCubit>()
+                                      .connectAccount(
+                                        _urlController.text,
+                                      );
+                                }
+                              },
+                        child: Text(
+                          state.isLoading
+                              ? l10n.accountCreationConnecting
+                              : l10n.accountCreationConnect,
+                        ),
+                      ),
+                      SizedBox(height: AppSizes.space),
+                      OutlinedButton(
+                        onPressed: state.isLoading
+                            ? null
+                            : () {
+                                if (_formKey.currentState!.validate()) {
+                                  context
+                                      .read<AccountCreationCubit>()
+                                      .openSignupPage(
+                                        _urlController.text,
+                                      );
+                                }
+                              },
+                        child: Text(l10n.accountCreationSignup),
                       ),
                     ],
                   ),

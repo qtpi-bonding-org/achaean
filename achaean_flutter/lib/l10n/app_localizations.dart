@@ -303,6 +303,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unable to load data. Check your connection and try again.'**
   String get queryError;
+
+  /// No description provided for @accountCreationConnectTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect to Git Server'**
+  String get accountCreationConnectTitle;
+
+  /// No description provided for @labelGitServerUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Git server URL'**
+  String get labelGitServerUrl;
+
+  /// No description provided for @accountCreationConnect.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect Account'**
+  String get accountCreationConnect;
+
+  /// No description provided for @accountCreationSignup.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get accountCreationSignup;
+
+  /// No description provided for @accountCreationConnecting.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting...'**
+  String get accountCreationConnecting;
+
+  /// No description provided for @accountCreationUrlHint.
+  ///
+  /// In en, this message translates to:
+  /// **'https://git.example.com'**
+  String get accountCreationUrlHint;
 }
 
 class _AppLocalizationsDelegate

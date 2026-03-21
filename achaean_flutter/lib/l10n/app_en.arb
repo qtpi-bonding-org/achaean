@@ -37,5 +37,11 @@
   "polisOperationError": "Failed to complete polis operation",
   "inspectionComplete": "Repo inspection complete",
   "inspectionError": "Failed to inspect repo",
-  "queryError": "Unable to load data. Check your connection and try again."
+  "queryError": "Unable to load data. Check your connection and try again.",
+  "accountCreationConnectTitle": "Connect to Git Server",
+  "labelGitServerUrl": "Git server URL",
+  "accountCreationConnect": "Connect Account",
+  "accountCreationSignup": "Create Account",
+  "accountCreationConnecting": "Connecting...",
+  "accountCreationUrlHint": "https://git.example.com"
 }
