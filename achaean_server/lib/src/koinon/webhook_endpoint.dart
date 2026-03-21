@@ -167,10 +167,11 @@ class WebhookEndpoint extends Endpoint {
       );
 
       for (final flag in manifest.flags) {
-        // Look up post author from post_references
+        // flag.post is a path like "posts/2026-03-08-hello/post.json"
+        // Look up the full postUrl by suffix match
         final postRef = await PostReference.db.findFirstRow(
           session,
-          where: (t) => t.postUrl.equals(flag.post),
+          where: (t) => t.postUrl.like('%${flag.post}'),
           transaction: transaction,
         );
 
@@ -179,7 +180,7 @@ class WebhookEndpoint extends Endpoint {
           FlagRecord(
             flaggedByPubkey: pubkey,
             postAuthorPubkey: postRef?.authorPubkey ?? '',
-            postUrl: flag.post,
+            postUrl: postRef?.postUrl ?? flag.post,
             polisRepoUrl: flag.polis,
             reason: flag.reason,
             timestamp: now,
@@ -219,25 +220,68 @@ class WebhookEndpoint extends Endpoint {
     String path,
     DateTime now,
   ) async {
-    final postUrl = '${event.repoUrl}/$path';
+    final baseUrl = _extractBaseUrl(event.repoUrl);
+    final client = ForgejoClient(
+      baseUrl: baseUrl,
+      auth: const GitPublicAuth(),
+    );
 
-    // Upsert post reference
+    // Read post.json to extract metadata (content is not stored)
+    Post post;
+    try {
+      final file = await client.readFile(
+        owner: event.repoOwner,
+        repo: event.repoName,
+        path: path,
+      );
+      final json = jsonDecode(file.content) as Map<String, dynamic>;
+      post = Post.fromJson(json);
+    } catch (e) {
+      session.log('Failed to read $path from ${event.repoUrl}: $e',
+          level: LogLevel.warning);
+      return;
+    }
+
+    // Look up author pubkey from known users
+    final user = await PolitaiUser.db.findFirstRow(
+      session,
+      where: (t) => t.repoUrl.equals(event.repoUrl),
+    );
+
+    final postUrl = '${event.repoUrl}/$path';
+    final isReply = post.parent != null;
+
+    // For replies, look up parent author's repo URL by their pubkey
+    String? parentPostUrl;
+    if (post.parent != null) {
+      final parentUser = await PolitaiUser.db.findFirstRow(
+        session,
+        where: (t) => t.pubkey.equals(post.parent!.author),
+      );
+      if (parentUser != null) {
+        parentPostUrl = '${parentUser.repoUrl}/${post.parent!.path}';
+      }
+    }
+
+    final poleisTags = post.routing?.poleis.join(',');
+
+    // Upsert by postUrl
     final existing = await PostReference.db.findFirstRow(
       session,
       where: (t) => t.postUrl.equals(postUrl),
     );
 
     if (existing != null) {
-      existing.commitHash = event.afterCommit;
-      existing.indexedAt = now;
+      existing
+        ..commitHash = event.afterCommit
+        ..title = post.content.title
+        ..poleisTags = poleisTags
+        ..isReply = isReply
+        ..parentPostUrl = parentPostUrl
+        ..timestamp = post.timestamp
+        ..indexedAt = now;
       await PostReference.db.updateRow(session, existing);
     } else {
-      // Look up author pubkey from known users
-      final user = await PolitaiUser.db.findFirstRow(
-        session,
-        where: (t) => t.repoUrl.equals(event.repoUrl),
-      );
-
       await PostReference.db.insertRow(
         session,
         PostReference(
@@ -245,8 +289,11 @@ class WebhookEndpoint extends Endpoint {
           authorRepoUrl: event.repoUrl,
           postUrl: postUrl,
           commitHash: event.afterCommit,
-          timestamp: now,
-          isReply: false,
+          title: post.content.title,
+          poleisTags: poleisTags,
+          timestamp: post.timestamp,
+          isReply: isReply,
+          parentPostUrl: parentPostUrl,
           indexedAt: now,
         ),
       );
