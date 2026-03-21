@@ -12,5 +12,6 @@ workspace:
   - dart_koinon
   - flutter_adaptable_group
 dependency_overrides:
+  crypto: ^3.0.3
   flutter_secure_storage: ^10.0.0
 
