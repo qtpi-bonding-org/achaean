@@ -1,0 +1,28 @@
+### An indexed post reference — a pointer to a post in a polites's repo.
+class: PostReference
+table: post_references
+fields:
+  ### Public key of the post author.
+  authorPubkey: String
+  ### Repo URL of the author.
+  authorRepoUrl: String
+  ### Path to post.json in the repo (e.g. posts/2026-03-08-hello/post.json).
+  path: String
+  ### Git commit hash of this version of the post.
+  commitHash: String
+  ### Post title (if present, for search/display).
+  title: String?
+  ### Polis repo URLs this post is tagged for (comma-separated).
+  poleisTags: String?
+  ### When the post was created.
+  timestamp: DateTime
+  ### Whether this is a reply (has parent reference).
+  isReply: bool
+  ### When the aggregator indexed this post.
+  indexedAt: DateTime
+indexes:
+  post_references_author_path_idx:
+    fields: authorPubkey, path
+    unique: true
+  post_references_timestamp_idx:
+    fields: timestamp

@@ -13,17 +13,27 @@
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod/protocol.dart' as _i2;
 import 'greetings/greeting.dart' as _i3;
-import 'koinon/cached_post.dart' as _i4;
-import 'koinon/flag_record.dart' as _i5;
-import 'koinon/polis_definition.dart' as _i6;
-import 'koinon/politai_user.dart' as _i7;
+import 'koinon/flag_record.dart' as _i4;
+import 'koinon/polis_definition.dart' as _i5;
+import 'koinon/politai_user.dart' as _i6;
+import 'koinon/post_reference.dart' as _i7;
 import 'koinon/readme_signature_record.dart' as _i8;
 import 'koinon/trust_declaration_record.dart' as _i9;
+import 'package:achaean_server/src/generated/koinon/polis_definition.dart'
+    as _i10;
+import 'package:achaean_server/src/generated/koinon/readme_signature_record.dart'
+    as _i11;
+import 'package:achaean_server/src/generated/koinon/politai_user.dart' as _i12;
+import 'package:achaean_server/src/generated/koinon/trust_declaration_record.dart'
+    as _i13;
+import 'package:achaean_server/src/generated/koinon/flag_record.dart' as _i14;
+import 'package:achaean_server/src/generated/koinon/post_reference.dart'
+    as _i15;
 export 'greetings/greeting.dart';
-export 'koinon/cached_post.dart';
 export 'koinon/flag_record.dart';
 export 'koinon/polis_definition.dart';
 export 'koinon/politai_user.dart';
+export 'koinon/post_reference.dart';
 export 'koinon/readme_signature_record.dart';
 export 'koinon/trust_declaration_record.dart';
 
@@ -35,211 +45,6 @@ class Protocol extends _i1.SerializationManagerServer {
   static final Protocol _instance = Protocol._();
 
   static final List<_i2.TableDefinition> targetTableDefinitions = [
-    _i2.TableDefinition(
-      name: 'cached_posts',
-      dartName: 'CachedPost',
-      schema: 'public',
-      module: 'achaean',
-      columns: [
-        _i2.ColumnDefinition(
-          name: 'id',
-          columnType: _i2.ColumnType.bigint,
-          isNullable: false,
-          dartType: 'int?',
-          columnDefault: 'nextval(\'cached_posts_id_seq\'::regclass)',
-        ),
-        _i2.ColumnDefinition(
-          name: 'authorPubkey',
-          columnType: _i2.ColumnType.text,
-          isNullable: false,
-          dartType: 'String',
-        ),
-        _i2.ColumnDefinition(
-          name: 'authorRepoUrl',
-          columnType: _i2.ColumnType.text,
-          isNullable: false,
-          dartType: 'String',
-        ),
-        _i2.ColumnDefinition(
-          name: 'path',
-          columnType: _i2.ColumnType.text,
-          isNullable: false,
-          dartType: 'String',
-        ),
-        _i2.ColumnDefinition(
-          name: 'commitHash',
-          columnType: _i2.ColumnType.text,
-          isNullable: false,
-          dartType: 'String',
-        ),
-        _i2.ColumnDefinition(
-          name: 'link',
-          columnType: _i2.ColumnType.text,
-          isNullable: false,
-          dartType: 'String',
-        ),
-        _i2.ColumnDefinition(
-          name: 'title',
-          columnType: _i2.ColumnType.text,
-          isNullable: true,
-          dartType: 'String?',
-        ),
-        _i2.ColumnDefinition(
-          name: 'text',
-          columnType: _i2.ColumnType.text,
-          isNullable: false,
-          dartType: 'String',
-        ),
-        _i2.ColumnDefinition(
-          name: 'poleisTags',
-          columnType: _i2.ColumnType.text,
-          isNullable: true,
-          dartType: 'String?',
-        ),
-        _i2.ColumnDefinition(
-          name: 'tags',
-          columnType: _i2.ColumnType.text,
-          isNullable: true,
-          dartType: 'String?',
-        ),
-        _i2.ColumnDefinition(
-          name: 'isReply',
-          columnType: _i2.ColumnType.boolean,
-          isNullable: false,
-          dartType: 'bool',
-        ),
-        _i2.ColumnDefinition(
-          name: 'parentAuthorPubkey',
-          columnType: _i2.ColumnType.text,
-          isNullable: true,
-          dartType: 'String?',
-        ),
-        _i2.ColumnDefinition(
-          name: 'parentPath',
-          columnType: _i2.ColumnType.text,
-          isNullable: true,
-          dartType: 'String?',
-        ),
-        _i2.ColumnDefinition(
-          name: 'contentJson',
-          columnType: _i2.ColumnType.text,
-          isNullable: false,
-          dartType: 'String',
-        ),
-        _i2.ColumnDefinition(
-          name: 'timestamp',
-          columnType: _i2.ColumnType.timestampWithoutTimeZone,
-          isNullable: false,
-          dartType: 'DateTime',
-        ),
-        _i2.ColumnDefinition(
-          name: 'indexedAt',
-          columnType: _i2.ColumnType.timestampWithoutTimeZone,
-          isNullable: false,
-          dartType: 'DateTime',
-        ),
-        _i2.ColumnDefinition(
-          name: 'signature',
-          columnType: _i2.ColumnType.text,
-          isNullable: false,
-          dartType: 'String',
-        ),
-      ],
-      foreignKeys: [],
-      indexes: [
-        _i2.IndexDefinition(
-          indexName: 'cached_posts_pkey',
-          tableSpace: null,
-          elements: [
-            _i2.IndexElementDefinition(
-              type: _i2.IndexElementDefinitionType.column,
-              definition: 'id',
-            ),
-          ],
-          type: 'btree',
-          isUnique: true,
-          isPrimary: true,
-        ),
-        _i2.IndexDefinition(
-          indexName: 'cached_posts_author_path_idx',
-          tableSpace: null,
-          elements: [
-            _i2.IndexElementDefinition(
-              type: _i2.IndexElementDefinitionType.column,
-              definition: 'authorPubkey',
-            ),
-            _i2.IndexElementDefinition(
-              type: _i2.IndexElementDefinitionType.column,
-              definition: 'path',
-            ),
-          ],
-          type: 'btree',
-          isUnique: true,
-          isPrimary: false,
-        ),
-        _i2.IndexDefinition(
-          indexName: 'cached_posts_timestamp_idx',
-          tableSpace: null,
-          elements: [
-            _i2.IndexElementDefinition(
-              type: _i2.IndexElementDefinitionType.column,
-              definition: 'timestamp',
-            ),
-          ],
-          type: 'btree',
-          isUnique: false,
-          isPrimary: false,
-        ),
-        _i2.IndexDefinition(
-          indexName: 'cached_posts_parent_idx',
-          tableSpace: null,
-          elements: [
-            _i2.IndexElementDefinition(
-              type: _i2.IndexElementDefinitionType.column,
-              definition: 'parentAuthorPubkey',
-            ),
-            _i2.IndexElementDefinition(
-              type: _i2.IndexElementDefinitionType.column,
-              definition: 'parentPath',
-            ),
-          ],
-          type: 'btree',
-          isUnique: false,
-          isPrimary: false,
-        ),
-        _i2.IndexDefinition(
-          indexName: 'cached_posts_author_timestamp_idx',
-          tableSpace: null,
-          elements: [
-            _i2.IndexElementDefinition(
-              type: _i2.IndexElementDefinitionType.column,
-              definition: 'authorPubkey',
-            ),
-            _i2.IndexElementDefinition(
-              type: _i2.IndexElementDefinitionType.column,
-              definition: 'timestamp',
-            ),
-          ],
-          type: 'btree',
-          isUnique: false,
-          isPrimary: false,
-        ),
-        _i2.IndexDefinition(
-          indexName: 'cached_posts_poleis_idx',
-          tableSpace: null,
-          elements: [
-            _i2.IndexElementDefinition(
-              type: _i2.IndexElementDefinitionType.column,
-              definition: 'poleisTags',
-            ),
-          ],
-          type: 'btree',
-          isUnique: false,
-          isPrimary: false,
-        ),
-      ],
-      managed: true,
-    ),
     _i2.TableDefinition(
       name: 'flag_records',
       dartName: 'FlagRecord',
@@ -559,6 +364,122 @@ class Protocol extends _i1.SerializationManagerServer {
       managed: true,
     ),
     _i2.TableDefinition(
+      name: 'post_references',
+      dartName: 'PostReference',
+      schema: 'public',
+      module: 'achaean',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'post_references_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'authorPubkey',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'authorRepoUrl',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'path',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'commitHash',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'title',
+          columnType: _i2.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'poleisTags',
+          columnType: _i2.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'timestamp',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+        _i2.ColumnDefinition(
+          name: 'isReply',
+          columnType: _i2.ColumnType.boolean,
+          isNullable: false,
+          dartType: 'bool',
+        ),
+        _i2.ColumnDefinition(
+          name: 'indexedAt',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'post_references_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'post_references_author_path_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'authorPubkey',
+            ),
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'path',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'post_references_timestamp_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'timestamp',
+            ),
+          ],
+          type: 'btree',
+          isUnique: false,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _i2.TableDefinition(
       name: 'readme_signatures',
       dartName: 'ReadmeSignatureRecord',
       schema: 'public',
@@ -787,17 +708,17 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i3.Greeting) {
       return _i3.Greeting.fromJson(data) as T;
     }
-    if (t == _i4.CachedPost) {
-      return _i4.CachedPost.fromJson(data) as T;
+    if (t == _i4.FlagRecord) {
+      return _i4.FlagRecord.fromJson(data) as T;
     }
-    if (t == _i5.FlagRecord) {
-      return _i5.FlagRecord.fromJson(data) as T;
+    if (t == _i5.PolisDefinition) {
+      return _i5.PolisDefinition.fromJson(data) as T;
     }
-    if (t == _i6.PolisDefinition) {
-      return _i6.PolisDefinition.fromJson(data) as T;
+    if (t == _i6.PolitaiUser) {
+      return _i6.PolitaiUser.fromJson(data) as T;
     }
-    if (t == _i7.PolitaiUser) {
-      return _i7.PolitaiUser.fromJson(data) as T;
+    if (t == _i7.PostReference) {
+      return _i7.PostReference.fromJson(data) as T;
     }
     if (t == _i8.ReadmeSignatureRecord) {
       return _i8.ReadmeSignatureRecord.fromJson(data) as T;
@@ -808,17 +729,17 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i1.getType<_i3.Greeting?>()) {
       return (data != null ? _i3.Greeting.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i4.CachedPost?>()) {
-      return (data != null ? _i4.CachedPost.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i4.FlagRecord?>()) {
+      return (data != null ? _i4.FlagRecord.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i5.FlagRecord?>()) {
-      return (data != null ? _i5.FlagRecord.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i5.PolisDefinition?>()) {
+      return (data != null ? _i5.PolisDefinition.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i6.PolisDefinition?>()) {
-      return (data != null ? _i6.PolisDefinition.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i6.PolitaiUser?>()) {
+      return (data != null ? _i6.PolitaiUser.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i7.PolitaiUser?>()) {
-      return (data != null ? _i7.PolitaiUser.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i7.PostReference?>()) {
+      return (data != null ? _i7.PostReference.fromJson(data) : null) as T;
     }
     if (t == _i1.getType<_i8.ReadmeSignatureRecord?>()) {
       return (data != null ? _i8.ReadmeSignatureRecord.fromJson(data) : null)
@@ -826,6 +747,46 @@ class Protocol extends _i1.SerializationManagerServer {
     }
     if (t == _i1.getType<_i9.TrustDeclarationRecord?>()) {
       return (data != null ? _i9.TrustDeclarationRecord.fromJson(data) : null)
+          as T;
+    }
+    if (t == List<_i10.PolisDefinition>) {
+      return (data as List)
+              .map((e) => deserialize<_i10.PolisDefinition>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_i11.ReadmeSignatureRecord>) {
+      return (data as List)
+              .map((e) => deserialize<_i11.ReadmeSignatureRecord>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_i12.PolitaiUser>) {
+      return (data as List)
+              .map((e) => deserialize<_i12.PolitaiUser>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_i13.TrustDeclarationRecord>) {
+      return (data as List)
+              .map((e) => deserialize<_i13.TrustDeclarationRecord>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_i14.FlagRecord>) {
+      return (data as List).map((e) => deserialize<_i14.FlagRecord>(e)).toList()
+          as T;
+    }
+    if (t == List<_i15.PostReference>) {
+      return (data as List)
+              .map((e) => deserialize<_i15.PostReference>(e))
+              .toList()
+          as T;
+    }
+    if (t == Map<String, dynamic>) {
+      return (data as Map).map(
+            (k, v) => MapEntry(deserialize<String>(k), deserialize<dynamic>(v)),
+          )
           as T;
     }
     try {
@@ -837,10 +798,10 @@ class Protocol extends _i1.SerializationManagerServer {
   static String? getClassNameForType(Type type) {
     return switch (type) {
       _i3.Greeting => 'Greeting',
-      _i4.CachedPost => 'CachedPost',
-      _i5.FlagRecord => 'FlagRecord',
-      _i6.PolisDefinition => 'PolisDefinition',
-      _i7.PolitaiUser => 'PolitaiUser',
+      _i4.FlagRecord => 'FlagRecord',
+      _i5.PolisDefinition => 'PolisDefinition',
+      _i6.PolitaiUser => 'PolitaiUser',
+      _i7.PostReference => 'PostReference',
       _i8.ReadmeSignatureRecord => 'ReadmeSignatureRecord',
       _i9.TrustDeclarationRecord => 'TrustDeclarationRecord',
       _ => null,
@@ -859,14 +820,14 @@ class Protocol extends _i1.SerializationManagerServer {
     switch (data) {
       case _i3.Greeting():
         return 'Greeting';
-      case _i4.CachedPost():
-        return 'CachedPost';
-      case _i5.FlagRecord():
+      case _i4.FlagRecord():
         return 'FlagRecord';
-      case _i6.PolisDefinition():
+      case _i5.PolisDefinition():
         return 'PolisDefinition';
-      case _i7.PolitaiUser():
+      case _i6.PolitaiUser():
         return 'PolitaiUser';
+      case _i7.PostReference():
+        return 'PostReference';
       case _i8.ReadmeSignatureRecord():
         return 'ReadmeSignatureRecord';
       case _i9.TrustDeclarationRecord():
@@ -888,17 +849,17 @@ class Protocol extends _i1.SerializationManagerServer {
     if (dataClassName == 'Greeting') {
       return deserialize<_i3.Greeting>(data['data']);
     }
-    if (dataClassName == 'CachedPost') {
-      return deserialize<_i4.CachedPost>(data['data']);
-    }
     if (dataClassName == 'FlagRecord') {
-      return deserialize<_i5.FlagRecord>(data['data']);
+      return deserialize<_i4.FlagRecord>(data['data']);
     }
     if (dataClassName == 'PolisDefinition') {
-      return deserialize<_i6.PolisDefinition>(data['data']);
+      return deserialize<_i5.PolisDefinition>(data['data']);
     }
     if (dataClassName == 'PolitaiUser') {
-      return deserialize<_i7.PolitaiUser>(data['data']);
+      return deserialize<_i6.PolitaiUser>(data['data']);
+    }
+    if (dataClassName == 'PostReference') {
+      return deserialize<_i7.PostReference>(data['data']);
     }
     if (dataClassName == 'ReadmeSignatureRecord') {
       return deserialize<_i8.ReadmeSignatureRecord>(data['data']);
@@ -922,14 +883,14 @@ class Protocol extends _i1.SerializationManagerServer {
       }
     }
     switch (t) {
-      case _i4.CachedPost:
-        return _i4.CachedPost.t;
-      case _i5.FlagRecord:
-        return _i5.FlagRecord.t;
-      case _i6.PolisDefinition:
-        return _i6.PolisDefinition.t;
-      case _i7.PolitaiUser:
-        return _i7.PolitaiUser.t;
+      case _i4.FlagRecord:
+        return _i4.FlagRecord.t;
+      case _i5.PolisDefinition:
+        return _i5.PolisDefinition.t;
+      case _i6.PolitaiUser:
+        return _i6.PolitaiUser.t;
+      case _i7.PostReference:
+        return _i7.PostReference.t;
       case _i8.ReadmeSignatureRecord:
         return _i8.ReadmeSignatureRecord.t;
       case _i9.TrustDeclarationRecord:
