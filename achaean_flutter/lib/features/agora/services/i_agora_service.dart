@@ -9,6 +9,12 @@ abstract class IAgoraService {
     int offset = 0,
   });
 
+  /// Get post references from trusted authors (personal feed).
+  Future<List<PostReference>> getPersonalFeed({
+    int limit = 50,
+    int offset = 0,
+  });
+
   /// Get all flags for posts in a polis.
   Future<List<FlagRecord>> getFlagsForPolis(String polisRepoUrl);
 }

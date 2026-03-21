@@ -24,6 +24,18 @@ class AgoraService implements IAgoraService {
   }
 
   @override
+  Future<List<PostReference>> getPersonalFeed({
+    int limit = 50,
+    int offset = 0,
+  }) {
+    return tryMethod(
+      () => _client.koinon.getPersonalFeed(limit: limit, offset: offset),
+      QueryException.new,
+      'getPersonalFeed',
+    );
+  }
+
+  @override
   Future<List<FlagRecord>> getFlagsForPolis(String polisRepoUrl) {
     return tryMethod(
       () => _client.koinon.getFlagsForPolis(polisRepoUrl),
