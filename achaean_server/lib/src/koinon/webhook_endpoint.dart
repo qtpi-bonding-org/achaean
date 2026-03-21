@@ -170,7 +170,7 @@ class WebhookEndpoint extends Endpoint {
         // Look up post author from post_references
         final postRef = await PostReference.db.findFirstRow(
           session,
-          where: (t) => t.path.equals(flag.post),
+          where: (t) => t.postUrl.equals(flag.post),
           transaction: transaction,
         );
 
@@ -219,11 +219,13 @@ class WebhookEndpoint extends Endpoint {
     String path,
     DateTime now,
   ) async {
+    // Derive the full post URL from the repo URL and commit hash
+    final postUrl = '${event.repoUrl}/raw/commit/${event.afterCommit}/$path';
+
     // Upsert post reference
     final existing = await PostReference.db.findFirstRow(
       session,
-      where: (t) =>
-          t.authorRepoUrl.equals(event.repoUrl) & t.path.equals(path),
+      where: (t) => t.postUrl.equals(postUrl),
     );
 
     if (existing != null) {
@@ -242,7 +244,7 @@ class WebhookEndpoint extends Endpoint {
         PostReference(
           authorPubkey: user?.pubkey ?? '',
           authorRepoUrl: event.repoUrl,
-          path: path,
+          postUrl: postUrl,
           commitHash: event.afterCommit,
           timestamp: now,
           isReply: false,

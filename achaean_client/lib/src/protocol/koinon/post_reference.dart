@@ -12,18 +12,19 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 
-/// An indexed post reference — a pointer to a post in a polites's repo.
+/// An indexed post reference — a metadata pointer to a post in a polites's repo.
 abstract class PostReference implements _i1.SerializableModel {
   PostReference._({
     this.id,
     required this.authorPubkey,
     required this.authorRepoUrl,
-    required this.path,
+    required this.postUrl,
     required this.commitHash,
     this.title,
     this.poleisTags,
     required this.timestamp,
     required this.isReply,
+    this.parentPostUrl,
     required this.indexedAt,
   });
 
@@ -31,12 +32,13 @@ abstract class PostReference implements _i1.SerializableModel {
     int? id,
     required String authorPubkey,
     required String authorRepoUrl,
-    required String path,
+    required String postUrl,
     required String commitHash,
     String? title,
     String? poleisTags,
     required DateTime timestamp,
     required bool isReply,
+    String? parentPostUrl,
     required DateTime indexedAt,
   }) = _PostReferenceImpl;
 
@@ -45,7 +47,7 @@ abstract class PostReference implements _i1.SerializableModel {
       id: jsonSerialization['id'] as int?,
       authorPubkey: jsonSerialization['authorPubkey'] as String,
       authorRepoUrl: jsonSerialization['authorRepoUrl'] as String,
-      path: jsonSerialization['path'] as String,
+      postUrl: jsonSerialization['postUrl'] as String,
       commitHash: jsonSerialization['commitHash'] as String,
       title: jsonSerialization['title'] as String?,
       poleisTags: jsonSerialization['poleisTags'] as String?,
@@ -53,6 +55,7 @@ abstract class PostReference implements _i1.SerializableModel {
         jsonSerialization['timestamp'],
       ),
       isReply: _i1.BoolJsonExtension.fromJson(jsonSerialization['isReply']),
+      parentPostUrl: jsonSerialization['parentPostUrl'] as String?,
       indexedAt: _i1.DateTimeJsonExtension.fromJson(
         jsonSerialization['indexedAt'],
       ),
@@ -67,11 +70,11 @@ abstract class PostReference implements _i1.SerializableModel {
   /// Public key of the post author.
   String authorPubkey;
 
-  /// Repo URL of the author.
+  /// Repo URL of the author (e.g. https://forge.example/alice/koinon).
   String authorRepoUrl;
 
-  /// Path to post.json in the repo (e.g. posts/2026-03-08-hello/post.json).
-  String path;
+  /// Full URL to the post.json file on the forge.
+  String postUrl;
 
   /// Git commit hash of this version of the post.
   String commitHash;
@@ -88,6 +91,9 @@ abstract class PostReference implements _i1.SerializableModel {
   /// Whether this is a reply (has parent reference).
   bool isReply;
 
+  /// Full URL to the parent post.json (if this is a reply).
+  String? parentPostUrl;
+
   /// When the aggregator indexed this post.
   DateTime indexedAt;
 
@@ -98,12 +104,13 @@ abstract class PostReference implements _i1.SerializableModel {
     int? id,
     String? authorPubkey,
     String? authorRepoUrl,
-    String? path,
+    String? postUrl,
     String? commitHash,
     String? title,
     String? poleisTags,
     DateTime? timestamp,
     bool? isReply,
+    String? parentPostUrl,
     DateTime? indexedAt,
   });
   @override
@@ -113,12 +120,13 @@ abstract class PostReference implements _i1.SerializableModel {
       if (id != null) 'id': id,
       'authorPubkey': authorPubkey,
       'authorRepoUrl': authorRepoUrl,
-      'path': path,
+      'postUrl': postUrl,
       'commitHash': commitHash,
       if (title != null) 'title': title,
       if (poleisTags != null) 'poleisTags': poleisTags,
       'timestamp': timestamp.toJson(),
       'isReply': isReply,
+      if (parentPostUrl != null) 'parentPostUrl': parentPostUrl,
       'indexedAt': indexedAt.toJson(),
     };
   }
@@ -136,23 +144,25 @@ class _PostReferenceImpl extends PostReference {
     int? id,
     required String authorPubkey,
     required String authorRepoUrl,
-    required String path,
+    required String postUrl,
     required String commitHash,
     String? title,
     String? poleisTags,
     required DateTime timestamp,
     required bool isReply,
+    String? parentPostUrl,
     required DateTime indexedAt,
   }) : super._(
          id: id,
          authorPubkey: authorPubkey,
          authorRepoUrl: authorRepoUrl,
-         path: path,
+         postUrl: postUrl,
          commitHash: commitHash,
          title: title,
          poleisTags: poleisTags,
          timestamp: timestamp,
          isReply: isReply,
+         parentPostUrl: parentPostUrl,
          indexedAt: indexedAt,
        );
 
@@ -164,24 +174,28 @@ class _PostReferenceImpl extends PostReference {
     Object? id = _Undefined,
     String? authorPubkey,
     String? authorRepoUrl,
-    String? path,
+    String? postUrl,
     String? commitHash,
     Object? title = _Undefined,
     Object? poleisTags = _Undefined,
     DateTime? timestamp,
     bool? isReply,
+    Object? parentPostUrl = _Undefined,
     DateTime? indexedAt,
   }) {
     return PostReference(
       id: id is int? ? id : this.id,
       authorPubkey: authorPubkey ?? this.authorPubkey,
       authorRepoUrl: authorRepoUrl ?? this.authorRepoUrl,
-      path: path ?? this.path,
+      postUrl: postUrl ?? this.postUrl,
       commitHash: commitHash ?? this.commitHash,
       title: title is String? ? title : this.title,
       poleisTags: poleisTags is String? ? poleisTags : this.poleisTags,
       timestamp: timestamp ?? this.timestamp,
       isReply: isReply ?? this.isReply,
+      parentPostUrl: parentPostUrl is String?
+          ? parentPostUrl
+          : this.parentPostUrl,
       indexedAt: indexedAt ?? this.indexedAt,
     );
   }

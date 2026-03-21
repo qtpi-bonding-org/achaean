@@ -12,19 +12,20 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
 
-/// An indexed post reference — a pointer to a post in a polites's repo.
+/// An indexed post reference — a metadata pointer to a post in a polites's repo.
 abstract class PostReference
     implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
   PostReference._({
     this.id,
     required this.authorPubkey,
     required this.authorRepoUrl,
-    required this.path,
+    required this.postUrl,
     required this.commitHash,
     this.title,
     this.poleisTags,
     required this.timestamp,
     required this.isReply,
+    this.parentPostUrl,
     required this.indexedAt,
   });
 
@@ -32,12 +33,13 @@ abstract class PostReference
     int? id,
     required String authorPubkey,
     required String authorRepoUrl,
-    required String path,
+    required String postUrl,
     required String commitHash,
     String? title,
     String? poleisTags,
     required DateTime timestamp,
     required bool isReply,
+    String? parentPostUrl,
     required DateTime indexedAt,
   }) = _PostReferenceImpl;
 
@@ -46,7 +48,7 @@ abstract class PostReference
       id: jsonSerialization['id'] as int?,
       authorPubkey: jsonSerialization['authorPubkey'] as String,
       authorRepoUrl: jsonSerialization['authorRepoUrl'] as String,
-      path: jsonSerialization['path'] as String,
+      postUrl: jsonSerialization['postUrl'] as String,
       commitHash: jsonSerialization['commitHash'] as String,
       title: jsonSerialization['title'] as String?,
       poleisTags: jsonSerialization['poleisTags'] as String?,
@@ -54,6 +56,7 @@ abstract class PostReference
         jsonSerialization['timestamp'],
       ),
       isReply: _i1.BoolJsonExtension.fromJson(jsonSerialization['isReply']),
+      parentPostUrl: jsonSerialization['parentPostUrl'] as String?,
       indexedAt: _i1.DateTimeJsonExtension.fromJson(
         jsonSerialization['indexedAt'],
       ),
@@ -70,11 +73,11 @@ abstract class PostReference
   /// Public key of the post author.
   String authorPubkey;
 
-  /// Repo URL of the author.
+  /// Repo URL of the author (e.g. https://forge.example/alice/koinon).
   String authorRepoUrl;
 
-  /// Path to post.json in the repo (e.g. posts/2026-03-08-hello/post.json).
-  String path;
+  /// Full URL to the post.json file on the forge.
+  String postUrl;
 
   /// Git commit hash of this version of the post.
   String commitHash;
@@ -91,6 +94,9 @@ abstract class PostReference
   /// Whether this is a reply (has parent reference).
   bool isReply;
 
+  /// Full URL to the parent post.json (if this is a reply).
+  String? parentPostUrl;
+
   /// When the aggregator indexed this post.
   DateTime indexedAt;
 
@@ -104,12 +110,13 @@ abstract class PostReference
     int? id,
     String? authorPubkey,
     String? authorRepoUrl,
-    String? path,
+    String? postUrl,
     String? commitHash,
     String? title,
     String? poleisTags,
     DateTime? timestamp,
     bool? isReply,
+    String? parentPostUrl,
     DateTime? indexedAt,
   });
   @override
@@ -119,12 +126,13 @@ abstract class PostReference
       if (id != null) 'id': id,
       'authorPubkey': authorPubkey,
       'authorRepoUrl': authorRepoUrl,
-      'path': path,
+      'postUrl': postUrl,
       'commitHash': commitHash,
       if (title != null) 'title': title,
       if (poleisTags != null) 'poleisTags': poleisTags,
       'timestamp': timestamp.toJson(),
       'isReply': isReply,
+      if (parentPostUrl != null) 'parentPostUrl': parentPostUrl,
       'indexedAt': indexedAt.toJson(),
     };
   }
@@ -136,12 +144,13 @@ abstract class PostReference
       if (id != null) 'id': id,
       'authorPubkey': authorPubkey,
       'authorRepoUrl': authorRepoUrl,
-      'path': path,
+      'postUrl': postUrl,
       'commitHash': commitHash,
       if (title != null) 'title': title,
       if (poleisTags != null) 'poleisTags': poleisTags,
       'timestamp': timestamp.toJson(),
       'isReply': isReply,
+      if (parentPostUrl != null) 'parentPostUrl': parentPostUrl,
       'indexedAt': indexedAt.toJson(),
     };
   }
@@ -183,23 +192,25 @@ class _PostReferenceImpl extends PostReference {
     int? id,
     required String authorPubkey,
     required String authorRepoUrl,
-    required String path,
+    required String postUrl,
     required String commitHash,
     String? title,
     String? poleisTags,
     required DateTime timestamp,
     required bool isReply,
+    String? parentPostUrl,
     required DateTime indexedAt,
   }) : super._(
          id: id,
          authorPubkey: authorPubkey,
          authorRepoUrl: authorRepoUrl,
-         path: path,
+         postUrl: postUrl,
          commitHash: commitHash,
          title: title,
          poleisTags: poleisTags,
          timestamp: timestamp,
          isReply: isReply,
+         parentPostUrl: parentPostUrl,
          indexedAt: indexedAt,
        );
 
@@ -211,24 +222,28 @@ class _PostReferenceImpl extends PostReference {
     Object? id = _Undefined,
     String? authorPubkey,
     String? authorRepoUrl,
-    String? path,
+    String? postUrl,
     String? commitHash,
     Object? title = _Undefined,
     Object? poleisTags = _Undefined,
     DateTime? timestamp,
     bool? isReply,
+    Object? parentPostUrl = _Undefined,
     DateTime? indexedAt,
   }) {
     return PostReference(
       id: id is int? ? id : this.id,
       authorPubkey: authorPubkey ?? this.authorPubkey,
       authorRepoUrl: authorRepoUrl ?? this.authorRepoUrl,
-      path: path ?? this.path,
+      postUrl: postUrl ?? this.postUrl,
       commitHash: commitHash ?? this.commitHash,
       title: title is String? ? title : this.title,
       poleisTags: poleisTags is String? ? poleisTags : this.poleisTags,
       timestamp: timestamp ?? this.timestamp,
       isReply: isReply ?? this.isReply,
+      parentPostUrl: parentPostUrl is String?
+          ? parentPostUrl
+          : this.parentPostUrl,
       indexedAt: indexedAt ?? this.indexedAt,
     );
   }
@@ -248,8 +263,8 @@ class PostReferenceUpdateTable extends _i1.UpdateTable<PostReferenceTable> {
         value,
       );
 
-  _i1.ColumnValue<String, String> path(String value) => _i1.ColumnValue(
-    table.path,
+  _i1.ColumnValue<String, String> postUrl(String value) => _i1.ColumnValue(
+    table.postUrl,
     value,
   );
 
@@ -279,6 +294,12 @@ class PostReferenceUpdateTable extends _i1.UpdateTable<PostReferenceTable> {
     value,
   );
 
+  _i1.ColumnValue<String, String> parentPostUrl(String? value) =>
+      _i1.ColumnValue(
+        table.parentPostUrl,
+        value,
+      );
+
   _i1.ColumnValue<DateTime, DateTime> indexedAt(DateTime value) =>
       _i1.ColumnValue(
         table.indexedAt,
@@ -298,8 +319,8 @@ class PostReferenceTable extends _i1.Table<int?> {
       'authorRepoUrl',
       this,
     );
-    path = _i1.ColumnString(
-      'path',
+    postUrl = _i1.ColumnString(
+      'postUrl',
       this,
     );
     commitHash = _i1.ColumnString(
@@ -322,6 +343,10 @@ class PostReferenceTable extends _i1.Table<int?> {
       'isReply',
       this,
     );
+    parentPostUrl = _i1.ColumnString(
+      'parentPostUrl',
+      this,
+    );
     indexedAt = _i1.ColumnDateTime(
       'indexedAt',
       this,
@@ -333,11 +358,11 @@ class PostReferenceTable extends _i1.Table<int?> {
   /// Public key of the post author.
   late final _i1.ColumnString authorPubkey;
 
-  /// Repo URL of the author.
+  /// Repo URL of the author (e.g. https://forge.example/alice/koinon).
   late final _i1.ColumnString authorRepoUrl;
 
-  /// Path to post.json in the repo (e.g. posts/2026-03-08-hello/post.json).
-  late final _i1.ColumnString path;
+  /// Full URL to the post.json file on the forge.
+  late final _i1.ColumnString postUrl;
 
   /// Git commit hash of this version of the post.
   late final _i1.ColumnString commitHash;
@@ -354,6 +379,9 @@ class PostReferenceTable extends _i1.Table<int?> {
   /// Whether this is a reply (has parent reference).
   late final _i1.ColumnBool isReply;
 
+  /// Full URL to the parent post.json (if this is a reply).
+  late final _i1.ColumnString parentPostUrl;
+
   /// When the aggregator indexed this post.
   late final _i1.ColumnDateTime indexedAt;
 
@@ -362,12 +390,13 @@ class PostReferenceTable extends _i1.Table<int?> {
     id,
     authorPubkey,
     authorRepoUrl,
-    path,
+    postUrl,
     commitHash,
     title,
     poleisTags,
     timestamp,
     isReply,
+    parentPostUrl,
     indexedAt,
   ];
 }
