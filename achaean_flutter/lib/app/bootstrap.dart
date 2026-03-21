@@ -6,6 +6,7 @@ import 'package:cubit_ui_flow/cubit_ui_flow.dart' as cubit_ui_flow;
 import 'package:achaean_client/achaean_client.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
+import '../app_router.dart';
 import '../core/services/git_service.dart';
 import '../core/services/i_git_service.dart';
 import '../core/services/i_key_service.dart';
@@ -103,7 +104,13 @@ Future<void> bootstrap() async {
     _registerUiFlowService();
     debugPrint('Bootstrap: UI flow service registered');
 
-    // 5. Configure ErrorPrivserver for privacy-preserving error reporting
+    // 5. Check if user has an account (keypair exists)
+    debugPrint('Bootstrap: Checking account status...');
+    final hasAccount = await getIt<IKeyService>().hasKeypair();
+    AppRouter.setHasAccount(hasAccount);
+    debugPrint('Bootstrap: Account exists: $hasAccount');
+
+    // 6. Configure ErrorPrivserver for privacy-preserving error reporting
     debugPrint('Bootstrap: Configuring ErrorPrivserver...');
     _configureErrorPrivserver();
     debugPrint('Bootstrap: ErrorPrivserver configured');

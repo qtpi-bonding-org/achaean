@@ -43,6 +43,7 @@ class _AccountCreationScreenState extends State<AccountCreationScreen> {
           mapper: GetIt.instance<AccountCreationMessageMapper>(),
           listener: (context, state) {
             if (state.result != null) {
+              AppRouter.setHasAccount(true);
               AppNavigation.toHome(context);
             }
           },

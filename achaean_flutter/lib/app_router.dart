@@ -17,6 +17,12 @@ import 'features/post_creation/screens/post_creation_screen.dart';
 class AppRouter {
   AppRouter._();
 
+  /// Whether the user has an account. Set during bootstrap.
+  static bool _hasAccount = false;
+
+  /// Call during bootstrap after checking IKeyService.hasKeypair().
+  static void setHasAccount(bool value) => _hasAccount = value;
+
   static GoRouter get router => _router;
 
   /// Nav items displayed in the adaptive shell.
@@ -53,6 +59,18 @@ class AppRouter {
 
   static final GoRouter _router = GoRouter(
     initialLocation: AppRoutes.home,
+    redirect: (context, state) {
+      final goingToCreateAccount =
+          state.matchedLocation == AppRoutes.createAccount;
+
+      if (!_hasAccount && !goingToCreateAccount) {
+        return AppRoutes.createAccount;
+      }
+      if (_hasAccount && goingToCreateAccount) {
+        return AppRoutes.home;
+      }
+      return null;
+    },
     routes: [
       ShellRoute(
         builder: (context, state, child) => AdaptiveNavShell(
