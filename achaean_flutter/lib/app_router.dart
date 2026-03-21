@@ -1,8 +1,15 @@
+import 'package:achaean_client/achaean_client.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import 'design_system/widgets/adaptive_nav_shell.dart';
 import 'features/account_creation/screens/account_creation_screen.dart';
+import 'features/personal_feed/cubit/personal_feed_cubit.dart';
+import 'features/personal_feed/screens/personal_feed_screen.dart';
+import 'features/personal_feed/screens/post_detail_screen.dart';
+import 'features/personal_feed/services/post_content_cache.dart';
 import 'features/post_creation/screens/own_posts_screen.dart';
 import 'features/post_creation/screens/post_creation_screen.dart';
 
@@ -58,8 +65,10 @@ class AppRouter {
           GoRoute(
             path: AppRoutes.home,
             name: RouteNames.home,
-            builder: (context, state) =>
-                const Center(child: Text('Home Page')),
+            builder: (context, state) => BlocProvider(
+              create: (_) => GetIt.instance<PersonalFeedCubit>(),
+              child: const PersonalFeedScreen(),
+            ),
           ),
           GoRoute(
             path: AppRoutes.myPosts,
@@ -85,6 +94,17 @@ class AppRouter {
         name: RouteNames.createPost,
         builder: (context, state) => const PostCreationScreen(),
       ),
+      GoRoute(
+        path: AppRoutes.postDetail,
+        name: RouteNames.postDetail,
+        builder: (context, state) {
+          final ref = state.extra! as PostReference;
+          return PostDetailScreen(
+            postRef: ref,
+            contentCache: GetIt.instance<PostContentCache>(),
+          );
+        },
+      ),
     ],
     errorBuilder: (context, state) => Scaffold(
       body: Center(
@@ -101,6 +121,7 @@ class AppRoutes {
   static const String createAccount = '/create-account';
   static const String createPost = '/create-post';
   static const String myPosts = '/my-posts';
+  static const String postDetail = '/post-detail';
 }
 
 class RouteNames {
@@ -110,6 +131,7 @@ class RouteNames {
   static const String createAccount = 'createAccount';
   static const String createPost = 'createPost';
   static const String myPosts = 'myPosts';
+  static const String postDetail = 'postDetail';
 }
 
 class AppNavigation {
@@ -124,6 +146,8 @@ class AppNavigation {
       context.pushNamed(RouteNames.createAccount);
   static void toCreatePost(BuildContext context) =>
       context.pushNamed(RouteNames.createPost);
+  static void toPostDetail(BuildContext context, PostReference ref) =>
+      context.pushNamed(RouteNames.postDetail, extra: ref);
 
   static void back(BuildContext context) {
     if (context.canPop()) {

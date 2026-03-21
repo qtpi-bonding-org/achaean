@@ -49,6 +49,8 @@ import '../features/agora/services/voucher_review_service.dart';
 import '../features/agora/cubit/agora_cubit.dart';
 import '../features/agora/cubit/polis_discovery_cubit.dart';
 import '../features/agora/cubit/voucher_review_cubit.dart';
+import '../features/personal_feed/cubit/personal_feed_cubit.dart';
+import '../features/personal_feed/services/post_content_cache.dart';
 import 'bootstrap.config.dart';
 
 /// Global service locator instance
@@ -283,6 +285,19 @@ void _registerQueryServices() {
   );
   getIt.registerFactory<VoucherReviewCubit>(
     () => VoucherReviewCubit(getIt<IVoucherReviewService>()),
+  );
+
+  // Post content cache (singleton — shared between feed and detail)
+  getIt.registerLazySingleton<PostContentCache>(
+    () => PostContentCache(getIt<IPostReadingService>()),
+  );
+
+  // Personal feed cubit
+  getIt.registerFactory<PersonalFeedCubit>(
+    () => PersonalFeedCubit(
+      getIt<IAgoraService>(),
+      getIt<PostContentCache>(),
+    ),
   );
 }
 
