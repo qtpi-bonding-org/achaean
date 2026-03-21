@@ -20,3 +20,13 @@ class GitPublicAuth implements IGitAuth {
   @override
   Map<String, String> get headers => {};
 }
+
+/// Bearer token authentication (OAuth2 access tokens).
+class GitBearerAuth implements IGitAuth {
+  final String token;
+
+  const GitBearerAuth(this.token);
+
+  @override
+  Map<String, String> get headers => {'Authorization': 'Bearer $token'};
+}
