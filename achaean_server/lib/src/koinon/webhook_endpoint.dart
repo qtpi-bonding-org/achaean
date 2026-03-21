@@ -249,7 +249,6 @@ class WebhookEndpoint extends Endpoint {
     );
 
     final postUrl = '${event.repoUrl}/$path';
-    final isReply = post.parent != null;
 
     // For replies, look up parent author's repo URL by their pubkey
     String? parentPostUrl;
@@ -276,7 +275,6 @@ class WebhookEndpoint extends Endpoint {
         ..commitHash = event.afterCommit
         ..title = post.content.title
         ..poleisTags = poleisTags
-        ..isReply = isReply
         ..parentPostUrl = parentPostUrl
         ..timestamp = post.timestamp
         ..indexedAt = now;
@@ -292,7 +290,6 @@ class WebhookEndpoint extends Endpoint {
           title: post.content.title,
           poleisTags: poleisTags,
           timestamp: post.timestamp,
-          isReply: isReply,
           parentPostUrl: parentPostUrl,
           indexedAt: now,
         ),

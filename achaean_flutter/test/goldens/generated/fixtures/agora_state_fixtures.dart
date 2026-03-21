@@ -11,8 +11,8 @@ class AgoraStateFixtures {
 
   // Vary posts field
   static final posts_empty = AgoraState(posts: <PostReference>[]);
-  static final posts_single = AgoraState(posts: [PostReference(authorPubkey: 'Test string', authorRepoUrl: 'Test string', postUrl: 'Test string', commitHash: 'Test string', timestamp: DateTime(2026, 1, 1), isReply: true, indexedAt: DateTime(2026, 1, 1))]);
-  static final posts_large = AgoraState(posts: List.filled(50, PostReference(authorPubkey: 'Test string', authorRepoUrl: 'Test string', postUrl: 'Test string', commitHash: 'Test string', timestamp: DateTime(2026, 1, 1), isReply: true, indexedAt: DateTime(2026, 1, 1))));
+  static final posts_single = AgoraState(posts: [PostReference(authorPubkey: 'Test string', authorRepoUrl: 'Test string', postUrl: 'Test string', commitHash: 'Test string', timestamp: DateTime(2026, 1, 1), indexedAt: DateTime(2026, 1, 1))]);
+  static final posts_large = AgoraState(posts: List.filled(50, PostReference(authorPubkey: 'Test string', authorRepoUrl: 'Test string', postUrl: 'Test string', commitHash: 'Test string', timestamp: DateTime(2026, 1, 1), indexedAt: DateTime(2026, 1, 1))));
 
   // Vary flagCounts field
   static final flagCounts_empty = AgoraState(flagCounts: <String, int>{});

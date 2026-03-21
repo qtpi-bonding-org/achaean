@@ -419,12 +419,6 @@ class Protocol extends _i1.SerializationManagerServer {
           dartType: 'DateTime',
         ),
         _i2.ColumnDefinition(
-          name: 'isReply',
-          columnType: _i2.ColumnType.boolean,
-          isNullable: false,
-          dartType: 'bool',
-        ),
-        _i2.ColumnDefinition(
           name: 'parentPostUrl',
           columnType: _i2.ColumnType.text,
           isNullable: true,

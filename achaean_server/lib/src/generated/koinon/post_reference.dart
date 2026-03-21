@@ -24,7 +24,6 @@ abstract class PostReference
     this.title,
     this.poleisTags,
     required this.timestamp,
-    required this.isReply,
     this.parentPostUrl,
     required this.indexedAt,
   });
@@ -38,7 +37,6 @@ abstract class PostReference
     String? title,
     String? poleisTags,
     required DateTime timestamp,
-    required bool isReply,
     String? parentPostUrl,
     required DateTime indexedAt,
   }) = _PostReferenceImpl;
@@ -55,7 +53,6 @@ abstract class PostReference
       timestamp: _i1.DateTimeJsonExtension.fromJson(
         jsonSerialization['timestamp'],
       ),
-      isReply: _i1.BoolJsonExtension.fromJson(jsonSerialization['isReply']),
       parentPostUrl: jsonSerialization['parentPostUrl'] as String?,
       indexedAt: _i1.DateTimeJsonExtension.fromJson(
         jsonSerialization['indexedAt'],
@@ -91,9 +88,6 @@ abstract class PostReference
   /// When the post was created.
   DateTime timestamp;
 
-  /// Whether this is a reply (has parent reference).
-  bool isReply;
-
   /// Full URL to the parent post.json (if this is a reply).
   String? parentPostUrl;
 
@@ -115,7 +109,6 @@ abstract class PostReference
     String? title,
     String? poleisTags,
     DateTime? timestamp,
-    bool? isReply,
     String? parentPostUrl,
     DateTime? indexedAt,
   });
@@ -131,7 +124,6 @@ abstract class PostReference
       if (title != null) 'title': title,
       if (poleisTags != null) 'poleisTags': poleisTags,
       'timestamp': timestamp.toJson(),
-      'isReply': isReply,
       if (parentPostUrl != null) 'parentPostUrl': parentPostUrl,
       'indexedAt': indexedAt.toJson(),
     };
@@ -149,7 +141,6 @@ abstract class PostReference
       if (title != null) 'title': title,
       if (poleisTags != null) 'poleisTags': poleisTags,
       'timestamp': timestamp.toJson(),
-      'isReply': isReply,
       if (parentPostUrl != null) 'parentPostUrl': parentPostUrl,
       'indexedAt': indexedAt.toJson(),
     };
@@ -197,7 +188,6 @@ class _PostReferenceImpl extends PostReference {
     String? title,
     String? poleisTags,
     required DateTime timestamp,
-    required bool isReply,
     String? parentPostUrl,
     required DateTime indexedAt,
   }) : super._(
@@ -209,7 +199,6 @@ class _PostReferenceImpl extends PostReference {
          title: title,
          poleisTags: poleisTags,
          timestamp: timestamp,
-         isReply: isReply,
          parentPostUrl: parentPostUrl,
          indexedAt: indexedAt,
        );
@@ -227,7 +216,6 @@ class _PostReferenceImpl extends PostReference {
     Object? title = _Undefined,
     Object? poleisTags = _Undefined,
     DateTime? timestamp,
-    bool? isReply,
     Object? parentPostUrl = _Undefined,
     DateTime? indexedAt,
   }) {
@@ -240,7 +228,6 @@ class _PostReferenceImpl extends PostReference {
       title: title is String? ? title : this.title,
       poleisTags: poleisTags is String? ? poleisTags : this.poleisTags,
       timestamp: timestamp ?? this.timestamp,
-      isReply: isReply ?? this.isReply,
       parentPostUrl: parentPostUrl is String?
           ? parentPostUrl
           : this.parentPostUrl,
@@ -289,11 +276,6 @@ class PostReferenceUpdateTable extends _i1.UpdateTable<PostReferenceTable> {
         value,
       );
 
-  _i1.ColumnValue<bool, bool> isReply(bool value) => _i1.ColumnValue(
-    table.isReply,
-    value,
-  );
-
   _i1.ColumnValue<String, String> parentPostUrl(String? value) =>
       _i1.ColumnValue(
         table.parentPostUrl,
@@ -339,10 +321,6 @@ class PostReferenceTable extends _i1.Table<int?> {
       'timestamp',
       this,
     );
-    isReply = _i1.ColumnBool(
-      'isReply',
-      this,
-    );
     parentPostUrl = _i1.ColumnString(
       'parentPostUrl',
       this,
@@ -376,9 +354,6 @@ class PostReferenceTable extends _i1.Table<int?> {
   /// When the post was created.
   late final _i1.ColumnDateTime timestamp;
 
-  /// Whether this is a reply (has parent reference).
-  late final _i1.ColumnBool isReply;
-
   /// Full URL to the parent post.json (if this is a reply).
   late final _i1.ColumnString parentPostUrl;
 
@@ -395,7 +370,6 @@ class PostReferenceTable extends _i1.Table<int?> {
     title,
     poleisTags,
     timestamp,
-    isReply,
     parentPostUrl,
     indexedAt,
   ];
