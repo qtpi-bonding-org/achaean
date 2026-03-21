@@ -10,7 +10,7 @@ abstract class AgoraState with _$AgoraState implements IUiFlowState {
   const factory AgoraState({
     @Default(UiFlowStatus.idle) UiFlowStatus status,
     Object? error,
-    @Default([]) List<CachedPost> posts,
+    @Default([]) List<PostReference> posts,
     @Default({}) Map<String, int> flagCounts,
     @Default(1) int flagThreshold,
     @Default(false) bool hasMore,
