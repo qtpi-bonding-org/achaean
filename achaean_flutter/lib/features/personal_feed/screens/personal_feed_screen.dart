@@ -43,11 +43,12 @@ class _PersonalFeedScreenState extends State<PersonalFeedScreen> {
     return AchaeanScaffold(
       title: 'Feed',
       actions: [
-        IconButton(
-          icon: const Icon(Icons.edit_outlined),
-          onPressed: () => AppNavigation.toCreatePost(context),
-          tooltip: 'New post',
-        ),
+        if (!AppRouter.isGuest)
+          IconButton(
+            icon: const Icon(Icons.edit_outlined),
+            onPressed: () => AppNavigation.toCreatePost(context),
+            tooltip: 'New post',
+          ),
       ],
       body: BlocBuilder<PersonalFeedCubit, PersonalFeedState>(
         builder: (context, state) {

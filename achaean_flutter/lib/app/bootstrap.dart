@@ -7,6 +7,7 @@ import 'package:achaean_client/achaean_client.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 import '../app_router.dart';
+import '../core/config/app_config.dart';
 import '../core/services/flutter_secure_storage_adapter.dart';
 import '../core/services/git_service.dart';
 import '../core/services/i_git_service.dart';
@@ -317,12 +318,23 @@ void _registerServerpodQueryServices() {
 
 /// Registers git-backed services for demo mode (no Serverpod index server).
 void _registerDemoServices() {
-  getIt.registerLazySingleton<IAgoraService>(
-    () => GitBackedAgoraService(
-      getIt<IGitService>(),
-      getIt<IKeyService>(),
-    ),
-  );
+  if (AppConfig.hasGuestMode) {
+    // Guest mode — read from public repo without authentication
+    getIt.registerLazySingleton<IAgoraService>(
+      () => GitBackedAgoraService.guest(
+        repoUrl: AppConfig.guestRepoUrl,
+        publicClientFactory: getIt<PublicGitClientFactory>(),
+      ),
+    );
+  } else {
+    // Authenticated demo mode — read from user's own repo
+    getIt.registerLazySingleton<IAgoraService>(
+      () => GitBackedAgoraService(
+        getIt<IGitService>(),
+        getIt<IKeyService>(),
+      ),
+    );
+  }
 }
 
 /// Registers feed services that work in both Serverpod and demo mode.

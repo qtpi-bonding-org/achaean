@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../app_router.dart';
+import '../../../core/config/app_config.dart';
 import '../../../design_system/primitives/app_sizes.dart';
 import '../../../design_system/widgets/ui_flow_listener.dart';
 import '../../../l10n/app_localizations.dart';
@@ -115,6 +116,18 @@ class _AccountCreationScreenState extends State<AccountCreationScreen> {
                               },
                         child: Text(l10n.accountCreationSignup),
                       ),
+                      if (AppConfig.hasGuestMode) ...[
+                        SizedBox(height: AppSizes.space * 2),
+                        TextButton(
+                          onPressed: state.isLoading
+                              ? null
+                              : () {
+                                  AppRouter.setIsGuest(true);
+                                  AppNavigation.toHome(context);
+                                },
+                          child: Text(l10n.accountCreationGuest),
+                        ),
+                      ],
                     ],
                   ),
                 ),

@@ -20,8 +20,17 @@ class AppRouter {
   /// Whether the user has an account. Set during bootstrap.
   static bool _hasAccount = false;
 
+  /// Whether the app is running in guest mode.
+  static bool _isGuest = false;
+
   /// Call during bootstrap after checking IKeyService.hasKeypair().
   static void setHasAccount(bool value) => _hasAccount = value;
+
+  /// Enable or disable guest mode.
+  static void setIsGuest(bool value) => _isGuest = value;
+
+  /// Whether the app is currently in guest mode.
+  static bool get isGuest => _isGuest;
 
   static GoRouter get router => _router;
 
@@ -63,10 +72,10 @@ class AppRouter {
       final goingToCreateAccount =
           state.matchedLocation == AppRoutes.createAccount;
 
-      if (!_hasAccount && !goingToCreateAccount) {
+      if (!_hasAccount && !_isGuest && !goingToCreateAccount) {
         return AppRoutes.createAccount;
       }
-      if (_hasAccount && goingToCreateAccount) {
+      if ((_hasAccount || _isGuest) && goingToCreateAccount) {
         return AppRoutes.home;
       }
       return null;

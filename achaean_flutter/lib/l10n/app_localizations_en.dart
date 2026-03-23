@@ -137,4 +137,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get indexServerUrlHint => 'https://index.example.com';
+
+  @override
+  String get accountCreationGuest => 'Browse as Guest';
 }

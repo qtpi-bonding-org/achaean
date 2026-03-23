@@ -351,6 +351,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'https://index.example.com'**
   String get indexServerUrlHint;
+
+  /// No description provided for @accountCreationGuest.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse as Guest'**
+  String get accountCreationGuest;
 }
 
 class _AppLocalizationsDelegate
