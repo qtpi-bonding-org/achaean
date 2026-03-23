@@ -43,6 +43,7 @@ import '../features/agora/services/i_post_reading_service.dart';
 import '../features/agora/services/post_reading_service.dart';
 import '../features/agora/services/i_agora_service.dart';
 import '../features/agora/services/agora_service.dart';
+import '../features/agora/services/git_backed_agora_service.dart';
 import '../features/agora/services/i_polis_query_service.dart';
 import '../features/agora/services/polis_query_service.dart';
 import '../features/agora/services/i_user_query_service.dart';
@@ -101,12 +102,21 @@ Future<void> bootstrap() async {
       debugPrint('Bootstrap: No index server URL configured, skipping Serverpod client');
     }
 
-    // 3.5 Register query services (depend on Client)
+    // 3.5 Register query services
     if (getIt.isRegistered<Client>()) {
-      debugPrint('Bootstrap: Registering query services...');
-      _registerQueryServices();
-      debugPrint('Bootstrap: Query services registered');
+      debugPrint('Bootstrap: Registering Serverpod query services...');
+      _registerServerpodQueryServices();
+      debugPrint('Bootstrap: Serverpod query services registered');
+    } else {
+      debugPrint('Bootstrap: Demo mode — registering git-backed services...');
+      _registerDemoServices();
+      debugPrint('Bootstrap: Demo services registered');
     }
+
+    // 3.6 Register feed services (always — work with both Serverpod and demo mode)
+    debugPrint('Bootstrap: Registering feed services...');
+    _registerFeedServices();
+    debugPrint('Bootstrap: Feed services registered');
 
     // 4. Register UI flow service (depends on localization/feedback/loading)
     debugPrint('Bootstrap: Registering UI flow service...');
@@ -273,16 +283,8 @@ void _registerCoreServices() {
   );
 }
 
-void _registerQueryServices() {
+void _registerServerpodQueryServices() {
   final client = getIt<Client>();
-
-  // Post reading service (reads from foreign repos)
-  getIt.registerLazySingleton<IPostReadingService>(
-    () => PostReadingService(
-      getIt<PublicGitClientFactory>(),
-      GitHostType.forgejo,
-    ),
-  );
 
   // Serverpod query services
   getIt.registerLazySingleton<IAgoraService>(
@@ -310,6 +312,27 @@ void _registerQueryServices() {
   );
   getIt.registerFactory<VoucherReviewCubit>(
     () => VoucherReviewCubit(getIt<IVoucherReviewService>()),
+  );
+}
+
+/// Registers git-backed services for demo mode (no Serverpod index server).
+void _registerDemoServices() {
+  getIt.registerLazySingleton<IAgoraService>(
+    () => GitBackedAgoraService(
+      getIt<IGitService>(),
+      getIt<IKeyService>(),
+    ),
+  );
+}
+
+/// Registers feed services that work in both Serverpod and demo mode.
+void _registerFeedServices() {
+  // Post reading service (reads from git repos — always git-based)
+  getIt.registerLazySingleton<IPostReadingService>(
+    () => PostReadingService(
+      getIt<PublicGitClientFactory>(),
+      GitHostType.forgejo,
+    ),
   );
 
   // Post content cache (singleton — shared between feed and detail)
