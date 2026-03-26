@@ -23,14 +23,43 @@ Achaean is a social platform where communities are trust-gated, not moderation-g
 | **Synedrion** | The index/computation layer — gathers trust declarations, computes membership, serves agora feeds. Has no authority over data; anyone can run one |
 | **Archeion** | The archive/storage layer — the git forge where user repos live (Forgejo, GitHub, Codeberg, Radicle) |
 
-## How is this different?
+## The core insight
 
-| | Identity | Data storage | Moderation | Community model |
-|---|---|---|---|---|
-| **Lemmy / Mastodon** | Server owns it | Server | Server admins (reactive banning) | Server = community |
-| **Bluesky** | DID (portable) | Personal repo (PDS) | Labeling services (centralized in practice) | Follows-based feed |
-| **Nostr** | Keypair | Relays (multiple copies) | Relay operators / client-side filtering | No community primitive |
-| **Koinon** | Keypair | Git repo (you own it) | Trust graph (structural — bad actors can't enter) | Polis: signed social contract + mutual trust |
+Every social platform has a social layer — follows, friends, connections. That layer is always a graph. But the moment you need moderation, every platform snaps to a tree: admin → mod → user. Even decentralized ones.
+
+The social layer is a graph. The moderation layer is a tree. And a tree is just one possible graph topology.
+
+| Platform | Social | Moderation | Infrastructure |
+|----------|--------|------------|----------------|
+| **Reddit** | Graph (follows, subs) | Tree (admin → mod → user) | Centralized |
+| **Discord** | Graph (friends, servers) | Tree (owner → admin → mod → roles) | Centralized |
+| **Lemmy** | Graph (follows across instances) | Tree per instance (admin → mod → user) | Federated (ActivityPub) |
+| **Mastodon** | Graph (follows across instances) | Tree per instance (admin → mod → user) | Federated (ActivityPub) |
+| **Bluesky** | Graph (follows) | Outsourced (labeling services, centralized in practice) | Decentralized-ish (PDS is yours, relay/appview are bottlenecks) |
+| **Nostr** | Graph (follows) | None / per-relay + client-side | Decentralized (multi-relay) |
+| **Koinon** | Graph (trust edges) | **Same graph** | Decoupled (any forge + any indexer + client) |
+
+The tree works for institutional contexts — a company Slack, a brand's Discord. Roles are clear, hierarchy is natural. But most online communities are organic. They form around shared interests, not org charts. Reddit communities start as friend groups and then get forced into the institutional model once they grow. Suddenly you need mods, rules, appeals processes. People who just wanted to talk about woodworking are now doing unpaid content moderation.
+
+Koinon is the only architecture where the social graph and the moderation layer are the same thing. Trust relationships do both jobs. The protocol doesn't pick a topology — a flat circle of equals, a star-shaped institution, a loose network, or anything in between. Roles aren't encoded in the code. They emerge from the shape of the trust graph, the same way they do offline.
+
+```
+Moderation on every platform:       Koinon:
+
+    Admin                           A ←——→ B ←——→ E
+    ├── Mod                         ↕       ↕
+    │   ├── User                    C ←——→ D ←——→ F
+    │   ├── User                            ↕
+    │   └── User                    G ←——→ H
+    └── Mod
+        ├── User                    Any shape. The trust graph
+        └── User                    is the moderation layer.
+
+  A tree. One topology.
+  Roles are hardcoded.
+```
+
+The code matches social dynamics instead of fighting them.
 
 ### vs. Lemmy / Mastodon (ActivityPub)
 
