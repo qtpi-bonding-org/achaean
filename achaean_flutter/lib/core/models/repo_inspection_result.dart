@@ -6,7 +6,7 @@ part 'repo_inspection_result.g.dart';
 
 /// Everything readable from a repo via public inspection.
 @freezed
-class RepoInspectionResult with _$RepoInspectionResult {
+abstract class RepoInspectionResult with _$RepoInspectionResult {
   const factory RepoInspectionResult({
     KoinonManifest? manifest,
     @Default([]) List<TrustDeclaration> trustDeclarations,

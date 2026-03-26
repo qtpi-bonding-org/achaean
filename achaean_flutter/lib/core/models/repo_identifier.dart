@@ -5,7 +5,7 @@ part 'repo_identifier.g.dart';
 
 /// Value type for referring to any git repo.
 @freezed
-class RepoIdentifier with _$RepoIdentifier {
+abstract class RepoIdentifier with _$RepoIdentifier {
   const factory RepoIdentifier({
     required String baseUrl,
     required String owner,

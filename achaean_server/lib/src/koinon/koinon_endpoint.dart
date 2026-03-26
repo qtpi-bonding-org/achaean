@@ -112,6 +112,18 @@ class KoinonEndpoint extends Endpoint {
     );
   }
 
+  /// Get observe declarations issued by a polites.
+  Future<List<ObserveDeclarationRecord>> getObserveDeclarations(
+    Session session,
+    String pubkey,
+  ) async {
+    await KoinonAuthHandler.verifyFromSession(session);
+    return await ObserveDeclarationRecord.db.find(
+      session,
+      where: (t) => t.fromPubkey.equals(pubkey),
+    );
+  }
+
   /// Get all flags for posts in a polis.
   Future<List<FlagRecord>> getFlagsForPolis(
     Session session,
@@ -197,12 +209,18 @@ class KoinonEndpoint extends Endpoint {
       where: (t) => t.fromPubkey.equals(callerPubkey),
     );
 
-    final trustedPubkeys = trustDeclarations.map((t) => t.toPubkey).toSet();
-    trustedPubkeys.add(callerPubkey); // Include own posts
+    final observeDeclarations = await ObserveDeclarationRecord.db.find(
+      session,
+      where: (t) => t.fromPubkey.equals(callerPubkey),
+    );
+
+    final feedPubkeys = trustDeclarations.map((t) => t.toPubkey).toSet()
+      ..addAll(observeDeclarations.map((o) => o.toPubkey))
+      ..add(callerPubkey); // Include own posts
 
     return await PostReference.db.find(
       session,
-      where: (t) => t.authorPubkey.inSet(trustedPubkeys),
+      where: (t) => t.authorPubkey.inSet(feedPubkeys),
       orderBy: (t) => t.timestamp,
       orderDescending: true,
       limit: limit,

@@ -5,7 +5,7 @@ part 'polis_info.g.dart';
 
 /// Parsed polis README YAML frontmatter.
 @freezed
-class PolisInfo with _$PolisInfo {
+abstract class PolisInfo with _$PolisInfo {
   const factory PolisInfo({
     required String name,
     String? description,

@@ -10,6 +10,7 @@ Achaean is a social platform where communities are trust-gated, not moderation-g
 - **Content** lives in your git repo, not on a server
 - **Communities** (poleis) are defined by a shared social contract (a signed README)
 - **Membership** is computed from mutual trust relationships
+- **Observe** lets you follow someone's content without vouching for them
 - **The server** is a metadata index — it never stores or serves content
 
 ## Terminology
@@ -82,7 +83,7 @@ Communities are trust-gated — membership requires mutual trust relationships a
 - **CSAM on the server?** Server never stores content.
 - **Admin burnout?** There's almost nothing to moderate.
 
-The protocol has five primitives (README, trust declaration, README signature, flag, membership function) and three trust states (none, provisional, mutual). Flags let any member signal that a post violates the social contract — it's a signed declaration in your own repo, not an admin action. When enough trusted members flag the same content, it's community consensus, not top-down censorship. Everything else — moderation, governance, community boundaries — is emergent from those primitives.
+The protocol has six primitives (README, trust declaration, observe declaration, README signature, flag, membership function) and three trust states (none, provisional, mutual). Trust is a vouch — it affects community membership. Observe is just "show me their stuff" — no structural effect. You can observe without trusting (hate-follow, casual interest) or trust without observing (vouch but not interested in their content). Flags let any member signal that a post violates the social contract — it's a signed declaration in your own repo, not an admin action. When enough trusted members flag the same content, it's community consensus, not top-down censorship. Everything else — moderation, governance, community boundaries — is emergent from those primitives.
 
 ## Architecture
 

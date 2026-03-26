@@ -6,14 +6,13 @@ part of 'trust_entry.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$TrustEntryImpl _$$TrustEntryImplFromJson(Map<String, dynamic> json) =>
-    _$TrustEntryImpl(
-      subject: json['subject'] as String,
-      repo: json['repo'] as String,
-      level: $enumDecode(_$TrustLevelEnumMap, json['level']),
-    );
+_TrustEntry _$TrustEntryFromJson(Map<String, dynamic> json) => _TrustEntry(
+  subject: json['subject'] as String,
+  repo: json['repo'] as String,
+  level: $enumDecode(_$TrustLevelEnumMap, json['level']),
+);
 
-Map<String, dynamic> _$$TrustEntryImplToJson(_$TrustEntryImpl instance) =>
+Map<String, dynamic> _$TrustEntryToJson(_TrustEntry instance) =>
     <String, dynamic>{
       'subject': instance.subject,
       'repo': instance.repo,

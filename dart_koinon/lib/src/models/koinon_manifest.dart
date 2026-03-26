@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'flag_entry.dart';
+import 'observe_entry.dart';
 import 'polis_membership.dart';
 import 'trust_entry.dart';
 
@@ -9,7 +10,7 @@ part 'koinon_manifest.g.dart';
 
 /// The .well-known/koinon.json discovery manifest.
 @freezed
-class KoinonManifest with _$KoinonManifest {
+abstract class KoinonManifest with _$KoinonManifest {
   const factory KoinonManifest({
     /// Always "koinon".
     @Default('koinon') String protocol,
@@ -31,6 +32,9 @@ class KoinonManifest with _$KoinonManifest {
 
     /// Inline trust declarations.
     @Default([]) List<TrustEntry> trust,
+
+    /// Inline observe declarations (non-structural, personal feed only).
+    @Default([]) List<ObserveEntry> observe,
 
     /// Post flags.
     @Default([]) List<FlagEntry> flags,

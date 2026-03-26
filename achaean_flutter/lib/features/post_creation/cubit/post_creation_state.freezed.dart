@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,207 +9,291 @@ part of 'post_creation_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
 /// @nodoc
 mixin _$PostCreationState {
-  UiFlowStatus get status => throw _privateConstructorUsedError;
-  Object? get error => throw _privateConstructorUsedError;
-  PostCreationResult? get result => throw _privateConstructorUsedError;
 
-  /// Create a copy of PostCreationState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $PostCreationStateCopyWith<PostCreationState> get copyWith =>
-      throw _privateConstructorUsedError;
+ UiFlowStatus get status; Object? get error; PostCreationResult? get result;
+/// Create a copy of PostCreationState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$PostCreationStateCopyWith<PostCreationState> get copyWith => _$PostCreationStateCopyWithImpl<PostCreationState>(this as PostCreationState, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PostCreationState&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.error, error)&&(identical(other.result, result) || other.result == result));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(error),result);
+
+@override
+String toString() {
+  return 'PostCreationState(status: $status, error: $error, result: $result)';
+}
+
+
 }
 
 /// @nodoc
-abstract class $PostCreationStateCopyWith<$Res> {
-  factory $PostCreationStateCopyWith(
-    PostCreationState value,
-    $Res Function(PostCreationState) then,
-  ) = _$PostCreationStateCopyWithImpl<$Res, PostCreationState>;
-  @useResult
-  $Res call({UiFlowStatus status, Object? error, PostCreationResult? result});
+abstract mixin class $PostCreationStateCopyWith<$Res>  {
+  factory $PostCreationStateCopyWith(PostCreationState value, $Res Function(PostCreationState) _then) = _$PostCreationStateCopyWithImpl;
+@useResult
+$Res call({
+ UiFlowStatus status, Object? error, PostCreationResult? result
+});
 
-  $PostCreationResultCopyWith<$Res>? get result;
+
+$PostCreationResultCopyWith<$Res>? get result;
+
 }
-
 /// @nodoc
-class _$PostCreationStateCopyWithImpl<$Res, $Val extends PostCreationState>
+class _$PostCreationStateCopyWithImpl<$Res>
     implements $PostCreationStateCopyWith<$Res> {
-  _$PostCreationStateCopyWithImpl(this._value, this._then);
+  _$PostCreationStateCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final PostCreationState _self;
+  final $Res Function(PostCreationState) _then;
 
-  /// Create a copy of PostCreationState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? status = null,
-    Object? error = freezed,
-    Object? result = freezed,
-  }) {
-    return _then(
-      _value.copyWith(
-            status: null == status
-                ? _value.status
-                : status // ignore: cast_nullable_to_non_nullable
-                      as UiFlowStatus,
-            error: freezed == error ? _value.error : error,
-            result: freezed == result
-                ? _value.result
-                : result // ignore: cast_nullable_to_non_nullable
-                      as PostCreationResult?,
-          )
-          as $Val,
-    );
+/// Create a copy of PostCreationState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? error = freezed,Object? result = freezed,}) {
+  return _then(_self.copyWith(
+status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as UiFlowStatus,error: freezed == error ? _self.error : error ,result: freezed == result ? _self.result : result // ignore: cast_nullable_to_non_nullable
+as PostCreationResult?,
+  ));
+}
+/// Create a copy of PostCreationState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$PostCreationResultCopyWith<$Res>? get result {
+    if (_self.result == null) {
+    return null;
   }
 
-  /// Create a copy of PostCreationState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $PostCreationResultCopyWith<$Res>? get result {
-    if (_value.result == null) {
-      return null;
-    }
+  return $PostCreationResultCopyWith<$Res>(_self.result!, (value) {
+    return _then(_self.copyWith(result: value));
+  });
+}
+}
 
-    return $PostCreationResultCopyWith<$Res>(_value.result!, (value) {
-      return _then(_value.copyWith(result: value) as $Val);
-    });
-  }
+
+/// Adds pattern-matching-related methods to [PostCreationState].
+extension PostCreationStatePatterns on PostCreationState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _PostCreationState value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _PostCreationState() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _PostCreationState value)  $default,){
+final _that = this;
+switch (_that) {
+case _PostCreationState():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _PostCreationState value)?  $default,){
+final _that = this;
+switch (_that) {
+case _PostCreationState() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( UiFlowStatus status,  Object? error,  PostCreationResult? result)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _PostCreationState() when $default != null:
+return $default(_that.status,_that.error,_that.result);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( UiFlowStatus status,  Object? error,  PostCreationResult? result)  $default,) {final _that = this;
+switch (_that) {
+case _PostCreationState():
+return $default(_that.status,_that.error,_that.result);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( UiFlowStatus status,  Object? error,  PostCreationResult? result)?  $default,) {final _that = this;
+switch (_that) {
+case _PostCreationState() when $default != null:
+return $default(_that.status,_that.error,_that.result);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
-abstract class _$$PostCreationStateImplCopyWith<$Res>
-    implements $PostCreationStateCopyWith<$Res> {
-  factory _$$PostCreationStateImplCopyWith(
-    _$PostCreationStateImpl value,
-    $Res Function(_$PostCreationStateImpl) then,
-  ) = __$$PostCreationStateImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({UiFlowStatus status, Object? error, PostCreationResult? result});
 
-  @override
-  $PostCreationResultCopyWith<$Res>? get result;
+
+class _PostCreationState extends PostCreationState {
+  const _PostCreationState({this.status = UiFlowStatus.idle, this.error, this.result}): super._();
+  
+
+@override@JsonKey() final  UiFlowStatus status;
+@override final  Object? error;
+@override final  PostCreationResult? result;
+
+/// Create a copy of PostCreationState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$PostCreationStateCopyWith<_PostCreationState> get copyWith => __$PostCreationStateCopyWithImpl<_PostCreationState>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PostCreationState&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.error, error)&&(identical(other.result, result) || other.result == result));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(error),result);
+
+@override
+String toString() {
+  return 'PostCreationState(status: $status, error: $error, result: $result)';
+}
+
+
 }
 
 /// @nodoc
-class __$$PostCreationStateImplCopyWithImpl<$Res>
-    extends _$PostCreationStateCopyWithImpl<$Res, _$PostCreationStateImpl>
-    implements _$$PostCreationStateImplCopyWith<$Res> {
-  __$$PostCreationStateImplCopyWithImpl(
-    _$PostCreationStateImpl _value,
-    $Res Function(_$PostCreationStateImpl) _then,
-  ) : super(_value, _then);
+abstract mixin class _$PostCreationStateCopyWith<$Res> implements $PostCreationStateCopyWith<$Res> {
+  factory _$PostCreationStateCopyWith(_PostCreationState value, $Res Function(_PostCreationState) _then) = __$PostCreationStateCopyWithImpl;
+@override @useResult
+$Res call({
+ UiFlowStatus status, Object? error, PostCreationResult? result
+});
 
-  /// Create a copy of PostCreationState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? status = null,
-    Object? error = freezed,
-    Object? result = freezed,
-  }) {
-    return _then(
-      _$PostCreationStateImpl(
-        status: null == status
-            ? _value.status
-            : status // ignore: cast_nullable_to_non_nullable
-                  as UiFlowStatus,
-        error: freezed == error ? _value.error : error,
-        result: freezed == result
-            ? _value.result
-            : result // ignore: cast_nullable_to_non_nullable
-                  as PostCreationResult?,
-      ),
-    );
-  }
+
+@override $PostCreationResultCopyWith<$Res>? get result;
+
 }
-
 /// @nodoc
+class __$PostCreationStateCopyWithImpl<$Res>
+    implements _$PostCreationStateCopyWith<$Res> {
+  __$PostCreationStateCopyWithImpl(this._self, this._then);
 
-class _$PostCreationStateImpl extends _PostCreationState {
-  const _$PostCreationStateImpl({
-    this.status = UiFlowStatus.idle,
-    this.error,
-    this.result,
-  }) : super._();
+  final _PostCreationState _self;
+  final $Res Function(_PostCreationState) _then;
 
-  @override
-  @JsonKey()
-  final UiFlowStatus status;
-  @override
-  final Object? error;
-  @override
-  final PostCreationResult? result;
-
-  @override
-  String toString() {
-    return 'PostCreationState(status: $status, error: $error, result: $result)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$PostCreationStateImpl &&
-            (identical(other.status, status) || other.status == status) &&
-            const DeepCollectionEquality().equals(other.error, error) &&
-            (identical(other.result, result) || other.result == result));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    status,
-    const DeepCollectionEquality().hash(error),
-    result,
-  );
-
-  /// Create a copy of PostCreationState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$PostCreationStateImplCopyWith<_$PostCreationStateImpl> get copyWith =>
-      __$$PostCreationStateImplCopyWithImpl<_$PostCreationStateImpl>(
-        this,
-        _$identity,
-      );
+/// Create a copy of PostCreationState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? error = freezed,Object? result = freezed,}) {
+  return _then(_PostCreationState(
+status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as UiFlowStatus,error: freezed == error ? _self.error : error ,result: freezed == result ? _self.result : result // ignore: cast_nullable_to_non_nullable
+as PostCreationResult?,
+  ));
 }
 
-abstract class _PostCreationState extends PostCreationState {
-  const factory _PostCreationState({
-    final UiFlowStatus status,
-    final Object? error,
-    final PostCreationResult? result,
-  }) = _$PostCreationStateImpl;
-  const _PostCreationState._() : super._();
+/// Create a copy of PostCreationState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$PostCreationResultCopyWith<$Res>? get result {
+    if (_self.result == null) {
+    return null;
+  }
 
-  @override
-  UiFlowStatus get status;
-  @override
-  Object? get error;
-  @override
-  PostCreationResult? get result;
-
-  /// Create a copy of PostCreationState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$PostCreationStateImplCopyWith<_$PostCreationStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  return $PostCreationResultCopyWith<$Res>(_self.result!, (value) {
+    return _then(_self.copyWith(result: value));
+  });
 }
+}
+
+// dart format on

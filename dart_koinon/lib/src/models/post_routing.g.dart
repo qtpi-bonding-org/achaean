@@ -6,9 +6,7 @@ part of 'post_routing.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$PostRoutingImpl _$$PostRoutingImplFromJson(
-  Map<String, dynamic> json,
-) => _$PostRoutingImpl(
+_PostRouting _$PostRoutingFromJson(Map<String, dynamic> json) => _PostRouting(
   poleis:
       (json['poleis'] as List<dynamic>?)?.map((e) => e as String).toList() ??
       const [],
@@ -20,7 +18,7 @@ _$PostRoutingImpl _$$PostRoutingImplFromJson(
       const [],
 );
 
-Map<String, dynamic> _$$PostRoutingImplToJson(_$PostRoutingImpl instance) =>
+Map<String, dynamic> _$PostRoutingToJson(_PostRouting instance) =>
     <String, dynamic>{
       'poleis': instance.poleis,
       'tags': instance.tags,

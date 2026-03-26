@@ -8,6 +8,7 @@ koinon:
   - getPolisSigners:
   - getPolisMembers:
   - getTrustDeclarations:
+  - getObserveDeclarations:
   - getFlagsForPolis:
   - getFlaggedPostsForVouchers:
   - getAgora:

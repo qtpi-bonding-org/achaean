@@ -5,7 +5,7 @@ part 'post_routing.g.dart';
 
 /// The routing layer of a post.json — where it goes, who it references.
 @freezed
-class PostRouting with _$PostRouting {
+abstract class PostRouting with _$PostRouting {
   const factory PostRouting({
     /// Which poleis this post is tagged for.
     @Default([]) List<String> poleis,

@@ -7,7 +7,7 @@ part 'trust_declaration.g.dart';
 
 /// A signed trust declaration stored in a polites's repo at trust/<name>.json.
 @freezed
-class TrustDeclaration with _$TrustDeclaration {
+abstract class TrustDeclaration with _$TrustDeclaration {
   const factory TrustDeclaration({
     /// Always "trust-declaration".
     @Default('trust-declaration') String type,

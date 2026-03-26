@@ -6,9 +6,9 @@ part of 'repo_inspection_result.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$RepoInspectionResultImpl _$$RepoInspectionResultImplFromJson(
+_RepoInspectionResult _$RepoInspectionResultFromJson(
   Map<String, dynamic> json,
-) => _$RepoInspectionResultImpl(
+) => _RepoInspectionResult(
   manifest: json['manifest'] == null
       ? null
       : KoinonManifest.fromJson(json['manifest'] as Map<String, dynamic>),
@@ -29,8 +29,8 @@ _$RepoInspectionResultImpl _$$RepoInspectionResultImplFromJson(
       const [],
 );
 
-Map<String, dynamic> _$$RepoInspectionResultImplToJson(
-  _$RepoInspectionResultImpl instance,
+Map<String, dynamic> _$RepoInspectionResultToJson(
+  _RepoInspectionResult instance,
 ) => <String, dynamic>{
   'manifest': instance.manifest,
   'trustDeclarations': instance.trustDeclarations,

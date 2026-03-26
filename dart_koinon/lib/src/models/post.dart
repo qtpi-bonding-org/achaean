@@ -10,7 +10,7 @@ part 'post.g.dart';
 /// A Koinon post (post.json). Covers both posts and replies.
 /// Replies have a [parent] reference; posts have [routing].
 @freezed
-class Post with _$Post {
+abstract class Post with _$Post {
   const factory Post({
     /// The content of the post.
     required PostContent content,

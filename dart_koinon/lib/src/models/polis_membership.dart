@@ -5,7 +5,7 @@ part 'polis_membership.g.dart';
 
 /// An entry in the koinon.json poleis array.
 @freezed
-class PolisMembership with _$PolisMembership {
+abstract class PolisMembership with _$PolisMembership {
   const factory PolisMembership({
     /// The polis repo identifier.
     required String repo,

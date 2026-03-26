@@ -5,7 +5,7 @@ part 'readme_signature.g.dart';
 
 /// A signed README cosignature stored at poleis/<polis-repo-id>/signature.json.
 @freezed
-class ReadmeSignature with _$ReadmeSignature {
+abstract class ReadmeSignature with _$ReadmeSignature {
   const factory ReadmeSignature({
     /// Always "readme-signature".
     @Default('readme-signature') String type,

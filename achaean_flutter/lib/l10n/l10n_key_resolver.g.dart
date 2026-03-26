@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // Generator: l10n_key_resolver
-// Generated at: 2026-03-21T13:47:10.288568
+// Generated at: 2026-03-26T05:56:42.860951
 
 import 'app_localizations.dart';
 
@@ -30,6 +30,7 @@ class L10nKeyResolver {
       'account.creation.connect.title' => _l10n.accountCreationConnectTitle,
       'account.creation.connecting' => _l10n.accountCreationConnecting,
       'account.creation.error' => _l10n.accountCreationError,
+      'account.creation.guest' => _l10n.accountCreationGuest,
       'account.creation.signup' => _l10n.accountCreationSignup,
       'account.creation.submit' => _l10n.accountCreationSubmit,
       'account.creation.success' => _l10n.accountCreationSuccess,
@@ -44,10 +45,12 @@ class L10nKeyResolver {
       'flag.error' => _l10n.flagError,
       'flag.post.success' => _l10n.flagPostSuccess,
       'flag.retract.success' => _l10n.flagRetractSuccess,
+      'index.server.url.hint' => _l10n.indexServerUrlHint,
       'inspection.complete' => _l10n.inspectionComplete,
       'inspection.error' => _l10n.inspectionError,
       'label.email' => _l10n.labelEmail,
       'label.git.server.url' => _l10n.labelGitServerUrl,
+      'label.index.server.url' => _l10n.labelIndexServerUrl,
       'label.password' => _l10n.labelPassword,
       'label.username' => _l10n.labelUsername,
       'own.posts.empty' => _l10n.ownPostsEmpty,
@@ -78,6 +81,7 @@ class L10nKeyResolver {
     'account.creation.connect.title',
     'account.creation.connecting',
     'account.creation.error',
+    'account.creation.guest',
     'account.creation.signup',
     'account.creation.submit',
     'account.creation.success',
@@ -92,10 +96,12 @@ class L10nKeyResolver {
     'flag.error',
     'flag.post.success',
     'flag.retract.success',
+    'index.server.url.hint',
     'inspection.complete',
     'inspection.error',
     'label.email',
     'label.git.server.url',
+    'label.index.server.url',
     'label.password',
     'label.username',
     'own.posts.empty',
@@ -126,6 +132,7 @@ class L10nKeyResolver {
     'accountCreationConnectTitle': 'account.creation.connect.title',
     'accountCreationConnecting': 'account.creation.connecting',
     'accountCreationError': 'account.creation.error',
+    'accountCreationGuest': 'account.creation.guest',
     'accountCreationSignup': 'account.creation.signup',
     'accountCreationSubmit': 'account.creation.submit',
     'accountCreationSuccess': 'account.creation.success',
@@ -140,10 +147,12 @@ class L10nKeyResolver {
     'flagError': 'flag.error',
     'flagPostSuccess': 'flag.post.success',
     'flagRetractSuccess': 'flag.retract.success',
+    'indexServerUrlHint': 'index.server.url.hint',
     'inspectionComplete': 'inspection.complete',
     'inspectionError': 'inspection.error',
     'labelEmail': 'label.email',
     'labelGitServerUrl': 'label.git.server.url',
+    'labelIndexServerUrl': 'label.index.server.url',
     'labelPassword': 'label.password',
     'labelUsername': 'label.username',
     'ownPostsEmpty': 'own.posts.empty',
@@ -171,6 +180,7 @@ class L10nKeyResolver {
     'account.creation.connect.title': 'accountCreationConnectTitle',
     'account.creation.connecting': 'accountCreationConnecting',
     'account.creation.error': 'accountCreationError',
+    'account.creation.guest': 'accountCreationGuest',
     'account.creation.signup': 'accountCreationSignup',
     'account.creation.submit': 'accountCreationSubmit',
     'account.creation.success': 'accountCreationSuccess',
@@ -185,10 +195,12 @@ class L10nKeyResolver {
     'flag.error': 'flagError',
     'flag.post.success': 'flagPostSuccess',
     'flag.retract.success': 'flagRetractSuccess',
+    'index.server.url.hint': 'indexServerUrlHint',
     'inspection.complete': 'inspectionComplete',
     'inspection.error': 'inspectionError',
     'label.email': 'labelEmail',
     'label.git.server.url': 'labelGitServerUrl',
+    'label.index.server.url': 'labelIndexServerUrl',
     'label.password': 'labelPassword',
     'label.username': 'labelUsername',
     'own.posts.empty': 'ownPostsEmpty',
@@ -223,6 +235,7 @@ abstract class L10nKeys {
   static const accountCreationConnectTitle = 'account.creation.connect.title';
   static const accountCreationConnecting = 'account.creation.connecting';
   static const accountCreationError = 'account.creation.error';
+  static const accountCreationGuest = 'account.creation.guest';
   static const accountCreationSignup = 'account.creation.signup';
   static const accountCreationSubmit = 'account.creation.submit';
   static const accountCreationSuccess = 'account.creation.success';
@@ -237,10 +250,12 @@ abstract class L10nKeys {
   static const flagError = 'flag.error';
   static const flagPostSuccess = 'flag.post.success';
   static const flagRetractSuccess = 'flag.retract.success';
+  static const indexServerUrlHint = 'index.server.url.hint';
   static const inspectionComplete = 'inspection.complete';
   static const inspectionError = 'inspection.error';
   static const labelEmail = 'label.email';
   static const labelGitServerUrl = 'label.git.server.url';
+  static const labelIndexServerUrl = 'label.index.server.url';
   static const labelPassword = 'label.password';
   static const labelUsername = 'label.username';
   static const ownPostsEmpty = 'own.posts.empty';

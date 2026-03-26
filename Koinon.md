@@ -94,7 +94,20 @@ The agora is computed by any client from two inputs:
 
 No central authority maintains it. The agora is emergent.
 
-### The Web of Trust
+### Trust and Observe
+
+The protocol distinguishes two kinds of social relationship:
+
+| Relationship | Meaning | Structural effect |
+|---|---|---|
+| **Trust** | "I vouch for this person." | Affects trust graph. Counts toward polis membership thresholds. |
+| **Observe** | "I want to see this person's content." | Personal feed only. No effect on trust graph or membership. |
+
+Trust is the high-stakes action — it's a vouch. Observe is low-stakes — it's just a content preference. Trust implies observe (if you vouch for someone, you see their stuff). Observe without trust lets you follow someone's output without endorsing them.
+
+Both are stored as signed files in your repo. Both are portable across clients. But only trust declarations are structural — the synedrion uses them for membership computation. Observe declarations are used only for personal feed construction.
+
+### Trust States
 
 Three trust states:
 
@@ -137,7 +150,7 @@ Forks inherit the entire old agora by default. The fork specifies an exclusion l
 
 ## Protocol Primitives
 
-The Koinon protocol defines five primitives:
+The Koinon protocol defines six primitives:
 
 ### 1. README
 
@@ -147,15 +160,19 @@ The polis's social contract. A signed, versioned document in the polis's git rep
 
 A signed file: author keypair, subject keypair, subject repo URL, trust level (`TRUST` or `PROVISIONAL`). Trust is between individuals — not scoped to any polis. Poleis compute membership from the global trust graph. Revocable by deletion. The repo URL enables trust graph traversal — synedrions follow these links to discover repos on any archeion.
 
-### 3. README Signature
+### 3. Observe Declaration
+
+A signed file in the polites's repo at `observe/<name>.json`: author keypair, subject keypair, subject repo URL. Non-structural — has no effect on the trust graph or polis membership. Used only for personal feed construction. The synedrion includes content from observed politai in the observer's personal feed, but observe edges are invisible to membership computation. Revocable by deletion.
+
+### 4. README Signature
 
 A signed file in the polites's own repo: the README content (or its hash), the polis repo ID, the README commit hash, and the polites's signature. This is the act of cosigning the social contract. Signatures are decentralized — scattered across member repos — and assembled by the synedrion.
 
-### 4. Flag
+### 5. Flag
 
 A signed entry in the polites's `koinon.json` manifest: the flagged post path, the polis repo URL, and a free-form reason. Flagging is a sovereign act — you sign it with your keypair, stored in your own repo, indexed by the synedrion. When the number of flags on a post reaches the polis's `flag_threshold`, the post is blurred in the agora. Vouchers can query flagged posts by people they trust and decide whether to revoke trust on the author. Flags are accountable — if someone abuses flagging, the community can trace it and revoke their trust. This is distributed moderation without moderators.
 
-### 5. Membership Function
+### 6. Membership Function
 
 Computed, not stored. Member = signed the current README version + mutual `TRUST` declarations (from the global trust graph) with N other signers (N = membership_threshold). The agora is also computed from this. Trust exists between individuals independent of any polis; poleis are just lenses that filter the trust graph by who has signed their README.
 
@@ -205,8 +222,10 @@ my-repo/
       style.css
       hero.png
   trust/
-    alice.json                # trust declaration (individual, not polis-scoped)
+    alice.json                # trust declaration (structural — affects trust graph)
     bob.json
+  observe/
+    charlie.json              # observe declaration (non-structural — personal feed only)
   poleis/
     <polis-repo-id>/
       signature.json          # your signature of the current README
@@ -225,6 +244,20 @@ my-repo/
   "signature": "<your-web-crypto-signature>"
 }
 ```
+
+### Observe Declaration Format
+
+```json
+{
+  "type": "observe-declaration",
+  "subject": "<their-public-key>",
+  "repo": "<their-repo-url>",
+  "timestamp": "2026-03-08T12:00:00Z",
+  "signature": "<your-web-crypto-signature>"
+}
+```
+
+Observe declarations have no `level` field — observe is binary. You observe someone or you don't. Unlike trust, observe has no structural effect. It only tells the synedrion to include this person's content in your personal feed.
 
 The `repo` field is how trust graph traversal discovers new repos. When a synedrion indexes a trust declaration, it follows the repo URL to discover the subject's repo — even on archeions it has never seen before.
 
@@ -266,7 +299,8 @@ Every polites's repo hosts a `.well-known/koinon.json` manifest:
       "role": "TRUST"
     }
   ],
-  "trust_index": "/trust/index.json"
+  "trust_index": "/trust/index.json",
+  "observe_index": "/observe/index.json"
 }
 ```
 
@@ -341,7 +375,7 @@ For private conversations, use Signal, Matrix, etc. Koinon is for public communi
 6. **Forking is a feature.** Poleis split. History carries forward.
 7. **Moderation is personal.** The protocol doesn't moderate. People do.
 8. **Public by default.** Transparency is what makes the trust graph work. Private comms go elsewhere.
-9. **Simplicity is strength.** Five primitives. Three trust states. Everything else is emergent.
+9. **Simplicity is strength.** Six primitives. Three trust states. Everything else is emergent.
 10. **No central dependencies.** No single point of failure.
 11. **Lying is futile.** Multi-party trust graph. Signed commits. Tamper evidence.
 12. **Scale is infrastructure, not protocol.** The protocol stays simple. Synedrions, caches, and archeions are optional layers anyone can provide.
@@ -356,4 +390,4 @@ For private conversations, use Signal, Matrix, etc. Koinon is for public communi
 
 ---
 
-*This document is version 5.0 of the Koinon Protocol specification. The first implementation is [Achaean](Achaean.md). This is itself a README. Fork it freely.*
+*This document is version 6.0 of the Koinon Protocol specification. The first implementation is [Achaean](Achaean.md). This is itself a README. Fork it freely.*

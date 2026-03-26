@@ -7,7 +7,7 @@ part 'trust_entry.g.dart';
 
 /// An entry in the koinon.json trust array.
 @freezed
-class TrustEntry with _$TrustEntry {
+abstract class TrustEntry with _$TrustEntry {
   const factory TrustEntry({
     /// Subject's public key.
     required String subject,

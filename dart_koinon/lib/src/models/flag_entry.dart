@@ -5,7 +5,7 @@ part 'flag_entry.g.dart';
 
 /// An entry in the koinon.json flags array.
 @freezed
-class FlagEntry with _$FlagEntry {
+abstract class FlagEntry with _$FlagEntry {
   const factory FlagEntry({
     /// Path to the flagged post.
     required String post,

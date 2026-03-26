@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,232 +9,282 @@ part of 'polis_discovery_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
 /// @nodoc
 mixin _$PolisDiscoveryState {
-  UiFlowStatus get status => throw _privateConstructorUsedError;
-  Object? get error => throw _privateConstructorUsedError;
-  List<PolisDefinition> get poleis => throw _privateConstructorUsedError;
-  List<PolitaiUser> get members => throw _privateConstructorUsedError;
 
-  /// Create a copy of PolisDiscoveryState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $PolisDiscoveryStateCopyWith<PolisDiscoveryState> get copyWith =>
-      throw _privateConstructorUsedError;
+ UiFlowStatus get status; Object? get error; List<PolisDefinition> get poleis; List<PolitaiUser> get members;
+/// Create a copy of PolisDiscoveryState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$PolisDiscoveryStateCopyWith<PolisDiscoveryState> get copyWith => _$PolisDiscoveryStateCopyWithImpl<PolisDiscoveryState>(this as PolisDiscoveryState, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PolisDiscoveryState&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.error, error)&&const DeepCollectionEquality().equals(other.poleis, poleis)&&const DeepCollectionEquality().equals(other.members, members));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(error),const DeepCollectionEquality().hash(poleis),const DeepCollectionEquality().hash(members));
+
+@override
+String toString() {
+  return 'PolisDiscoveryState(status: $status, error: $error, poleis: $poleis, members: $members)';
+}
+
+
 }
 
 /// @nodoc
-abstract class $PolisDiscoveryStateCopyWith<$Res> {
-  factory $PolisDiscoveryStateCopyWith(
-    PolisDiscoveryState value,
-    $Res Function(PolisDiscoveryState) then,
-  ) = _$PolisDiscoveryStateCopyWithImpl<$Res, PolisDiscoveryState>;
-  @useResult
-  $Res call({
-    UiFlowStatus status,
-    Object? error,
-    List<PolisDefinition> poleis,
-    List<PolitaiUser> members,
-  });
-}
+abstract mixin class $PolisDiscoveryStateCopyWith<$Res>  {
+  factory $PolisDiscoveryStateCopyWith(PolisDiscoveryState value, $Res Function(PolisDiscoveryState) _then) = _$PolisDiscoveryStateCopyWithImpl;
+@useResult
+$Res call({
+ UiFlowStatus status, Object? error, List<PolisDefinition> poleis, List<PolitaiUser> members
+});
 
+
+
+
+}
 /// @nodoc
-class _$PolisDiscoveryStateCopyWithImpl<$Res, $Val extends PolisDiscoveryState>
+class _$PolisDiscoveryStateCopyWithImpl<$Res>
     implements $PolisDiscoveryStateCopyWith<$Res> {
-  _$PolisDiscoveryStateCopyWithImpl(this._value, this._then);
+  _$PolisDiscoveryStateCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final PolisDiscoveryState _self;
+  final $Res Function(PolisDiscoveryState) _then;
 
-  /// Create a copy of PolisDiscoveryState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? status = null,
-    Object? error = freezed,
-    Object? poleis = null,
-    Object? members = null,
-  }) {
-    return _then(
-      _value.copyWith(
-            status: null == status
-                ? _value.status
-                : status // ignore: cast_nullable_to_non_nullable
-                      as UiFlowStatus,
-            error: freezed == error ? _value.error : error,
-            poleis: null == poleis
-                ? _value.poleis
-                : poleis // ignore: cast_nullable_to_non_nullable
-                      as List<PolisDefinition>,
-            members: null == members
-                ? _value.members
-                : members // ignore: cast_nullable_to_non_nullable
-                      as List<PolitaiUser>,
-          )
-          as $Val,
-    );
-  }
+/// Create a copy of PolisDiscoveryState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? error = freezed,Object? poleis = null,Object? members = null,}) {
+  return _then(_self.copyWith(
+status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as UiFlowStatus,error: freezed == error ? _self.error : error ,poleis: null == poleis ? _self.poleis : poleis // ignore: cast_nullable_to_non_nullable
+as List<PolisDefinition>,members: null == members ? _self.members : members // ignore: cast_nullable_to_non_nullable
+as List<PolitaiUser>,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [PolisDiscoveryState].
+extension PolisDiscoveryStatePatterns on PolisDiscoveryState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _PolisDiscoveryState value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _PolisDiscoveryState() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _PolisDiscoveryState value)  $default,){
+final _that = this;
+switch (_that) {
+case _PolisDiscoveryState():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _PolisDiscoveryState value)?  $default,){
+final _that = this;
+switch (_that) {
+case _PolisDiscoveryState() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( UiFlowStatus status,  Object? error,  List<PolisDefinition> poleis,  List<PolitaiUser> members)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _PolisDiscoveryState() when $default != null:
+return $default(_that.status,_that.error,_that.poleis,_that.members);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( UiFlowStatus status,  Object? error,  List<PolisDefinition> poleis,  List<PolitaiUser> members)  $default,) {final _that = this;
+switch (_that) {
+case _PolisDiscoveryState():
+return $default(_that.status,_that.error,_that.poleis,_that.members);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( UiFlowStatus status,  Object? error,  List<PolisDefinition> poleis,  List<PolitaiUser> members)?  $default,) {final _that = this;
+switch (_that) {
+case _PolisDiscoveryState() when $default != null:
+return $default(_that.status,_that.error,_that.poleis,_that.members);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
-abstract class _$$PolisDiscoveryStateImplCopyWith<$Res>
-    implements $PolisDiscoveryStateCopyWith<$Res> {
-  factory _$$PolisDiscoveryStateImplCopyWith(
-    _$PolisDiscoveryStateImpl value,
-    $Res Function(_$PolisDiscoveryStateImpl) then,
-  ) = __$$PolisDiscoveryStateImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({
-    UiFlowStatus status,
-    Object? error,
-    List<PolisDefinition> poleis,
-    List<PolitaiUser> members,
-  });
+
+
+class _PolisDiscoveryState extends PolisDiscoveryState {
+  const _PolisDiscoveryState({this.status = UiFlowStatus.idle, this.error, final  List<PolisDefinition> poleis = const [], final  List<PolitaiUser> members = const []}): _poleis = poleis,_members = members,super._();
+  
+
+@override@JsonKey() final  UiFlowStatus status;
+@override final  Object? error;
+ final  List<PolisDefinition> _poleis;
+@override@JsonKey() List<PolisDefinition> get poleis {
+  if (_poleis is EqualUnmodifiableListView) return _poleis;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_poleis);
+}
+
+ final  List<PolitaiUser> _members;
+@override@JsonKey() List<PolitaiUser> get members {
+  if (_members is EqualUnmodifiableListView) return _members;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_members);
+}
+
+
+/// Create a copy of PolisDiscoveryState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$PolisDiscoveryStateCopyWith<_PolisDiscoveryState> get copyWith => __$PolisDiscoveryStateCopyWithImpl<_PolisDiscoveryState>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PolisDiscoveryState&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.error, error)&&const DeepCollectionEquality().equals(other._poleis, _poleis)&&const DeepCollectionEquality().equals(other._members, _members));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(error),const DeepCollectionEquality().hash(_poleis),const DeepCollectionEquality().hash(_members));
+
+@override
+String toString() {
+  return 'PolisDiscoveryState(status: $status, error: $error, poleis: $poleis, members: $members)';
+}
+
+
 }
 
 /// @nodoc
-class __$$PolisDiscoveryStateImplCopyWithImpl<$Res>
-    extends _$PolisDiscoveryStateCopyWithImpl<$Res, _$PolisDiscoveryStateImpl>
-    implements _$$PolisDiscoveryStateImplCopyWith<$Res> {
-  __$$PolisDiscoveryStateImplCopyWithImpl(
-    _$PolisDiscoveryStateImpl _value,
-    $Res Function(_$PolisDiscoveryStateImpl) _then,
-  ) : super(_value, _then);
+abstract mixin class _$PolisDiscoveryStateCopyWith<$Res> implements $PolisDiscoveryStateCopyWith<$Res> {
+  factory _$PolisDiscoveryStateCopyWith(_PolisDiscoveryState value, $Res Function(_PolisDiscoveryState) _then) = __$PolisDiscoveryStateCopyWithImpl;
+@override @useResult
+$Res call({
+ UiFlowStatus status, Object? error, List<PolisDefinition> poleis, List<PolitaiUser> members
+});
 
-  /// Create a copy of PolisDiscoveryState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? status = null,
-    Object? error = freezed,
-    Object? poleis = null,
-    Object? members = null,
-  }) {
-    return _then(
-      _$PolisDiscoveryStateImpl(
-        status: null == status
-            ? _value.status
-            : status // ignore: cast_nullable_to_non_nullable
-                  as UiFlowStatus,
-        error: freezed == error ? _value.error : error,
-        poleis: null == poleis
-            ? _value._poleis
-            : poleis // ignore: cast_nullable_to_non_nullable
-                  as List<PolisDefinition>,
-        members: null == members
-            ? _value._members
-            : members // ignore: cast_nullable_to_non_nullable
-                  as List<PolitaiUser>,
-      ),
-    );
-  }
+
+
+
 }
-
 /// @nodoc
+class __$PolisDiscoveryStateCopyWithImpl<$Res>
+    implements _$PolisDiscoveryStateCopyWith<$Res> {
+  __$PolisDiscoveryStateCopyWithImpl(this._self, this._then);
 
-class _$PolisDiscoveryStateImpl extends _PolisDiscoveryState {
-  const _$PolisDiscoveryStateImpl({
-    this.status = UiFlowStatus.idle,
-    this.error,
-    final List<PolisDefinition> poleis = const [],
-    final List<PolitaiUser> members = const [],
-  }) : _poleis = poleis,
-       _members = members,
-       super._();
+  final _PolisDiscoveryState _self;
+  final $Res Function(_PolisDiscoveryState) _then;
 
-  @override
-  @JsonKey()
-  final UiFlowStatus status;
-  @override
-  final Object? error;
-  final List<PolisDefinition> _poleis;
-  @override
-  @JsonKey()
-  List<PolisDefinition> get poleis {
-    if (_poleis is EqualUnmodifiableListView) return _poleis;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_poleis);
-  }
-
-  final List<PolitaiUser> _members;
-  @override
-  @JsonKey()
-  List<PolitaiUser> get members {
-    if (_members is EqualUnmodifiableListView) return _members;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_members);
-  }
-
-  @override
-  String toString() {
-    return 'PolisDiscoveryState(status: $status, error: $error, poleis: $poleis, members: $members)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$PolisDiscoveryStateImpl &&
-            (identical(other.status, status) || other.status == status) &&
-            const DeepCollectionEquality().equals(other.error, error) &&
-            const DeepCollectionEquality().equals(other._poleis, _poleis) &&
-            const DeepCollectionEquality().equals(other._members, _members));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    status,
-    const DeepCollectionEquality().hash(error),
-    const DeepCollectionEquality().hash(_poleis),
-    const DeepCollectionEquality().hash(_members),
-  );
-
-  /// Create a copy of PolisDiscoveryState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$PolisDiscoveryStateImplCopyWith<_$PolisDiscoveryStateImpl> get copyWith =>
-      __$$PolisDiscoveryStateImplCopyWithImpl<_$PolisDiscoveryStateImpl>(
-        this,
-        _$identity,
-      );
+/// Create a copy of PolisDiscoveryState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? error = freezed,Object? poleis = null,Object? members = null,}) {
+  return _then(_PolisDiscoveryState(
+status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as UiFlowStatus,error: freezed == error ? _self.error : error ,poleis: null == poleis ? _self._poleis : poleis // ignore: cast_nullable_to_non_nullable
+as List<PolisDefinition>,members: null == members ? _self._members : members // ignore: cast_nullable_to_non_nullable
+as List<PolitaiUser>,
+  ));
 }
 
-abstract class _PolisDiscoveryState extends PolisDiscoveryState {
-  const factory _PolisDiscoveryState({
-    final UiFlowStatus status,
-    final Object? error,
-    final List<PolisDefinition> poleis,
-    final List<PolitaiUser> members,
-  }) = _$PolisDiscoveryStateImpl;
-  const _PolisDiscoveryState._() : super._();
 
-  @override
-  UiFlowStatus get status;
-  @override
-  Object? get error;
-  @override
-  List<PolisDefinition> get poleis;
-  @override
-  List<PolitaiUser> get members;
-
-  /// Create a copy of PolisDiscoveryState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$PolisDiscoveryStateImplCopyWith<_$PolisDiscoveryStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
+
+// dart format on

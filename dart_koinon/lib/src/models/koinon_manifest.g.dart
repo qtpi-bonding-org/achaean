@@ -6,8 +6,8 @@ part of 'koinon_manifest.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$KoinonManifestImpl _$$KoinonManifestImplFromJson(Map<String, dynamic> json) =>
-    _$KoinonManifestImpl(
+_KoinonManifest _$KoinonManifestFromJson(Map<String, dynamic> json) =>
+    _KoinonManifest(
       protocol: json['protocol'] as String? ?? 'koinon',
       version: json['version'] as String? ?? '1.0',
       pubkey: json['pubkey'] as String,
@@ -23,6 +23,11 @@ _$KoinonManifestImpl _$$KoinonManifestImplFromJson(Map<String, dynamic> json) =>
               ?.map((e) => TrustEntry.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      observe:
+          (json['observe'] as List<dynamic>?)
+              ?.map((e) => ObserveEntry.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       flags:
           (json['flags'] as List<dynamic>?)
               ?.map((e) => FlagEntry.fromJson(e as Map<String, dynamic>))
@@ -30,15 +35,15 @@ _$KoinonManifestImpl _$$KoinonManifestImplFromJson(Map<String, dynamic> json) =>
           const [],
     );
 
-Map<String, dynamic> _$$KoinonManifestImplToJson(
-  _$KoinonManifestImpl instance,
-) => <String, dynamic>{
-  'protocol': instance.protocol,
-  'version': instance.version,
-  'pubkey': instance.pubkey,
-  'repo_radicle': instance.repoRadicle,
-  'repo_https': instance.repoHttps,
-  'poleis': instance.poleis.map((e) => e.toJson()).toList(),
-  'trust': instance.trust.map((e) => e.toJson()).toList(),
-  'flags': instance.flags.map((e) => e.toJson()).toList(),
-};
+Map<String, dynamic> _$KoinonManifestToJson(_KoinonManifest instance) =>
+    <String, dynamic>{
+      'protocol': instance.protocol,
+      'version': instance.version,
+      'pubkey': instance.pubkey,
+      'repo_radicle': instance.repoRadicle,
+      'repo_https': instance.repoHttps,
+      'poleis': instance.poleis.map((e) => e.toJson()).toList(),
+      'trust': instance.trust.map((e) => e.toJson()).toList(),
+      'observe': instance.observe.map((e) => e.toJson()).toList(),
+      'flags': instance.flags.map((e) => e.toJson()).toList(),
+    };

@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,216 +9,281 @@ part of 'flag_entry.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
-FlagEntry _$FlagEntryFromJson(Map<String, dynamic> json) {
-  return _FlagEntry.fromJson(json);
-}
 
 /// @nodoc
 mixin _$FlagEntry {
-  /// Path to the flagged post.
-  String get post => throw _privateConstructorUsedError;
 
-  /// Polis repo URL where this flag applies.
-  String get polis => throw _privateConstructorUsedError;
-
-  /// Free-form reason for flagging.
-  String get reason => throw _privateConstructorUsedError;
+/// Path to the flagged post.
+ String get post;/// Polis repo URL where this flag applies.
+ String get polis;/// Free-form reason for flagging.
+ String get reason;
+/// Create a copy of FlagEntry
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FlagEntryCopyWith<FlagEntry> get copyWith => _$FlagEntryCopyWithImpl<FlagEntry>(this as FlagEntry, _$identity);
 
   /// Serializes this FlagEntry to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
 
-  /// Create a copy of FlagEntry
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $FlagEntryCopyWith<FlagEntry> get copyWith =>
-      throw _privateConstructorUsedError;
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FlagEntry&&(identical(other.post, post) || other.post == post)&&(identical(other.polis, polis) || other.polis == polis)&&(identical(other.reason, reason) || other.reason == reason));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,post,polis,reason);
+
+@override
+String toString() {
+  return 'FlagEntry(post: $post, polis: $polis, reason: $reason)';
+}
+
+
 }
 
 /// @nodoc
-abstract class $FlagEntryCopyWith<$Res> {
-  factory $FlagEntryCopyWith(FlagEntry value, $Res Function(FlagEntry) then) =
-      _$FlagEntryCopyWithImpl<$Res, FlagEntry>;
-  @useResult
-  $Res call({String post, String polis, String reason});
-}
+abstract mixin class $FlagEntryCopyWith<$Res>  {
+  factory $FlagEntryCopyWith(FlagEntry value, $Res Function(FlagEntry) _then) = _$FlagEntryCopyWithImpl;
+@useResult
+$Res call({
+ String post, String polis, String reason
+});
 
+
+
+
+}
 /// @nodoc
-class _$FlagEntryCopyWithImpl<$Res, $Val extends FlagEntry>
+class _$FlagEntryCopyWithImpl<$Res>
     implements $FlagEntryCopyWith<$Res> {
-  _$FlagEntryCopyWithImpl(this._value, this._then);
+  _$FlagEntryCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final FlagEntry _self;
+  final $Res Function(FlagEntry) _then;
 
-  /// Create a copy of FlagEntry
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? post = null,
-    Object? polis = null,
-    Object? reason = null,
-  }) {
-    return _then(
-      _value.copyWith(
-            post: null == post
-                ? _value.post
-                : post // ignore: cast_nullable_to_non_nullable
-                      as String,
-            polis: null == polis
-                ? _value.polis
-                : polis // ignore: cast_nullable_to_non_nullable
-                      as String,
-            reason: null == reason
-                ? _value.reason
-                : reason // ignore: cast_nullable_to_non_nullable
-                      as String,
-          )
-          as $Val,
-    );
-  }
+/// Create a copy of FlagEntry
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? post = null,Object? polis = null,Object? reason = null,}) {
+  return _then(_self.copyWith(
+post: null == post ? _self.post : post // ignore: cast_nullable_to_non_nullable
+as String,polis: null == polis ? _self.polis : polis // ignore: cast_nullable_to_non_nullable
+as String,reason: null == reason ? _self.reason : reason // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
 }
 
-/// @nodoc
-abstract class _$$FlagEntryImplCopyWith<$Res>
-    implements $FlagEntryCopyWith<$Res> {
-  factory _$$FlagEntryImplCopyWith(
-    _$FlagEntryImpl value,
-    $Res Function(_$FlagEntryImpl) then,
-  ) = __$$FlagEntryImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String post, String polis, String reason});
 }
 
-/// @nodoc
-class __$$FlagEntryImplCopyWithImpl<$Res>
-    extends _$FlagEntryCopyWithImpl<$Res, _$FlagEntryImpl>
-    implements _$$FlagEntryImplCopyWith<$Res> {
-  __$$FlagEntryImplCopyWithImpl(
-    _$FlagEntryImpl _value,
-    $Res Function(_$FlagEntryImpl) _then,
-  ) : super(_value, _then);
 
-  /// Create a copy of FlagEntry
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? post = null,
-    Object? polis = null,
-    Object? reason = null,
-  }) {
-    return _then(
-      _$FlagEntryImpl(
-        post: null == post
-            ? _value.post
-            : post // ignore: cast_nullable_to_non_nullable
-                  as String,
-        polis: null == polis
-            ? _value.polis
-            : polis // ignore: cast_nullable_to_non_nullable
-                  as String,
-        reason: null == reason
-            ? _value.reason
-            : reason // ignore: cast_nullable_to_non_nullable
-                  as String,
-      ),
-    );
-  }
+/// Adds pattern-matching-related methods to [FlagEntry].
+extension FlagEntryPatterns on FlagEntry {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _FlagEntry value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _FlagEntry() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _FlagEntry value)  $default,){
+final _that = this;
+switch (_that) {
+case _FlagEntry():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _FlagEntry value)?  $default,){
+final _that = this;
+switch (_that) {
+case _FlagEntry() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String post,  String polis,  String reason)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _FlagEntry() when $default != null:
+return $default(_that.post,_that.polis,_that.reason);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String post,  String polis,  String reason)  $default,) {final _that = this;
+switch (_that) {
+case _FlagEntry():
+return $default(_that.post,_that.polis,_that.reason);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String post,  String polis,  String reason)?  $default,) {final _that = this;
+switch (_that) {
+case _FlagEntry() when $default != null:
+return $default(_that.post,_that.polis,_that.reason);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$FlagEntryImpl implements _FlagEntry {
-  const _$FlagEntryImpl({
-    required this.post,
-    required this.polis,
-    required this.reason,
-  });
 
-  factory _$FlagEntryImpl.fromJson(Map<String, dynamic> json) =>
-      _$$FlagEntryImplFromJson(json);
+class _FlagEntry implements FlagEntry {
+  const _FlagEntry({required this.post, required this.polis, required this.reason});
+  factory _FlagEntry.fromJson(Map<String, dynamic> json) => _$FlagEntryFromJson(json);
 
-  /// Path to the flagged post.
-  @override
-  final String post;
+/// Path to the flagged post.
+@override final  String post;
+/// Polis repo URL where this flag applies.
+@override final  String polis;
+/// Free-form reason for flagging.
+@override final  String reason;
 
-  /// Polis repo URL where this flag applies.
-  @override
-  final String polis;
+/// Create a copy of FlagEntry
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$FlagEntryCopyWith<_FlagEntry> get copyWith => __$FlagEntryCopyWithImpl<_FlagEntry>(this, _$identity);
 
-  /// Free-form reason for flagging.
-  @override
-  final String reason;
-
-  @override
-  String toString() {
-    return 'FlagEntry(post: $post, polis: $polis, reason: $reason)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$FlagEntryImpl &&
-            (identical(other.post, post) || other.post == post) &&
-            (identical(other.polis, polis) || other.polis == polis) &&
-            (identical(other.reason, reason) || other.reason == reason));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, post, polis, reason);
-
-  /// Create a copy of FlagEntry
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$FlagEntryImplCopyWith<_$FlagEntryImpl> get copyWith =>
-      __$$FlagEntryImplCopyWithImpl<_$FlagEntryImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$FlagEntryImplToJson(this);
-  }
+@override
+Map<String, dynamic> toJson() {
+  return _$FlagEntryToJson(this, );
 }
 
-abstract class _FlagEntry implements FlagEntry {
-  const factory _FlagEntry({
-    required final String post,
-    required final String polis,
-    required final String reason,
-  }) = _$FlagEntryImpl;
-
-  factory _FlagEntry.fromJson(Map<String, dynamic> json) =
-      _$FlagEntryImpl.fromJson;
-
-  /// Path to the flagged post.
-  @override
-  String get post;
-
-  /// Polis repo URL where this flag applies.
-  @override
-  String get polis;
-
-  /// Free-form reason for flagging.
-  @override
-  String get reason;
-
-  /// Create a copy of FlagEntry
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$FlagEntryImplCopyWith<_$FlagEntryImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FlagEntry&&(identical(other.post, post) || other.post == post)&&(identical(other.polis, polis) || other.polis == polis)&&(identical(other.reason, reason) || other.reason == reason));
 }
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,post,polis,reason);
+
+@override
+String toString() {
+  return 'FlagEntry(post: $post, polis: $polis, reason: $reason)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$FlagEntryCopyWith<$Res> implements $FlagEntryCopyWith<$Res> {
+  factory _$FlagEntryCopyWith(_FlagEntry value, $Res Function(_FlagEntry) _then) = __$FlagEntryCopyWithImpl;
+@override @useResult
+$Res call({
+ String post, String polis, String reason
+});
+
+
+
+
+}
+/// @nodoc
+class __$FlagEntryCopyWithImpl<$Res>
+    implements _$FlagEntryCopyWith<$Res> {
+  __$FlagEntryCopyWithImpl(this._self, this._then);
+
+  final _FlagEntry _self;
+  final $Res Function(_FlagEntry) _then;
+
+/// Create a copy of FlagEntry
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? post = null,Object? polis = null,Object? reason = null,}) {
+  return _then(_FlagEntry(
+post: null == post ? _self.post : post // ignore: cast_nullable_to_non_nullable
+as String,polis: null == polis ? _self.polis : polis // ignore: cast_nullable_to_non_nullable
+as String,reason: null == reason ? _self.reason : reason // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+// dart format on

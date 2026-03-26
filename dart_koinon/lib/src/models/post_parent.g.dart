@@ -6,15 +6,14 @@ part of 'post_parent.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$PostParentImpl _$$PostParentImplFromJson(Map<String, dynamic> json) =>
-    _$PostParentImpl(
-      author: json['author'] as String,
-      repo: json['repo'] as String,
-      path: json['path'] as String,
-      commit: json['commit'] as String,
-    );
+_PostParent _$PostParentFromJson(Map<String, dynamic> json) => _PostParent(
+  author: json['author'] as String,
+  repo: json['repo'] as String,
+  path: json['path'] as String,
+  commit: json['commit'] as String,
+);
 
-Map<String, dynamic> _$$PostParentImplToJson(_$PostParentImpl instance) =>
+Map<String, dynamic> _$PostParentToJson(_PostParent instance) =>
     <String, dynamic>{
       'author': instance.author,
       'repo': instance.repo,

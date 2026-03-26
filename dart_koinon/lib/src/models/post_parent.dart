@@ -5,7 +5,7 @@ part 'post_parent.g.dart';
 
 /// Reply parent reference — pins a reply to an exact version of the parent post.
 @freezed
-class PostParent with _$PostParent {
+abstract class PostParent with _$PostParent {
   const factory PostParent({
     /// Parent author's public key.
     required String author,

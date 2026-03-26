@@ -4,7 +4,7 @@ part 'account_creation_result.freezed.dart';
 part 'account_creation_result.g.dart';
 
 @freezed
-class AccountCreationResult with _$AccountCreationResult {
+abstract class AccountCreationResult with _$AccountCreationResult {
   const factory AccountCreationResult({
     required String pubkeyHex,
     required String repoOwner,

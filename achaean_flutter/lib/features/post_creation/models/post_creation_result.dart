@@ -4,7 +4,7 @@ part 'post_creation_result.freezed.dart';
 part 'post_creation_result.g.dart';
 
 @freezed
-class PostCreationResult with _$PostCreationResult {
+abstract class PostCreationResult with _$PostCreationResult {
   const factory PostCreationResult({
     required String path,
     required String slug,

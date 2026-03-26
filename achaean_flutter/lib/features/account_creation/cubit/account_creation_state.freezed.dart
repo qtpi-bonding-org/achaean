@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,219 +9,291 @@ part of 'account_creation_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
 /// @nodoc
 mixin _$AccountCreationState {
-  UiFlowStatus get status => throw _privateConstructorUsedError;
-  Object? get error => throw _privateConstructorUsedError;
-  AccountCreationResult? get result => throw _privateConstructorUsedError;
 
-  /// Create a copy of AccountCreationState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $AccountCreationStateCopyWith<AccountCreationState> get copyWith =>
-      throw _privateConstructorUsedError;
+ UiFlowStatus get status; Object? get error; AccountCreationResult? get result;
+/// Create a copy of AccountCreationState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AccountCreationStateCopyWith<AccountCreationState> get copyWith => _$AccountCreationStateCopyWithImpl<AccountCreationState>(this as AccountCreationState, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AccountCreationState&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.error, error)&&(identical(other.result, result) || other.result == result));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(error),result);
+
+@override
+String toString() {
+  return 'AccountCreationState(status: $status, error: $error, result: $result)';
+}
+
+
 }
 
 /// @nodoc
-abstract class $AccountCreationStateCopyWith<$Res> {
-  factory $AccountCreationStateCopyWith(
-    AccountCreationState value,
-    $Res Function(AccountCreationState) then,
-  ) = _$AccountCreationStateCopyWithImpl<$Res, AccountCreationState>;
-  @useResult
-  $Res call({
-    UiFlowStatus status,
-    Object? error,
-    AccountCreationResult? result,
-  });
+abstract mixin class $AccountCreationStateCopyWith<$Res>  {
+  factory $AccountCreationStateCopyWith(AccountCreationState value, $Res Function(AccountCreationState) _then) = _$AccountCreationStateCopyWithImpl;
+@useResult
+$Res call({
+ UiFlowStatus status, Object? error, AccountCreationResult? result
+});
 
-  $AccountCreationResultCopyWith<$Res>? get result;
+
+$AccountCreationResultCopyWith<$Res>? get result;
+
 }
-
 /// @nodoc
-class _$AccountCreationStateCopyWithImpl<
-  $Res,
-  $Val extends AccountCreationState
->
+class _$AccountCreationStateCopyWithImpl<$Res>
     implements $AccountCreationStateCopyWith<$Res> {
-  _$AccountCreationStateCopyWithImpl(this._value, this._then);
+  _$AccountCreationStateCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final AccountCreationState _self;
+  final $Res Function(AccountCreationState) _then;
 
-  /// Create a copy of AccountCreationState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? status = null,
-    Object? error = freezed,
-    Object? result = freezed,
-  }) {
-    return _then(
-      _value.copyWith(
-            status: null == status
-                ? _value.status
-                : status // ignore: cast_nullable_to_non_nullable
-                      as UiFlowStatus,
-            error: freezed == error ? _value.error : error,
-            result: freezed == result
-                ? _value.result
-                : result // ignore: cast_nullable_to_non_nullable
-                      as AccountCreationResult?,
-          )
-          as $Val,
-    );
-  }
-
-  /// Create a copy of AccountCreationState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AccountCreationResultCopyWith<$Res>? get result {
-    if (_value.result == null) {
-      return null;
-    }
-
-    return $AccountCreationResultCopyWith<$Res>(_value.result!, (value) {
-      return _then(_value.copyWith(result: value) as $Val);
-    });
-  }
+/// Create a copy of AccountCreationState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? error = freezed,Object? result = freezed,}) {
+  return _then(_self.copyWith(
+status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as UiFlowStatus,error: freezed == error ? _self.error : error ,result: freezed == result ? _self.result : result // ignore: cast_nullable_to_non_nullable
+as AccountCreationResult?,
+  ));
 }
+/// Create a copy of AccountCreationState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AccountCreationResultCopyWith<$Res>? get result {
+    if (_self.result == null) {
+    return null;
+  }
 
-/// @nodoc
-abstract class _$$AccountCreationStateImplCopyWith<$Res>
-    implements $AccountCreationStateCopyWith<$Res> {
-  factory _$$AccountCreationStateImplCopyWith(
-    _$AccountCreationStateImpl value,
-    $Res Function(_$AccountCreationStateImpl) then,
-  ) = __$$AccountCreationStateImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({
-    UiFlowStatus status,
-    Object? error,
-    AccountCreationResult? result,
+  return $AccountCreationResultCopyWith<$Res>(_self.result!, (value) {
+    return _then(_self.copyWith(result: value));
   });
+}
+}
 
-  @override
-  $AccountCreationResultCopyWith<$Res>? get result;
+
+/// Adds pattern-matching-related methods to [AccountCreationState].
+extension AccountCreationStatePatterns on AccountCreationState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _AccountCreationState value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _AccountCreationState() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _AccountCreationState value)  $default,){
+final _that = this;
+switch (_that) {
+case _AccountCreationState():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _AccountCreationState value)?  $default,){
+final _that = this;
+switch (_that) {
+case _AccountCreationState() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( UiFlowStatus status,  Object? error,  AccountCreationResult? result)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _AccountCreationState() when $default != null:
+return $default(_that.status,_that.error,_that.result);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( UiFlowStatus status,  Object? error,  AccountCreationResult? result)  $default,) {final _that = this;
+switch (_that) {
+case _AccountCreationState():
+return $default(_that.status,_that.error,_that.result);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( UiFlowStatus status,  Object? error,  AccountCreationResult? result)?  $default,) {final _that = this;
+switch (_that) {
+case _AccountCreationState() when $default != null:
+return $default(_that.status,_that.error,_that.result);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
-class __$$AccountCreationStateImplCopyWithImpl<$Res>
-    extends _$AccountCreationStateCopyWithImpl<$Res, _$AccountCreationStateImpl>
-    implements _$$AccountCreationStateImplCopyWith<$Res> {
-  __$$AccountCreationStateImplCopyWithImpl(
-    _$AccountCreationStateImpl _value,
-    $Res Function(_$AccountCreationStateImpl) _then,
-  ) : super(_value, _then);
 
-  /// Create a copy of AccountCreationState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? status = null,
-    Object? error = freezed,
-    Object? result = freezed,
-  }) {
-    return _then(
-      _$AccountCreationStateImpl(
-        status: null == status
-            ? _value.status
-            : status // ignore: cast_nullable_to_non_nullable
-                  as UiFlowStatus,
-        error: freezed == error ? _value.error : error,
-        result: freezed == result
-            ? _value.result
-            : result // ignore: cast_nullable_to_non_nullable
-                  as AccountCreationResult?,
-      ),
-    );
-  }
+
+class _AccountCreationState extends AccountCreationState {
+  const _AccountCreationState({this.status = UiFlowStatus.idle, this.error, this.result}): super._();
+  
+
+@override@JsonKey() final  UiFlowStatus status;
+@override final  Object? error;
+@override final  AccountCreationResult? result;
+
+/// Create a copy of AccountCreationState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$AccountCreationStateCopyWith<_AccountCreationState> get copyWith => __$AccountCreationStateCopyWithImpl<_AccountCreationState>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AccountCreationState&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.error, error)&&(identical(other.result, result) || other.result == result));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(error),result);
+
+@override
+String toString() {
+  return 'AccountCreationState(status: $status, error: $error, result: $result)';
+}
+
+
 }
 
 /// @nodoc
+abstract mixin class _$AccountCreationStateCopyWith<$Res> implements $AccountCreationStateCopyWith<$Res> {
+  factory _$AccountCreationStateCopyWith(_AccountCreationState value, $Res Function(_AccountCreationState) _then) = __$AccountCreationStateCopyWithImpl;
+@override @useResult
+$Res call({
+ UiFlowStatus status, Object? error, AccountCreationResult? result
+});
 
-class _$AccountCreationStateImpl extends _AccountCreationState {
-  const _$AccountCreationStateImpl({
-    this.status = UiFlowStatus.idle,
-    this.error,
-    this.result,
-  }) : super._();
 
-  @override
-  @JsonKey()
-  final UiFlowStatus status;
-  @override
-  final Object? error;
-  @override
-  final AccountCreationResult? result;
+@override $AccountCreationResultCopyWith<$Res>? get result;
 
-  @override
-  String toString() {
-    return 'AccountCreationState(status: $status, error: $error, result: $result)';
-  }
+}
+/// @nodoc
+class __$AccountCreationStateCopyWithImpl<$Res>
+    implements _$AccountCreationStateCopyWith<$Res> {
+  __$AccountCreationStateCopyWithImpl(this._self, this._then);
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$AccountCreationStateImpl &&
-            (identical(other.status, status) || other.status == status) &&
-            const DeepCollectionEquality().equals(other.error, error) &&
-            (identical(other.result, result) || other.result == result));
-  }
+  final _AccountCreationState _self;
+  final $Res Function(_AccountCreationState) _then;
 
-  @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    status,
-    const DeepCollectionEquality().hash(error),
-    result,
-  );
-
-  /// Create a copy of AccountCreationState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$AccountCreationStateImplCopyWith<_$AccountCreationStateImpl>
-  get copyWith =>
-      __$$AccountCreationStateImplCopyWithImpl<_$AccountCreationStateImpl>(
-        this,
-        _$identity,
-      );
+/// Create a copy of AccountCreationState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? error = freezed,Object? result = freezed,}) {
+  return _then(_AccountCreationState(
+status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as UiFlowStatus,error: freezed == error ? _self.error : error ,result: freezed == result ? _self.result : result // ignore: cast_nullable_to_non_nullable
+as AccountCreationResult?,
+  ));
 }
 
-abstract class _AccountCreationState extends AccountCreationState {
-  const factory _AccountCreationState({
-    final UiFlowStatus status,
-    final Object? error,
-    final AccountCreationResult? result,
-  }) = _$AccountCreationStateImpl;
-  const _AccountCreationState._() : super._();
+/// Create a copy of AccountCreationState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AccountCreationResultCopyWith<$Res>? get result {
+    if (_self.result == null) {
+    return null;
+  }
 
-  @override
-  UiFlowStatus get status;
-  @override
-  Object? get error;
-  @override
-  AccountCreationResult? get result;
-
-  /// Create a copy of AccountCreationState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AccountCreationStateImplCopyWith<_$AccountCreationStateImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  return $AccountCreationResultCopyWith<$Res>(_self.result!, (value) {
+    return _then(_self.copyWith(result: value));
+  });
 }
+}
+
+// dart format on

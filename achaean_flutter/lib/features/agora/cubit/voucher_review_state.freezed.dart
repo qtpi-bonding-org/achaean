@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,206 +9,273 @@ part of 'voucher_review_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
 /// @nodoc
 mixin _$VoucherReviewState {
-  UiFlowStatus get status => throw _privateConstructorUsedError;
-  Object? get error => throw _privateConstructorUsedError;
-  List<FlagRecord> get flaggedPosts => throw _privateConstructorUsedError;
 
-  /// Create a copy of VoucherReviewState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $VoucherReviewStateCopyWith<VoucherReviewState> get copyWith =>
-      throw _privateConstructorUsedError;
+ UiFlowStatus get status; Object? get error; List<FlagRecord> get flaggedPosts;
+/// Create a copy of VoucherReviewState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$VoucherReviewStateCopyWith<VoucherReviewState> get copyWith => _$VoucherReviewStateCopyWithImpl<VoucherReviewState>(this as VoucherReviewState, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is VoucherReviewState&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.error, error)&&const DeepCollectionEquality().equals(other.flaggedPosts, flaggedPosts));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(error),const DeepCollectionEquality().hash(flaggedPosts));
+
+@override
+String toString() {
+  return 'VoucherReviewState(status: $status, error: $error, flaggedPosts: $flaggedPosts)';
+}
+
+
 }
 
 /// @nodoc
-abstract class $VoucherReviewStateCopyWith<$Res> {
-  factory $VoucherReviewStateCopyWith(
-    VoucherReviewState value,
-    $Res Function(VoucherReviewState) then,
-  ) = _$VoucherReviewStateCopyWithImpl<$Res, VoucherReviewState>;
-  @useResult
-  $Res call({
-    UiFlowStatus status,
-    Object? error,
-    List<FlagRecord> flaggedPosts,
-  });
-}
+abstract mixin class $VoucherReviewStateCopyWith<$Res>  {
+  factory $VoucherReviewStateCopyWith(VoucherReviewState value, $Res Function(VoucherReviewState) _then) = _$VoucherReviewStateCopyWithImpl;
+@useResult
+$Res call({
+ UiFlowStatus status, Object? error, List<FlagRecord> flaggedPosts
+});
 
+
+
+
+}
 /// @nodoc
-class _$VoucherReviewStateCopyWithImpl<$Res, $Val extends VoucherReviewState>
+class _$VoucherReviewStateCopyWithImpl<$Res>
     implements $VoucherReviewStateCopyWith<$Res> {
-  _$VoucherReviewStateCopyWithImpl(this._value, this._then);
+  _$VoucherReviewStateCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final VoucherReviewState _self;
+  final $Res Function(VoucherReviewState) _then;
 
-  /// Create a copy of VoucherReviewState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? status = null,
-    Object? error = freezed,
-    Object? flaggedPosts = null,
-  }) {
-    return _then(
-      _value.copyWith(
-            status: null == status
-                ? _value.status
-                : status // ignore: cast_nullable_to_non_nullable
-                      as UiFlowStatus,
-            error: freezed == error ? _value.error : error,
-            flaggedPosts: null == flaggedPosts
-                ? _value.flaggedPosts
-                : flaggedPosts // ignore: cast_nullable_to_non_nullable
-                      as List<FlagRecord>,
-          )
-          as $Val,
-    );
-  }
+/// Create a copy of VoucherReviewState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? error = freezed,Object? flaggedPosts = null,}) {
+  return _then(_self.copyWith(
+status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as UiFlowStatus,error: freezed == error ? _self.error : error ,flaggedPosts: null == flaggedPosts ? _self.flaggedPosts : flaggedPosts // ignore: cast_nullable_to_non_nullable
+as List<FlagRecord>,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [VoucherReviewState].
+extension VoucherReviewStatePatterns on VoucherReviewState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _VoucherReviewState value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _VoucherReviewState() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _VoucherReviewState value)  $default,){
+final _that = this;
+switch (_that) {
+case _VoucherReviewState():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _VoucherReviewState value)?  $default,){
+final _that = this;
+switch (_that) {
+case _VoucherReviewState() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( UiFlowStatus status,  Object? error,  List<FlagRecord> flaggedPosts)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _VoucherReviewState() when $default != null:
+return $default(_that.status,_that.error,_that.flaggedPosts);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( UiFlowStatus status,  Object? error,  List<FlagRecord> flaggedPosts)  $default,) {final _that = this;
+switch (_that) {
+case _VoucherReviewState():
+return $default(_that.status,_that.error,_that.flaggedPosts);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( UiFlowStatus status,  Object? error,  List<FlagRecord> flaggedPosts)?  $default,) {final _that = this;
+switch (_that) {
+case _VoucherReviewState() when $default != null:
+return $default(_that.status,_that.error,_that.flaggedPosts);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
-abstract class _$$VoucherReviewStateImplCopyWith<$Res>
-    implements $VoucherReviewStateCopyWith<$Res> {
-  factory _$$VoucherReviewStateImplCopyWith(
-    _$VoucherReviewStateImpl value,
-    $Res Function(_$VoucherReviewStateImpl) then,
-  ) = __$$VoucherReviewStateImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({
-    UiFlowStatus status,
-    Object? error,
-    List<FlagRecord> flaggedPosts,
-  });
+
+
+class _VoucherReviewState extends VoucherReviewState {
+  const _VoucherReviewState({this.status = UiFlowStatus.idle, this.error, final  List<FlagRecord> flaggedPosts = const []}): _flaggedPosts = flaggedPosts,super._();
+  
+
+@override@JsonKey() final  UiFlowStatus status;
+@override final  Object? error;
+ final  List<FlagRecord> _flaggedPosts;
+@override@JsonKey() List<FlagRecord> get flaggedPosts {
+  if (_flaggedPosts is EqualUnmodifiableListView) return _flaggedPosts;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_flaggedPosts);
+}
+
+
+/// Create a copy of VoucherReviewState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$VoucherReviewStateCopyWith<_VoucherReviewState> get copyWith => __$VoucherReviewStateCopyWithImpl<_VoucherReviewState>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _VoucherReviewState&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.error, error)&&const DeepCollectionEquality().equals(other._flaggedPosts, _flaggedPosts));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(error),const DeepCollectionEquality().hash(_flaggedPosts));
+
+@override
+String toString() {
+  return 'VoucherReviewState(status: $status, error: $error, flaggedPosts: $flaggedPosts)';
+}
+
+
 }
 
 /// @nodoc
-class __$$VoucherReviewStateImplCopyWithImpl<$Res>
-    extends _$VoucherReviewStateCopyWithImpl<$Res, _$VoucherReviewStateImpl>
-    implements _$$VoucherReviewStateImplCopyWith<$Res> {
-  __$$VoucherReviewStateImplCopyWithImpl(
-    _$VoucherReviewStateImpl _value,
-    $Res Function(_$VoucherReviewStateImpl) _then,
-  ) : super(_value, _then);
+abstract mixin class _$VoucherReviewStateCopyWith<$Res> implements $VoucherReviewStateCopyWith<$Res> {
+  factory _$VoucherReviewStateCopyWith(_VoucherReviewState value, $Res Function(_VoucherReviewState) _then) = __$VoucherReviewStateCopyWithImpl;
+@override @useResult
+$Res call({
+ UiFlowStatus status, Object? error, List<FlagRecord> flaggedPosts
+});
 
-  /// Create a copy of VoucherReviewState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? status = null,
-    Object? error = freezed,
-    Object? flaggedPosts = null,
-  }) {
-    return _then(
-      _$VoucherReviewStateImpl(
-        status: null == status
-            ? _value.status
-            : status // ignore: cast_nullable_to_non_nullable
-                  as UiFlowStatus,
-        error: freezed == error ? _value.error : error,
-        flaggedPosts: null == flaggedPosts
-            ? _value._flaggedPosts
-            : flaggedPosts // ignore: cast_nullable_to_non_nullable
-                  as List<FlagRecord>,
-      ),
-    );
-  }
+
+
+
 }
-
 /// @nodoc
+class __$VoucherReviewStateCopyWithImpl<$Res>
+    implements _$VoucherReviewStateCopyWith<$Res> {
+  __$VoucherReviewStateCopyWithImpl(this._self, this._then);
 
-class _$VoucherReviewStateImpl extends _VoucherReviewState {
-  const _$VoucherReviewStateImpl({
-    this.status = UiFlowStatus.idle,
-    this.error,
-    final List<FlagRecord> flaggedPosts = const [],
-  }) : _flaggedPosts = flaggedPosts,
-       super._();
+  final _VoucherReviewState _self;
+  final $Res Function(_VoucherReviewState) _then;
 
-  @override
-  @JsonKey()
-  final UiFlowStatus status;
-  @override
-  final Object? error;
-  final List<FlagRecord> _flaggedPosts;
-  @override
-  @JsonKey()
-  List<FlagRecord> get flaggedPosts {
-    if (_flaggedPosts is EqualUnmodifiableListView) return _flaggedPosts;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_flaggedPosts);
-  }
-
-  @override
-  String toString() {
-    return 'VoucherReviewState(status: $status, error: $error, flaggedPosts: $flaggedPosts)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$VoucherReviewStateImpl &&
-            (identical(other.status, status) || other.status == status) &&
-            const DeepCollectionEquality().equals(other.error, error) &&
-            const DeepCollectionEquality().equals(
-              other._flaggedPosts,
-              _flaggedPosts,
-            ));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    status,
-    const DeepCollectionEquality().hash(error),
-    const DeepCollectionEquality().hash(_flaggedPosts),
-  );
-
-  /// Create a copy of VoucherReviewState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$VoucherReviewStateImplCopyWith<_$VoucherReviewStateImpl> get copyWith =>
-      __$$VoucherReviewStateImplCopyWithImpl<_$VoucherReviewStateImpl>(
-        this,
-        _$identity,
-      );
+/// Create a copy of VoucherReviewState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? error = freezed,Object? flaggedPosts = null,}) {
+  return _then(_VoucherReviewState(
+status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as UiFlowStatus,error: freezed == error ? _self.error : error ,flaggedPosts: null == flaggedPosts ? _self._flaggedPosts : flaggedPosts // ignore: cast_nullable_to_non_nullable
+as List<FlagRecord>,
+  ));
 }
 
-abstract class _VoucherReviewState extends VoucherReviewState {
-  const factory _VoucherReviewState({
-    final UiFlowStatus status,
-    final Object? error,
-    final List<FlagRecord> flaggedPosts,
-  }) = _$VoucherReviewStateImpl;
-  const _VoucherReviewState._() : super._();
 
-  @override
-  UiFlowStatus get status;
-  @override
-  Object? get error;
-  @override
-  List<FlagRecord> get flaggedPosts;
-
-  /// Create a copy of VoucherReviewState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$VoucherReviewStateImplCopyWith<_$VoucherReviewStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
+
+// dart format on

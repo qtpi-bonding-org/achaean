@@ -22,9 +22,11 @@ import 'package:achaean_server/src/generated/koinon/readme_signature_record.dart
     as _i7;
 import 'package:achaean_server/src/generated/koinon/trust_declaration_record.dart'
     as _i8;
-import 'package:achaean_server/src/generated/koinon/flag_record.dart' as _i9;
+import 'package:achaean_server/src/generated/koinon/observe_declaration_record.dart'
+    as _i9;
+import 'package:achaean_server/src/generated/koinon/flag_record.dart' as _i10;
 import 'package:achaean_server/src/generated/koinon/post_reference.dart'
-    as _i10;
+    as _i11;
 import 'package:achaean_server/src/generated/protocol.dart';
 import 'package:achaean_server/src/generated/endpoints.dart';
 export 'package:serverpod_test/serverpod_test_public_exports.dart';
@@ -429,7 +431,38 @@ class _KoinonEndpoint {
     });
   }
 
-  _i3.Future<List<_i9.FlagRecord>> getFlagsForPolis(
+  _i3.Future<List<_i9.ObserveDeclarationRecord>> getObserveDeclarations(
+    _i1.TestSessionBuilder sessionBuilder,
+    String pubkey,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'koinon',
+            method: 'getObserveDeclarations',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'koinon',
+          methodName: 'getObserveDeclarations',
+          parameters: _i1.testObjectToJson({'pubkey': pubkey}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<List<_i9.ObserveDeclarationRecord>>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _i3.Future<List<_i10.FlagRecord>> getFlagsForPolis(
     _i1.TestSessionBuilder sessionBuilder,
     String polisRepoUrl,
   ) async {
@@ -452,7 +485,7 @@ class _KoinonEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i9.FlagRecord>>);
+                as _i3.Future<List<_i10.FlagRecord>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -460,7 +493,7 @@ class _KoinonEndpoint {
     });
   }
 
-  _i3.Future<List<_i9.FlagRecord>> getFlaggedPostsForVouchers(
+  _i3.Future<List<_i10.FlagRecord>> getFlaggedPostsForVouchers(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -482,7 +515,7 @@ class _KoinonEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i9.FlagRecord>>);
+                as _i3.Future<List<_i10.FlagRecord>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -490,7 +523,7 @@ class _KoinonEndpoint {
     });
   }
 
-  _i3.Future<List<_i10.PostReference>> getAgora(
+  _i3.Future<List<_i11.PostReference>> getAgora(
     _i1.TestSessionBuilder sessionBuilder,
     String polisRepoUrl, {
     required int limit,
@@ -519,7 +552,7 @@ class _KoinonEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i10.PostReference>>);
+                as _i3.Future<List<_i11.PostReference>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -527,7 +560,7 @@ class _KoinonEndpoint {
     });
   }
 
-  _i3.Future<List<_i10.PostReference>> getPersonalFeed(
+  _i3.Future<List<_i11.PostReference>> getPersonalFeed(
     _i1.TestSessionBuilder sessionBuilder, {
     required int limit,
     required int offset,
@@ -554,7 +587,7 @@ class _KoinonEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i10.PostReference>>);
+                as _i3.Future<List<_i11.PostReference>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -562,7 +595,7 @@ class _KoinonEndpoint {
     });
   }
 
-  _i3.Future<List<_i10.PostReference>> getThread(
+  _i3.Future<List<_i11.PostReference>> getThread(
     _i1.TestSessionBuilder sessionBuilder,
     String rootPostUrl,
   ) async {
@@ -585,7 +618,7 @@ class _KoinonEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i10.PostReference>>);
+                as _i3.Future<List<_i11.PostReference>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();

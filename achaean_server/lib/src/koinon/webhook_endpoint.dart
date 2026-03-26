@@ -137,7 +137,28 @@ class WebhookEndpoint extends Endpoint {
         );
       }
 
-      // 3. Replace readme signatures
+      // 3. Replace observe declarations
+      await ObserveDeclarationRecord.db.deleteWhere(
+        session,
+        where: (t) => t.fromPubkey.equals(pubkey),
+        transaction: transaction,
+      );
+
+      for (final entry in manifest.observe) {
+        await ObserveDeclarationRecord.db.insertRow(
+          session,
+          ObserveDeclarationRecord(
+            fromPubkey: pubkey,
+            toPubkey: entry.subject,
+            subjectRepoUrl: entry.repo,
+            timestamp: now,
+            indexedAt: now,
+          ),
+          transaction: transaction,
+        );
+      }
+
+      // 4. Replace readme signatures
       await ReadmeSignatureRecord.db.deleteWhere(
         session,
         where: (t) => t.signerPubkey.equals(pubkey),
@@ -159,7 +180,7 @@ class WebhookEndpoint extends Endpoint {
         );
       }
 
-      // 4. Replace flags
+      // 5. Replace flags
       await FlagRecord.db.deleteWhere(
         session,
         where: (t) => t.flaggedByPubkey.equals(pubkey),
@@ -191,7 +212,7 @@ class WebhookEndpoint extends Endpoint {
       }
     });
 
-    // 4. Update AGE graph (outside transaction — AGE uses its own tx)
+    // 6. Update AGE graph (outside transaction — AGE uses its own tx)
     await AgeGraph.upsertPolites(session, pubkey);
     await AgeGraph.replaceTrustEdges(
       session,
@@ -208,8 +229,8 @@ class WebhookEndpoint extends Endpoint {
 
     session.log(
       'Indexed manifest for $pubkey: '
-      '${manifest.trust.length} trust, ${manifest.poleis.length} poleis, '
-      '${manifest.flags.length} flags',
+      '${manifest.trust.length} trust, ${manifest.observe.length} observe, '
+      '${manifest.poleis.length} poleis, ${manifest.flags.length} flags',
       level: LogLevel.info,
     );
   }

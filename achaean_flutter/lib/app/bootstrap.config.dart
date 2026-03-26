@@ -1,5 +1,5 @@
-// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format width=80
 
 // **************************************************************************
 // InjectableConfigGenerator
@@ -41,18 +41,18 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final injectionModule = _$InjectionModule();
-    gh.factory<_i1021.FlagMessageMapper>(() => _i1021.FlagMessageMapper());
     gh.factory<_i928.AccountCreationMessageMapper>(
       () => _i928.AccountCreationMessageMapper(),
     );
+    gh.factory<_i1021.FlagMessageMapper>(() => _i1021.FlagMessageMapper());
     gh.factory<_i548.InspectionMessageMapper>(
       () => _i548.InspectionMessageMapper(),
     );
-    gh.factory<_i37.TrustMessageMapper>(() => _i37.TrustMessageMapper());
     gh.factory<_i224.PolisMessageMapper>(() => _i224.PolisMessageMapper());
     gh.factory<_i197.PostCreationMessageMapper>(
       () => _i197.PostCreationMessageMapper(),
     );
+    gh.factory<_i37.TrustMessageMapper>(() => _i37.TrustMessageMapper());
     gh.singleton<_i558.FlutterSecureStorage>(
       () => injectionModule.secureStorage,
     );

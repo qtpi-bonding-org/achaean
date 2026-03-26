@@ -6,14 +6,13 @@ part of 'flag_entry.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$FlagEntryImpl _$$FlagEntryImplFromJson(Map<String, dynamic> json) =>
-    _$FlagEntryImpl(
-      post: json['post'] as String,
-      polis: json['polis'] as String,
-      reason: json['reason'] as String,
-    );
+_FlagEntry _$FlagEntryFromJson(Map<String, dynamic> json) => _FlagEntry(
+  post: json['post'] as String,
+  polis: json['polis'] as String,
+  reason: json['reason'] as String,
+);
 
-Map<String, dynamic> _$$FlagEntryImplToJson(_$FlagEntryImpl instance) =>
+Map<String, dynamic> _$FlagEntryToJson(_FlagEntry instance) =>
     <String, dynamic>{
       'post': instance.post,
       'polis': instance.polis,

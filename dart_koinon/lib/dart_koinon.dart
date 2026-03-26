@@ -10,6 +10,8 @@ export 'src/models/post_content.dart';
 export 'src/models/post_parent.dart';
 export 'src/models/post_routing.dart';
 export 'src/models/readable_post_content.dart';
+export 'src/models/observe_declaration.dart';
+export 'src/models/observe_entry.dart';
 export 'src/models/readme_signature.dart';
 export 'src/models/trust_declaration.dart';
 export 'src/models/trust_entry.dart';
