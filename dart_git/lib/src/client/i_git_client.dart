@@ -1,3 +1,4 @@
+import '../models/git_author.dart';
 import '../models/git_commit.dart';
 import '../models/git_directory_entry.dart';
 import '../models/git_file.dart';
@@ -24,6 +25,7 @@ abstract class IGitClient {
     required String message,
     String? sha,
     String? branch,
+    GitAuthor? author,
   });
 
   Future<GitFile> readFile({
@@ -47,6 +49,7 @@ abstract class IGitClient {
     required String sha,
     required String message,
     String? branch,
+    GitAuthor? author,
   });
 
   Future<bool> exists({

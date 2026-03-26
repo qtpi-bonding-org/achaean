@@ -11,6 +11,7 @@ export 'src/client/i_git_oauth.dart';
 export 'src/client/i_git_registration.dart';
 
 // Models
+export 'src/models/git_author.dart';
 export 'src/models/git_commit.dart';
 export 'src/models/git_directory_entry.dart';
 export 'src/models/git_file.dart';

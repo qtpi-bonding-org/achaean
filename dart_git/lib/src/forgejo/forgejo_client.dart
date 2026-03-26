@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import '../client/git_exception.dart';
 import '../client/i_git_auth.dart';
 import '../client/i_git_client.dart';
+import '../models/git_author.dart';
 import '../models/git_commit.dart';
 import '../models/git_directory_entry.dart';
 import '../models/git_file.dart';
@@ -104,6 +105,7 @@ class ForgejoClient implements IGitClient {
     required String message,
     String? sha,
     String? branch,
+    GitAuthor? author,
   }) async {
     final encoded = base64Encode(utf8.encode(content));
     final body = <String, dynamic>{
@@ -111,6 +113,8 @@ class ForgejoClient implements IGitClient {
       'message': message,
       if (sha != null) 'sha': sha,
       if (branch != null) 'branch': branch,
+      if (author != null) 'author': author.toJson(),
+      if (author != null) 'committer': author.toJson(),
     };
 
     final uri = endpoints.contents(owner, repo, path);
@@ -190,6 +194,7 @@ class ForgejoClient implements IGitClient {
     required String sha,
     required String message,
     String? branch,
+    GitAuthor? author,
   }) async {
     final response = await httpClient.delete(
       endpoints.deleteContents(owner, repo, path),
@@ -198,6 +203,8 @@ class ForgejoClient implements IGitClient {
         'sha': sha,
         'message': message,
         if (branch != null) 'branch': branch,
+        if (author != null) 'author': author.toJson(),
+        if (author != null) 'committer': author.toJson(),
       }),
     );
     if (response.statusCode != 200 && response.statusCode != 204) {
