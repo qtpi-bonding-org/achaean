@@ -102,7 +102,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get observeRevocationSuccess => 'Stopped observing';
 
   @override
-  String get polisCreationSuccess => 'Polis created successfully';
+  String get polisCreationSuccess => 'Polis created';
 
   @override
   String get polisCreationError => 'Failed to create polis';
@@ -249,4 +249,85 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pubkeyCopied => 'Pubkey copied';
+
+  @override
+  String get feedTitle => 'Feed';
+
+  @override
+  String get personalTab => 'Personal';
+
+  @override
+  String get agoraTab => 'Agora';
+
+  @override
+  String get agoraEmpty => 'Join a polis to see community feeds';
+
+  @override
+  String get agoraEmptyAction => 'Find a polis';
+
+  @override
+  String get selectPolis => 'Select a polis';
+
+  @override
+  String get connectionsTitle => 'Connections';
+
+  @override
+  String get peopleTab => 'People';
+
+  @override
+  String get polisTab => 'Polis';
+
+  @override
+  String get yourPoleis => 'Your Poleis';
+
+  @override
+  String get browsePoleis => 'Browse Poleis';
+
+  @override
+  String get noJoinedPoleis => 'You haven\'t joined any poleis yet';
+
+  @override
+  String get noBrowsePoleis => 'No poleis found';
+
+  @override
+  String get joinPolis => 'Join';
+
+  @override
+  String get leavePolis => 'Leave';
+
+  @override
+  String get joinedPolis => 'Joined';
+
+  @override
+  String get viewAgora => 'View Agora';
+
+  @override
+  String get createPolisTitle => 'Create Polis';
+
+  @override
+  String get polisNameLabel => 'Polis Name';
+
+  @override
+  String get polisNameHint => 'Name your community';
+
+  @override
+  String get polisDescriptionLabel => 'Description';
+
+  @override
+  String get polisDescriptionHint => 'What is this community about?';
+
+  @override
+  String get polisNormsLabel => 'Norms';
+
+  @override
+  String get polisNormsHint => 'Community norms and expectations (optional)';
+
+  @override
+  String get createPolisButton => 'Create';
+
+  @override
+  String get polisJoinSuccess => 'Joined polis';
+
+  @override
+  String get polisLeaveSuccess => 'Left polis';
 }

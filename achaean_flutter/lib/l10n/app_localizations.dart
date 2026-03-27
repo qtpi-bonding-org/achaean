@@ -283,7 +283,7 @@ abstract class AppLocalizations {
   /// No description provided for @polisCreationSuccess.
   ///
   /// In en, this message translates to:
-  /// **'Polis created successfully'**
+  /// **'Polis created'**
   String get polisCreationSuccess;
 
   /// No description provided for @polisCreationError.
@@ -573,6 +573,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pubkey copied'**
   String get pubkeyCopied;
+
+  /// No description provided for @feedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Feed'**
+  String get feedTitle;
+
+  /// No description provided for @personalTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal'**
+  String get personalTab;
+
+  /// No description provided for @agoraTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Agora'**
+  String get agoraTab;
+
+  /// No description provided for @agoraEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Join a polis to see community feeds'**
+  String get agoraEmpty;
+
+  /// No description provided for @agoraEmptyAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Find a polis'**
+  String get agoraEmptyAction;
+
+  /// No description provided for @selectPolis.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a polis'**
+  String get selectPolis;
+
+  /// No description provided for @connectionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Connections'**
+  String get connectionsTitle;
+
+  /// No description provided for @peopleTab.
+  ///
+  /// In en, this message translates to:
+  /// **'People'**
+  String get peopleTab;
+
+  /// No description provided for @polisTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Polis'**
+  String get polisTab;
+
+  /// No description provided for @yourPoleis.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Poleis'**
+  String get yourPoleis;
+
+  /// No description provided for @browsePoleis.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse Poleis'**
+  String get browsePoleis;
+
+  /// No description provided for @noJoinedPoleis.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t joined any poleis yet'**
+  String get noJoinedPoleis;
+
+  /// No description provided for @noBrowsePoleis.
+  ///
+  /// In en, this message translates to:
+  /// **'No poleis found'**
+  String get noBrowsePoleis;
+
+  /// No description provided for @joinPolis.
+  ///
+  /// In en, this message translates to:
+  /// **'Join'**
+  String get joinPolis;
+
+  /// No description provided for @leavePolis.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave'**
+  String get leavePolis;
+
+  /// No description provided for @joinedPolis.
+  ///
+  /// In en, this message translates to:
+  /// **'Joined'**
+  String get joinedPolis;
+
+  /// No description provided for @viewAgora.
+  ///
+  /// In en, this message translates to:
+  /// **'View Agora'**
+  String get viewAgora;
+
+  /// No description provided for @createPolisTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Polis'**
+  String get createPolisTitle;
+
+  /// No description provided for @polisNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Polis Name'**
+  String get polisNameLabel;
+
+  /// No description provided for @polisNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Name your community'**
+  String get polisNameHint;
+
+  /// No description provided for @polisDescriptionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get polisDescriptionLabel;
+
+  /// No description provided for @polisDescriptionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What is this community about?'**
+  String get polisDescriptionHint;
+
+  /// No description provided for @polisNormsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Norms'**
+  String get polisNormsLabel;
+
+  /// No description provided for @polisNormsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Community norms and expectations (optional)'**
+  String get polisNormsHint;
+
+  /// No description provided for @createPolisButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get createPolisButton;
+
+  /// No description provided for @polisJoinSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Joined polis'**
+  String get polisJoinSuccess;
+
+  /// No description provided for @polisLeaveSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Left polis'**
+  String get polisLeaveSuccess;
 }
 
 class _AppLocalizationsDelegate

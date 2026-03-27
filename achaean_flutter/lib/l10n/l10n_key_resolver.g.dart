@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // Generator: l10n_key_resolver
-// Generated at: 2026-03-27T03:59:25.158736
+// Generated at: 2026-03-27T05:55:29.422594
 
 import 'app_localizations.dart';
 
@@ -36,11 +36,18 @@ class L10nKeyResolver {
       'account.creation.success' => _l10n.accountCreationSuccess,
       'account.creation.title' => _l10n.accountCreationTitle,
       'account.creation.url.hint' => _l10n.accountCreationUrlHint,
+      'agora.empty' => _l10n.agoraEmpty,
+      'agora.empty.action' => _l10n.agoraEmptyAction,
+      'agora.tab' => _l10n.agoraTab,
       'anonymous' => _l10n.anonymous,
       'app.title' => _l10n.appTitle,
       'bio.hint' => _l10n.bioHint,
       'bio.label' => _l10n.bioLabel,
+      'browse.poleis' => _l10n.browsePoleis,
+      'connections.title' => _l10n.connectionsTitle,
       'copy.pubkey' => _l10n.copyPubkey,
+      'create.polis.button' => _l10n.createPolisButton,
+      'create.polis.title' => _l10n.createPolisTitle,
       'display.name.hint' => _l10n.displayNameHint,
       'display.name.label' => _l10n.displayNameLabel,
       'edit.profile' => _l10n.editProfile,
@@ -49,6 +56,7 @@ class L10nKeyResolver {
       'error.generic' => _l10n.errorGeneric,
       'error.network' => _l10n.errorNetwork,
       'error.timeout' => _l10n.errorTimeout,
+      'feed.title' => _l10n.feedTitle,
       'flag.error' => _l10n.flagError,
       'flag.post.success' => _l10n.flagPostSuccess,
       'flag.retract.success' => _l10n.flagRetractSuccess,
@@ -56,13 +64,18 @@ class L10nKeyResolver {
       'index.server.url.hint' => _l10n.indexServerUrlHint,
       'inspection.complete' => _l10n.inspectionComplete,
       'inspection.error' => _l10n.inspectionError,
+      'join.polis' => _l10n.joinPolis,
+      'joined.polis' => _l10n.joinedPolis,
       'label.email' => _l10n.labelEmail,
       'label.git.server.url' => _l10n.labelGitServerUrl,
       'label.index.server.url' => _l10n.labelIndexServerUrl,
       'label.password' => _l10n.labelPassword,
       'label.username' => _l10n.labelUsername,
+      'leave.polis' => _l10n.leavePolis,
+      'no.browse.poleis' => _l10n.noBrowsePoleis,
       'no.incoming.observe' => _l10n.noIncomingObserve,
       'no.incoming.trust' => _l10n.noIncomingTrust,
+      'no.joined.poleis' => _l10n.noJoinedPoleis,
       'no.observe.relationships' => _l10n.noObserveRelationships,
       'no.trust.relationships' => _l10n.noTrustRelationships,
       'now.observing' => _l10n.nowObserving,
@@ -75,11 +88,22 @@ class L10nKeyResolver {
       'outgoing.toggle' => _l10n.outgoingToggle,
       'own.posts.empty' => _l10n.ownPostsEmpty,
       'own.posts.title' => _l10n.ownPostsTitle,
+      'people.tab' => _l10n.peopleTab,
       'people.title' => _l10n.peopleTitle,
+      'personal.tab' => _l10n.personalTab,
       'polis.creation.error' => _l10n.polisCreationError,
       'polis.creation.success' => _l10n.polisCreationSuccess,
+      'polis.description.hint' => _l10n.polisDescriptionHint,
+      'polis.description.label' => _l10n.polisDescriptionLabel,
+      'polis.join.success' => _l10n.polisJoinSuccess,
+      'polis.leave.success' => _l10n.polisLeaveSuccess,
+      'polis.name.hint' => _l10n.polisNameHint,
+      'polis.name.label' => _l10n.polisNameLabel,
+      'polis.norms.hint' => _l10n.polisNormsHint,
+      'polis.norms.label' => _l10n.polisNormsLabel,
       'polis.operation.error' => _l10n.polisOperationError,
       'polis.operation.success' => _l10n.polisOperationSuccess,
+      'polis.tab' => _l10n.polisTab,
       'post.creation.error' => _l10n.postCreationError,
       'post.creation.submit' => _l10n.postCreationSubmit,
       'post.creation.success' => _l10n.postCreationSuccess,
@@ -92,6 +116,7 @@ class L10nKeyResolver {
       'pubkey.copied' => _l10n.pubkeyCopied,
       'query.error' => _l10n.queryError,
       'save.profile' => _l10n.saveProfile,
+      'select.polis' => _l10n.selectPolis,
       'stopped.observing' => _l10n.stoppedObserving,
       'trust.button' => _l10n.trustButton,
       'trust.confirm.action' => _l10n.trustConfirmAction,
@@ -106,6 +131,8 @@ class L10nKeyResolver {
       'trust.segment' => _l10n.trustSegment,
       'trusted.label' => _l10n.trustedLabel,
       'validation.required' => _l10n.validationRequired,
+      'view.agora' => _l10n.viewAgora,
+      'your.poleis' => _l10n.yourPoleis,
 
       _ => null,
     };
@@ -123,11 +150,18 @@ class L10nKeyResolver {
     'account.creation.success',
     'account.creation.title',
     'account.creation.url.hint',
+    'agora.empty',
+    'agora.empty.action',
+    'agora.tab',
     'anonymous',
     'app.title',
     'bio.hint',
     'bio.label',
+    'browse.poleis',
+    'connections.title',
     'copy.pubkey',
+    'create.polis.button',
+    'create.polis.title',
     'display.name.hint',
     'display.name.label',
     'edit.profile',
@@ -136,6 +170,7 @@ class L10nKeyResolver {
     'error.generic',
     'error.network',
     'error.timeout',
+    'feed.title',
     'flag.error',
     'flag.post.success',
     'flag.retract.success',
@@ -143,13 +178,18 @@ class L10nKeyResolver {
     'index.server.url.hint',
     'inspection.complete',
     'inspection.error',
+    'join.polis',
+    'joined.polis',
     'label.email',
     'label.git.server.url',
     'label.index.server.url',
     'label.password',
     'label.username',
+    'leave.polis',
+    'no.browse.poleis',
     'no.incoming.observe',
     'no.incoming.trust',
+    'no.joined.poleis',
     'no.observe.relationships',
     'no.trust.relationships',
     'now.observing',
@@ -162,11 +202,22 @@ class L10nKeyResolver {
     'outgoing.toggle',
     'own.posts.empty',
     'own.posts.title',
+    'people.tab',
     'people.title',
+    'personal.tab',
     'polis.creation.error',
     'polis.creation.success',
+    'polis.description.hint',
+    'polis.description.label',
+    'polis.join.success',
+    'polis.leave.success',
+    'polis.name.hint',
+    'polis.name.label',
+    'polis.norms.hint',
+    'polis.norms.label',
     'polis.operation.error',
     'polis.operation.success',
+    'polis.tab',
     'post.creation.error',
     'post.creation.submit',
     'post.creation.success',
@@ -179,6 +230,7 @@ class L10nKeyResolver {
     'pubkey.copied',
     'query.error',
     'save.profile',
+    'select.polis',
     'stopped.observing',
     'trust.button',
     'trust.confirm.action',
@@ -193,6 +245,8 @@ class L10nKeyResolver {
     'trust.segment',
     'trusted.label',
     'validation.required',
+    'view.agora',
+    'your.poleis',
   };
 
   /// Checks if a key is known to this resolver.
@@ -210,11 +264,18 @@ class L10nKeyResolver {
     'accountCreationSuccess': 'account.creation.success',
     'accountCreationTitle': 'account.creation.title',
     'accountCreationUrlHint': 'account.creation.url.hint',
+    'agoraEmpty': 'agora.empty',
+    'agoraEmptyAction': 'agora.empty.action',
+    'agoraTab': 'agora.tab',
     'anonymous': 'anonymous',
     'appTitle': 'app.title',
     'bioHint': 'bio.hint',
     'bioLabel': 'bio.label',
+    'browsePoleis': 'browse.poleis',
+    'connectionsTitle': 'connections.title',
     'copyPubkey': 'copy.pubkey',
+    'createPolisButton': 'create.polis.button',
+    'createPolisTitle': 'create.polis.title',
     'displayNameHint': 'display.name.hint',
     'displayNameLabel': 'display.name.label',
     'editProfile': 'edit.profile',
@@ -223,6 +284,7 @@ class L10nKeyResolver {
     'errorGeneric': 'error.generic',
     'errorNetwork': 'error.network',
     'errorTimeout': 'error.timeout',
+    'feedTitle': 'feed.title',
     'flagError': 'flag.error',
     'flagPostSuccess': 'flag.post.success',
     'flagRetractSuccess': 'flag.retract.success',
@@ -230,13 +292,18 @@ class L10nKeyResolver {
     'indexServerUrlHint': 'index.server.url.hint',
     'inspectionComplete': 'inspection.complete',
     'inspectionError': 'inspection.error',
+    'joinPolis': 'join.polis',
+    'joinedPolis': 'joined.polis',
     'labelEmail': 'label.email',
     'labelGitServerUrl': 'label.git.server.url',
     'labelIndexServerUrl': 'label.index.server.url',
     'labelPassword': 'label.password',
     'labelUsername': 'label.username',
+    'leavePolis': 'leave.polis',
+    'noBrowsePoleis': 'no.browse.poleis',
     'noIncomingObserve': 'no.incoming.observe',
     'noIncomingTrust': 'no.incoming.trust',
+    'noJoinedPoleis': 'no.joined.poleis',
     'noObserveRelationships': 'no.observe.relationships',
     'noTrustRelationships': 'no.trust.relationships',
     'nowObserving': 'now.observing',
@@ -249,11 +316,22 @@ class L10nKeyResolver {
     'outgoingToggle': 'outgoing.toggle',
     'ownPostsEmpty': 'own.posts.empty',
     'ownPostsTitle': 'own.posts.title',
+    'peopleTab': 'people.tab',
     'peopleTitle': 'people.title',
+    'personalTab': 'personal.tab',
     'polisCreationError': 'polis.creation.error',
     'polisCreationSuccess': 'polis.creation.success',
+    'polisDescriptionHint': 'polis.description.hint',
+    'polisDescriptionLabel': 'polis.description.label',
+    'polisJoinSuccess': 'polis.join.success',
+    'polisLeaveSuccess': 'polis.leave.success',
+    'polisNameHint': 'polis.name.hint',
+    'polisNameLabel': 'polis.name.label',
+    'polisNormsHint': 'polis.norms.hint',
+    'polisNormsLabel': 'polis.norms.label',
     'polisOperationError': 'polis.operation.error',
     'polisOperationSuccess': 'polis.operation.success',
+    'polisTab': 'polis.tab',
     'postCreationError': 'post.creation.error',
     'postCreationSubmit': 'post.creation.submit',
     'postCreationSuccess': 'post.creation.success',
@@ -266,6 +344,7 @@ class L10nKeyResolver {
     'pubkeyCopied': 'pubkey.copied',
     'queryError': 'query.error',
     'saveProfile': 'save.profile',
+    'selectPolis': 'select.polis',
     'stoppedObserving': 'stopped.observing',
     'trustButton': 'trust.button',
     'trustConfirmAction': 'trust.confirm.action',
@@ -280,6 +359,8 @@ class L10nKeyResolver {
     'trustSegment': 'trust.segment',
     'trustedLabel': 'trusted.label',
     'validationRequired': 'validation.required',
+    'viewAgora': 'view.agora',
+    'yourPoleis': 'your.poleis',
   };
 
   /// Maps dot-notation keys to ARB camelCase keys.
@@ -294,11 +375,18 @@ class L10nKeyResolver {
     'account.creation.success': 'accountCreationSuccess',
     'account.creation.title': 'accountCreationTitle',
     'account.creation.url.hint': 'accountCreationUrlHint',
+    'agora.empty': 'agoraEmpty',
+    'agora.empty.action': 'agoraEmptyAction',
+    'agora.tab': 'agoraTab',
     'anonymous': 'anonymous',
     'app.title': 'appTitle',
     'bio.hint': 'bioHint',
     'bio.label': 'bioLabel',
+    'browse.poleis': 'browsePoleis',
+    'connections.title': 'connectionsTitle',
     'copy.pubkey': 'copyPubkey',
+    'create.polis.button': 'createPolisButton',
+    'create.polis.title': 'createPolisTitle',
     'display.name.hint': 'displayNameHint',
     'display.name.label': 'displayNameLabel',
     'edit.profile': 'editProfile',
@@ -307,6 +395,7 @@ class L10nKeyResolver {
     'error.generic': 'errorGeneric',
     'error.network': 'errorNetwork',
     'error.timeout': 'errorTimeout',
+    'feed.title': 'feedTitle',
     'flag.error': 'flagError',
     'flag.post.success': 'flagPostSuccess',
     'flag.retract.success': 'flagRetractSuccess',
@@ -314,13 +403,18 @@ class L10nKeyResolver {
     'index.server.url.hint': 'indexServerUrlHint',
     'inspection.complete': 'inspectionComplete',
     'inspection.error': 'inspectionError',
+    'join.polis': 'joinPolis',
+    'joined.polis': 'joinedPolis',
     'label.email': 'labelEmail',
     'label.git.server.url': 'labelGitServerUrl',
     'label.index.server.url': 'labelIndexServerUrl',
     'label.password': 'labelPassword',
     'label.username': 'labelUsername',
+    'leave.polis': 'leavePolis',
+    'no.browse.poleis': 'noBrowsePoleis',
     'no.incoming.observe': 'noIncomingObserve',
     'no.incoming.trust': 'noIncomingTrust',
+    'no.joined.poleis': 'noJoinedPoleis',
     'no.observe.relationships': 'noObserveRelationships',
     'no.trust.relationships': 'noTrustRelationships',
     'now.observing': 'nowObserving',
@@ -333,11 +427,22 @@ class L10nKeyResolver {
     'outgoing.toggle': 'outgoingToggle',
     'own.posts.empty': 'ownPostsEmpty',
     'own.posts.title': 'ownPostsTitle',
+    'people.tab': 'peopleTab',
     'people.title': 'peopleTitle',
+    'personal.tab': 'personalTab',
     'polis.creation.error': 'polisCreationError',
     'polis.creation.success': 'polisCreationSuccess',
+    'polis.description.hint': 'polisDescriptionHint',
+    'polis.description.label': 'polisDescriptionLabel',
+    'polis.join.success': 'polisJoinSuccess',
+    'polis.leave.success': 'polisLeaveSuccess',
+    'polis.name.hint': 'polisNameHint',
+    'polis.name.label': 'polisNameLabel',
+    'polis.norms.hint': 'polisNormsHint',
+    'polis.norms.label': 'polisNormsLabel',
     'polis.operation.error': 'polisOperationError',
     'polis.operation.success': 'polisOperationSuccess',
+    'polis.tab': 'polisTab',
     'post.creation.error': 'postCreationError',
     'post.creation.submit': 'postCreationSubmit',
     'post.creation.success': 'postCreationSuccess',
@@ -350,6 +455,7 @@ class L10nKeyResolver {
     'pubkey.copied': 'pubkeyCopied',
     'query.error': 'queryError',
     'save.profile': 'saveProfile',
+    'select.polis': 'selectPolis',
     'stopped.observing': 'stoppedObserving',
     'trust.button': 'trustButton',
     'trust.confirm.action': 'trustConfirmAction',
@@ -364,6 +470,8 @@ class L10nKeyResolver {
     'trust.segment': 'trustSegment',
     'trusted.label': 'trustedLabel',
     'validation.required': 'validationRequired',
+    'view.agora': 'viewAgora',
+    'your.poleis': 'yourPoleis',
   };
 }
 
@@ -385,11 +493,18 @@ abstract class L10nKeys {
   static const accountCreationSuccess = 'account.creation.success';
   static const accountCreationTitle = 'account.creation.title';
   static const accountCreationUrlHint = 'account.creation.url.hint';
+  static const agoraEmpty = 'agora.empty';
+  static const agoraEmptyAction = 'agora.empty.action';
+  static const agoraTab = 'agora.tab';
   static const anonymous = 'anonymous';
   static const appTitle = 'app.title';
   static const bioHint = 'bio.hint';
   static const bioLabel = 'bio.label';
+  static const browsePoleis = 'browse.poleis';
+  static const connectionsTitle = 'connections.title';
   static const copyPubkey = 'copy.pubkey';
+  static const createPolisButton = 'create.polis.button';
+  static const createPolisTitle = 'create.polis.title';
   static const displayNameHint = 'display.name.hint';
   static const displayNameLabel = 'display.name.label';
   static const editProfile = 'edit.profile';
@@ -398,6 +513,7 @@ abstract class L10nKeys {
   static const errorGeneric = 'error.generic';
   static const errorNetwork = 'error.network';
   static const errorTimeout = 'error.timeout';
+  static const feedTitle = 'feed.title';
   static const flagError = 'flag.error';
   static const flagPostSuccess = 'flag.post.success';
   static const flagRetractSuccess = 'flag.retract.success';
@@ -405,13 +521,18 @@ abstract class L10nKeys {
   static const indexServerUrlHint = 'index.server.url.hint';
   static const inspectionComplete = 'inspection.complete';
   static const inspectionError = 'inspection.error';
+  static const joinPolis = 'join.polis';
+  static const joinedPolis = 'joined.polis';
   static const labelEmail = 'label.email';
   static const labelGitServerUrl = 'label.git.server.url';
   static const labelIndexServerUrl = 'label.index.server.url';
   static const labelPassword = 'label.password';
   static const labelUsername = 'label.username';
+  static const leavePolis = 'leave.polis';
+  static const noBrowsePoleis = 'no.browse.poleis';
   static const noIncomingObserve = 'no.incoming.observe';
   static const noIncomingTrust = 'no.incoming.trust';
+  static const noJoinedPoleis = 'no.joined.poleis';
   static const noObserveRelationships = 'no.observe.relationships';
   static const noTrustRelationships = 'no.trust.relationships';
   static const nowObserving = 'now.observing';
@@ -424,11 +545,22 @@ abstract class L10nKeys {
   static const outgoingToggle = 'outgoing.toggle';
   static const ownPostsEmpty = 'own.posts.empty';
   static const ownPostsTitle = 'own.posts.title';
+  static const peopleTab = 'people.tab';
   static const peopleTitle = 'people.title';
+  static const personalTab = 'personal.tab';
   static const polisCreationError = 'polis.creation.error';
   static const polisCreationSuccess = 'polis.creation.success';
+  static const polisDescriptionHint = 'polis.description.hint';
+  static const polisDescriptionLabel = 'polis.description.label';
+  static const polisJoinSuccess = 'polis.join.success';
+  static const polisLeaveSuccess = 'polis.leave.success';
+  static const polisNameHint = 'polis.name.hint';
+  static const polisNameLabel = 'polis.name.label';
+  static const polisNormsHint = 'polis.norms.hint';
+  static const polisNormsLabel = 'polis.norms.label';
   static const polisOperationError = 'polis.operation.error';
   static const polisOperationSuccess = 'polis.operation.success';
+  static const polisTab = 'polis.tab';
   static const postCreationError = 'post.creation.error';
   static const postCreationSubmit = 'post.creation.submit';
   static const postCreationSuccess = 'post.creation.success';
@@ -441,6 +573,7 @@ abstract class L10nKeys {
   static const pubkeyCopied = 'pubkey.copied';
   static const queryError = 'query.error';
   static const saveProfile = 'save.profile';
+  static const selectPolis = 'select.polis';
   static const stoppedObserving = 'stopped.observing';
   static const trustButton = 'trust.button';
   static const trustConfirmAction = 'trust.confirm.action';
@@ -455,4 +588,6 @@ abstract class L10nKeys {
   static const trustSegment = 'trust.segment';
   static const trustedLabel = 'trusted.label';
   static const validationRequired = 'validation.required';
+  static const viewAgora = 'view.agora';
+  static const yourPoleis = 'your.poleis';
 }
