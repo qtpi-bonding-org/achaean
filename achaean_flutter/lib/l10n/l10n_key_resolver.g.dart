@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // Generator: l10n_key_resolver
-// Generated at: 2026-03-26T05:56:42.860951
+// Generated at: 2026-03-27T03:49:07.855580
 
 import 'app_localizations.dart';
 
@@ -53,6 +53,9 @@ class L10nKeyResolver {
       'label.index.server.url' => _l10n.labelIndexServerUrl,
       'label.password' => _l10n.labelPassword,
       'label.username' => _l10n.labelUsername,
+      'observe.declaration.error' => _l10n.observeDeclarationError,
+      'observe.declaration.success' => _l10n.observeDeclarationSuccess,
+      'observe.revocation.success' => _l10n.observeRevocationSuccess,
       'own.posts.empty' => _l10n.ownPostsEmpty,
       'own.posts.title' => _l10n.ownPostsTitle,
       'polis.creation.error' => _l10n.polisCreationError,
@@ -104,6 +107,9 @@ class L10nKeyResolver {
     'label.index.server.url',
     'label.password',
     'label.username',
+    'observe.declaration.error',
+    'observe.declaration.success',
+    'observe.revocation.success',
     'own.posts.empty',
     'own.posts.title',
     'polis.creation.error',
@@ -155,6 +161,9 @@ class L10nKeyResolver {
     'labelIndexServerUrl': 'label.index.server.url',
     'labelPassword': 'label.password',
     'labelUsername': 'label.username',
+    'observeDeclarationError': 'observe.declaration.error',
+    'observeDeclarationSuccess': 'observe.declaration.success',
+    'observeRevocationSuccess': 'observe.revocation.success',
     'ownPostsEmpty': 'own.posts.empty',
     'ownPostsTitle': 'own.posts.title',
     'polisCreationError': 'polis.creation.error',
@@ -203,6 +212,9 @@ class L10nKeyResolver {
     'label.index.server.url': 'labelIndexServerUrl',
     'label.password': 'labelPassword',
     'label.username': 'labelUsername',
+    'observe.declaration.error': 'observeDeclarationError',
+    'observe.declaration.success': 'observeDeclarationSuccess',
+    'observe.revocation.success': 'observeRevocationSuccess',
     'own.posts.empty': 'ownPostsEmpty',
     'own.posts.title': 'ownPostsTitle',
     'polis.creation.error': 'polisCreationError',
@@ -258,6 +270,9 @@ abstract class L10nKeys {
   static const labelIndexServerUrl = 'label.index.server.url';
   static const labelPassword = 'label.password';
   static const labelUsername = 'label.username';
+  static const observeDeclarationError = 'observe.declaration.error';
+  static const observeDeclarationSuccess = 'observe.declaration.success';
+  static const observeRevocationSuccess = 'observe.revocation.success';
   static const ownPostsEmpty = 'own.posts.empty';
   static const ownPostsTitle = 'own.posts.title';
   static const polisCreationError = 'polis.creation.error';
