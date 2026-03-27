@@ -6,8 +6,6 @@ fields:
   pubkey: String
   ### HTTPS URL of the polites's git repo.
   repoUrl: String
-  ### Display name (optional, from profile).
-  displayName: String?
   ### When the aggregator first discovered this user.
   discoveredAt: DateTime
   ### When the aggregator last indexed this user's repo.

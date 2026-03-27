@@ -19,7 +19,6 @@ abstract class PolitaiUser
     this.id,
     required this.pubkey,
     required this.repoUrl,
-    this.displayName,
     required this.discoveredAt,
     this.lastIndexedAt,
   });
@@ -28,7 +27,6 @@ abstract class PolitaiUser
     int? id,
     required String pubkey,
     required String repoUrl,
-    String? displayName,
     required DateTime discoveredAt,
     DateTime? lastIndexedAt,
   }) = _PolitaiUserImpl;
@@ -38,7 +36,6 @@ abstract class PolitaiUser
       id: jsonSerialization['id'] as int?,
       pubkey: jsonSerialization['pubkey'] as String,
       repoUrl: jsonSerialization['repoUrl'] as String,
-      displayName: jsonSerialization['displayName'] as String?,
       discoveredAt: _i1.DateTimeJsonExtension.fromJson(
         jsonSerialization['discoveredAt'],
       ),
@@ -63,9 +60,6 @@ abstract class PolitaiUser
   /// HTTPS URL of the polites's git repo.
   String repoUrl;
 
-  /// Display name (optional, from profile).
-  String? displayName;
-
   /// When the aggregator first discovered this user.
   DateTime discoveredAt;
 
@@ -82,7 +76,6 @@ abstract class PolitaiUser
     int? id,
     String? pubkey,
     String? repoUrl,
-    String? displayName,
     DateTime? discoveredAt,
     DateTime? lastIndexedAt,
   });
@@ -93,7 +86,6 @@ abstract class PolitaiUser
       if (id != null) 'id': id,
       'pubkey': pubkey,
       'repoUrl': repoUrl,
-      if (displayName != null) 'displayName': displayName,
       'discoveredAt': discoveredAt.toJson(),
       if (lastIndexedAt != null) 'lastIndexedAt': lastIndexedAt?.toJson(),
     };
@@ -106,7 +98,6 @@ abstract class PolitaiUser
       if (id != null) 'id': id,
       'pubkey': pubkey,
       'repoUrl': repoUrl,
-      if (displayName != null) 'displayName': displayName,
       'discoveredAt': discoveredAt.toJson(),
       if (lastIndexedAt != null) 'lastIndexedAt': lastIndexedAt?.toJson(),
     };
@@ -149,14 +140,12 @@ class _PolitaiUserImpl extends PolitaiUser {
     int? id,
     required String pubkey,
     required String repoUrl,
-    String? displayName,
     required DateTime discoveredAt,
     DateTime? lastIndexedAt,
   }) : super._(
          id: id,
          pubkey: pubkey,
          repoUrl: repoUrl,
-         displayName: displayName,
          discoveredAt: discoveredAt,
          lastIndexedAt: lastIndexedAt,
        );
@@ -169,7 +158,6 @@ class _PolitaiUserImpl extends PolitaiUser {
     Object? id = _Undefined,
     String? pubkey,
     String? repoUrl,
-    Object? displayName = _Undefined,
     DateTime? discoveredAt,
     Object? lastIndexedAt = _Undefined,
   }) {
@@ -177,7 +165,6 @@ class _PolitaiUserImpl extends PolitaiUser {
       id: id is int? ? id : this.id,
       pubkey: pubkey ?? this.pubkey,
       repoUrl: repoUrl ?? this.repoUrl,
-      displayName: displayName is String? ? displayName : this.displayName,
       discoveredAt: discoveredAt ?? this.discoveredAt,
       lastIndexedAt: lastIndexedAt is DateTime?
           ? lastIndexedAt
@@ -196,11 +183,6 @@ class PolitaiUserUpdateTable extends _i1.UpdateTable<PolitaiUserTable> {
 
   _i1.ColumnValue<String, String> repoUrl(String value) => _i1.ColumnValue(
     table.repoUrl,
-    value,
-  );
-
-  _i1.ColumnValue<String, String> displayName(String? value) => _i1.ColumnValue(
-    table.displayName,
     value,
   );
 
@@ -228,10 +210,6 @@ class PolitaiUserTable extends _i1.Table<int?> {
       'repoUrl',
       this,
     );
-    displayName = _i1.ColumnString(
-      'displayName',
-      this,
-    );
     discoveredAt = _i1.ColumnDateTime(
       'discoveredAt',
       this,
@@ -250,9 +228,6 @@ class PolitaiUserTable extends _i1.Table<int?> {
   /// HTTPS URL of the polites's git repo.
   late final _i1.ColumnString repoUrl;
 
-  /// Display name (optional, from profile).
-  late final _i1.ColumnString displayName;
-
   /// When the aggregator first discovered this user.
   late final _i1.ColumnDateTime discoveredAt;
 
@@ -264,7 +239,6 @@ class PolitaiUserTable extends _i1.Table<int?> {
     id,
     pubkey,
     repoUrl,
-    displayName,
     discoveredAt,
     lastIndexedAt,
   ];
