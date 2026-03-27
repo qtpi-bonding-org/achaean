@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // Generator: l10n_key_resolver
-// Generated at: 2026-03-27T03:49:07.855580
+// Generated at: 2026-03-27T03:59:25.158736
 
 import 'app_localizations.dart';
 
@@ -36,7 +36,14 @@ class L10nKeyResolver {
       'account.creation.success' => _l10n.accountCreationSuccess,
       'account.creation.title' => _l10n.accountCreationTitle,
       'account.creation.url.hint' => _l10n.accountCreationUrlHint,
+      'anonymous' => _l10n.anonymous,
       'app.title' => _l10n.appTitle,
+      'bio.hint' => _l10n.bioHint,
+      'bio.label' => _l10n.bioLabel,
+      'copy.pubkey' => _l10n.copyPubkey,
+      'display.name.hint' => _l10n.displayNameHint,
+      'display.name.label' => _l10n.displayNameLabel,
+      'edit.profile' => _l10n.editProfile,
       'error.auth.failed' => _l10n.errorAuthFailed,
       'error.auth.unauthorized' => _l10n.errorAuthUnauthorized,
       'error.generic' => _l10n.errorGeneric,
@@ -45,6 +52,7 @@ class L10nKeyResolver {
       'flag.error' => _l10n.flagError,
       'flag.post.success' => _l10n.flagPostSuccess,
       'flag.retract.success' => _l10n.flagRetractSuccess,
+      'incoming.toggle' => _l10n.incomingToggle,
       'index.server.url.hint' => _l10n.indexServerUrlHint,
       'inspection.complete' => _l10n.inspectionComplete,
       'inspection.error' => _l10n.inspectionError,
@@ -53,11 +61,21 @@ class L10nKeyResolver {
       'label.index.server.url' => _l10n.labelIndexServerUrl,
       'label.password' => _l10n.labelPassword,
       'label.username' => _l10n.labelUsername,
+      'no.incoming.observe' => _l10n.noIncomingObserve,
+      'no.incoming.trust' => _l10n.noIncomingTrust,
+      'no.observe.relationships' => _l10n.noObserveRelationships,
+      'no.trust.relationships' => _l10n.noTrustRelationships,
+      'now.observing' => _l10n.nowObserving,
+      'observe.button' => _l10n.observeButton,
       'observe.declaration.error' => _l10n.observeDeclarationError,
       'observe.declaration.success' => _l10n.observeDeclarationSuccess,
       'observe.revocation.success' => _l10n.observeRevocationSuccess,
+      'observe.segment' => _l10n.observeSegment,
+      'observing.label' => _l10n.observingLabel,
+      'outgoing.toggle' => _l10n.outgoingToggle,
       'own.posts.empty' => _l10n.ownPostsEmpty,
       'own.posts.title' => _l10n.ownPostsTitle,
+      'people.title' => _l10n.peopleTitle,
       'polis.creation.error' => _l10n.polisCreationError,
       'polis.creation.success' => _l10n.polisCreationSuccess,
       'polis.operation.error' => _l10n.polisOperationError,
@@ -68,10 +86,25 @@ class L10nKeyResolver {
       'post.creation.text.hint' => _l10n.postCreationTextHint,
       'post.creation.title' => _l10n.postCreationTitle,
       'post.creation.title.hint' => _l10n.postCreationTitleHint,
+      'profile.title' => _l10n.profileTitle,
+      'profile.update.error' => _l10n.profileUpdateError,
+      'profile.update.success' => _l10n.profileUpdateSuccess,
+      'pubkey.copied' => _l10n.pubkeyCopied,
       'query.error' => _l10n.queryError,
+      'save.profile' => _l10n.saveProfile,
+      'stopped.observing' => _l10n.stoppedObserving,
+      'trust.button' => _l10n.trustButton,
+      'trust.confirm.action' => _l10n.trustConfirmAction,
+      'trust.confirm.body' => _l10n.trustConfirmBody,
+      'trust.confirm.cancel' => _l10n.trustConfirmCancel,
+      'trust.confirm.title' => _l10n.trustConfirmTitle,
       'trust.declaration.error' => _l10n.trustDeclarationError,
       'trust.declaration.success' => _l10n.trustDeclarationSuccess,
+      'trust.declared' => _l10n.trustDeclared,
       'trust.revocation.success' => _l10n.trustRevocationSuccess,
+      'trust.revoked' => _l10n.trustRevoked,
+      'trust.segment' => _l10n.trustSegment,
+      'trusted.label' => _l10n.trustedLabel,
       'validation.required' => _l10n.validationRequired,
 
       _ => null,
@@ -90,7 +123,14 @@ class L10nKeyResolver {
     'account.creation.success',
     'account.creation.title',
     'account.creation.url.hint',
+    'anonymous',
     'app.title',
+    'bio.hint',
+    'bio.label',
+    'copy.pubkey',
+    'display.name.hint',
+    'display.name.label',
+    'edit.profile',
     'error.auth.failed',
     'error.auth.unauthorized',
     'error.generic',
@@ -99,6 +139,7 @@ class L10nKeyResolver {
     'flag.error',
     'flag.post.success',
     'flag.retract.success',
+    'incoming.toggle',
     'index.server.url.hint',
     'inspection.complete',
     'inspection.error',
@@ -107,11 +148,21 @@ class L10nKeyResolver {
     'label.index.server.url',
     'label.password',
     'label.username',
+    'no.incoming.observe',
+    'no.incoming.trust',
+    'no.observe.relationships',
+    'no.trust.relationships',
+    'now.observing',
+    'observe.button',
     'observe.declaration.error',
     'observe.declaration.success',
     'observe.revocation.success',
+    'observe.segment',
+    'observing.label',
+    'outgoing.toggle',
     'own.posts.empty',
     'own.posts.title',
+    'people.title',
     'polis.creation.error',
     'polis.creation.success',
     'polis.operation.error',
@@ -122,10 +173,25 @@ class L10nKeyResolver {
     'post.creation.text.hint',
     'post.creation.title',
     'post.creation.title.hint',
+    'profile.title',
+    'profile.update.error',
+    'profile.update.success',
+    'pubkey.copied',
     'query.error',
+    'save.profile',
+    'stopped.observing',
+    'trust.button',
+    'trust.confirm.action',
+    'trust.confirm.body',
+    'trust.confirm.cancel',
+    'trust.confirm.title',
     'trust.declaration.error',
     'trust.declaration.success',
+    'trust.declared',
     'trust.revocation.success',
+    'trust.revoked',
+    'trust.segment',
+    'trusted.label',
     'validation.required',
   };
 
@@ -144,7 +210,14 @@ class L10nKeyResolver {
     'accountCreationSuccess': 'account.creation.success',
     'accountCreationTitle': 'account.creation.title',
     'accountCreationUrlHint': 'account.creation.url.hint',
+    'anonymous': 'anonymous',
     'appTitle': 'app.title',
+    'bioHint': 'bio.hint',
+    'bioLabel': 'bio.label',
+    'copyPubkey': 'copy.pubkey',
+    'displayNameHint': 'display.name.hint',
+    'displayNameLabel': 'display.name.label',
+    'editProfile': 'edit.profile',
     'errorAuthFailed': 'error.auth.failed',
     'errorAuthUnauthorized': 'error.auth.unauthorized',
     'errorGeneric': 'error.generic',
@@ -153,6 +226,7 @@ class L10nKeyResolver {
     'flagError': 'flag.error',
     'flagPostSuccess': 'flag.post.success',
     'flagRetractSuccess': 'flag.retract.success',
+    'incomingToggle': 'incoming.toggle',
     'indexServerUrlHint': 'index.server.url.hint',
     'inspectionComplete': 'inspection.complete',
     'inspectionError': 'inspection.error',
@@ -161,11 +235,21 @@ class L10nKeyResolver {
     'labelIndexServerUrl': 'label.index.server.url',
     'labelPassword': 'label.password',
     'labelUsername': 'label.username',
+    'noIncomingObserve': 'no.incoming.observe',
+    'noIncomingTrust': 'no.incoming.trust',
+    'noObserveRelationships': 'no.observe.relationships',
+    'noTrustRelationships': 'no.trust.relationships',
+    'nowObserving': 'now.observing',
+    'observeButton': 'observe.button',
     'observeDeclarationError': 'observe.declaration.error',
     'observeDeclarationSuccess': 'observe.declaration.success',
     'observeRevocationSuccess': 'observe.revocation.success',
+    'observeSegment': 'observe.segment',
+    'observingLabel': 'observing.label',
+    'outgoingToggle': 'outgoing.toggle',
     'ownPostsEmpty': 'own.posts.empty',
     'ownPostsTitle': 'own.posts.title',
+    'peopleTitle': 'people.title',
     'polisCreationError': 'polis.creation.error',
     'polisCreationSuccess': 'polis.creation.success',
     'polisOperationError': 'polis.operation.error',
@@ -176,10 +260,25 @@ class L10nKeyResolver {
     'postCreationTextHint': 'post.creation.text.hint',
     'postCreationTitle': 'post.creation.title',
     'postCreationTitleHint': 'post.creation.title.hint',
+    'profileTitle': 'profile.title',
+    'profileUpdateError': 'profile.update.error',
+    'profileUpdateSuccess': 'profile.update.success',
+    'pubkeyCopied': 'pubkey.copied',
     'queryError': 'query.error',
+    'saveProfile': 'save.profile',
+    'stoppedObserving': 'stopped.observing',
+    'trustButton': 'trust.button',
+    'trustConfirmAction': 'trust.confirm.action',
+    'trustConfirmBody': 'trust.confirm.body',
+    'trustConfirmCancel': 'trust.confirm.cancel',
+    'trustConfirmTitle': 'trust.confirm.title',
     'trustDeclarationError': 'trust.declaration.error',
     'trustDeclarationSuccess': 'trust.declaration.success',
+    'trustDeclared': 'trust.declared',
     'trustRevocationSuccess': 'trust.revocation.success',
+    'trustRevoked': 'trust.revoked',
+    'trustSegment': 'trust.segment',
+    'trustedLabel': 'trusted.label',
     'validationRequired': 'validation.required',
   };
 
@@ -195,7 +294,14 @@ class L10nKeyResolver {
     'account.creation.success': 'accountCreationSuccess',
     'account.creation.title': 'accountCreationTitle',
     'account.creation.url.hint': 'accountCreationUrlHint',
+    'anonymous': 'anonymous',
     'app.title': 'appTitle',
+    'bio.hint': 'bioHint',
+    'bio.label': 'bioLabel',
+    'copy.pubkey': 'copyPubkey',
+    'display.name.hint': 'displayNameHint',
+    'display.name.label': 'displayNameLabel',
+    'edit.profile': 'editProfile',
     'error.auth.failed': 'errorAuthFailed',
     'error.auth.unauthorized': 'errorAuthUnauthorized',
     'error.generic': 'errorGeneric',
@@ -204,6 +310,7 @@ class L10nKeyResolver {
     'flag.error': 'flagError',
     'flag.post.success': 'flagPostSuccess',
     'flag.retract.success': 'flagRetractSuccess',
+    'incoming.toggle': 'incomingToggle',
     'index.server.url.hint': 'indexServerUrlHint',
     'inspection.complete': 'inspectionComplete',
     'inspection.error': 'inspectionError',
@@ -212,11 +319,21 @@ class L10nKeyResolver {
     'label.index.server.url': 'labelIndexServerUrl',
     'label.password': 'labelPassword',
     'label.username': 'labelUsername',
+    'no.incoming.observe': 'noIncomingObserve',
+    'no.incoming.trust': 'noIncomingTrust',
+    'no.observe.relationships': 'noObserveRelationships',
+    'no.trust.relationships': 'noTrustRelationships',
+    'now.observing': 'nowObserving',
+    'observe.button': 'observeButton',
     'observe.declaration.error': 'observeDeclarationError',
     'observe.declaration.success': 'observeDeclarationSuccess',
     'observe.revocation.success': 'observeRevocationSuccess',
+    'observe.segment': 'observeSegment',
+    'observing.label': 'observingLabel',
+    'outgoing.toggle': 'outgoingToggle',
     'own.posts.empty': 'ownPostsEmpty',
     'own.posts.title': 'ownPostsTitle',
+    'people.title': 'peopleTitle',
     'polis.creation.error': 'polisCreationError',
     'polis.creation.success': 'polisCreationSuccess',
     'polis.operation.error': 'polisOperationError',
@@ -227,10 +344,25 @@ class L10nKeyResolver {
     'post.creation.text.hint': 'postCreationTextHint',
     'post.creation.title': 'postCreationTitle',
     'post.creation.title.hint': 'postCreationTitleHint',
+    'profile.title': 'profileTitle',
+    'profile.update.error': 'profileUpdateError',
+    'profile.update.success': 'profileUpdateSuccess',
+    'pubkey.copied': 'pubkeyCopied',
     'query.error': 'queryError',
+    'save.profile': 'saveProfile',
+    'stopped.observing': 'stoppedObserving',
+    'trust.button': 'trustButton',
+    'trust.confirm.action': 'trustConfirmAction',
+    'trust.confirm.body': 'trustConfirmBody',
+    'trust.confirm.cancel': 'trustConfirmCancel',
+    'trust.confirm.title': 'trustConfirmTitle',
     'trust.declaration.error': 'trustDeclarationError',
     'trust.declaration.success': 'trustDeclarationSuccess',
+    'trust.declared': 'trustDeclared',
     'trust.revocation.success': 'trustRevocationSuccess',
+    'trust.revoked': 'trustRevoked',
+    'trust.segment': 'trustSegment',
+    'trusted.label': 'trustedLabel',
     'validation.required': 'validationRequired',
   };
 }
@@ -253,7 +385,14 @@ abstract class L10nKeys {
   static const accountCreationSuccess = 'account.creation.success';
   static const accountCreationTitle = 'account.creation.title';
   static const accountCreationUrlHint = 'account.creation.url.hint';
+  static const anonymous = 'anonymous';
   static const appTitle = 'app.title';
+  static const bioHint = 'bio.hint';
+  static const bioLabel = 'bio.label';
+  static const copyPubkey = 'copy.pubkey';
+  static const displayNameHint = 'display.name.hint';
+  static const displayNameLabel = 'display.name.label';
+  static const editProfile = 'edit.profile';
   static const errorAuthFailed = 'error.auth.failed';
   static const errorAuthUnauthorized = 'error.auth.unauthorized';
   static const errorGeneric = 'error.generic';
@@ -262,6 +401,7 @@ abstract class L10nKeys {
   static const flagError = 'flag.error';
   static const flagPostSuccess = 'flag.post.success';
   static const flagRetractSuccess = 'flag.retract.success';
+  static const incomingToggle = 'incoming.toggle';
   static const indexServerUrlHint = 'index.server.url.hint';
   static const inspectionComplete = 'inspection.complete';
   static const inspectionError = 'inspection.error';
@@ -270,11 +410,21 @@ abstract class L10nKeys {
   static const labelIndexServerUrl = 'label.index.server.url';
   static const labelPassword = 'label.password';
   static const labelUsername = 'label.username';
+  static const noIncomingObserve = 'no.incoming.observe';
+  static const noIncomingTrust = 'no.incoming.trust';
+  static const noObserveRelationships = 'no.observe.relationships';
+  static const noTrustRelationships = 'no.trust.relationships';
+  static const nowObserving = 'now.observing';
+  static const observeButton = 'observe.button';
   static const observeDeclarationError = 'observe.declaration.error';
   static const observeDeclarationSuccess = 'observe.declaration.success';
   static const observeRevocationSuccess = 'observe.revocation.success';
+  static const observeSegment = 'observe.segment';
+  static const observingLabel = 'observing.label';
+  static const outgoingToggle = 'outgoing.toggle';
   static const ownPostsEmpty = 'own.posts.empty';
   static const ownPostsTitle = 'own.posts.title';
+  static const peopleTitle = 'people.title';
   static const polisCreationError = 'polis.creation.error';
   static const polisCreationSuccess = 'polis.creation.success';
   static const polisOperationError = 'polis.operation.error';
@@ -285,9 +435,24 @@ abstract class L10nKeys {
   static const postCreationTextHint = 'post.creation.text.hint';
   static const postCreationTitle = 'post.creation.title';
   static const postCreationTitleHint = 'post.creation.title.hint';
+  static const profileTitle = 'profile.title';
+  static const profileUpdateError = 'profile.update.error';
+  static const profileUpdateSuccess = 'profile.update.success';
+  static const pubkeyCopied = 'pubkey.copied';
   static const queryError = 'query.error';
+  static const saveProfile = 'save.profile';
+  static const stoppedObserving = 'stopped.observing';
+  static const trustButton = 'trust.button';
+  static const trustConfirmAction = 'trust.confirm.action';
+  static const trustConfirmBody = 'trust.confirm.body';
+  static const trustConfirmCancel = 'trust.confirm.cancel';
+  static const trustConfirmTitle = 'trust.confirm.title';
   static const trustDeclarationError = 'trust.declaration.error';
   static const trustDeclarationSuccess = 'trust.declaration.success';
+  static const trustDeclared = 'trust.declared';
   static const trustRevocationSuccess = 'trust.revocation.success';
+  static const trustRevoked = 'trust.revoked';
+  static const trustSegment = 'trust.segment';
+  static const trustedLabel = 'trusted.label';
   static const validationRequired = 'validation.required';
 }

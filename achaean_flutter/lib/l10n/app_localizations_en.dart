@@ -93,6 +93,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get trustRevocationSuccess => 'Trust revoked';
 
   @override
+  String get observeDeclarationSuccess => 'Now observing';
+
+  @override
+  String get observeDeclarationError => 'Failed to observe';
+
+  @override
+  String get observeRevocationSuccess => 'Stopped observing';
+
+  @override
   String get polisCreationSuccess => 'Polis created successfully';
 
   @override
@@ -140,4 +149,104 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountCreationGuest => 'Browse as Guest';
+
+  @override
+  String get profileTitle => 'Profile';
+
+  @override
+  String get editProfile => 'Edit Profile';
+
+  @override
+  String get displayNameLabel => 'Display Name';
+
+  @override
+  String get displayNameHint => 'How you want to be known';
+
+  @override
+  String get bioLabel => 'Bio';
+
+  @override
+  String get bioHint => 'A few words about yourself';
+
+  @override
+  String get anonymous => 'Anonymous';
+
+  @override
+  String get saveProfile => 'Save';
+
+  @override
+  String get profileUpdateSuccess => 'Profile updated';
+
+  @override
+  String get profileUpdateError => 'Failed to update profile';
+
+  @override
+  String get peopleTitle => 'People';
+
+  @override
+  String get trustSegment => 'Trust';
+
+  @override
+  String get observeSegment => 'Observe';
+
+  @override
+  String get outgoingToggle => 'Outgoing';
+
+  @override
+  String get incomingToggle => 'Incoming';
+
+  @override
+  String get noTrustRelationships => 'No trust relationships yet';
+
+  @override
+  String get noObserveRelationships => 'Not observing anyone yet';
+
+  @override
+  String get noIncomingTrust => 'Nobody trusts you yet';
+
+  @override
+  String get noIncomingObserve => 'Nobody observes you yet';
+
+  @override
+  String get trustButton => 'Trust';
+
+  @override
+  String get observeButton => 'Observe';
+
+  @override
+  String get trustedLabel => 'Trusted';
+
+  @override
+  String get observingLabel => 'Observing';
+
+  @override
+  String get trustConfirmTitle => 'Vouch for this person?';
+
+  @override
+  String get trustConfirmBody =>
+      'Trusting someone affects community membership. This is a structural vouch, not just a follow.';
+
+  @override
+  String get trustConfirmCancel => 'Cancel';
+
+  @override
+  String get trustConfirmAction => 'Confirm';
+
+  @override
+  String get nowObserving => 'Now observing';
+
+  @override
+  String get stoppedObserving => 'Stopped observing';
+
+  @override
+  String get trustDeclared => 'Trust declared';
+
+  @override
+  String get trustRevoked => 'Trust revoked';
+
+  @override
+  String get copyPubkey => 'Copy pubkey';
+
+  @override
+  String get pubkeyCopied => 'Pubkey copied';
 }

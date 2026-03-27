@@ -262,6 +262,24 @@ abstract class AppLocalizations {
   /// **'Trust revoked'**
   String get trustRevocationSuccess;
 
+  /// No description provided for @observeDeclarationSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Now observing'**
+  String get observeDeclarationSuccess;
+
+  /// No description provided for @observeDeclarationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to observe'**
+  String get observeDeclarationError;
+
+  /// No description provided for @observeRevocationSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Stopped observing'**
+  String get observeRevocationSuccess;
+
   /// No description provided for @polisCreationSuccess.
   ///
   /// In en, this message translates to:
@@ -357,6 +375,204 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Browse as Guest'**
   String get accountCreationGuest;
+
+  /// No description provided for @profileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profileTitle;
+
+  /// No description provided for @editProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Profile'**
+  String get editProfile;
+
+  /// No description provided for @displayNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Display Name'**
+  String get displayNameLabel;
+
+  /// No description provided for @displayNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'How you want to be known'**
+  String get displayNameHint;
+
+  /// No description provided for @bioLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Bio'**
+  String get bioLabel;
+
+  /// No description provided for @bioHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A few words about yourself'**
+  String get bioHint;
+
+  /// No description provided for @anonymous.
+  ///
+  /// In en, this message translates to:
+  /// **'Anonymous'**
+  String get anonymous;
+
+  /// No description provided for @saveProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get saveProfile;
+
+  /// No description provided for @profileUpdateSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated'**
+  String get profileUpdateSuccess;
+
+  /// No description provided for @profileUpdateError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update profile'**
+  String get profileUpdateError;
+
+  /// No description provided for @peopleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'People'**
+  String get peopleTitle;
+
+  /// No description provided for @trustSegment.
+  ///
+  /// In en, this message translates to:
+  /// **'Trust'**
+  String get trustSegment;
+
+  /// No description provided for @observeSegment.
+  ///
+  /// In en, this message translates to:
+  /// **'Observe'**
+  String get observeSegment;
+
+  /// No description provided for @outgoingToggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Outgoing'**
+  String get outgoingToggle;
+
+  /// No description provided for @incomingToggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Incoming'**
+  String get incomingToggle;
+
+  /// No description provided for @noTrustRelationships.
+  ///
+  /// In en, this message translates to:
+  /// **'No trust relationships yet'**
+  String get noTrustRelationships;
+
+  /// No description provided for @noObserveRelationships.
+  ///
+  /// In en, this message translates to:
+  /// **'Not observing anyone yet'**
+  String get noObserveRelationships;
+
+  /// No description provided for @noIncomingTrust.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody trusts you yet'**
+  String get noIncomingTrust;
+
+  /// No description provided for @noIncomingObserve.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody observes you yet'**
+  String get noIncomingObserve;
+
+  /// No description provided for @trustButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Trust'**
+  String get trustButton;
+
+  /// No description provided for @observeButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Observe'**
+  String get observeButton;
+
+  /// No description provided for @trustedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Trusted'**
+  String get trustedLabel;
+
+  /// No description provided for @observingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Observing'**
+  String get observingLabel;
+
+  /// No description provided for @trustConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Vouch for this person?'**
+  String get trustConfirmTitle;
+
+  /// No description provided for @trustConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Trusting someone affects community membership. This is a structural vouch, not just a follow.'**
+  String get trustConfirmBody;
+
+  /// No description provided for @trustConfirmCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get trustConfirmCancel;
+
+  /// No description provided for @trustConfirmAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get trustConfirmAction;
+
+  /// No description provided for @nowObserving.
+  ///
+  /// In en, this message translates to:
+  /// **'Now observing'**
+  String get nowObserving;
+
+  /// No description provided for @stoppedObserving.
+  ///
+  /// In en, this message translates to:
+  /// **'Stopped observing'**
+  String get stoppedObserving;
+
+  /// No description provided for @trustDeclared.
+  ///
+  /// In en, this message translates to:
+  /// **'Trust declared'**
+  String get trustDeclared;
+
+  /// No description provided for @trustRevoked.
+  ///
+  /// In en, this message translates to:
+  /// **'Trust revoked'**
+  String get trustRevoked;
+
+  /// No description provided for @copyPubkey.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy pubkey'**
+  String get copyPubkey;
+
+  /// No description provided for @pubkeyCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Pubkey copied'**
+  String get pubkeyCopied;
 }
 
 class _AppLocalizationsDelegate
