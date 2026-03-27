@@ -4,7 +4,7 @@
 import 'package:achaean_flutter/features/agora/cubit/polis_discovery_state.dart';
 import 'package:cubit_ui_flow/src/contracts/all_contracts.dart';
 import 'package:achaean_client/src/protocol/koinon/polis_definition.dart';
-import 'package:achaean_client/src/protocol/koinon/politai_user.dart';
+import 'package:achaean_client/src/protocol/koinon/polis_member.dart';
 
 class PolisDiscoveryStateFixtures {
   // Baseline (all normal defaults)
@@ -16,9 +16,9 @@ class PolisDiscoveryStateFixtures {
   static final poleis_large = PolisDiscoveryState(poleis: List.filled(50, PolisDefinition(repoUrl: 'Test string', name: 'Test string', membershipThreshold: 1, flagThreshold: 1, ownerPubkey: 'Test string', discoveredAt: DateTime(2026, 1, 1))));
 
   // Vary members field
-  static final members_empty = PolisDiscoveryState(members: <PolitaiUser>[]);
-  static final members_single = PolisDiscoveryState(members: [PolitaiUser(pubkey: 'Test string', repoUrl: 'Test string', discoveredAt: DateTime(2026, 1, 1))]);
-  static final members_large = PolisDiscoveryState(members: List.filled(50, PolitaiUser(pubkey: 'Test string', repoUrl: 'Test string', discoveredAt: DateTime(2026, 1, 1))));
+  static final members_empty = PolisDiscoveryState(members: <PolisMember>[]);
+  static final members_single = PolisDiscoveryState(members: [PolisMember(pubkey: 'Test string', repoUrl: 'Test string', isSigner: false, trustConnections: 0)]);
+  static final members_large = PolisDiscoveryState(members: List.filled(50, PolisMember(pubkey: 'Test string', repoUrl: 'Test string', isSigner: false, trustConnections: 0)));
 
   static final all = [
     baseline,

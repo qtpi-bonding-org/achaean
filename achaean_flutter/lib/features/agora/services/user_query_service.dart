@@ -19,11 +19,11 @@ class UserQueryService implements IUserQueryService {
   }
 
   @override
-  Future<List<TrustDeclarationRecord>> getTrustDeclarations(String pubkey) {
+  Future<Relationships> getRelationships(String pubkey) {
     return tryMethod(
-      () => _client.koinon.getTrustDeclarations(pubkey),
+      () => _client.koinon.getRelationships(pubkey),
       QueryException.new,
-      'getTrustDeclarations',
+      'getRelationships',
     );
   }
 }

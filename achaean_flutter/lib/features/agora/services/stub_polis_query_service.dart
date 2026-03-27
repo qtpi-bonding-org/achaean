@@ -17,12 +17,6 @@ class StubPolisQueryService implements IPolisQueryService {
   Future<PolisDefinition?> getPolis(String repoUrl) async => null;
 
   @override
-  Future<List<PolitaiUser>> getPolisMembers(String polisRepoUrl) async =>
-      const [];
-
-  @override
-  Future<List<ReadmeSignatureRecord>> getPolisSigners(
-    String polisRepoUrl,
-  ) async =>
+  Future<List<PolisMember>> getPolisMembers(String polisRepoUrl) async =>
       const [];
 }

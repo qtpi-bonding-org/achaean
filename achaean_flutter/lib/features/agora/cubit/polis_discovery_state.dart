@@ -13,7 +13,7 @@ abstract class PolisDiscoveryState
     @Default(UiFlowStatus.idle) UiFlowStatus status,
     Object? error,
     @Default([]) List<PolisDefinition> poleis,
-    @Default([]) List<PolitaiUser> members,
+    @Default([]) List<PolisMember> members,
   }) = _PolisDiscoveryState;
 
   @override

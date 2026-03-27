@@ -4,6 +4,5 @@ import 'package:achaean_client/achaean_client.dart';
 abstract class IPolisQueryService {
   Future<List<PolisDefinition>> listPoleis();
   Future<PolisDefinition?> getPolis(String repoUrl);
-  Future<List<PolitaiUser>> getPolisMembers(String polisRepoUrl);
-  Future<List<ReadmeSignatureRecord>> getPolisSigners(String polisRepoUrl);
+  Future<List<PolisMember>> getPolisMembers(String polisRepoUrl);
 }

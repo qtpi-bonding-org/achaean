@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PolisDiscoveryState {
 
- UiFlowStatus get status; Object? get error; List<PolisDefinition> get poleis; List<PolitaiUser> get members;
+ UiFlowStatus get status; Object? get error; List<PolisDefinition> get poleis; List<PolisMember> get members;
 /// Create a copy of PolisDiscoveryState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -45,7 +45,7 @@ abstract mixin class $PolisDiscoveryStateCopyWith<$Res>  {
   factory $PolisDiscoveryStateCopyWith(PolisDiscoveryState value, $Res Function(PolisDiscoveryState) _then) = _$PolisDiscoveryStateCopyWithImpl;
 @useResult
 $Res call({
- UiFlowStatus status, Object? error, List<PolisDefinition> poleis, List<PolitaiUser> members
+ UiFlowStatus status, Object? error, List<PolisDefinition> poleis, List<PolisMember> members
 });
 
 
@@ -67,7 +67,7 @@ class _$PolisDiscoveryStateCopyWithImpl<$Res>
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as UiFlowStatus,error: freezed == error ? _self.error : error ,poleis: null == poleis ? _self.poleis : poleis // ignore: cast_nullable_to_non_nullable
 as List<PolisDefinition>,members: null == members ? _self.members : members // ignore: cast_nullable_to_non_nullable
-as List<PolitaiUser>,
+as List<PolisMember>,
   ));
 }
 
@@ -152,7 +152,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( UiFlowStatus status,  Object? error,  List<PolisDefinition> poleis,  List<PolitaiUser> members)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( UiFlowStatus status,  Object? error,  List<PolisDefinition> poleis,  List<PolisMember> members)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PolisDiscoveryState() when $default != null:
 return $default(_that.status,_that.error,_that.poleis,_that.members);case _:
@@ -173,7 +173,7 @@ return $default(_that.status,_that.error,_that.poleis,_that.members);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( UiFlowStatus status,  Object? error,  List<PolisDefinition> poleis,  List<PolitaiUser> members)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( UiFlowStatus status,  Object? error,  List<PolisDefinition> poleis,  List<PolisMember> members)  $default,) {final _that = this;
 switch (_that) {
 case _PolisDiscoveryState():
 return $default(_that.status,_that.error,_that.poleis,_that.members);case _:
@@ -193,7 +193,7 @@ return $default(_that.status,_that.error,_that.poleis,_that.members);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( UiFlowStatus status,  Object? error,  List<PolisDefinition> poleis,  List<PolitaiUser> members)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( UiFlowStatus status,  Object? error,  List<PolisDefinition> poleis,  List<PolisMember> members)?  $default,) {final _that = this;
 switch (_that) {
 case _PolisDiscoveryState() when $default != null:
 return $default(_that.status,_that.error,_that.poleis,_that.members);case _:
@@ -208,7 +208,7 @@ return $default(_that.status,_that.error,_that.poleis,_that.members);case _:
 
 
 class _PolisDiscoveryState extends PolisDiscoveryState {
-  const _PolisDiscoveryState({this.status = UiFlowStatus.idle, this.error, final  List<PolisDefinition> poleis = const [], final  List<PolitaiUser> members = const []}): _poleis = poleis,_members = members,super._();
+  const _PolisDiscoveryState({this.status = UiFlowStatus.idle, this.error, final  List<PolisDefinition> poleis = const [], final  List<PolisMember> members = const []}): _poleis = poleis,_members = members,super._();
   
 
 @override@JsonKey() final  UiFlowStatus status;
@@ -220,8 +220,8 @@ class _PolisDiscoveryState extends PolisDiscoveryState {
   return EqualUnmodifiableListView(_poleis);
 }
 
- final  List<PolitaiUser> _members;
-@override@JsonKey() List<PolitaiUser> get members {
+ final  List<PolisMember> _members;
+@override@JsonKey() List<PolisMember> get members {
   if (_members is EqualUnmodifiableListView) return _members;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_members);
@@ -258,7 +258,7 @@ abstract mixin class _$PolisDiscoveryStateCopyWith<$Res> implements $PolisDiscov
   factory _$PolisDiscoveryStateCopyWith(_PolisDiscoveryState value, $Res Function(_PolisDiscoveryState) _then) = __$PolisDiscoveryStateCopyWithImpl;
 @override @useResult
 $Res call({
- UiFlowStatus status, Object? error, List<PolisDefinition> poleis, List<PolitaiUser> members
+ UiFlowStatus status, Object? error, List<PolisDefinition> poleis, List<PolisMember> members
 });
 
 
@@ -280,7 +280,7 @@ class __$PolisDiscoveryStateCopyWithImpl<$Res>
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as UiFlowStatus,error: freezed == error ? _self.error : error ,poleis: null == poleis ? _self._poleis : poleis // ignore: cast_nullable_to_non_nullable
 as List<PolisDefinition>,members: null == members ? _self._members : members // ignore: cast_nullable_to_non_nullable
-as List<PolitaiUser>,
+as List<PolisMember>,
   ));
 }
 

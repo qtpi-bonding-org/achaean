@@ -28,20 +28,11 @@ class PolisQueryService implements IPolisQueryService {
   }
 
   @override
-  Future<List<PolitaiUser>> getPolisMembers(String polisRepoUrl) {
+  Future<List<PolisMember>> getPolisMembers(String polisRepoUrl) {
     return tryMethod(
       () => _client.koinon.getPolisMembers(polisRepoUrl),
       QueryException.new,
       'getPolisMembers',
-    );
-  }
-
-  @override
-  Future<List<ReadmeSignatureRecord>> getPolisSigners(String polisRepoUrl) {
-    return tryMethod(
-      () => _client.koinon.getPolisSigners(polisRepoUrl),
-      QueryException.new,
-      'getPolisSigners',
     );
   }
 }
