@@ -131,25 +131,6 @@ class Endpoints extends _i1.EndpointDispatch {
                 params['repoUrl'],
               ),
         ),
-        'getPolisSigners': _i1.MethodConnector(
-          name: 'getPolisSigners',
-          params: {
-            'polisRepoUrl': _i1.ParameterDescription(
-              name: 'polisRepoUrl',
-              type: _i1.getType<String>(),
-              nullable: false,
-            ),
-          },
-          call:
-              (
-                _i1.Session session,
-                Map<String, dynamic> params,
-              ) async =>
-                  (endpoints['koinon'] as _i3.KoinonEndpoint).getPolisSigners(
-                    session,
-                    params['polisRepoUrl'],
-                  ),
-        ),
         'getPolisMembers': _i1.MethodConnector(
           name: 'getPolisMembers',
           params: {
@@ -169,8 +150,8 @@ class Endpoints extends _i1.EndpointDispatch {
                     params['polisRepoUrl'],
                   ),
         ),
-        'getTrustDeclarations': _i1.MethodConnector(
-          name: 'getTrustDeclarations',
+        'getRelationships': _i1.MethodConnector(
+          name: 'getRelationships',
           params: {
             'pubkey': _i1.ParameterDescription(
               name: 'pubkey',
@@ -182,27 +163,8 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['koinon'] as _i3.KoinonEndpoint)
-                  .getTrustDeclarations(
-                    session,
-                    params['pubkey'],
-                  ),
-        ),
-        'getObserveDeclarations': _i1.MethodConnector(
-          name: 'getObserveDeclarations',
-          params: {
-            'pubkey': _i1.ParameterDescription(
-              name: 'pubkey',
-              type: _i1.getType<String>(),
-              nullable: false,
-            ),
-          },
-          call:
-              (
-                _i1.Session session,
-                Map<String, dynamic> params,
-              ) async => (endpoints['koinon'] as _i3.KoinonEndpoint)
-                  .getObserveDeclarations(
+              ) async =>
+                  (endpoints['koinon'] as _i3.KoinonEndpoint).getRelationships(
                     session,
                     params['pubkey'],
                   ),

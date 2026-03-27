@@ -1,0 +1,11 @@
+### A polis member with signer status and trust connection count.
+class: PolisMember
+fields:
+  ### Public key of the polites.
+  pubkey: String
+  ### Repo URL of the polites.
+  repoUrl: String
+  ### Whether the polites has signed the polis README.
+  isSigner: bool
+  ### Number of mutual trust connections from other signers in this polis.
+  trustConnections: int

@@ -56,71 +56,93 @@ class KoinonEndpoint extends Endpoint {
     );
   }
 
-  /// Get all README signers for a polis.
-  Future<List<ReadmeSignatureRecord>> getPolisSigners(
+  /// Get polis members: all signers with their trust connection count.
+  ///
+  /// Each PolisMember includes isSigner (always true since we start from signers)
+  /// and trustConnections (number of mutual trust edges from other signers).
+  /// Client compares trustConnections against polis.membershipThreshold.
+  Future<List<PolisMember>> getPolisMembers(
     Session session,
     String polisRepoUrl,
   ) async {
     await KoinonAuthHandler.verifyFromSession(session);
-    return await ReadmeSignatureRecord.db.find(
+
+    // Get all signers
+    final signatures = await ReadmeSignatureRecord.db.find(
       session,
       where: (t) => t.polisRepoUrl.equals(polisRepoUrl),
     );
-  }
 
-  /// Get computed members of a polis (signers who meet trust threshold).
-  Future<List<PolitaiUser>> getPolisMembers(
-    Session session,
-    String polisRepoUrl,
-  ) async {
-    await KoinonAuthHandler.verifyFromSession(session);
+    if (signatures.isEmpty) return [];
 
-    final polis = await PolisDefinition.db.findFirstRow(
-      session,
-      where: (t) => t.repoUrl.equals(polisRepoUrl),
-    );
-    final threshold = polis?.membershipThreshold ?? 1;
+    final signerPubkeys = signatures.map((s) => s.signerPubkey).toSet();
 
-    final memberPubkeys = await AgeGraph.computeMembers(
-      session,
-      polisRepoUrl,
-      threshold,
-    );
+    // For each signer, count mutual trust connections from other signers
+    final members = <PolisMember>[];
+    for (final sig in signatures) {
+      // Count: other signers who trust this signer AND this signer trusts them back
+      // (mutual trust = both directions exist with level 'trust')
+      final outgoing = await TrustDeclarationRecord.db.find(
+        session,
+        where: (t) =>
+            t.fromPubkey.equals(sig.signerPubkey) &
+            t.toPubkey.inSet(signerPubkeys) &
+            t.level.equals('trust'),
+      );
+      final outgoingTargets = outgoing.map((t) => t.toPubkey).toSet();
 
-    if (memberPubkeys.isEmpty) return [];
+      final incoming = await TrustDeclarationRecord.db.find(
+        session,
+        where: (t) =>
+            t.toPubkey.equals(sig.signerPubkey) &
+            t.fromPubkey.inSet(signerPubkeys) &
+            t.level.equals('trust'),
+      );
 
-    final members = <PolitaiUser>[];
-    for (final pubkey in memberPubkeys) {
+      // Mutual = both directions exist
+      final mutualCount =
+          incoming.where((t) => outgoingTargets.contains(t.fromPubkey)).length;
+
+      // Look up repoUrl from PolitaiUser
       final user = await PolitaiUser.db.findFirstRow(
         session,
-        where: (t) => t.pubkey.equals(pubkey),
+        where: (t) => t.pubkey.equals(sig.signerPubkey),
       );
-      if (user != null) members.add(user);
+
+      members.add(PolisMember(
+        pubkey: sig.signerPubkey,
+        repoUrl: user?.repoUrl ?? '',
+        isSigner: true,
+        trustConnections: mutualCount,
+      ));
     }
+
     return members;
   }
 
-  /// Get trust declarations issued by a polites.
-  Future<List<TrustDeclarationRecord>> getTrustDeclarations(
+  /// Get all trust and observe relationships for a polites, in both directions.
+  Future<Relationships> getRelationships(
     Session session,
     String pubkey,
   ) async {
     await KoinonAuthHandler.verifyFromSession(session);
-    return await TrustDeclarationRecord.db.find(
-      session,
-      where: (t) => t.fromPubkey.equals(pubkey),
-    );
-  }
 
-  /// Get observe declarations issued by a polites.
-  Future<List<ObserveDeclarationRecord>> getObserveDeclarations(
-    Session session,
-    String pubkey,
-  ) async {
-    await KoinonAuthHandler.verifyFromSession(session);
-    return await ObserveDeclarationRecord.db.find(
-      session,
-      where: (t) => t.fromPubkey.equals(pubkey),
+    final results = await Future.wait([
+      TrustDeclarationRecord.db
+          .find(session, where: (t) => t.fromPubkey.equals(pubkey)),
+      TrustDeclarationRecord.db
+          .find(session, where: (t) => t.toPubkey.equals(pubkey)),
+      ObserveDeclarationRecord.db
+          .find(session, where: (t) => t.fromPubkey.equals(pubkey)),
+      ObserveDeclarationRecord.db
+          .find(session, where: (t) => t.toPubkey.equals(pubkey)),
+    ]);
+
+    return Relationships(
+      outgoingTrust: results[0] as List<TrustDeclarationRecord>,
+      incomingTrust: results[1] as List<TrustDeclarationRecord>,
+      outgoingObserve: results[2] as List<ObserveDeclarationRecord>,
+      incomingObserve: results[3] as List<ObserveDeclarationRecord>,
     );
   }
 

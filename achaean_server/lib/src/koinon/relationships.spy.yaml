@@ -1,0 +1,7 @@
+### All trust and observe relationships for a polites, in both directions.
+class: Relationships
+fields:
+  outgoingTrust: List<TrustDeclarationRecord>
+  incomingTrust: List<TrustDeclarationRecord>
+  outgoingObserve: List<ObserveDeclarationRecord>
+  incomingObserve: List<ObserveDeclarationRecord>

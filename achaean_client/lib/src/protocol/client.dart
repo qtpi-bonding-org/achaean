@@ -16,15 +16,11 @@ import 'package:achaean_client/src/protocol/greetings/greeting.dart' as _i3;
 import 'package:achaean_client/src/protocol/koinon/politai_user.dart' as _i4;
 import 'package:achaean_client/src/protocol/koinon/polis_definition.dart'
     as _i5;
-import 'package:achaean_client/src/protocol/koinon/readme_signature_record.dart'
-    as _i6;
-import 'package:achaean_client/src/protocol/koinon/trust_declaration_record.dart'
-    as _i7;
-import 'package:achaean_client/src/protocol/koinon/observe_declaration_record.dart'
-    as _i8;
-import 'package:achaean_client/src/protocol/koinon/flag_record.dart' as _i9;
-import 'package:achaean_client/src/protocol/koinon/post_reference.dart' as _i10;
-import 'protocol.dart' as _i11;
+import 'package:achaean_client/src/protocol/koinon/polis_member.dart' as _i6;
+import 'package:achaean_client/src/protocol/koinon/relationships.dart' as _i7;
+import 'package:achaean_client/src/protocol/koinon/flag_record.dart' as _i8;
+import 'package:achaean_client/src/protocol/koinon/post_reference.dart' as _i9;
+import 'protocol.dart' as _i10;
 
 /// This is an example endpoint that returns a greeting message through
 /// its [hello] method.
@@ -86,52 +82,37 @@ class EndpointKoinon extends _i1.EndpointRef {
         {'repoUrl': repoUrl},
       );
 
-  /// Get all README signers for a polis.
-  _i2.Future<List<_i6.ReadmeSignatureRecord>> getPolisSigners(
-    String polisRepoUrl,
-  ) => caller.callServerEndpoint<List<_i6.ReadmeSignatureRecord>>(
-    'koinon',
-    'getPolisSigners',
-    {'polisRepoUrl': polisRepoUrl},
-  );
-
-  /// Get computed members of a polis (signers who meet trust threshold).
-  _i2.Future<List<_i4.PolitaiUser>> getPolisMembers(String polisRepoUrl) =>
-      caller.callServerEndpoint<List<_i4.PolitaiUser>>(
+  /// Get polis members: all signers with their trust connection count.
+  ///
+  /// Each PolisMember includes isSigner (always true since we start from signers)
+  /// and trustConnections (number of mutual trust edges from other signers).
+  /// Client compares trustConnections against polis.membershipThreshold.
+  _i2.Future<List<_i6.PolisMember>> getPolisMembers(String polisRepoUrl) =>
+      caller.callServerEndpoint<List<_i6.PolisMember>>(
         'koinon',
         'getPolisMembers',
         {'polisRepoUrl': polisRepoUrl},
       );
 
-  /// Get trust declarations issued by a polites.
-  _i2.Future<List<_i7.TrustDeclarationRecord>> getTrustDeclarations(
-    String pubkey,
-  ) => caller.callServerEndpoint<List<_i7.TrustDeclarationRecord>>(
-    'koinon',
-    'getTrustDeclarations',
-    {'pubkey': pubkey},
-  );
-
-  /// Get observe declarations issued by a polites.
-  _i2.Future<List<_i8.ObserveDeclarationRecord>> getObserveDeclarations(
-    String pubkey,
-  ) => caller.callServerEndpoint<List<_i8.ObserveDeclarationRecord>>(
-    'koinon',
-    'getObserveDeclarations',
-    {'pubkey': pubkey},
-  );
+  /// Get all trust and observe relationships for a polites, in both directions.
+  _i2.Future<_i7.Relationships> getRelationships(String pubkey) =>
+      caller.callServerEndpoint<_i7.Relationships>(
+        'koinon',
+        'getRelationships',
+        {'pubkey': pubkey},
+      );
 
   /// Get all flags for posts in a polis.
-  _i2.Future<List<_i9.FlagRecord>> getFlagsForPolis(String polisRepoUrl) =>
-      caller.callServerEndpoint<List<_i9.FlagRecord>>(
+  _i2.Future<List<_i8.FlagRecord>> getFlagsForPolis(String polisRepoUrl) =>
+      caller.callServerEndpoint<List<_i8.FlagRecord>>(
         'koinon',
         'getFlagsForPolis',
         {'polisRepoUrl': polisRepoUrl},
       );
 
   /// Get flags on posts by people the caller trusts.
-  _i2.Future<List<_i9.FlagRecord>> getFlaggedPostsForVouchers() =>
-      caller.callServerEndpoint<List<_i9.FlagRecord>>(
+  _i2.Future<List<_i8.FlagRecord>> getFlaggedPostsForVouchers() =>
+      caller.callServerEndpoint<List<_i8.FlagRecord>>(
         'koinon',
         'getFlaggedPostsForVouchers',
         {},
@@ -140,11 +121,11 @@ class EndpointKoinon extends _i1.EndpointRef {
   /// Get post references for a polis (the agora).
   ///
   /// Computes polis members via AGE, then returns posts from those members.
-  _i2.Future<List<_i10.PostReference>> getAgora(
+  _i2.Future<List<_i9.PostReference>> getAgora(
     String polisRepoUrl, {
     required int limit,
     required int offset,
-  }) => caller.callServerEndpoint<List<_i10.PostReference>>(
+  }) => caller.callServerEndpoint<List<_i9.PostReference>>(
     'koinon',
     'getAgora',
     {
@@ -155,10 +136,10 @@ class EndpointKoinon extends _i1.EndpointRef {
   );
 
   /// Get post references from trusted authors (personal feed).
-  _i2.Future<List<_i10.PostReference>> getPersonalFeed({
+  _i2.Future<List<_i9.PostReference>> getPersonalFeed({
     required int limit,
     required int offset,
-  }) => caller.callServerEndpoint<List<_i10.PostReference>>(
+  }) => caller.callServerEndpoint<List<_i9.PostReference>>(
     'koinon',
     'getPersonalFeed',
     {
@@ -172,8 +153,8 @@ class EndpointKoinon extends _i1.EndpointRef {
   /// Returns the root post and all posts whose parentPostUrl matches
   /// the root. Single-level only — nested replies require the client
   /// to call getThread again with a reply's postUrl.
-  _i2.Future<List<_i10.PostReference>> getThread(String rootPostUrl) =>
-      caller.callServerEndpoint<List<_i10.PostReference>>(
+  _i2.Future<List<_i9.PostReference>> getThread(String rootPostUrl) =>
+      caller.callServerEndpoint<List<_i9.PostReference>>(
         'koinon',
         'getThread',
         {'rootPostUrl': rootPostUrl},
@@ -217,7 +198,7 @@ class Client extends _i1.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
          host,
-         _i11.Protocol(),
+         _i10.Protocol(),
          securityContext: securityContext,
          streamingConnectionTimeout: streamingConnectionTimeout,
          connectionTimeout: connectionTimeout,

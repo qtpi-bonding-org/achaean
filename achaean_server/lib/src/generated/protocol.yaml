@@ -5,10 +5,8 @@ koinon:
   - getUser:
   - listPoleis:
   - getPolis:
-  - getPolisSigners:
   - getPolisMembers:
-  - getTrustDeclarations:
-  - getObserveDeclarations:
+  - getRelationships:
   - getFlagsForPolis:
   - getFlaggedPostsForVouchers:
   - getAgora:

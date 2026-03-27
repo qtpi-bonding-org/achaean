@@ -18,3 +18,5 @@ indexes:
     unique: true
   observe_declarations_from_pubkey_idx:
     fields: fromPubkey
+  observe_declarations_to_pubkey_idx:
+    fields: toPubkey
