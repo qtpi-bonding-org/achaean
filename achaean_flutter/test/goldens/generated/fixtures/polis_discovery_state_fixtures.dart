@@ -17,8 +17,8 @@ class PolisDiscoveryStateFixtures {
 
   // Vary members field
   static final members_empty = PolisDiscoveryState(members: <PolisMember>[]);
-  static final members_single = PolisDiscoveryState(members: [PolisMember(pubkey: 'Test string', repoUrl: 'Test string', isSigner: false, trustConnections: 0)]);
-  static final members_large = PolisDiscoveryState(members: List.filled(50, PolisMember(pubkey: 'Test string', repoUrl: 'Test string', isSigner: false, trustConnections: 0)));
+  static final members_single = PolisDiscoveryState(members: [PolisMember(pubkey: 'Test string', repoUrl: 'Test string', isSigner: true, trustConnections: 1)]);
+  static final members_large = PolisDiscoveryState(members: List.filled(50, PolisMember(pubkey: 'Test string', repoUrl: 'Test string', isSigner: true, trustConnections: 1)));
 
   static final all = [
     baseline,

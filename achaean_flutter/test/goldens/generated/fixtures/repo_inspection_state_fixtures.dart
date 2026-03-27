@@ -8,6 +8,7 @@ import 'package:dart_koinon/src/models/koinon_manifest.dart';
 import 'package:dart_koinon/src/models/polis_membership.dart';
 import 'package:dart_koinon/src/models/trust_entry.dart';
 import 'package:dart_koinon/src/models/trust_level.dart';
+import 'package:dart_koinon/src/models/observe_entry.dart';
 import 'package:dart_koinon/src/models/flag_entry.dart';
 import 'package:dart_koinon/src/models/trust_declaration.dart';
 import 'package:dart_koinon/src/models/readme_signature.dart';

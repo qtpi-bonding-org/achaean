@@ -35,6 +35,7 @@ class MockGitClient implements IGitClient {
     required String message,
     String? sha,
     String? branch,
+    GitAuthor? author,
   }) async {
     commits.add(_CommitCall(owner, repo, path, content, message));
     return GitCommit(
@@ -73,7 +74,8 @@ class MockGitClient implements IGitClient {
       required String path,
       required String sha,
       required String message,
-      String? branch}) async {}
+      String? branch,
+      GitAuthor? author}) async {}
 
   @override
   Future<bool> exists(
