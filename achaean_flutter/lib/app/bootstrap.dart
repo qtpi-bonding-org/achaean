@@ -37,6 +37,9 @@ import '../features/trust/cubit/trust_cubit.dart';
 import '../features/observe/services/i_observe_service.dart';
 import '../features/observe/services/observe_service.dart';
 import '../features/observe/cubit/observe_cubit.dart';
+import '../features/profile/services/i_profile_service.dart';
+import '../features/profile/services/profile_service.dart';
+import '../features/profile/cubit/profile_cubit.dart';
 import '../features/polis/services/i_polis_service.dart';
 import '../features/polis/services/polis_service.dart';
 import '../features/polis/cubit/polis_cubit.dart';
@@ -253,6 +256,14 @@ void _registerCoreServices() {
     ),
   );
 
+  // Profile service
+  getIt.registerLazySingleton<IProfileService>(
+    () => ProfileService(
+      getIt<IGitService>(),
+      getIt<PublicGitClientFactory>(),
+    ),
+  );
+
   // Polis service
   getIt.registerLazySingleton<IPolisService>(
     () => PolisService(
@@ -287,6 +298,9 @@ void _registerCoreServices() {
   );
   getIt.registerFactory<ObserveCubit>(
     () => ObserveCubit(getIt<IObserveService>()),
+  );
+  getIt.registerFactory<ProfileCubit>(
+    () => ProfileCubit(getIt<IProfileService>()),
   );
   getIt.registerFactory<FlagCubit>(
     () => FlagCubit(getIt<IFlagService>()),
