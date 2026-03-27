@@ -1,10 +1,14 @@
+import 'package:achaean_client/achaean_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../app_router.dart';
+import '../../../core/services/i_key_service.dart';
 import '../../../design_system/primitives/app_sizes.dart';
 import '../../../design_system/widgets/achaean_scaffold.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../agora/services/i_user_query_service.dart';
 import '../../trust/cubit/trust_cubit.dart';
 import '../../trust/cubit/trust_state.dart';
 import '../../observe/cubit/observe_cubit.dart';
@@ -22,11 +26,40 @@ class _PeopleScreenState extends State<PeopleScreen> {
   int _segmentIndex = 0; // 0 = Trust, 1 = Observe
   bool _showIncoming = false;
 
+  bool _incomingLoading = false;
+  List<TrustDeclarationRecord> _incomingTrust = [];
+  List<ObserveDeclarationRecord> _incomingObserve = [];
+
   @override
   void initState() {
     super.initState();
     context.read<TrustCubit>().loadOwnTrust();
     context.read<ObserveCubit>().loadOwnObserve();
+    _loadIncoming();
+  }
+
+  Future<void> _loadIncoming() async {
+    final getIt = GetIt.instance;
+    if (!getIt.isRegistered<IUserQueryService>() ||
+        !getIt.isRegistered<IKeyService>()) {
+      return;
+    }
+    setState(() => _incomingLoading = true);
+    try {
+      final pubkey = await getIt<IKeyService>().getPublicKeyHex();
+      if (pubkey == null) return;
+      final relationships =
+          await getIt<IUserQueryService>().getRelationships(pubkey);
+      if (mounted) {
+        setState(() {
+          _incomingTrust = relationships.incomingTrust;
+          _incomingObserve = relationships.incomingObserve;
+          _incomingLoading = false;
+        });
+      }
+    } catch (_) {
+      if (mounted) setState(() => _incomingLoading = false);
+    }
   }
 
   @override
@@ -147,10 +180,48 @@ class _PeopleScreenState extends State<PeopleScreen> {
 
   Widget _buildIncomingList(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final emptyMessage = _segmentIndex == 0
-        ? l10n.noIncomingTrust
-        : l10n.noIncomingObserve;
-    return Center(child: Text(emptyMessage));
+
+    if (_incomingLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (_segmentIndex == 0) {
+      if (_incomingTrust.isEmpty) {
+        return Center(child: Text(l10n.noIncomingTrust));
+      }
+      return ListView.builder(
+        itemCount: _incomingTrust.length,
+        itemBuilder: (context, index) {
+          final record = _incomingTrust[index];
+          return UserIdentityTile(
+            pubkey: record.fromPubkey,
+            onTap: () => AppNavigation.toUserDetail(
+              context,
+              pubkey: record.fromPubkey,
+              repoUrl: '',
+            ),
+          );
+        },
+      );
+    } else {
+      if (_incomingObserve.isEmpty) {
+        return Center(child: Text(l10n.noIncomingObserve));
+      }
+      return ListView.builder(
+        itemCount: _incomingObserve.length,
+        itemBuilder: (context, index) {
+          final record = _incomingObserve[index];
+          return UserIdentityTile(
+            pubkey: record.fromPubkey,
+            onTap: () => AppNavigation.toUserDetail(
+              context,
+              pubkey: record.fromPubkey,
+              repoUrl: '',
+            ),
+          );
+        },
+      );
+    }
   }
 }
 
@@ -167,11 +238,40 @@ class _PeopleContentState extends State<PeopleContent> {
   int _segmentIndex = 0; // 0 = Trust, 1 = Observe
   bool _showIncoming = false;
 
+  bool _incomingLoading = false;
+  List<TrustDeclarationRecord> _incomingTrust = [];
+  List<ObserveDeclarationRecord> _incomingObserve = [];
+
   @override
   void initState() {
     super.initState();
     context.read<TrustCubit>().loadOwnTrust();
     context.read<ObserveCubit>().loadOwnObserve();
+    _loadIncoming();
+  }
+
+  Future<void> _loadIncoming() async {
+    final getIt = GetIt.instance;
+    if (!getIt.isRegistered<IUserQueryService>() ||
+        !getIt.isRegistered<IKeyService>()) {
+      return;
+    }
+    setState(() => _incomingLoading = true);
+    try {
+      final pubkey = await getIt<IKeyService>().getPublicKeyHex();
+      if (pubkey == null) return;
+      final relationships =
+          await getIt<IUserQueryService>().getRelationships(pubkey);
+      if (mounted) {
+        setState(() {
+          _incomingTrust = relationships.incomingTrust;
+          _incomingObserve = relationships.incomingObserve;
+          _incomingLoading = false;
+        });
+      }
+    } catch (_) {
+      if (mounted) setState(() => _incomingLoading = false);
+    }
   }
 
   @override
@@ -288,9 +388,47 @@ class _PeopleContentState extends State<PeopleContent> {
 
   Widget _buildIncomingList(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final emptyMessage = _segmentIndex == 0
-        ? l10n.noIncomingTrust
-        : l10n.noIncomingObserve;
-    return Center(child: Text(emptyMessage));
+
+    if (_incomingLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (_segmentIndex == 0) {
+      if (_incomingTrust.isEmpty) {
+        return Center(child: Text(l10n.noIncomingTrust));
+      }
+      return ListView.builder(
+        itemCount: _incomingTrust.length,
+        itemBuilder: (context, index) {
+          final record = _incomingTrust[index];
+          return UserIdentityTile(
+            pubkey: record.fromPubkey,
+            onTap: () => AppNavigation.toUserDetail(
+              context,
+              pubkey: record.fromPubkey,
+              repoUrl: '',
+            ),
+          );
+        },
+      );
+    } else {
+      if (_incomingObserve.isEmpty) {
+        return Center(child: Text(l10n.noIncomingObserve));
+      }
+      return ListView.builder(
+        itemCount: _incomingObserve.length,
+        itemBuilder: (context, index) {
+          final record = _incomingObserve[index];
+          return UserIdentityTile(
+            pubkey: record.fromPubkey,
+            onTap: () => AppNavigation.toUserDetail(
+              context,
+              pubkey: record.fromPubkey,
+              repoUrl: '',
+            ),
+          );
+        },
+      );
+    }
   }
 }
