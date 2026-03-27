@@ -58,66 +58,40 @@ class KoinonEndpoint extends Endpoint {
 
   /// Get polis members: all signers with their trust connection count.
   ///
-  /// Each PolisMember includes isSigner (always true since we start from signers)
-  /// and trustConnections (number of mutual trust edges from other signers).
-  /// Client compares trustConnections against polis.membershipThreshold.
+  /// Uses a single AGE Cypher query for trust counting, then a batch ORM
+  /// lookup for repo URLs. Client compares trustConnections against
+  /// polis.membershipThreshold to determine full member vs provisional.
   Future<List<PolisMember>> getPolisMembers(
     Session session,
     String polisRepoUrl,
   ) async {
     await KoinonAuthHandler.verifyFromSession(session);
 
-    // Get all signers
-    final signatures = await ReadmeSignatureRecord.db.find(
+    // Single Cypher query: all signers + their mutual trust count
+    final signers = await AgeGraph.getSignersWithTrustCounts(
       session,
-      where: (t) => t.polisRepoUrl.equals(polisRepoUrl),
+      polisRepoUrl,
     );
 
-    if (signatures.isEmpty) return [];
+    if (signers.isEmpty) return [];
 
-    final signerPubkeys = signatures.map((s) => s.signerPubkey).toSet();
+    // Batch lookup repo URLs
+    final users = await PolitaiUser.db.find(
+      session,
+      where: (t) => t.pubkey.inSet(signers.map((s) => s.pubkey).toSet()),
+    );
+    final repoUrlByPubkey = {
+      for (final u in users) u.pubkey: u.repoUrl,
+    };
 
-    // For each signer, count mutual trust connections from other signers
-    final members = <PolisMember>[];
-    for (final sig in signatures) {
-      // Count: other signers who trust this signer AND this signer trusts them back
-      // (mutual trust = both directions exist with level 'trust')
-      final outgoing = await TrustDeclarationRecord.db.find(
-        session,
-        where: (t) =>
-            t.fromPubkey.equals(sig.signerPubkey) &
-            t.toPubkey.inSet(signerPubkeys) &
-            t.level.equals('trust'),
-      );
-      final outgoingTargets = outgoing.map((t) => t.toPubkey).toSet();
-
-      final incoming = await TrustDeclarationRecord.db.find(
-        session,
-        where: (t) =>
-            t.toPubkey.equals(sig.signerPubkey) &
-            t.fromPubkey.inSet(signerPubkeys) &
-            t.level.equals('trust'),
-      );
-
-      // Mutual = both directions exist
-      final mutualCount =
-          incoming.where((t) => outgoingTargets.contains(t.fromPubkey)).length;
-
-      // Look up repoUrl from PolitaiUser
-      final user = await PolitaiUser.db.findFirstRow(
-        session,
-        where: (t) => t.pubkey.equals(sig.signerPubkey),
-      );
-
-      members.add(PolisMember(
-        pubkey: sig.signerPubkey,
-        repoUrl: user?.repoUrl ?? '',
-        isSigner: true,
-        trustConnections: mutualCount,
-      ));
-    }
-
-    return members;
+    return signers
+        .map((s) => PolisMember(
+              pubkey: s.pubkey,
+              repoUrl: repoUrlByPubkey[s.pubkey] ?? '',
+              isSigner: true,
+              trustConnections: s.trustConnections,
+            ))
+        .toList();
   }
 
   /// Get all trust and observe relationships for a polites, in both directions.

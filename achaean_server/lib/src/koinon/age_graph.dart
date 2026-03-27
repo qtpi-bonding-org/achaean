@@ -123,6 +123,34 @@ class AgeGraph {
     }
   }
 
+  /// Get all signers for a polis with their mutual trust connection count.
+  ///
+  /// Returns (pubkey, trustConnections) for every signer, regardless of threshold.
+  /// The caller decides membership by comparing against the threshold.
+  static Future<List<({String pubkey, int trustConnections})>> getSignersWithTrustCounts(
+    Session session,
+    String polisRepoUrl,
+  ) async {
+    await _loadAge(session);
+
+    final result = await session.db.unsafeQuery(
+      "SELECT * FROM cypher('koinon', \$\$"
+      "MATCH (signer:Polites)-[:SIGNED]->(p:Polis {repo_url: '${_s(polisRepoUrl)}'})"
+      " WITH signer, p"
+      " OPTIONAL MATCH (signer)-[:TRUSTS {level: 'trust'}]->(other:Polites)-[:TRUSTS {level: 'trust'}]->(signer)"
+      " WHERE (other)-[:SIGNED]->(p)"
+      " WITH signer, count(other) AS mutual_count"
+      " RETURN signer.pubkey, mutual_count"
+      "\$\$) AS (pubkey agtype, mutual_count agtype)",
+    );
+
+    return result.map((row) {
+      final pubkey = (row[0] as String).replaceAll('"', '');
+      final count = int.tryParse(row[1].toString()) ?? 0;
+      return (pubkey: pubkey, trustConnections: count);
+    }).toList();
+  }
+
   /// Compute polis members: signers with >= threshold mutual TRUST edges.
   ///
   /// Returns list of pubkeys that are members.
