@@ -96,6 +96,11 @@ class _PersonalFeedScreenState extends State<PersonalFeedScreen> {
                 return PostReferenceTile(
                   postRef: ref,
                   onTap: () => AppNavigation.toPostDetail(context, ref),
+                  onAuthorTap: () => AppNavigation.toUserDetail(
+                    context,
+                    pubkey: ref.authorPubkey,
+                    repoUrl: ref.authorRepoUrl,
+                  ),
                 );
               },
             ),

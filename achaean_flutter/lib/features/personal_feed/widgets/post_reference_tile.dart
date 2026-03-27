@@ -8,14 +8,18 @@ import '../../../design_system/widgets/inscription_tile.dart';
 ///
 /// Line 1: author · relative time · polis tag
 /// Line 2: title, "Replying to {user}", or blank
+///
+/// Tap the leading person icon to navigate to the author's user detail screen.
 class PostReferenceTile extends StatelessWidget {
   final PostReference postRef;
   final VoidCallback? onTap;
+  final VoidCallback? onAuthorTap;
 
   const PostReferenceTile({
     super.key,
     required this.postRef,
     this.onTap,
+    this.onAuthorTap,
   });
 
   @override
@@ -33,6 +37,10 @@ class PostReferenceTile extends StatelessWidget {
     final contextLine = _buildContextLine();
 
     return InscriptionTile(
+      leading: GestureDetector(
+        onTap: onAuthorTap,
+        child: const Icon(Icons.person_outline),
+      ),
       title: metadataLine,
       subtitle: contextLine,
       onTap: onTap,
