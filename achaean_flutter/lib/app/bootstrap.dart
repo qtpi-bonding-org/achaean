@@ -53,6 +53,7 @@ import '../features/agora/services/agora_service.dart';
 import '../features/agora/services/git_backed_agora_service.dart';
 import '../features/agora/services/i_polis_query_service.dart';
 import '../features/agora/services/polis_query_service.dart';
+import '../features/agora/services/stub_polis_query_service.dart';
 import '../features/agora/services/i_user_query_service.dart';
 import '../features/agora/services/user_query_service.dart';
 import '../features/agora/services/i_voucher_review_service.dart';
@@ -364,6 +365,24 @@ void _registerDemoServices() {
       ),
     );
   }
+
+  // Stub polis query service — returns empty lists (no index server available).
+  // Required so AgoraCubit and PolisDiscoveryCubit can be registered in demo
+  // mode and the router can create them without crashing.
+  getIt.registerLazySingleton<IPolisQueryService>(
+    () => const StubPolisQueryService(),
+  );
+
+  // Query cubits (same factories as Serverpod mode, backed by stubs above)
+  getIt.registerFactory<AgoraCubit>(
+    () => AgoraCubit(
+      getIt<IAgoraService>(),
+      getIt<IPolisQueryService>(),
+    ),
+  );
+  getIt.registerFactory<PolisDiscoveryCubit>(
+    () => PolisDiscoveryCubit(getIt<IPolisQueryService>()),
+  );
 }
 
 /// Registers feed services that work in both Serverpod and demo mode.

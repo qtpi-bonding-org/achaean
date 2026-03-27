@@ -7,7 +7,6 @@ import 'package:go_router/go_router.dart';
 import 'design_system/widgets/adaptive_nav_shell.dart';
 import 'features/account_creation/screens/account_creation_screen.dart';
 import 'features/agora/cubit/agora_cubit.dart';
-import 'features/agora/cubit/polis_discovery_cubit.dart';
 import 'features/connections/screens/connections_screen.dart';
 import 'features/connections/screens/create_polis_screen.dart';
 import 'features/connections/screens/polis_detail_screen.dart';
@@ -117,15 +116,7 @@ class AppRouter {
           GoRoute(
             path: AppRoutes.connections,
             name: RouteNames.connections,
-            builder: (context, state) => MultiBlocProvider(
-              providers: [
-                BlocProvider(create: (_) => GetIt.instance<TrustCubit>()),
-                BlocProvider(create: (_) => GetIt.instance<ObserveCubit>()),
-                BlocProvider(create: (_) => GetIt.instance<PolisCubit>()),
-                BlocProvider(create: (_) => GetIt.instance<PolisDiscoveryCubit>()),
-              ],
-              child: const ConnectionsScreen(),
-            ),
+            builder: (context, state) => const ConnectionsScreen(),
           ),
           GoRoute(
             path: AppRoutes.settings,
