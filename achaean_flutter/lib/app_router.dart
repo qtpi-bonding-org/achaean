@@ -6,13 +6,18 @@ import 'package:go_router/go_router.dart';
 
 import 'design_system/widgets/adaptive_nav_shell.dart';
 import 'features/account_creation/screens/account_creation_screen.dart';
+import 'features/agora/cubit/agora_cubit.dart';
+import 'features/agora/cubit/polis_discovery_cubit.dart';
+import 'features/connections/screens/connections_screen.dart';
+import 'features/connections/screens/create_polis_screen.dart';
+import 'features/connections/screens/polis_detail_screen.dart';
+import 'features/feed/screens/feed_screen.dart';
 import 'features/observe/cubit/observe_cubit.dart';
-import 'features/people/screens/people_screen.dart';
 import 'features/people/screens/user_detail_screen.dart';
 import 'features/personal_feed/cubit/personal_feed_cubit.dart';
-import 'features/personal_feed/screens/personal_feed_screen.dart';
 import 'features/personal_feed/screens/post_detail_screen.dart';
 import 'features/personal_feed/services/post_content_cache.dart';
+import 'features/polis/cubit/polis_cubit.dart';
 import 'features/post_creation/cubit/own_posts_cubit.dart';
 import 'features/post_creation/screens/post_creation_screen.dart';
 import 'features/profile/cubit/profile_cubit.dart';
@@ -44,33 +49,17 @@ class AppRouter {
   /// Nav items displayed in the adaptive shell.
   /// Add/remove/reorder items here — the shell adapts automatically.
   static const _navItems = [
-    NavItem(
-      icon: Icons.home_outlined,
-      selectedIcon: Icons.home,
-      label: 'Home',
-    ),
-    NavItem(
-      icon: Icons.person_outlined,
-      selectedIcon: Icons.person,
-      label: 'Profile',
-    ),
-    NavItem(
-      icon: Icons.group_outlined,
-      selectedIcon: Icons.group,
-      label: 'People',
-    ),
-    NavItem(
-      icon: Icons.settings_outlined,
-      selectedIcon: Icons.settings,
-      label: 'Settings',
-    ),
+    NavItem(icon: Icons.article_outlined, selectedIcon: Icons.article, label: 'Feed'),
+    NavItem(icon: Icons.person_outlined, selectedIcon: Icons.person, label: 'Profile'),
+    NavItem(icon: Icons.group_outlined, selectedIcon: Icons.group, label: 'Connections'),
+    NavItem(icon: Icons.settings_outlined, selectedIcon: Icons.settings, label: 'Settings'),
   ];
 
   /// Ordered routes corresponding to [_navItems] by index.
   static const _navRoutes = [
     AppRoutes.home,
     AppRoutes.profile,
-    AppRoutes.people,
+    AppRoutes.connections,
     AppRoutes.settings,
   ];
 
@@ -105,9 +94,13 @@ class AppRouter {
           GoRoute(
             path: AppRoutes.home,
             name: RouteNames.home,
-            builder: (context, state) => BlocProvider(
-              create: (_) => GetIt.instance<PersonalFeedCubit>(),
-              child: const PersonalFeedScreen(),
+            builder: (context, state) => MultiBlocProvider(
+              providers: [
+                BlocProvider(create: (_) => GetIt.instance<PersonalFeedCubit>()),
+                BlocProvider(create: (_) => GetIt.instance<PolisCubit>()),
+                BlocProvider(create: (_) => GetIt.instance<AgoraCubit>()),
+              ],
+              child: const FeedScreen(),
             ),
           ),
           GoRoute(
@@ -122,14 +115,16 @@ class AppRouter {
             ),
           ),
           GoRoute(
-            path: AppRoutes.people,
-            name: RouteNames.people,
+            path: AppRoutes.connections,
+            name: RouteNames.connections,
             builder: (context, state) => MultiBlocProvider(
               providers: [
                 BlocProvider(create: (_) => GetIt.instance<TrustCubit>()),
                 BlocProvider(create: (_) => GetIt.instance<ObserveCubit>()),
+                BlocProvider(create: (_) => GetIt.instance<PolisCubit>()),
+                BlocProvider(create: (_) => GetIt.instance<PolisDiscoveryCubit>()),
               ],
-              child: const PeopleScreen(),
+              child: const ConnectionsScreen(),
             ),
           ),
           GoRoute(
@@ -184,6 +179,25 @@ class AppRouter {
           );
         },
       ),
+      GoRoute(
+        path: AppRoutes.polisDetail,
+        name: RouteNames.polisDetail,
+        builder: (context, state) {
+          final args = state.extra! as PolisDetailArgs;
+          return BlocProvider(
+            create: (_) => GetIt.instance<PolisCubit>(),
+            child: PolisDetailScreen(args: args),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.createPolis,
+        name: RouteNames.createPolis,
+        builder: (context, state) => BlocProvider(
+          create: (_) => GetIt.instance<PolisCubit>(),
+          child: const CreatePolisScreen(),
+        ),
+      ),
     ],
     errorBuilder: (context, state) => Scaffold(
       body: Center(
@@ -197,56 +211,55 @@ class AppRoutes {
   AppRoutes._();
   static const String home = '/';
   static const String profile = '/profile';
-  static const String people = '/people';
+  static const String connections = '/connections';
   static const String settings = '/settings';
   static const String createAccount = '/create-account';
   static const String createPost = '/create-post';
   static const String postDetail = '/post-detail';
   static const String editProfile = '/edit-profile';
   static const String userDetail = '/user-detail';
+  static const String polisDetail = '/polis-detail';
+  static const String createPolis = '/create-polis';
 }
 
 class RouteNames {
   RouteNames._();
   static const String home = 'home';
   static const String profile = 'profile';
-  static const String people = 'people';
+  static const String connections = 'connections';
   static const String settings = 'settings';
   static const String createAccount = 'createAccount';
   static const String createPost = 'createPost';
   static const String postDetail = 'postDetail';
   static const String editProfile = 'editProfile';
   static const String userDetail = 'userDetail';
+  static const String polisDetail = 'polisDetail';
+  static const String createPolis = 'createPolis';
 }
 
 class AppNavigation {
   AppNavigation._();
 
-  static void toHome(BuildContext context) => context.goNamed(RouteNames.home);
-  static void toProfile(BuildContext context) =>
-      context.goNamed(RouteNames.profile);
-  static void toPeople(BuildContext context) =>
-      context.goNamed(RouteNames.people);
-  static void toSettings(BuildContext context) =>
-      context.goNamed(RouteNames.settings);
-  static void toCreateAccount(BuildContext context) =>
-      context.pushNamed(RouteNames.createAccount);
-  static void toCreatePost(BuildContext context) =>
-      context.pushNamed(RouteNames.createPost);
+  static void toFeed(BuildContext context) => context.goNamed(RouteNames.home);
+  static void toProfile(BuildContext context) => context.goNamed(RouteNames.profile);
+  static void toConnections(BuildContext context) => context.goNamed(RouteNames.connections);
+  static void toSettings(BuildContext context) => context.goNamed(RouteNames.settings);
+  static void toCreateAccount(BuildContext context) => context.pushNamed(RouteNames.createAccount);
+  static void toCreatePost(BuildContext context) => context.pushNamed(RouteNames.createPost);
   static void toPostDetail(BuildContext context, PostReference ref) =>
       context.pushNamed(RouteNames.postDetail, extra: ref);
-  static void toEditProfile(BuildContext context) =>
-      context.pushNamed(RouteNames.editProfile);
-  static void toUserDetail(BuildContext context,
-          {required String pubkey, required String repoUrl}) =>
-      context.pushNamed(RouteNames.userDetail,
-          extra: UserDetailArgs(pubkey: pubkey, repoUrl: repoUrl));
+  static void toEditProfile(BuildContext context) => context.pushNamed(RouteNames.editProfile);
+  static void toUserDetail(BuildContext context, {required String pubkey, required String repoUrl}) =>
+      context.pushNamed(RouteNames.userDetail, extra: UserDetailArgs(pubkey: pubkey, repoUrl: repoUrl));
+  static void toPolisDetail(BuildContext context, {required String repoUrl, required String name}) =>
+      context.pushNamed(RouteNames.polisDetail, extra: PolisDetailArgs(repoUrl: repoUrl, name: name));
+  static void toCreatePolis(BuildContext context) => context.pushNamed(RouteNames.createPolis);
 
   static void back(BuildContext context) {
     if (context.canPop()) {
       context.pop();
     } else {
-      toHome(context);
+      toFeed(context);
     }
   }
 }

@@ -43,7 +43,7 @@ class _AccountCreationScreenState extends State<AccountCreationScreen> {
           listener: (context, state) {
             if (state.result != null) {
               AppRouter.setHasAccount(true);
-              AppNavigation.toHome(context);
+              AppNavigation.toFeed(context);
             }
           },
           child: BlocBuilder<AccountCreationCubit, AccountCreationState>(
@@ -123,7 +123,7 @@ class _AccountCreationScreenState extends State<AccountCreationScreen> {
                               ? null
                               : () {
                                   AppRouter.setIsGuest(true);
-                                  AppNavigation.toHome(context);
+                                  AppNavigation.toFeed(context);
                                 },
                           child: Text(l10n.accountCreationGuest),
                         ),
