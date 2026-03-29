@@ -1,0 +1,7 @@
+name: koinon_index_core
+publish_to: none
+
+environment:
+  sdk: '^3.8.0'
+
+resolution: workspace

@@ -2,3 +2,9 @@ type: server
 
 client_package_path: ../achaean_client
 server_test_tools_path: test/integration/test_tools
+
+modules:
+  koinon_index_core:
+    nickname: koinon_core
+  koinon_index_content:
+    nickname: koinon_content

@@ -1,0 +1,22 @@
+### An indexed observe declaration — non-structural, personal feed only.
+class: ObserveDeclarationRecord
+table: koinon_observe_declarations
+fields:
+  ### Public key of the observer (author).
+  fromPubkey: String
+  ### Public key of the observed subject.
+  toPubkey: String
+  ### Repo URL of the subject (for discovery).
+  subjectRepoUrl: String
+  ### When the declaration was made.
+  timestamp: DateTime
+  ### When the aggregator indexed this declaration.
+  indexedAt: DateTime
+indexes:
+  koinon_observe_declarations_from_to_idx:
+    fields: fromPubkey, toPubkey
+    unique: true
+  koinon_observe_declarations_from_pubkey_idx:
+    fields: fromPubkey
+  koinon_observe_declarations_to_pubkey_idx:
+    fields: toPubkey

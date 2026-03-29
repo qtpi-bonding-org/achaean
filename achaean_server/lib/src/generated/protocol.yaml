@@ -1,14 +1,2 @@
 greeting:
   - hello:
-koinon:
-  - register:
-  - getUser:
-  - listPoleis:
-  - getPolis:
-  - getPolisMembers:
-  - getRelationships:
-  - getFlagsForPolis:
-  - getFlaggedPostsForVouchers:
-  - getAgora:
-  - getPersonalFeed:
-  - getThread:

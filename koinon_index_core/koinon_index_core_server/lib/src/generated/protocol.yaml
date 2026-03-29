@@ -1,0 +1,7 @@
+koinonCore:
+  - register:
+  - getUser:
+  - getRelationships:
+  - listPoleis:
+  - getPolis:
+  - getPolisMembers:

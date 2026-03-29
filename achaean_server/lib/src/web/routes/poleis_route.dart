@@ -1,8 +1,8 @@
 import 'dart:io' as io;
 
 import 'package:serverpod/serverpod.dart';
+import 'package:koinon_index_core_server/koinon_index_core_server.dart';
 
-import '../../generated/protocol.dart';
 import '../widgets/poleis_page.dart';
 
 /// Serves the public poleis listing page.

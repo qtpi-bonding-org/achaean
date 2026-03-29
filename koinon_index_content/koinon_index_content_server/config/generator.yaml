@@ -1,0 +1,5 @@
+type: module
+nickname: koinon_index_content
+
+client_package_path: ../koinon_index_content_client
+server_test_tools_path: test/integration/test_tools

@@ -16,6 +16,10 @@ dependencies:
     path: ../dart_koinon
   pointycastle: ^4.0.0
   yaml: ^3.1.0
+  koinon_index_core_server:
+    path: ../koinon_index_core/koinon_index_core_server
+  koinon_index_content_server:
+    path: ../koinon_index_content/koinon_index_content_server
 
 dev_dependencies:
   lints: '>=3.0.0 <7.0.0'

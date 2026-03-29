@@ -1,0 +1,23 @@
+{
+  "__className__": "serverpod.DatabaseDefinition",
+  "moduleName": "achaean",
+  "tables": [],
+  "installedModules": [
+    {
+      "__className__": "serverpod.DatabaseMigrationVersion",
+      "module": "serverpod",
+      "version": "20260129180959368"
+    },
+    {
+      "__className__": "serverpod.DatabaseMigrationVersion",
+      "module": "koinon_index_core",
+      "version": "20260329193840048"
+    },
+    {
+      "__className__": "serverpod.DatabaseMigrationVersion",
+      "module": "koinon_index_content",
+      "version": "20260329193905675"
+    }
+  ],
+  "migrationApiVersion": 1
+}

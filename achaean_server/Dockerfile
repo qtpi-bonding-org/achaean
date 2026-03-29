@@ -9,6 +9,10 @@ COPY achaean_server/pubspec.docker.yaml pubspec.yaml
 COPY dart_git/ dart_git/
 COPY dart_koinon/ dart_koinon/
 COPY achaean_client/ achaean_client/
+COPY koinon_index_core/koinon_index_core_server/ koinon_index_core/koinon_index_core_server/
+COPY koinon_index_core/koinon_index_core_client/ koinon_index_core/koinon_index_core_client/
+COPY koinon_index_content/koinon_index_content_server/ koinon_index_content/koinon_index_content_server/
+COPY koinon_index_content/koinon_index_content_client/ koinon_index_content/koinon_index_content_client/
 COPY achaean_server/ achaean_server/
 
 # Resolve dependencies and compile

@@ -1,8 +1,8 @@
 import 'dart:io' as io;
 
 import 'package:serverpod/serverpod.dart';
+import 'package:koinon_index_content_server/koinon_index_content_server.dart';
 
-import '../../generated/protocol.dart';
 import '../widgets/recent_posts_page.dart';
 
 /// Serves the public recent posts page.

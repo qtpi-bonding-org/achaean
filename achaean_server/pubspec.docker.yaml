@@ -9,6 +9,10 @@ workspace:
   - achaean_server
   - dart_git
   - dart_koinon
+  - koinon_index_core/koinon_index_core_server
+  - koinon_index_core/koinon_index_core_client
+  - koinon_index_content/koinon_index_content_server
+  - koinon_index_content/koinon_index_content_client
 dependency_overrides:
   crypto: ^3.0.3
   serverpod: 3.4.5

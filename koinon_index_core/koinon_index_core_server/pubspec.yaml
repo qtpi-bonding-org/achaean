@@ -1,0 +1,21 @@
+name: koinon_index_core_server
+description: Starting point for a Serverpod module.
+
+environment:
+  sdk: '^3.8.0'
+
+resolution: workspace
+
+dependencies:
+  serverpod: 3.4.5
+  dart_git:
+    path: ../../dart_git
+  dart_koinon:
+    path: ../../dart_koinon
+  pointycastle: ^4.0.0
+  yaml: ^3.1.0
+
+dev_dependencies:
+  lints: '>=3.0.0 <7.0.0'
+  serverpod_test: 3.4.5
+  test: ^1.25.5

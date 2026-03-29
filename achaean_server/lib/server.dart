@@ -1,15 +1,16 @@
 import 'dart:io';
 
 import 'package:serverpod/serverpod.dart';
+import 'package:koinon_index_core_server/koinon_index_core_server.dart'
+    hide Protocol, Endpoints;
+import 'package:koinon_index_content_server/koinon_index_content_server.dart'
+    hide Protocol, Endpoints;
 
 import 'src/generated/endpoints.dart';
 import 'src/generated/protocol.dart';
-import 'src/koinon/age_graph.dart';
-import 'src/koinon/koinon_auth.dart';
 import 'src/web/routes/app_config_route.dart';
 import 'src/web/routes/poleis_route.dart';
 import 'src/web/routes/recent_posts_route.dart';
-import 'src/web/routes/webhook_route.dart';
 
 /// The starting point of the Serverpod server.
 void run(List<String> args) async {
@@ -20,17 +21,15 @@ void run(List<String> args) async {
     authenticationHandler: KoinonAuthHandler.handleAuthentication,
   );
 
-  // Forgejo push webhook → indexer
-  pod.webServer.addRoute(WebhookRoute(), '/webhook');
+  // Koinon webhook route
+  KoinonCore.registerRoutes(pod);
 
   // Public pages — SEO-friendly, no auth
   pod.webServer.addRoute(PoleisRoute(), '/');
   pod.webServer.addRoute(PoleisRoute(), '/index.html');
   pod.webServer.addRoute(RecentPostsRoute(), '/recent');
 
-  final root = Directory(Uri(path: 'web/static').toFilePath());
-  pod.webServer.addRoute(StaticRoute.directory(root));
-
+  // App config + Flutter app routes
   pod.webServer.addRoute(
     AppConfigRoute(apiConfig: pod.config.apiServer),
     '/app/assets/assets/config.json',
@@ -51,18 +50,22 @@ void run(List<String> args) async {
     );
   }
 
+  final root = Directory(Uri(path: 'web/static').toFilePath());
+  pod.webServer.addRoute(StaticRoute.directory(root));
+
   await pod.start();
 
-  // Initialize Apache AGE graph
-  final ageSession = await pod.createSession();
-  try {
-    await AgeGraph.initialize(ageSession);
-    stdout.writeln('AGE graph initialized');
-  } catch (e) {
-    stdout.writeln(
-      'AGE graph initialization failed (is AGE extension installed?): $e',
-    );
-  } finally {
-    await ageSession.close();
-  }
+  // Initialize Koinon trust graph
+  await KoinonCore.initialize(
+    pod,
+    config: KoinonCoreConfig(
+      forgeInternalHost: Platform.environment['FORGEJO_INTERNAL_HOST'],
+      webhookSecret: Platform.environment['KOINON_WEBHOOK_SECRET'] ?? '',
+      graphName: 'koinon',
+      onPostsChanged: (session, event, paths) async {
+        final now = DateTime.now().toUtc();
+        await ContentIndexer.indexPosts(session, event, paths, now);
+      },
+    ),
+  );
 }

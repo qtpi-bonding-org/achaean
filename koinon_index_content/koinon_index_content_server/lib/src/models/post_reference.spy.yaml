@@ -1,0 +1,30 @@
+### An indexed post reference — a metadata pointer to a post in a polites's repo.
+class: PostReference
+table: koinon_post_references
+fields:
+  ### Public key of the post author.
+  authorPubkey: String
+  ### Repo URL of the author (e.g. https://forge.example/alice/koinon).
+  authorRepoUrl: String
+  ### Full URL to the post.json file on the forge.
+  postUrl: String
+  ### Git commit hash of this version of the post.
+  commitHash: String
+  ### Post title (if present, for search/display).
+  title: String?
+  ### Polis repo URLs this post is tagged for (comma-separated).
+  poleisTags: String?
+  ### When the post was created.
+  timestamp: DateTime
+  ### Full URL to the parent post.json (if this is a reply).
+  parentPostUrl: String?
+  ### When the aggregator indexed this post.
+  indexedAt: DateTime
+indexes:
+  koinon_post_references_post_url_idx:
+    fields: postUrl
+    unique: true
+  koinon_post_references_timestamp_idx:
+    fields: timestamp
+  koinon_post_references_parent_idx:
+    fields: parentPostUrl

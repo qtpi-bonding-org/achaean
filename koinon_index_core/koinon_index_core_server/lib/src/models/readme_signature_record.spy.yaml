@@ -1,0 +1,22 @@
+### An indexed README cosignature — a polites has signed a polis README.
+class: ReadmeSignatureRecord
+table: koinon_readme_signatures
+fields:
+  ### Public key of the signer.
+  signerPubkey: String
+  ### Repo URL of the polis whose README was signed.
+  polisRepoUrl: String
+  ### Commit hash of the README version that was signed.
+  readmeCommit: String
+  ### Content hash of the README.
+  readmeHash: String
+  ### When the signature was made.
+  timestamp: DateTime
+  ### When the aggregator indexed this signature.
+  indexedAt: DateTime
+indexes:
+  koinon_readme_signatures_signer_polis_idx:
+    fields: signerPubkey, polisRepoUrl
+    unique: true
+  koinon_readme_signatures_polis_idx:
+    fields: polisRepoUrl

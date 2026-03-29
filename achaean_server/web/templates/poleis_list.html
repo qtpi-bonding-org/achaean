@@ -1,0 +1,21 @@
+<h2>Poleis</h2>
+<div class="meander"></div>
+
+{{#poleis}}
+<div class="card">
+  <a href="/polis/{{repoUrl_encoded}}" class="card-title">{{name}}</a>
+  {{#description}}
+  <p class="card-body">{{description}}</p>
+  {{/description}}
+  <p class="card-meta">
+    <span class="badge">{{member_count}} members</span>
+    {{#parentRepoUrl}}· forked{{/parentRepoUrl}}
+  </p>
+</div>
+{{/poleis}}
+
+{{^poleis}}
+<div class="card">
+  <p class="card-meta">No poleis discovered yet. Create one from the app.</p>
+</div>
+{{/poleis}}
