@@ -7,7 +7,7 @@
   <meta name="description" content="{{description}}">
   <link rel="stylesheet" href="/css/achaean.css">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=League+Spartan:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+  <script src="https://unpkg.com/marked@15.0.7/marked.min.js"></script>
 </head>
 <body>
   <div class="container">
@@ -30,11 +30,8 @@
         · {{timestamp}}
         {{#has_polis_tags}}· <span class="badge">{{polis_tags}}</span>{{/has_polis_tags}}
       </p>
-      <div class="post-content"
-           hx-get="{{forge_post_url}}/index.md"
-           hx-trigger="revealed"
-           hx-swap="innerHTML">
-        <span class="htmx-indicator">Loading...</span>
+      <div class="post-content" data-post-url="{{forge_raw_url}}">
+        <span class="loading-indicator">Loading...</span>
       </div>
     </div>
     {{/posts}}
@@ -50,5 +47,28 @@
       Content served from <a href="{{forge_url}}">the forge</a>.
     </footer>
   </div>
+
+  <script>
+    // Lazy-load post content from forge API, render markdown
+    document.querySelectorAll('.post-content[data-post-url]').forEach(function(el) {
+      var url = el.getAttribute('data-post-url');
+      fetch(url)
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          var text = data.content || '';
+          // base64 decode if Forgejo API wraps it
+          if (data.encoding === 'base64' && data.content) {
+            text = atob(data.content);
+            try { text = JSON.parse(text).content.text; } catch(e) { }
+          } else if (typeof text === 'string') {
+            try { text = JSON.parse(text).content.text; } catch(e) { }
+          }
+          el.innerHTML = marked.parse(text || '');
+        })
+        .catch(function() {
+          el.innerHTML = '<p class="card-meta">Content available on <a href="' + url + '">the forge</a>.</p>';
+        });
+    });
+  </script>
 </body>
 </html>

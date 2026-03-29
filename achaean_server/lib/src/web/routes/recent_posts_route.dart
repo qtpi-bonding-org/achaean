@@ -28,6 +28,7 @@ class RecentPostsRoute extends WidgetRoute {
                 'author': _extractUsername(p.authorRepoUrl),
                 'post_url': p.postUrl,
                 'forge_post_url': _buildForgePostUrl(p),
+                'forge_raw_url': _buildForgeRawUrl(p),
                 'timestamp': p.timestamp.toIso8601String().substring(0, 10),
                 'polis_tags': p.poleisTags,
                 'has_polis_tags': p.poleisTags != null && p.poleisTags!.isNotEmpty,
@@ -53,5 +54,17 @@ class RecentPostsRoute extends WidgetRoute {
     final repo = segments[1];
     final postPath = segments.sublist(2).join('/');
     return '${uri.scheme}://${uri.host}${uri.hasPort ? ':${uri.port}' : ''}/$owner/$repo/src/branch/main/$postPath';
+  }
+
+  /// Build the Forgejo API URL to fetch post.json content.
+  /// e.g. "http://localhost:3000/api/v1/repos/alice/koinon/contents/posts/2026-03-29-hello/post.json"
+  static String _buildForgeRawUrl(PostReference p) {
+    final uri = Uri.parse(p.postUrl);
+    final segments = uri.pathSegments; // [alice, koinon, posts, 2026-03-29-hello, post.json]
+    if (segments.length < 3) return p.postUrl;
+    final owner = segments[0];
+    final repo = segments[1];
+    final filePath = segments.sublist(2).join('/');
+    return '${uri.scheme}://${uri.host}${uri.hasPort ? ':${uri.port}' : ''}/api/v1/repos/$owner/$repo/contents/$filePath';
   }
 }
