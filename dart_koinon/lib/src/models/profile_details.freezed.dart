@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ProfileDetails {
 
- String? get displayName; String? get bio;
+ String? get displayName; String? get bio; Map<String, String> get links;
 /// Create a copy of ProfileDetails
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $ProfileDetailsCopyWith<ProfileDetails> get copyWith => _$ProfileDetailsCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProfileDetails&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.bio, bio) || other.bio == bio));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProfileDetails&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.bio, bio) || other.bio == bio)&&const DeepCollectionEquality().equals(other.links, links));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,displayName,bio);
+int get hashCode => Object.hash(runtimeType,displayName,bio,const DeepCollectionEquality().hash(links));
 
 @override
 String toString() {
-  return 'ProfileDetails(displayName: $displayName, bio: $bio)';
+  return 'ProfileDetails(displayName: $displayName, bio: $bio, links: $links)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $ProfileDetailsCopyWith<$Res>  {
   factory $ProfileDetailsCopyWith(ProfileDetails value, $Res Function(ProfileDetails) _then) = _$ProfileDetailsCopyWithImpl;
 @useResult
 $Res call({
- String? displayName, String? bio
+ String? displayName, String? bio, Map<String, String> links
 });
 
 
@@ -65,11 +65,12 @@ class _$ProfileDetailsCopyWithImpl<$Res>
 
 /// Create a copy of ProfileDetails
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? displayName = freezed,Object? bio = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? displayName = freezed,Object? bio = freezed,Object? links = null,}) {
   return _then(_self.copyWith(
 displayName: freezed == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
 as String?,bio: freezed == bio ? _self.bio : bio // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,links: null == links ? _self.links : links // ignore: cast_nullable_to_non_nullable
+as Map<String, String>,
   ));
 }
 
@@ -154,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? displayName,  String? bio)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? displayName,  String? bio,  Map<String, String> links)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ProfileDetails() when $default != null:
-return $default(_that.displayName,_that.bio);case _:
+return $default(_that.displayName,_that.bio,_that.links);case _:
   return orElse();
 
 }
@@ -175,10 +176,10 @@ return $default(_that.displayName,_that.bio);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? displayName,  String? bio)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? displayName,  String? bio,  Map<String, String> links)  $default,) {final _that = this;
 switch (_that) {
 case _ProfileDetails():
-return $default(_that.displayName,_that.bio);case _:
+return $default(_that.displayName,_that.bio,_that.links);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -195,10 +196,10 @@ return $default(_that.displayName,_that.bio);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? displayName,  String? bio)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? displayName,  String? bio,  Map<String, String> links)?  $default,) {final _that = this;
 switch (_that) {
 case _ProfileDetails() when $default != null:
-return $default(_that.displayName,_that.bio);case _:
+return $default(_that.displayName,_that.bio,_that.links);case _:
   return null;
 
 }
@@ -210,11 +211,18 @@ return $default(_that.displayName,_that.bio);case _:
 @JsonSerializable()
 
 class _ProfileDetails implements ProfileDetails {
-  const _ProfileDetails({this.displayName, this.bio});
+  const _ProfileDetails({this.displayName, this.bio, final  Map<String, String> links = const {}}): _links = links;
   factory _ProfileDetails.fromJson(Map<String, dynamic> json) => _$ProfileDetailsFromJson(json);
 
 @override final  String? displayName;
 @override final  String? bio;
+ final  Map<String, String> _links;
+@override@JsonKey() Map<String, String> get links {
+  if (_links is EqualUnmodifiableMapView) return _links;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(_links);
+}
+
 
 /// Create a copy of ProfileDetails
 /// with the given fields replaced by the non-null parameter values.
@@ -229,16 +237,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProfileDetails&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.bio, bio) || other.bio == bio));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProfileDetails&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.bio, bio) || other.bio == bio)&&const DeepCollectionEquality().equals(other._links, _links));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,displayName,bio);
+int get hashCode => Object.hash(runtimeType,displayName,bio,const DeepCollectionEquality().hash(_links));
 
 @override
 String toString() {
-  return 'ProfileDetails(displayName: $displayName, bio: $bio)';
+  return 'ProfileDetails(displayName: $displayName, bio: $bio, links: $links)';
 }
 
 
@@ -249,7 +257,7 @@ abstract mixin class _$ProfileDetailsCopyWith<$Res> implements $ProfileDetailsCo
   factory _$ProfileDetailsCopyWith(_ProfileDetails value, $Res Function(_ProfileDetails) _then) = __$ProfileDetailsCopyWithImpl;
 @override @useResult
 $Res call({
- String? displayName, String? bio
+ String? displayName, String? bio, Map<String, String> links
 });
 
 
@@ -266,11 +274,12 @@ class __$ProfileDetailsCopyWithImpl<$Res>
 
 /// Create a copy of ProfileDetails
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? displayName = freezed,Object? bio = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? displayName = freezed,Object? bio = freezed,Object? links = null,}) {
   return _then(_ProfileDetails(
 displayName: freezed == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
 as String?,bio: freezed == bio ? _self.bio : bio // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,links: null == links ? _self._links : links // ignore: cast_nullable_to_non_nullable
+as Map<String, String>,
   ));
 }
 

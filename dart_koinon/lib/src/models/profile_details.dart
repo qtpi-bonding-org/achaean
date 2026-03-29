@@ -9,6 +9,7 @@ abstract class ProfileDetails with _$ProfileDetails {
   const factory ProfileDetails({
     String? displayName,
     String? bio,
+    @Default({}) Map<String, String> links,
   }) = _ProfileDetails;
 
   factory ProfileDetails.fromJson(Map<String, dynamic> json) =>
