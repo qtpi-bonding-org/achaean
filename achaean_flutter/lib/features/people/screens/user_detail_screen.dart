@@ -27,16 +27,33 @@ class UserDetailArgs {
   const UserDetailArgs({required this.pubkey, required this.repoUrl});
 }
 
-class UserDetailScreen extends StatefulWidget {
+class UserDetailScreen extends StatelessWidget {
   final UserDetailArgs args;
 
   const UserDetailScreen({super.key, required this.args});
 
   @override
-  State<UserDetailScreen> createState() => _UserDetailScreenState();
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => GetIt.instance<TrustCubit>()),
+        BlocProvider(create: (_) => GetIt.instance<ObserveCubit>()),
+      ],
+      child: _UserDetailScreenBody(args: args),
+    );
+  }
 }
 
-class _UserDetailScreenState extends State<UserDetailScreen> {
+class _UserDetailScreenBody extends StatefulWidget {
+  final UserDetailArgs args;
+
+  const _UserDetailScreenBody({required this.args});
+
+  @override
+  State<_UserDetailScreenBody> createState() => _UserDetailScreenBodyState();
+}
+
+class _UserDetailScreenBodyState extends State<_UserDetailScreenBody> {
   List<Post> _posts = [];
   bool _loadingPosts = true;
   Object? _postsError;

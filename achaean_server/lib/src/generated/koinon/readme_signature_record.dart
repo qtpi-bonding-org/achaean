@@ -352,7 +352,7 @@ class ReadmeSignatureRecordRepository {
   /// );
   /// ```
   Future<List<ReadmeSignatureRecord>> find(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     _i1.WhereExpressionBuilder<ReadmeSignatureRecordTable>? where,
     int? limit,
     int? offset,
@@ -394,7 +394,7 @@ class ReadmeSignatureRecordRepository {
   /// );
   /// ```
   Future<ReadmeSignatureRecord?> findFirstRow(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     _i1.WhereExpressionBuilder<ReadmeSignatureRecordTable>? where,
     int? offset,
     _i1.OrderByBuilder<ReadmeSignatureRecordTable>? orderBy,
@@ -418,7 +418,7 @@ class ReadmeSignatureRecordRepository {
 
   /// Finds a single [ReadmeSignatureRecord] by its [id] or null if no such row exists.
   Future<ReadmeSignatureRecord?> findById(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     int id, {
     _i1.Transaction? transaction,
     _i1.LockMode? lockMode,
@@ -443,7 +443,7 @@ class ReadmeSignatureRecordRepository {
   /// rows are silently skipped, and only the successfully inserted rows are
   /// returned.
   Future<List<ReadmeSignatureRecord>> insert(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     List<ReadmeSignatureRecord> rows, {
     _i1.Transaction? transaction,
     bool ignoreConflicts = false,
@@ -459,7 +459,7 @@ class ReadmeSignatureRecordRepository {
   ///
   /// The returned [ReadmeSignatureRecord] will have its `id` field set.
   Future<ReadmeSignatureRecord> insertRow(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     ReadmeSignatureRecord row, {
     _i1.Transaction? transaction,
   }) async {
@@ -475,7 +475,7 @@ class ReadmeSignatureRecordRepository {
   /// This is an atomic operation, meaning that if one of the rows fails to
   /// update, none of the rows will be updated.
   Future<List<ReadmeSignatureRecord>> update(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     List<ReadmeSignatureRecord> rows, {
     _i1.ColumnSelections<ReadmeSignatureRecordTable>? columns,
     _i1.Transaction? transaction,
@@ -491,7 +491,7 @@ class ReadmeSignatureRecordRepository {
   /// Optionally, a list of [columns] can be provided to only update those
   /// columns. Defaults to all columns.
   Future<ReadmeSignatureRecord> updateRow(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     ReadmeSignatureRecord row, {
     _i1.ColumnSelections<ReadmeSignatureRecordTable>? columns,
     _i1.Transaction? transaction,
@@ -506,7 +506,7 @@ class ReadmeSignatureRecordRepository {
   /// Updates a single [ReadmeSignatureRecord] by its [id] with the specified [columnValues].
   /// Returns the updated row or null if no row with the given id exists.
   Future<ReadmeSignatureRecord?> updateById(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     int id, {
     required _i1.ColumnValueListBuilder<ReadmeSignatureRecordUpdateTable>
     columnValues,
@@ -522,7 +522,7 @@ class ReadmeSignatureRecordRepository {
   /// Updates all [ReadmeSignatureRecord]s matching the [where] expression with the specified [columnValues].
   /// Returns the list of updated rows.
   Future<List<ReadmeSignatureRecord>> updateWhere(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     required _i1.ColumnValueListBuilder<ReadmeSignatureRecordUpdateTable>
     columnValues,
     required _i1.WhereExpressionBuilder<ReadmeSignatureRecordTable> where,
@@ -549,7 +549,7 @@ class ReadmeSignatureRecordRepository {
   /// This is an atomic operation, meaning that if one of the rows fail to
   /// be deleted, none of the rows will be deleted.
   Future<List<ReadmeSignatureRecord>> delete(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     List<ReadmeSignatureRecord> rows, {
     _i1.Transaction? transaction,
   }) async {
@@ -561,7 +561,7 @@ class ReadmeSignatureRecordRepository {
 
   /// Deletes a single [ReadmeSignatureRecord].
   Future<ReadmeSignatureRecord> deleteRow(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     ReadmeSignatureRecord row, {
     _i1.Transaction? transaction,
   }) async {
@@ -573,7 +573,7 @@ class ReadmeSignatureRecordRepository {
 
   /// Deletes all rows matching the [where] expression.
   Future<List<ReadmeSignatureRecord>> deleteWhere(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     required _i1.WhereExpressionBuilder<ReadmeSignatureRecordTable> where,
     _i1.Transaction? transaction,
   }) async {
@@ -586,7 +586,7 @@ class ReadmeSignatureRecordRepository {
   /// Counts the number of rows matching the [where] expression. If omitted,
   /// will return the count of all rows in the table.
   Future<int> count(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     _i1.WhereExpressionBuilder<ReadmeSignatureRecordTable>? where,
     int? limit,
     _i1.Transaction? transaction,
@@ -600,7 +600,7 @@ class ReadmeSignatureRecordRepository {
 
   /// Acquires row-level locks on [ReadmeSignatureRecord] rows matching the [where] expression.
   Future<void> lockRows(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     required _i1.WhereExpressionBuilder<ReadmeSignatureRecordTable> where,
     required _i1.LockMode lockMode,
     required _i1.Transaction transaction,

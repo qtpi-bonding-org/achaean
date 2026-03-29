@@ -13,14 +13,26 @@ import '../cubit/profile_cubit.dart';
 import '../cubit/profile_state.dart';
 import '../services/profile_message_mapper.dart';
 
-class EditProfileScreen extends StatefulWidget {
+class EditProfileScreen extends StatelessWidget {
   const EditProfileScreen({super.key});
 
   @override
-  State<EditProfileScreen> createState() => _EditProfileScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => GetIt.instance<ProfileCubit>()..loadOwnProfile(),
+      child: const _EditProfileScreenBody(),
+    );
+  }
 }
 
-class _EditProfileScreenState extends State<EditProfileScreen> {
+class _EditProfileScreenBody extends StatefulWidget {
+  const _EditProfileScreenBody();
+
+  @override
+  State<_EditProfileScreenBody> createState() => _EditProfileScreenBodyState();
+}
+
+class _EditProfileScreenBodyState extends State<_EditProfileScreenBody> {
   final _displayNameController = TextEditingController();
   final _bioController = TextEditingController();
   bool _initialized = false;

@@ -11,14 +11,26 @@ import '../cubit/post_creation_state.dart';
 import '../services/post_creation_message_mapper.dart';
 import '../widgets/post_form.dart';
 
-class PostCreationScreen extends StatefulWidget {
+class PostCreationScreen extends StatelessWidget {
   const PostCreationScreen({super.key});
 
   @override
-  State<PostCreationScreen> createState() => _PostCreationScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => GetIt.instance<PostCreationCubit>(),
+      child: const _PostCreationScreenBody(),
+    );
+  }
 }
 
-class _PostCreationScreenState extends State<PostCreationScreen> {
+class _PostCreationScreenBody extends StatefulWidget {
+  const _PostCreationScreenBody();
+
+  @override
+  State<_PostCreationScreenBody> createState() => _PostCreationScreenBodyState();
+}
+
+class _PostCreationScreenBodyState extends State<_PostCreationScreenBody> {
   final _formKey = GlobalKey<FormState>();
   final _textController = TextEditingController();
   final _titleController = TextEditingController();
@@ -34,35 +46,32 @@ class _PostCreationScreenState extends State<PostCreationScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    return BlocProvider(
-      create: (_) => GetIt.instance<PostCreationCubit>(),
-      child: Scaffold(
-        appBar: AppBar(title: Text(l10n.postCreationTitle)),
-        body: UiFlowListener<PostCreationCubit, PostCreationState>(
-          mapper: GetIt.instance<PostCreationMessageMapper>(),
-          listener: (context, state) {
-            if (state.result != null) {
-              AppNavigation.back(context);
-            }
-          },
-          child: Padding(
-            padding: EdgeInsets.all(AppSizes.space * 2),
-            child: Form(
-              key: _formKey,
-              child: PostForm(
-                textController: _textController,
-                titleController: _titleController,
-                onSubmit: () {
-                  if (_formKey.currentState!.validate()) {
-                    context.read<PostCreationCubit>().submitPost(
-                          text: _textController.text.trim(),
-                          title: _titleController.text.trim().isEmpty
-                              ? null
-                              : _titleController.text.trim(),
-                        );
-                  }
-                },
-              ),
+    return Scaffold(
+      appBar: AppBar(title: Text(l10n.postCreationTitle)),
+      body: UiFlowListener<PostCreationCubit, PostCreationState>(
+        mapper: GetIt.instance<PostCreationMessageMapper>(),
+        listener: (context, state) {
+          if (state.result != null) {
+            AppNavigation.back(context);
+          }
+        },
+        child: Padding(
+          padding: EdgeInsets.all(AppSizes.space * 2),
+          child: Form(
+            key: _formKey,
+            child: PostForm(
+              textController: _textController,
+              titleController: _titleController,
+              onSubmit: () {
+                if (_formKey.currentState!.validate()) {
+                  context.read<PostCreationCubit>().submitPost(
+                        text: _textController.text.trim(),
+                        title: _titleController.text.trim().isEmpty
+                            ? null
+                            : _titleController.text.trim(),
+                      );
+                }
+              },
             ),
           ),
         ),

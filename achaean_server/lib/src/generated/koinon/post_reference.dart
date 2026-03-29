@@ -431,7 +431,7 @@ class PostReferenceRepository {
   /// );
   /// ```
   Future<List<PostReference>> find(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     _i1.WhereExpressionBuilder<PostReferenceTable>? where,
     int? limit,
     int? offset,
@@ -473,7 +473,7 @@ class PostReferenceRepository {
   /// );
   /// ```
   Future<PostReference?> findFirstRow(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     _i1.WhereExpressionBuilder<PostReferenceTable>? where,
     int? offset,
     _i1.OrderByBuilder<PostReferenceTable>? orderBy,
@@ -497,7 +497,7 @@ class PostReferenceRepository {
 
   /// Finds a single [PostReference] by its [id] or null if no such row exists.
   Future<PostReference?> findById(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     int id, {
     _i1.Transaction? transaction,
     _i1.LockMode? lockMode,
@@ -522,7 +522,7 @@ class PostReferenceRepository {
   /// rows are silently skipped, and only the successfully inserted rows are
   /// returned.
   Future<List<PostReference>> insert(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     List<PostReference> rows, {
     _i1.Transaction? transaction,
     bool ignoreConflicts = false,
@@ -538,7 +538,7 @@ class PostReferenceRepository {
   ///
   /// The returned [PostReference] will have its `id` field set.
   Future<PostReference> insertRow(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     PostReference row, {
     _i1.Transaction? transaction,
   }) async {
@@ -554,7 +554,7 @@ class PostReferenceRepository {
   /// This is an atomic operation, meaning that if one of the rows fails to
   /// update, none of the rows will be updated.
   Future<List<PostReference>> update(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     List<PostReference> rows, {
     _i1.ColumnSelections<PostReferenceTable>? columns,
     _i1.Transaction? transaction,
@@ -570,7 +570,7 @@ class PostReferenceRepository {
   /// Optionally, a list of [columns] can be provided to only update those
   /// columns. Defaults to all columns.
   Future<PostReference> updateRow(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     PostReference row, {
     _i1.ColumnSelections<PostReferenceTable>? columns,
     _i1.Transaction? transaction,
@@ -585,7 +585,7 @@ class PostReferenceRepository {
   /// Updates a single [PostReference] by its [id] with the specified [columnValues].
   /// Returns the updated row or null if no row with the given id exists.
   Future<PostReference?> updateById(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     int id, {
     required _i1.ColumnValueListBuilder<PostReferenceUpdateTable> columnValues,
     _i1.Transaction? transaction,
@@ -600,7 +600,7 @@ class PostReferenceRepository {
   /// Updates all [PostReference]s matching the [where] expression with the specified [columnValues].
   /// Returns the list of updated rows.
   Future<List<PostReference>> updateWhere(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     required _i1.ColumnValueListBuilder<PostReferenceUpdateTable> columnValues,
     required _i1.WhereExpressionBuilder<PostReferenceTable> where,
     int? limit,
@@ -626,7 +626,7 @@ class PostReferenceRepository {
   /// This is an atomic operation, meaning that if one of the rows fail to
   /// be deleted, none of the rows will be deleted.
   Future<List<PostReference>> delete(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     List<PostReference> rows, {
     _i1.Transaction? transaction,
   }) async {
@@ -638,7 +638,7 @@ class PostReferenceRepository {
 
   /// Deletes a single [PostReference].
   Future<PostReference> deleteRow(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     PostReference row, {
     _i1.Transaction? transaction,
   }) async {
@@ -650,7 +650,7 @@ class PostReferenceRepository {
 
   /// Deletes all rows matching the [where] expression.
   Future<List<PostReference>> deleteWhere(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     required _i1.WhereExpressionBuilder<PostReferenceTable> where,
     _i1.Transaction? transaction,
   }) async {
@@ -663,7 +663,7 @@ class PostReferenceRepository {
   /// Counts the number of rows matching the [where] expression. If omitted,
   /// will return the count of all rows in the table.
   Future<int> count(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     _i1.WhereExpressionBuilder<PostReferenceTable>? where,
     int? limit,
     _i1.Transaction? transaction,
@@ -677,7 +677,7 @@ class PostReferenceRepository {
 
   /// Acquires row-level locks on [PostReference] rows matching the [where] expression.
   Future<void> lockRows(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     required _i1.WhereExpressionBuilder<PostReferenceTable> where,
     required _i1.LockMode lockMode,
     required _i1.Transaction transaction,

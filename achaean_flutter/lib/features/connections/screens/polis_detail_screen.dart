@@ -21,16 +21,30 @@ class PolisDetailArgs {
   const PolisDetailArgs({required this.repoUrl, required this.name});
 }
 
-class PolisDetailScreen extends StatefulWidget {
+class PolisDetailScreen extends StatelessWidget {
   final PolisDetailArgs args;
 
   const PolisDetailScreen({super.key, required this.args});
 
   @override
-  State<PolisDetailScreen> createState() => _PolisDetailScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => GetIt.instance<PolisCubit>(),
+      child: _PolisDetailScreenBody(args: args),
+    );
+  }
 }
 
-class _PolisDetailScreenState extends State<PolisDetailScreen> {
+class _PolisDetailScreenBody extends StatefulWidget {
+  final PolisDetailArgs args;
+
+  const _PolisDetailScreenBody({required this.args});
+
+  @override
+  State<_PolisDetailScreenBody> createState() => _PolisDetailScreenBodyState();
+}
+
+class _PolisDetailScreenBodyState extends State<_PolisDetailScreenBody> {
   PolisInfo? _polisInfo;
   bool _loadingInfo = true;
   Object? _loadError;

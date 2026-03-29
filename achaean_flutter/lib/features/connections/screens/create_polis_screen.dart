@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../app_router.dart';
 import '../../../design_system/primitives/app_sizes.dart';
@@ -11,14 +12,26 @@ import '../../../l10n/app_localizations.dart';
 import '../../polis/cubit/polis_cubit.dart';
 import '../../polis/cubit/polis_state.dart';
 
-class CreatePolisScreen extends StatefulWidget {
+class CreatePolisScreen extends StatelessWidget {
   const CreatePolisScreen({super.key});
 
   @override
-  State<CreatePolisScreen> createState() => _CreatePolisScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => GetIt.instance<PolisCubit>(),
+      child: const _CreatePolisScreenBody(),
+    );
+  }
 }
 
-class _CreatePolisScreenState extends State<CreatePolisScreen> {
+class _CreatePolisScreenBody extends StatefulWidget {
+  const _CreatePolisScreenBody();
+
+  @override
+  State<_CreatePolisScreenBody> createState() => _CreatePolisScreenBodyState();
+}
+
+class _CreatePolisScreenBodyState extends State<_CreatePolisScreenBody> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();

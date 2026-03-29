@@ -327,7 +327,7 @@ class ObserveDeclarationRecordRepository {
   /// );
   /// ```
   Future<List<ObserveDeclarationRecord>> find(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     _i1.WhereExpressionBuilder<ObserveDeclarationRecordTable>? where,
     int? limit,
     int? offset,
@@ -369,7 +369,7 @@ class ObserveDeclarationRecordRepository {
   /// );
   /// ```
   Future<ObserveDeclarationRecord?> findFirstRow(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     _i1.WhereExpressionBuilder<ObserveDeclarationRecordTable>? where,
     int? offset,
     _i1.OrderByBuilder<ObserveDeclarationRecordTable>? orderBy,
@@ -393,7 +393,7 @@ class ObserveDeclarationRecordRepository {
 
   /// Finds a single [ObserveDeclarationRecord] by its [id] or null if no such row exists.
   Future<ObserveDeclarationRecord?> findById(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     int id, {
     _i1.Transaction? transaction,
     _i1.LockMode? lockMode,
@@ -418,7 +418,7 @@ class ObserveDeclarationRecordRepository {
   /// rows are silently skipped, and only the successfully inserted rows are
   /// returned.
   Future<List<ObserveDeclarationRecord>> insert(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     List<ObserveDeclarationRecord> rows, {
     _i1.Transaction? transaction,
     bool ignoreConflicts = false,
@@ -434,7 +434,7 @@ class ObserveDeclarationRecordRepository {
   ///
   /// The returned [ObserveDeclarationRecord] will have its `id` field set.
   Future<ObserveDeclarationRecord> insertRow(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     ObserveDeclarationRecord row, {
     _i1.Transaction? transaction,
   }) async {
@@ -450,7 +450,7 @@ class ObserveDeclarationRecordRepository {
   /// This is an atomic operation, meaning that if one of the rows fails to
   /// update, none of the rows will be updated.
   Future<List<ObserveDeclarationRecord>> update(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     List<ObserveDeclarationRecord> rows, {
     _i1.ColumnSelections<ObserveDeclarationRecordTable>? columns,
     _i1.Transaction? transaction,
@@ -466,7 +466,7 @@ class ObserveDeclarationRecordRepository {
   /// Optionally, a list of [columns] can be provided to only update those
   /// columns. Defaults to all columns.
   Future<ObserveDeclarationRecord> updateRow(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     ObserveDeclarationRecord row, {
     _i1.ColumnSelections<ObserveDeclarationRecordTable>? columns,
     _i1.Transaction? transaction,
@@ -481,7 +481,7 @@ class ObserveDeclarationRecordRepository {
   /// Updates a single [ObserveDeclarationRecord] by its [id] with the specified [columnValues].
   /// Returns the updated row or null if no row with the given id exists.
   Future<ObserveDeclarationRecord?> updateById(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     int id, {
     required _i1.ColumnValueListBuilder<ObserveDeclarationRecordUpdateTable>
     columnValues,
@@ -497,7 +497,7 @@ class ObserveDeclarationRecordRepository {
   /// Updates all [ObserveDeclarationRecord]s matching the [where] expression with the specified [columnValues].
   /// Returns the list of updated rows.
   Future<List<ObserveDeclarationRecord>> updateWhere(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     required _i1.ColumnValueListBuilder<ObserveDeclarationRecordUpdateTable>
     columnValues,
     required _i1.WhereExpressionBuilder<ObserveDeclarationRecordTable> where,
@@ -524,7 +524,7 @@ class ObserveDeclarationRecordRepository {
   /// This is an atomic operation, meaning that if one of the rows fail to
   /// be deleted, none of the rows will be deleted.
   Future<List<ObserveDeclarationRecord>> delete(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     List<ObserveDeclarationRecord> rows, {
     _i1.Transaction? transaction,
   }) async {
@@ -536,7 +536,7 @@ class ObserveDeclarationRecordRepository {
 
   /// Deletes a single [ObserveDeclarationRecord].
   Future<ObserveDeclarationRecord> deleteRow(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     ObserveDeclarationRecord row, {
     _i1.Transaction? transaction,
   }) async {
@@ -548,7 +548,7 @@ class ObserveDeclarationRecordRepository {
 
   /// Deletes all rows matching the [where] expression.
   Future<List<ObserveDeclarationRecord>> deleteWhere(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     required _i1.WhereExpressionBuilder<ObserveDeclarationRecordTable> where,
     _i1.Transaction? transaction,
   }) async {
@@ -561,7 +561,7 @@ class ObserveDeclarationRecordRepository {
   /// Counts the number of rows matching the [where] expression. If omitted,
   /// will return the count of all rows in the table.
   Future<int> count(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     _i1.WhereExpressionBuilder<ObserveDeclarationRecordTable>? where,
     int? limit,
     _i1.Transaction? transaction,
@@ -575,7 +575,7 @@ class ObserveDeclarationRecordRepository {
 
   /// Acquires row-level locks on [ObserveDeclarationRecord] rows matching the [where] expression.
   Future<void> lockRows(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     required _i1.WhereExpressionBuilder<ObserveDeclarationRecordTable> where,
     required _i1.LockMode lockMode,
     required _i1.Transaction transaction,

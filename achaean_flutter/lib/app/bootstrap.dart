@@ -147,11 +147,10 @@ Future<void> bootstrap() async {
     _registerUiFlowService();
     debugPrint('Bootstrap: UI flow services registered');
 
-    // 5. Check if user has an account (keypair exists)
-    debugPrint('Bootstrap: Checking account status...');
-    final hasAccount = await getIt<IKeyService>().hasKeypair();
-    AppRouter.setHasAccount(hasAccount);
-    debugPrint('Bootstrap: Account exists: $hasAccount');
+    // 5. Initialize router (checks keypair, creates GoRouter)
+    debugPrint('Bootstrap: Initializing router...');
+    await AppRouter.initialize();
+    debugPrint('Bootstrap: Router initialized');
 
     // 6. Configure ErrorPrivserver for privacy-preserving error reporting
     debugPrint('Bootstrap: Configuring ErrorPrivserver...');

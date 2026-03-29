@@ -13,26 +13,35 @@ class OwnPostsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-
     return BlocProvider(
       create: (_) => GetIt.instance<OwnPostsCubit>()..loadPosts(),
-      child: Scaffold(
-        appBar: AppBar(title: Text(l10n.ownPostsTitle)),
-        body: SimpleUiFlowListener<OwnPostsCubit, OwnPostsState>(
-          child: BlocBuilder<OwnPostsCubit, OwnPostsState>(
-            builder: (context, state) {
-              if (state.posts.isEmpty && state.isSuccess) {
-                return Center(child: Text(l10n.ownPostsEmpty));
-              }
+      child: const _OwnPostsScreenBody(),
+    );
+  }
+}
 
-              return ListView.builder(
-                itemCount: state.posts.length,
-                itemBuilder: (context, index) =>
-                    PostCard(post: state.posts[index]),
-              );
-            },
-          ),
+class _OwnPostsScreenBody extends StatelessWidget {
+  const _OwnPostsScreenBody();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
+    return Scaffold(
+      appBar: AppBar(title: Text(l10n.ownPostsTitle)),
+      body: SimpleUiFlowListener<OwnPostsCubit, OwnPostsState>(
+        child: BlocBuilder<OwnPostsCubit, OwnPostsState>(
+          builder: (context, state) {
+            if (state.posts.isEmpty && state.isSuccess) {
+              return Center(child: Text(l10n.ownPostsEmpty));
+            }
+
+            return ListView.builder(
+              itemCount: state.posts.length,
+              itemBuilder: (context, index) =>
+                  PostCard(post: state.posts[index]),
+            );
+          },
         ),
       ),
     );

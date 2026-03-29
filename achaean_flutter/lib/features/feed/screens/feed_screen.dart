@@ -1,27 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../app_router.dart';
 import '../../../design_system/primitives/app_sizes.dart';
 import '../../../design_system/widgets/achaean_scaffold.dart';
+import '../../agora/cubit/agora_cubit.dart';
 import '../../personal_feed/cubit/personal_feed_cubit.dart';
 import '../../personal_feed/cubit/personal_feed_state.dart';
 import '../../personal_feed/widgets/post_reference_tile.dart';
+import '../../polis/cubit/polis_cubit.dart';
 import '../widgets/agora_content.dart';
 
 /// Top-level feed screen with Personal and Agora tabs.
-///
-/// Personal tab mirrors the content of the old [PersonalFeedScreen] with
-/// scroll-based pagination and pull-to-refresh.
-/// Agora tab shows [AgoraContent] with a polis dropdown and community feed.
-class FeedScreen extends StatefulWidget {
+class FeedScreen extends StatelessWidget {
   const FeedScreen({super.key});
 
   @override
-  State<FeedScreen> createState() => _FeedScreenState();
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => GetIt.instance<PersonalFeedCubit>()..loadFeed()),
+        BlocProvider(create: (_) => GetIt.instance<PolisCubit>()),
+        BlocProvider(create: (_) => GetIt.instance<AgoraCubit>()),
+      ],
+      child: const _FeedScreenBody(),
+    );
+  }
 }
 
-class _FeedScreenState extends State<FeedScreen>
+class _FeedScreenBody extends StatefulWidget {
+  const _FeedScreenBody();
+
+  @override
+  State<_FeedScreenBody> createState() => _FeedScreenBodyState();
+}
+
+class _FeedScreenBodyState extends State<_FeedScreenBody>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
   final _scrollController = ScrollController();
@@ -30,7 +45,6 @@ class _FeedScreenState extends State<FeedScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    context.read<PersonalFeedCubit>().loadFeed();
     _scrollController.addListener(_onScroll);
   }
 

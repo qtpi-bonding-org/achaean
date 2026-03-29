@@ -25,10 +25,22 @@ class RepoScaffolder {
     String? repoRadicle,
     String? description,
   }) async {
-    final repo = await git.createRepo(
-      name: repoName,
-      description: description ?? 'Koinon polites repo',
-    );
+    GitRepo repo;
+    try {
+      repo = await git.createRepo(
+        name: repoName,
+        description: description ?? 'Koinon polites repo',
+      );
+    } on GitConflictException {
+      // Repo already exists — reuse it (e.g. re-registering on same forge)
+      return GitRepo(
+        id: 0,
+        name: repoName,
+        owner: repoHttps.split('/').reversed.skip(1).first,
+        cloneUrl: '$repoHttps.git',
+        htmlUrl: repoHttps,
+      );
+    }
 
     final owner = repo.owner;
     final name = repo.name;

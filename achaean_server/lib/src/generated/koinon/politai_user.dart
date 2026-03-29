@@ -300,7 +300,7 @@ class PolitaiUserRepository {
   /// );
   /// ```
   Future<List<PolitaiUser>> find(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     _i1.WhereExpressionBuilder<PolitaiUserTable>? where,
     int? limit,
     int? offset,
@@ -342,7 +342,7 @@ class PolitaiUserRepository {
   /// );
   /// ```
   Future<PolitaiUser?> findFirstRow(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     _i1.WhereExpressionBuilder<PolitaiUserTable>? where,
     int? offset,
     _i1.OrderByBuilder<PolitaiUserTable>? orderBy,
@@ -366,7 +366,7 @@ class PolitaiUserRepository {
 
   /// Finds a single [PolitaiUser] by its [id] or null if no such row exists.
   Future<PolitaiUser?> findById(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     int id, {
     _i1.Transaction? transaction,
     _i1.LockMode? lockMode,
@@ -391,7 +391,7 @@ class PolitaiUserRepository {
   /// rows are silently skipped, and only the successfully inserted rows are
   /// returned.
   Future<List<PolitaiUser>> insert(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     List<PolitaiUser> rows, {
     _i1.Transaction? transaction,
     bool ignoreConflicts = false,
@@ -407,7 +407,7 @@ class PolitaiUserRepository {
   ///
   /// The returned [PolitaiUser] will have its `id` field set.
   Future<PolitaiUser> insertRow(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     PolitaiUser row, {
     _i1.Transaction? transaction,
   }) async {
@@ -423,7 +423,7 @@ class PolitaiUserRepository {
   /// This is an atomic operation, meaning that if one of the rows fails to
   /// update, none of the rows will be updated.
   Future<List<PolitaiUser>> update(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     List<PolitaiUser> rows, {
     _i1.ColumnSelections<PolitaiUserTable>? columns,
     _i1.Transaction? transaction,
@@ -439,7 +439,7 @@ class PolitaiUserRepository {
   /// Optionally, a list of [columns] can be provided to only update those
   /// columns. Defaults to all columns.
   Future<PolitaiUser> updateRow(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     PolitaiUser row, {
     _i1.ColumnSelections<PolitaiUserTable>? columns,
     _i1.Transaction? transaction,
@@ -454,7 +454,7 @@ class PolitaiUserRepository {
   /// Updates a single [PolitaiUser] by its [id] with the specified [columnValues].
   /// Returns the updated row or null if no row with the given id exists.
   Future<PolitaiUser?> updateById(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     int id, {
     required _i1.ColumnValueListBuilder<PolitaiUserUpdateTable> columnValues,
     _i1.Transaction? transaction,
@@ -469,7 +469,7 @@ class PolitaiUserRepository {
   /// Updates all [PolitaiUser]s matching the [where] expression with the specified [columnValues].
   /// Returns the list of updated rows.
   Future<List<PolitaiUser>> updateWhere(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     required _i1.ColumnValueListBuilder<PolitaiUserUpdateTable> columnValues,
     required _i1.WhereExpressionBuilder<PolitaiUserTable> where,
     int? limit,
@@ -495,7 +495,7 @@ class PolitaiUserRepository {
   /// This is an atomic operation, meaning that if one of the rows fail to
   /// be deleted, none of the rows will be deleted.
   Future<List<PolitaiUser>> delete(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     List<PolitaiUser> rows, {
     _i1.Transaction? transaction,
   }) async {
@@ -507,7 +507,7 @@ class PolitaiUserRepository {
 
   /// Deletes a single [PolitaiUser].
   Future<PolitaiUser> deleteRow(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     PolitaiUser row, {
     _i1.Transaction? transaction,
   }) async {
@@ -519,7 +519,7 @@ class PolitaiUserRepository {
 
   /// Deletes all rows matching the [where] expression.
   Future<List<PolitaiUser>> deleteWhere(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     required _i1.WhereExpressionBuilder<PolitaiUserTable> where,
     _i1.Transaction? transaction,
   }) async {
@@ -532,7 +532,7 @@ class PolitaiUserRepository {
   /// Counts the number of rows matching the [where] expression. If omitted,
   /// will return the count of all rows in the table.
   Future<int> count(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     _i1.WhereExpressionBuilder<PolitaiUserTable>? where,
     int? limit,
     _i1.Transaction? transaction,
@@ -546,7 +546,7 @@ class PolitaiUserRepository {
 
   /// Acquires row-level locks on [PolitaiUser] rows matching the [where] expression.
   Future<void> lockRows(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     required _i1.WhereExpressionBuilder<PolitaiUserTable> where,
     required _i1.LockMode lockMode,
     required _i1.Transaction transaction,

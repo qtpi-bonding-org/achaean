@@ -180,7 +180,7 @@ class _PolisDropdown extends StatelessWidget {
         vertical: AppSizes.space,
       ),
       child: DropdownButtonFormField<PolisMembership>(
-        value: selected,
+        initialValue: selected,
         decoration: const InputDecoration(
           labelText: 'Polis',
           border: OutlineInputBorder(),

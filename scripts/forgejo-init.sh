@@ -25,7 +25,7 @@ ADMIN_EMAIL="${FORGEJO_ADMIN_EMAIL:-admin@achaean.local}"
 
 OAUTH_APP_NAME="achaean-flutter"
 OAUTH_CLIENT_ID="achaean"
-# Redirect URIs: native custom scheme + web dev (default Flutter Chrome port)
+# Redirect URIs: native custom scheme + web dev (use: flutter run -d chrome --web-port=59480)
 OAUTH_REDIRECT_URIS='["achaean://oauth-callback","http://localhost:59480/auth.html"]'
 
 # Forgejo CLI must run as non-root (UID 1000 = git user in container)

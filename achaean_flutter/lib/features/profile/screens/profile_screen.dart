@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../app_router.dart';
 import '../../../design_system/primitives/app_sizes.dart';
@@ -12,20 +13,23 @@ import '../../post_creation/widgets/post_card.dart';
 import '../cubit/profile_cubit.dart';
 import '../cubit/profile_state.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => GetIt.instance<ProfileCubit>()..loadOwnProfile()),
+        BlocProvider(create: (_) => GetIt.instance<OwnPostsCubit>()..loadPosts()),
+      ],
+      child: const _ProfileScreenBody(),
+    );
+  }
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<ProfileCubit>().loadOwnProfile();
-    context.read<OwnPostsCubit>().loadPosts();
-  }
+class _ProfileScreenBody extends StatelessWidget {
+  const _ProfileScreenBody();
 
   @override
   Widget build(BuildContext context) {

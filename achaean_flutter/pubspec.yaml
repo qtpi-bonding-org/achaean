@@ -19,8 +19,8 @@ dependencies:
   # Serverpod
   achaean_client:
     path: ../achaean_client
-  serverpod_client: 3.4.1
-  serverpod_flutter: 3.4.1
+  serverpod_client: 3.4.5
+  serverpod_flutter: 3.4.5
 
   # Architecture & State Management
   flutter_bloc: ^8.1.3

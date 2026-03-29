@@ -353,7 +353,7 @@ class TrustDeclarationRecordRepository {
   /// );
   /// ```
   Future<List<TrustDeclarationRecord>> find(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     _i1.WhereExpressionBuilder<TrustDeclarationRecordTable>? where,
     int? limit,
     int? offset,
@@ -395,7 +395,7 @@ class TrustDeclarationRecordRepository {
   /// );
   /// ```
   Future<TrustDeclarationRecord?> findFirstRow(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     _i1.WhereExpressionBuilder<TrustDeclarationRecordTable>? where,
     int? offset,
     _i1.OrderByBuilder<TrustDeclarationRecordTable>? orderBy,
@@ -419,7 +419,7 @@ class TrustDeclarationRecordRepository {
 
   /// Finds a single [TrustDeclarationRecord] by its [id] or null if no such row exists.
   Future<TrustDeclarationRecord?> findById(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     int id, {
     _i1.Transaction? transaction,
     _i1.LockMode? lockMode,
@@ -444,7 +444,7 @@ class TrustDeclarationRecordRepository {
   /// rows are silently skipped, and only the successfully inserted rows are
   /// returned.
   Future<List<TrustDeclarationRecord>> insert(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     List<TrustDeclarationRecord> rows, {
     _i1.Transaction? transaction,
     bool ignoreConflicts = false,
@@ -460,7 +460,7 @@ class TrustDeclarationRecordRepository {
   ///
   /// The returned [TrustDeclarationRecord] will have its `id` field set.
   Future<TrustDeclarationRecord> insertRow(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     TrustDeclarationRecord row, {
     _i1.Transaction? transaction,
   }) async {
@@ -476,7 +476,7 @@ class TrustDeclarationRecordRepository {
   /// This is an atomic operation, meaning that if one of the rows fails to
   /// update, none of the rows will be updated.
   Future<List<TrustDeclarationRecord>> update(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     List<TrustDeclarationRecord> rows, {
     _i1.ColumnSelections<TrustDeclarationRecordTable>? columns,
     _i1.Transaction? transaction,
@@ -492,7 +492,7 @@ class TrustDeclarationRecordRepository {
   /// Optionally, a list of [columns] can be provided to only update those
   /// columns. Defaults to all columns.
   Future<TrustDeclarationRecord> updateRow(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     TrustDeclarationRecord row, {
     _i1.ColumnSelections<TrustDeclarationRecordTable>? columns,
     _i1.Transaction? transaction,
@@ -507,7 +507,7 @@ class TrustDeclarationRecordRepository {
   /// Updates a single [TrustDeclarationRecord] by its [id] with the specified [columnValues].
   /// Returns the updated row or null if no row with the given id exists.
   Future<TrustDeclarationRecord?> updateById(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     int id, {
     required _i1.ColumnValueListBuilder<TrustDeclarationRecordUpdateTable>
     columnValues,
@@ -523,7 +523,7 @@ class TrustDeclarationRecordRepository {
   /// Updates all [TrustDeclarationRecord]s matching the [where] expression with the specified [columnValues].
   /// Returns the list of updated rows.
   Future<List<TrustDeclarationRecord>> updateWhere(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     required _i1.ColumnValueListBuilder<TrustDeclarationRecordUpdateTable>
     columnValues,
     required _i1.WhereExpressionBuilder<TrustDeclarationRecordTable> where,
@@ -550,7 +550,7 @@ class TrustDeclarationRecordRepository {
   /// This is an atomic operation, meaning that if one of the rows fail to
   /// be deleted, none of the rows will be deleted.
   Future<List<TrustDeclarationRecord>> delete(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     List<TrustDeclarationRecord> rows, {
     _i1.Transaction? transaction,
   }) async {
@@ -562,7 +562,7 @@ class TrustDeclarationRecordRepository {
 
   /// Deletes a single [TrustDeclarationRecord].
   Future<TrustDeclarationRecord> deleteRow(
-    _i1.Session session,
+    _i1.DatabaseSession session,
     TrustDeclarationRecord row, {
     _i1.Transaction? transaction,
   }) async {
@@ -574,7 +574,7 @@ class TrustDeclarationRecordRepository {
 
   /// Deletes all rows matching the [where] expression.
   Future<List<TrustDeclarationRecord>> deleteWhere(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     required _i1.WhereExpressionBuilder<TrustDeclarationRecordTable> where,
     _i1.Transaction? transaction,
   }) async {
@@ -587,7 +587,7 @@ class TrustDeclarationRecordRepository {
   /// Counts the number of rows matching the [where] expression. If omitted,
   /// will return the count of all rows in the table.
   Future<int> count(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     _i1.WhereExpressionBuilder<TrustDeclarationRecordTable>? where,
     int? limit,
     _i1.Transaction? transaction,
@@ -601,7 +601,7 @@ class TrustDeclarationRecordRepository {
 
   /// Acquires row-level locks on [TrustDeclarationRecord] rows matching the [where] expression.
   Future<void> lockRows(
-    _i1.Session session, {
+    _i1.DatabaseSession session, {
     required _i1.WhereExpressionBuilder<TrustDeclarationRecordTable> where,
     required _i1.LockMode lockMode,
     required _i1.Transaction transaction,
