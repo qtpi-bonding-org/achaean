@@ -4,6 +4,7 @@ import 'dart:io' as io;
 import 'package:dart_git/dart_git.dart';
 import 'package:dart_koinon/dart_koinon.dart';
 import 'package:serverpod/serverpod.dart';
+import 'package:yaml/yaml.dart';
 
 import '../generated/protocol.dart';
 import 'age_graph.dart';
@@ -218,12 +219,121 @@ class WebhookIndexer {
       manifest.poleis.map((p) => p.repo).toList(),
     );
 
+    // 7. Discover any new poleis (fetch README frontmatter, not content)
+    for (final polis in manifest.poleis) {
+      await _discoverPolis(session, pubkey, polis.repo, now);
+    }
+
     session.log(
       'Indexed manifest for $pubkey: '
       '${manifest.trust.length} trust, ${manifest.observe.length} observe, '
       '${manifest.poleis.length} poleis, ${manifest.flags.length} flags',
       level: LogLevel.info,
     );
+  }
+
+  /// Discover a polis by fetching its README and parsing YAML frontmatter.
+  /// Only stores structural metadata (name, description, threshold) — never content.
+  Future<void> _discoverPolis(
+    Session session,
+    String discovererPubkey,
+    String polisRepoUrl,
+    DateTime now,
+  ) async {
+    // Skip if already known
+    final existing = await PolisDefinition.db.findFirstRow(
+      session,
+      where: (t) => t.repoUrl.equals(polisRepoUrl),
+    );
+    if (existing != null) return;
+
+    // Parse owner/repo from the URL
+    final uri = Uri.parse(polisRepoUrl);
+    final segments = uri.pathSegments;
+    if (segments.length < 2) return;
+    final owner = segments[segments.length - 2];
+    final repo = segments[segments.length - 1];
+    final baseUrl = _extractBaseUrl(polisRepoUrl);
+
+    final client = ForgejoClient(
+      baseUrl: baseUrl,
+      auth: const GitPublicAuth(),
+    );
+
+    try {
+      final file = await client.readFile(
+        owner: owner,
+        repo: repo,
+        path: 'README.md',
+      );
+
+      final frontmatter = _parseYamlFrontmatter(file.content);
+      if (frontmatter == null) {
+        session.log(
+          'Polis $polisRepoUrl has no YAML frontmatter in README',
+          level: LogLevel.warning,
+        );
+        return;
+      }
+
+      // Look up the owner's pubkey (they created the polis repo)
+      final ownerUser = await PolitaiUser.db.findFirstRow(
+        session,
+        where: (t) => t.repoUrl.like('%/$owner/%'),
+      );
+
+      await PolisDefinition.db.insertRow(
+        session,
+        PolisDefinition(
+          repoUrl: polisRepoUrl,
+          name: frontmatter['name'] as String? ?? repo,
+          description: frontmatter['description'] as String?,
+          membershipThreshold:
+              frontmatter['membership_threshold'] as int? ?? 1,
+          flagThreshold: frontmatter['flag_threshold'] as int? ?? 3,
+          parentRepoUrl: frontmatter['parent_repo'] as String?,
+          ownerPubkey: ownerUser?.pubkey ?? discovererPubkey,
+          readmeCommit: null,
+          discoveredAt: now,
+          lastIndexedAt: now,
+        ),
+      );
+
+      session.log(
+        'Discovered polis: ${frontmatter['name'] ?? repo} at $polisRepoUrl',
+        level: LogLevel.info,
+      );
+    } catch (e) {
+      session.log(
+        'Failed to discover polis $polisRepoUrl: $e',
+        level: LogLevel.warning,
+      );
+    }
+  }
+
+  /// Parse YAML frontmatter from a README string.
+  /// Returns the parsed YAML map, or null if no frontmatter found.
+  /// Only reads the frontmatter block — ignores all content after closing ---.
+  Map<String, dynamic>? _parseYamlFrontmatter(String content) {
+    final lines = content.split('\n');
+    if (lines.isEmpty || lines.first.trim() != '---') return null;
+
+    final endIndex = lines.indexWhere(
+      (line) => line.trim() == '---',
+      1, // skip the opening ---
+    );
+    if (endIndex < 0) return null;
+
+    final yamlStr = lines.sublist(1, endIndex).join('\n');
+    try {
+      final yaml = loadYaml(yamlStr);
+      if (yaml is YamlMap) {
+        return Map<String, dynamic>.from(yaml);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
   }
 
   Future<void> _indexPost(
