@@ -63,6 +63,7 @@ import '../features/agora/cubit/polis_discovery_cubit.dart';
 import '../features/agora/cubit/voucher_review_cubit.dart';
 import '../features/personal_feed/cubit/personal_feed_cubit.dart';
 import '../features/personal_feed/services/post_content_cache.dart';
+import '../core/services/ui_flow_services.dart';
 import 'bootstrap.config.dart';
 
 /// Global service locator instance
@@ -126,10 +127,25 @@ Future<void> bootstrap() async {
     _registerFeedServices();
     debugPrint('Bootstrap: Feed services registered');
 
-    // 4. Register UI flow service (depends on localization/feedback/loading)
-    debugPrint('Bootstrap: Registering UI flow service...');
+    // 4. Register UI flow services (loading, feedback, localization) then the composite service
+    debugPrint('Bootstrap: Registering UI flow services...');
+    if (!getIt.isRegistered<cubit_ui_flow.ILoadingService>()) {
+      getIt.registerLazySingleton<cubit_ui_flow.ILoadingService>(
+        () => AppLoadingService(),
+      );
+    }
+    if (!getIt.isRegistered<cubit_ui_flow.IFeedbackService>()) {
+      getIt.registerLazySingleton<cubit_ui_flow.IFeedbackService>(
+        () => AppFeedbackService(),
+      );
+    }
+    if (!getIt.isRegistered<cubit_ui_flow.ILocalizationService>()) {
+      getIt.registerLazySingleton<cubit_ui_flow.ILocalizationService>(
+        () => AppLocalizationService(),
+      );
+    }
     _registerUiFlowService();
-    debugPrint('Bootstrap: UI flow service registered');
+    debugPrint('Bootstrap: UI flow services registered');
 
     // 5. Check if user has an account (keypair exists)
     debugPrint('Bootstrap: Checking account status...');

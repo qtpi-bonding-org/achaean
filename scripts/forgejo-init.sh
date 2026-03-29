@@ -24,7 +24,9 @@ ADMIN_PASS="${FORGEJO_ADMIN_PASS:-achaean123}"
 ADMIN_EMAIL="${FORGEJO_ADMIN_EMAIL:-admin@achaean.local}"
 
 OAUTH_APP_NAME="achaean-flutter"
-OAUTH_REDIRECT_URI="http://localhost:3000/login/oauth/authorize"
+OAUTH_CLIENT_ID="achaean"
+# Redirect URIs: native custom scheme + web dev (default Flutter Chrome port)
+OAUTH_REDIRECT_URIS='["achaean://oauth-callback","http://localhost:59480/auth.html"]'
 
 # Forgejo CLI must run as non-root (UID 1000 = git user in container)
 forgejo_cli() {
@@ -64,9 +66,11 @@ else
     -X POST "http://localhost:3000/api/v1/user/applications/oauth2" \
     -u "$ADMIN_USER:$ADMIN_PASS" \
     -H "Content-Type: application/json" \
-    -d "{\"name\": \"$OAUTH_APP_NAME\", \"redirect_uris\": [\"$OAUTH_REDIRECT_URI\"], \"confidential_client\": false}")
-  CLIENT_ID=$(echo "$RESPONSE" | python3 -c "import sys,json; print(json.load(sys.stdin)['client_id'])" 2>/dev/null || echo "unknown")
-  echo "OAuth2 app created. client_id: $CLIENT_ID"
+    -d "{\"name\": \"$OAUTH_APP_NAME\", \"redirect_uris\": [\"achaean://oauth-callback\"], \"confidential_client\": false}")
+  # Forgejo generates a UUID client_id — override to match Flutter's hardcoded default
+  docker exec "$POSTGRES" psql -U achaean -d forgejo -c \
+    "UPDATE oauth2_application SET client_id = '$OAUTH_CLIENT_ID', redirect_uris = '$OAUTH_REDIRECT_URIS' WHERE name = '$OAUTH_APP_NAME';" > /dev/null
+  echo "OAuth2 app created. client_id: $OAUTH_CLIENT_ID"
 fi
 
 # --- System webhooks ---

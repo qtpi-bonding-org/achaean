@@ -20,6 +20,10 @@ services:
       # Enable Forgejo as OAuth2/OIDC provider
       - FORGEJO__oauth2__ENABLED=true
       - FORGEJO__oauth2__JWT_SIGNING_ALGORITHM=RS256
+      # CORS for Flutter web dev
+      - FORGEJO__cors__ENABLED=true
+      - FORGEJO__cors__ALLOW_DOMAIN=*
+      - FORGEJO__cors__SCHEME=http
     volumes:
       - forgejo_data:/data
     ports:

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head><title>Authentication complete</title></head>
+<body>
+<p>Authentication is complete. If this does not happen automatically, please close the window.</p>
+<script>
+  // flutter_web_auth_2 expects either:
+  // 1. postMessage with data: {'flutter-web-auth-2': url}
+  // 2. localStorage key 'flutter-web-auth-2' = url
+  // Use both for reliability.
+  var url = window.location.href;
+  if (window.opener) {
+    window.opener.postMessage({'flutter-web-auth-2': url}, '*');
+  }
+  window.localStorage.setItem('flutter-web-auth-2', url);
+  window.close();
+</script>
+</body>
+</html>
