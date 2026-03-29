@@ -1,17 +1,25 @@
-# Build stage
-FROM dart:3.8.0 AS build
+# Build stage — must build from repo root for workspace path dependencies
+FROM dart:3.9 AS build
 WORKDIR /app
-COPY . .
 
-# Install dependencies and compile the server executable
-RUN dart pub get
-RUN dart compile exe bin/main.dart -o bin/server
+# Copy trimmed workspace config (excludes Flutter packages)
+COPY achaean_server/pubspec.docker.yaml pubspec.yaml
+
+# Copy all workspace packages needed by achaean_server
+COPY dart_git/ dart_git/
+COPY dart_koinon/ dart_koinon/
+COPY achaean_client/ achaean_client/
+COPY achaean_server/ achaean_server/
+
+# Resolve dependencies and compile
+RUN cd achaean_server && dart pub get
+RUN cd achaean_server && dart compile exe bin/main.dart -o bin/server
 
 # Final stage
 FROM alpine:latest
 
 # Environment variables
-ENV runmode=production
+ENV runmode=staging
 ENV serverid=default
 ENV logging=normal
 ENV role=monolith
@@ -20,15 +28,15 @@ ENV role=monolith
 COPY --from=build /runtime/ /
 
 # Copy compiled server executable
-COPY --from=build /app/bin/server server
+COPY --from=build /app/achaean_server/bin/server server
 
 # Copy configuration files and resources
-COPY --from=build /app/config/ config/
-COPY --from=build /app/web/ web/
-COPY --from=build /app/migrations/ migrations/
+COPY --from=build /app/achaean_server/config/ config/
+COPY --from=build /app/achaean_server/web/ web/
+COPY --from=build /app/achaean_server/migrations/ migrations/
 
 # This file is required to enable the endpoint log filter in Insights.
-COPY --from=build /app/lib/src/generated/protocol.yaml lib/src/generated/protocol.yaml
+COPY --from=build /app/achaean_server/lib/src/generated/protocol.yaml lib/src/generated/protocol.yaml
 
 # Expose ports
 EXPOSE 8080
@@ -36,4 +44,4 @@ EXPOSE 8081
 EXPOSE 8082
 
 # Define the entrypoint command
-ENTRYPOINT ./server --mode=$runmode --server-id=$serverid --logging=$logging --role=$role
+ENTRYPOINT ./server --mode=$runmode --server-id=$serverid --logging=$logging --role=$role --apply-migrations

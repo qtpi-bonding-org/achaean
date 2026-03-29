@@ -16,12 +16,34 @@ services:
       - FORGEJO__service__REQUIRE_SIGNIN_VIEW=false
       - FORGEJO__api__ENABLE_SWAGGER=true
       - FORGEJO__security__INSTALL_LOCK=true
-      - FORGEJO__webhook__ALLOWED_HOST_LIST=radicle
+      - FORGEJO__webhook__ALLOWED_HOST_LIST=radicle,synedrion
+      # Enable Forgejo as OAuth2/OIDC provider
+      - FORGEJO__oauth2__ENABLED=true
+      - FORGEJO__oauth2__JWT_SIGNING_ALGORITHM=RS256
     volumes:
       - forgejo_data:/data
     ports:
       - "3000:3000"
       - "2222:22"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  synedrion:
+    build:
+      context: .
+      dockerfile: achaean_server/Dockerfile
+    container_name: achaean-synedrion
+    environment:
+      - runmode=staging
+      - serverid=default
+      - logging=normal
+      - role=monolith
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+      - "8082:8082"
     depends_on:
       postgres:
         condition: service_healthy
@@ -37,7 +59,7 @@ services:
       - ./radicle/mirror-to-radicle.sh:/usr/local/bin/mirror-to-radicle.sh:ro
     ports:
       - "8776:8776"
-      - "8080:8080"
+      - "8880:8080"
     restart: unless-stopped
 
   postgres:

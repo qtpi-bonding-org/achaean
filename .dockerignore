@@ -1,0 +1,18 @@
+# Flutter app (not needed for server build)
+achaean_flutter/
+flutter_adaptable_group/
+flutter_goldgen/
+
+# Docs and ideation
+ideation/
+docs/
+*.md
+
+# Git and IDE
+.git/
+.idea/
+.vscode/
+
+# Build artifacts
+**/build/
+**/.dart_tool/

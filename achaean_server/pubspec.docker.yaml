@@ -1,0 +1,19 @@
+name: _
+publish_to: none
+
+environment:
+  sdk: '^3.8.0'
+
+workspace:
+  - achaean_client
+  - achaean_server
+  - dart_git
+  - dart_koinon
+dependency_overrides:
+  crypto: ^3.0.3
+  serverpod: 3.4.5
+  serverpod_client: 3.4.5
+  serverpod_serialization: 3.4.5
+  serverpod_shared: 3.4.5
+  serverpod_lints: 3.4.5
+  serverpod_test: 3.4.5

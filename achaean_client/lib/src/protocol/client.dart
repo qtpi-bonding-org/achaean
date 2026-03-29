@@ -84,9 +84,9 @@ class EndpointKoinon extends _i1.EndpointRef {
 
   /// Get polis members: all signers with their trust connection count.
   ///
-  /// Each PolisMember includes isSigner (always true since we start from signers)
-  /// and trustConnections (number of mutual trust edges from other signers).
-  /// Client compares trustConnections against polis.membershipThreshold.
+  /// Uses a single AGE Cypher query for trust counting, then a batch ORM
+  /// lookup for repo URLs. Client compares trustConnections against
+  /// polis.membershipThreshold to determine full member vs provisional.
   _i2.Future<List<_i6.PolisMember>> getPolisMembers(String polisRepoUrl) =>
       caller.callServerEndpoint<List<_i6.PolisMember>>(
         'koinon',
