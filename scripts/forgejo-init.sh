@@ -95,7 +95,7 @@ create_webhook() {
   fi
 }
 
-create_webhook "http://synedrion:8080/webhook" "Synedrion"
+create_webhook "http://synedrion:8082/webhook" "Synedrion"
 create_webhook "http://radicle:8080/webhook" "Radicle"
 
 echo ""

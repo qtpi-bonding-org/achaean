@@ -8,27 +8,18 @@ import 'package:serverpod/serverpod.dart';
 import '../generated/protocol.dart';
 import 'age_graph.dart';
 
-/// Receives Forgejo system webhook push events and indexes Koinon data.
-class WebhookEndpoint extends Endpoint {
+/// Indexes Koinon repo data from Forgejo push webhook payloads.
+///
+/// Not a Serverpod Endpoint — called directly from [WebhookRoute].
+/// Secret verification is handled by the route, not here.
+class WebhookIndexer {
   static const _parser = ForgejoWebhookParser();
-
-  /// Expected shared secret for webhook authentication.
-  /// Set via KOINON_WEBHOOK_SECRET environment variable.
-  static final _webhookSecret =
-      io.Platform.environment['KOINON_WEBHOOK_SECRET'] ?? '';
 
   /// Processes a Forgejo push webhook payload.
   Future<void> handlePush(
     Session session,
     Map<String, dynamic> payload,
   ) async {
-    // Verify webhook secret
-    final secret = session.request?.headers['X-Webhook-Secret']?.first;
-    if (_webhookSecret.isNotEmpty && secret != _webhookSecret) {
-      session.log('Webhook: invalid secret', level: LogLevel.warning);
-      return;
-    }
-
     final event = _parser.parsePush(payload);
     if (event == null) return;
 
@@ -318,10 +309,18 @@ class WebhookEndpoint extends Endpoint {
     }
   }
 
-  /// Extract base URL from a full repo URL.
-  /// e.g. "http://localhost:3000/alice/koinon" → "http://localhost:3000"
+  /// Internal forge hostname override (e.g. "forgejo" inside Docker).
+  /// When set, replaces "localhost" in webhook URLs so the indexer
+  /// can reach Forgejo via the Docker network.
+  static final _forgeHost =
+      io.Platform.environment['FORGEJO_INTERNAL_HOST'] ?? '';
+
+  /// Extract base URL from a full repo URL, rewriting localhost if needed.
   String _extractBaseUrl(String repoUrl) {
-    final uri = Uri.parse(repoUrl);
+    var uri = Uri.parse(repoUrl);
+    if (_forgeHost.isNotEmpty && uri.host == 'localhost') {
+      uri = uri.replace(host: _forgeHost);
+    }
     return '${uri.scheme}://${uri.host}${uri.hasPort ? ':${uri.port}' : ''}';
   }
 }

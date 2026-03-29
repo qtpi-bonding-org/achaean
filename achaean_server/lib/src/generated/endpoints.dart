@@ -13,7 +13,6 @@
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../greetings/greeting_endpoint.dart' as _i2;
 import '../koinon/koinon_endpoint.dart' as _i3;
-import '../koinon/webhook_endpoint.dart' as _i4;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -29,12 +28,6 @@ class Endpoints extends _i1.EndpointDispatch {
         ..initialize(
           server,
           'koinon',
-          null,
-        ),
-      'webhook': _i4.WebhookEndpoint()
-        ..initialize(
-          server,
-          'webhook',
           null,
         ),
     };
@@ -270,31 +263,6 @@ class Endpoints extends _i1.EndpointDispatch {
                 session,
                 params['rootPostUrl'],
               ),
-        ),
-      },
-    );
-    connectors['webhook'] = _i1.EndpointConnector(
-      name: 'webhook',
-      endpoint: endpoints['webhook']!,
-      methodConnectors: {
-        'handlePush': _i1.MethodConnector(
-          name: 'handlePush',
-          params: {
-            'payload': _i1.ParameterDescription(
-              name: 'payload',
-              type: _i1.getType<Map<String, dynamic>>(),
-              nullable: false,
-            ),
-          },
-          call:
-              (
-                _i1.Session session,
-                Map<String, dynamic> params,
-              ) async =>
-                  (endpoints['webhook'] as _i4.WebhookEndpoint).handlePush(
-                    session,
-                    params['payload'],
-                  ),
         ),
       },
     );

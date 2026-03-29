@@ -12,5 +12,3 @@ koinon:
   - getAgora:
   - getPersonalFeed:
   - getThread:
-webhook:
-  - handlePush:

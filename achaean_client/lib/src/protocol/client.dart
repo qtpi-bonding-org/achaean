@@ -161,23 +161,6 @@ class EndpointKoinon extends _i1.EndpointRef {
       );
 }
 
-/// Receives Forgejo system webhook push events and indexes Koinon data.
-/// {@category Endpoint}
-class EndpointWebhook extends _i1.EndpointRef {
-  EndpointWebhook(_i1.EndpointCaller caller) : super(caller);
-
-  @override
-  String get name => 'webhook';
-
-  /// Processes a Forgejo push webhook payload.
-  _i2.Future<void> handlePush(Map<String, dynamic> payload) =>
-      caller.callServerEndpoint<void>(
-        'webhook',
-        'handlePush',
-        {'payload': payload},
-      );
-}
-
 class Client extends _i1.ServerpodClientShared {
   Client(
     String host, {
@@ -209,20 +192,16 @@ class Client extends _i1.ServerpodClientShared {
        ) {
     greeting = EndpointGreeting(this);
     koinon = EndpointKoinon(this);
-    webhook = EndpointWebhook(this);
   }
 
   late final EndpointGreeting greeting;
 
   late final EndpointKoinon koinon;
 
-  late final EndpointWebhook webhook;
-
   @override
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
     'greeting': greeting,
     'koinon': koinon,
-    'webhook': webhook,
   };
 
   @override

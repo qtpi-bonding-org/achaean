@@ -44,6 +44,7 @@ services:
       - serverid=default
       - logging=normal
       - role=monolith
+      - FORGEJO_INTERNAL_HOST=forgejo
     ports:
       - "8080:8080"
       - "8081:8081"
