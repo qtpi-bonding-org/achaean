@@ -7,7 +7,8 @@ import 'src/generated/protocol.dart';
 import 'src/koinon/age_graph.dart';
 import 'src/koinon/koinon_auth.dart';
 import 'src/web/routes/app_config_route.dart';
-import 'src/web/routes/root.dart';
+import 'src/web/routes/poleis_route.dart';
+import 'src/web/routes/recent_posts_route.dart';
 import 'src/web/routes/webhook_route.dart';
 
 /// The starting point of the Serverpod server.
@@ -22,9 +23,10 @@ void run(List<String> args) async {
   // Forgejo push webhook → indexer
   pod.webServer.addRoute(WebhookRoute(), '/webhook');
 
-  // Setup a default page at the web root.
-  pod.webServer.addRoute(RootRoute(), '/');
-  pod.webServer.addRoute(RootRoute(), '/index.html');
+  // Public pages — SEO-friendly, no auth
+  pod.webServer.addRoute(PoleisRoute(), '/');
+  pod.webServer.addRoute(PoleisRoute(), '/index.html');
+  pod.webServer.addRoute(RecentPostsRoute(), '/recent');
 
   final root = Directory(Uri(path: 'web/static').toFilePath());
   pod.webServer.addRoute(StaticRoute.directory(root));

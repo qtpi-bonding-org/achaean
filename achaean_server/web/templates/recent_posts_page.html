@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{title}} — Achaean</title>
+  <meta name="description" content="{{description}}">
+  <link rel="stylesheet" href="/css/achaean.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=League+Spartan:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <h1><a href="/" style="color: inherit;">Achaean</a></h1>
+      <nav>
+        <a href="/">Poleis</a>
+        <a href="/recent" class="active">Recent</a>
+      </nav>
+    </header>
+
+    <h2>Recent Posts</h2>
+    <div class="meander"></div>
+
+    {{#posts}}
+    <div class="card">
+      <a href="{{forge_post_url}}" class="card-title">{{title}}</a>
+      <p class="card-meta">
+        by <a href="{{author_repo_url}}">{{author}}</a>
+        · {{timestamp}}
+        {{#has_polis_tags}}· <span class="badge">{{polis_tags}}</span>{{/has_polis_tags}}
+      </p>
+      <div class="post-content"
+           hx-get="{{forge_post_url}}/index.md"
+           hx-trigger="revealed"
+           hx-swap="innerHTML">
+        <span class="htmx-indicator">Loading...</span>
+      </div>
+    </div>
+    {{/posts}}
+
+    {{^posts}}
+    <div class="card">
+      <p class="card-meta">No posts yet.</p>
+    </div>
+    {{/posts}}
+
+    <footer class="site-footer">
+      Achaean — decentralized social built on git.
+      Content served from <a href="{{forge_url}}">the forge</a>.
+    </footer>
+  </div>
+</body>
+</html>
