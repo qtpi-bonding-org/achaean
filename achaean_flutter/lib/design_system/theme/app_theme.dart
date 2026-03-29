@@ -116,12 +116,80 @@ class AppTheme {
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         sizeConstraints: BoxConstraints.tightFor(width: 0, height: 0),
       ),
-      // Bottom nav uses stone colors
+      // Navigation — olive gold selected indicator
+      navigationBarTheme: NavigationBarThemeData(
+        backgroundColor: palette.backgroundPrimary,
+        indicatorColor: palette.highlightColor.withValues(alpha: 0.3),
+        iconTheme: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return IconThemeData(color: palette.highlightColor);
+          }
+          return IconThemeData(color: palette.textSecondary);
+        }),
+        labelTextStyle: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return TextStyle(
+              fontFamily: AppFonts.bodyFamily,
+              fontSize: AppSizes.fontMini,
+              fontWeight: AppFonts.medium,
+              color: palette.highlightColor,
+            );
+          }
+          return TextStyle(
+            fontFamily: AppFonts.bodyFamily,
+            fontSize: AppSizes.fontMini,
+            fontWeight: AppFonts.medium,
+            color: palette.textSecondary,
+          );
+        }),
+      ),
+      navigationRailTheme: NavigationRailThemeData(
+        backgroundColor: palette.backgroundPrimary,
+        indicatorColor: palette.highlightColor.withValues(alpha: 0.3),
+        selectedIconTheme: IconThemeData(color: palette.highlightColor),
+        unselectedIconTheme: IconThemeData(color: palette.textSecondary),
+        selectedLabelTextStyle: TextStyle(
+          fontFamily: AppFonts.bodyFamily,
+          fontSize: AppSizes.fontMini,
+          fontWeight: AppFonts.medium,
+          color: palette.highlightColor,
+        ),
+        unselectedLabelTextStyle: TextStyle(
+          fontFamily: AppFonts.bodyFamily,
+          fontSize: AppSizes.fontMini,
+          fontWeight: AppFonts.medium,
+          color: palette.textSecondary,
+        ),
+      ),
+      // Bottom nav fallback
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: palette.backgroundPrimary,
-        selectedItemColor: palette.primaryColor,
+        selectedItemColor: palette.highlightColor,
         unselectedItemColor: palette.textSecondary,
       ),
+      // Custom theme extensions
+      extensions: [
+        AchaeanThemeColors(ornament: palette.ornamentColor),
+      ],
+    );
+  }
+}
+
+/// Custom colors not covered by Material ColorScheme.
+class AchaeanThemeColors extends ThemeExtension<AchaeanThemeColors> {
+  final Color ornament;
+
+  const AchaeanThemeColors({required this.ornament});
+
+  @override
+  AchaeanThemeColors copyWith({Color? ornament}) =>
+      AchaeanThemeColors(ornament: ornament ?? this.ornament);
+
+  @override
+  AchaeanThemeColors lerp(AchaeanThemeColors? other, double t) {
+    if (other == null) return this;
+    return AchaeanThemeColors(
+      ornament: Color.lerp(ornament, other.ornament, t)!,
     );
   }
 }
@@ -130,4 +198,7 @@ extension AppThemeExtension on BuildContext {
   ThemeData get theme => Theme.of(this);
   ColorScheme get colorScheme => theme.colorScheme;
   TextTheme get textTheme => theme.textTheme;
+  Color get ornamentColor =>
+      theme.extension<AchaeanThemeColors>()?.ornament ??
+      colorScheme.tertiary;
 }

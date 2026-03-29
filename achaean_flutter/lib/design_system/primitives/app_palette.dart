@@ -27,6 +27,9 @@ class AppPalette {
 
       // Destructive color
       'destructive': Color(0xFF8B3A2A), // Burnt terracotta
+
+      // Decorative — dark clay for meanders, ornamental borders
+      'ornament': Color(0xFF6B4226), // Dark clay brown
     },
     name: 'Athenian Light',
   );
@@ -55,6 +58,9 @@ class AppPalette {
 
       // Destructive color
       'destructive': Color(0xFFC4602D), // Terracotta
+
+      // Decorative — lighter clay for dark mode ornaments
+      'ornament': Color(0xFF9B7A5A), // Warm clay
     },
     name: 'Athenian Dark',
   );
@@ -87,4 +93,7 @@ extension AppColors on IColorPalette {
 
   // Destructive color
   Color get destructiveColor => getColor('destructive')!;
+
+  // Decorative ornament color (meanders, borders)
+  Color get ornamentColor => getColor('ornament')!;
 }

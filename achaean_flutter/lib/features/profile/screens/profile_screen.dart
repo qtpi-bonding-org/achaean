@@ -5,7 +5,7 @@ import 'package:get_it/get_it.dart';
 import '../../../app_router.dart';
 import '../../../design_system/primitives/app_sizes.dart';
 import '../../../design_system/widgets/achaean_scaffold.dart';
-import '../../../design_system/widgets/stone_divider.dart';
+import '../../../design_system/widgets/meander_divider.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../post_creation/cubit/own_posts_cubit.dart';
 import '../../post_creation/cubit/own_posts_state.dart';
@@ -75,7 +75,7 @@ class _ProfileScreenBody extends StatelessWidget {
               },
             ),
           ),
-          const SliverToBoxAdapter(child: StoneDivider()),
+          const SliverToBoxAdapter(child: MeanderDivider()),
           // Posts header
           SliverToBoxAdapter(
             child: Padding(
