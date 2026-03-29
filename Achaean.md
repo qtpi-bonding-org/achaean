@@ -180,6 +180,43 @@ This is the same tradeoff the web made. HTTP is simple. At scale you need CDNs, 
 
 ---
 
+## Authentication Architecture
+
+The protocol says identity is a keypair. How services authenticate users is an implementation decision, not a protocol concern.
+
+Achaean uses two auth mechanisms:
+
+### Keypair Signatures (Synedrion)
+
+The synedrion is stateless. The Flutter client signs requests with the private key. The synedrion verifies against the public key in the user's repo. No tokens, no sessions, no dependency on anything being up except the request itself. This is the sovereign path — works even if the forge is down.
+
+### Forgejo OAuth2/OIDC (Everything Else)
+
+Forgejo has built-in OAuth2 provider endpoints. It already authenticates users for git operations. Rather than deploying a separate identity provider (Keycloak, Dex, etc.), the forge itself doubles as the OIDC provider for services that require standard auth tokens.
+
+This applies to:
+- **Matrix chat (future)** — Matrix homeserver (Synapse or Tuwunel) trusts Forgejo as an upstream OIDC provider. Users log into chat with their forge account. Config-only integration, no custom code.
+- **Any future OIDC consumer** — anything that speaks standard OIDC can trust the forge.
+
+The forge is already trusted infrastructure — it hosts your data. Making it the IDP doesn't add new trust assumptions.
+
+```
+Keypair (cryptographic root)
+  │
+  ├── identity/pubkey.json in git repo (verifiable by anyone)
+  │
+  ├── Forgejo account (access layer — controls repo, provides OIDC)
+  │     ├── Matrix homeserver trusts Forgejo via OIDC
+  │     └── Git operations use Forgejo tokens
+  │
+  └── Synedrion verifies keypair signatures directly
+        (no Forgejo dependency)
+```
+
+See [docs/architecture/identity-and-auth.md](docs/architecture/identity-and-auth.md) for full details including Matrix homeserver config.
+
+---
+
 ## Open Questions
 
 - **On-device model requirements** — minimum viable model for client-side moderation, fallback for low-power devices
