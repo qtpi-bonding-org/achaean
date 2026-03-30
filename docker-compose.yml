@@ -7,28 +7,31 @@ services:
       - USER_GID=1000
       - FORGEJO__database__DB_TYPE=postgres
       - FORGEJO__database__HOST=postgres:5432
-      - FORGEJO__database__NAME=forgejo
-      - FORGEJO__database__USER=forgejo
-      - FORGEJO__database__PASSWD=forgejo
-      - FORGEJO__server__ROOT_URL=http://localhost:3000
+      - FORGEJO__database__NAME=${FORGEJO_DB_NAME:-forgejo}
+      - FORGEJO__database__USER=${FORGEJO_DB_USER:-forgejo}
+      - FORGEJO__database__PASSWD=${FORGEJO_DB_PASS:-forgejo}
+      - FORGEJO__server__ROOT_URL=${FORGEJO_ROOT_URL:-http://localhost:3000}
       - FORGEJO__server__HTTP_PORT=3000
       - FORGEJO__service__DISABLE_REGISTRATION=false
       - FORGEJO__service__REQUIRE_SIGNIN_VIEW=false
       - FORGEJO__api__ENABLE_SWAGGER=true
       - FORGEJO__security__INSTALL_LOCK=true
-      - FORGEJO__webhook__ALLOWED_HOST_LIST=radicle,synedrion
+      - FORGEJO__webhook__ALLOWED_HOST_LIST=${FORGEJO_WEBHOOK_ALLOWED_HOSTS:-radicle,synedrion}
+      # Enable Forgejo Actions
+      - FORGEJO__actions__ENABLED=true
+      - FORGEJO__actions__DEFAULT_ACTIONS_URL=https://code.forgejo.org
       # Enable Forgejo as OAuth2/OIDC provider
       - FORGEJO__oauth2__ENABLED=true
       - FORGEJO__oauth2__JWT_SIGNING_ALGORITHM=RS256
       # CORS for Flutter web dev
       - FORGEJO__cors__ENABLED=true
-      - FORGEJO__cors__ALLOW_DOMAIN=*
-      - FORGEJO__cors__SCHEME=http
+      - FORGEJO__cors__ALLOW_DOMAIN=${FORGEJO_CORS_DOMAIN:-*}
+      - FORGEJO__cors__SCHEME=${FORGEJO_CORS_SCHEME:-http}
     volumes:
       - forgejo_data:/data
     ports:
-      - "3000:3000"
-      - "2222:22"
+      - "${FORGEJO_HTTP_PORT:-3000}:3000"
+      - "${FORGEJO_SSH_PORT:-2222}:22"
     depends_on:
       postgres:
         condition: service_healthy
@@ -40,15 +43,15 @@ services:
       dockerfile: achaean_server/Dockerfile
     container_name: achaean-synedrion
     environment:
-      - runmode=staging
+      - runmode=${SYNEDRION_RUNMODE:-staging}
       - serverid=default
       - logging=normal
       - role=monolith
       - FORGEJO_INTERNAL_HOST=forgejo
     ports:
-      - "8080:8080"
-      - "8081:8081"
-      - "8082:8082"
+      - "${SYNEDRION_API_PORT:-8080}:8080"
+      - "${SYNEDRION_INSIGHTS_PORT:-8081}:8081"
+      - "${SYNEDRION_WEB_PORT:-8082}:8082"
     depends_on:
       postgres:
         condition: service_healthy
@@ -63,24 +66,24 @@ services:
       - forgejo_data:/forgejo-data:ro
       - ./radicle/mirror-to-radicle.sh:/usr/local/bin/mirror-to-radicle.sh:ro
     ports:
-      - "8776:8776"
-      - "8880:8080"
+      - "${RADICLE_NODE_PORT:-8776}:8776"
+      - "${RADICLE_HTTP_PORT:-8880}:8080"
     restart: unless-stopped
 
   postgres:
     image: apache/age:release_PG16_1.6.0
     container_name: achaean-postgres
     environment:
-      - POSTGRES_USER=achaean
-      - POSTGRES_PASSWORD=achaean
-      - POSTGRES_DB=achaean
+      - POSTGRES_USER=${ACHAEAN_DB_USER:-achaean}
+      - POSTGRES_PASSWORD=${ACHAEAN_DB_PASS:-achaean}
+      - POSTGRES_DB=${ACHAEAN_DB_NAME:-achaean}
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./db/init:/docker-entrypoint-initdb.d
     ports:
-      - "5432:5432"
+      - "${ACHAEAN_DB_PORT:-5432}:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U achaean"]
+      test: ["CMD-SHELL", "pg_isready -U ${ACHAEAN_DB_USER:-achaean}"]
       interval: 5s
       timeout: 5s
       retries: 5

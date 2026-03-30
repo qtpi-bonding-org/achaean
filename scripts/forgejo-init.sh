@@ -98,6 +98,16 @@ create_webhook() {
 create_webhook "http://synedrion:8082/webhook" "Synedrion"
 create_webhook "http://radicle:8080/webhook" "Radicle"
 
+# --- Register Actions runner (offline registration) ---
+if [ -n "$FORGEJO_RUNNER_SECRET" ]; then
+  echo "Registering Forgejo Actions runner..."
+  forgejo_cli forgejo-cli actions register \
+    --name aigion-runner \
+    --secret "$FORGEJO_RUNNER_SECRET" 2>&1 \
+    && echo "Runner registered." \
+    || echo "Runner already registered or registration failed."
+fi
+
 echo ""
 echo "=== Achaean stack initialized ==="
 echo "  Forgejo:    http://localhost:3000"
