@@ -217,6 +217,12 @@ class Protocol extends _i1.SerializationManagerServer {
           dartType: 'String?',
         ),
         _i2.ColumnDefinition(
+          name: 'encrypted',
+          columnType: _i2.ColumnType.boolean,
+          isNullable: false,
+          dartType: 'bool',
+        ),
+        _i2.ColumnDefinition(
           name: 'indexedAt',
           columnType: _i2.ColumnType.timestampWithoutTimeZone,
           isNullable: false,

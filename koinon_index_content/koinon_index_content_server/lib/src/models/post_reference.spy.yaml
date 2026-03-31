@@ -18,6 +18,8 @@ fields:
   timestamp: DateTime
   ### Full URL to the parent post.json (if this is a reply).
   parentPostUrl: String?
+  ### Whether this post is encrypted.
+  encrypted: bool
   ### When the aggregator indexed this post.
   indexedAt: DateTime
 indexes:

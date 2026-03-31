@@ -25,6 +25,7 @@ abstract class PostReference
     this.poleisTags,
     required this.timestamp,
     this.parentPostUrl,
+    required this.encrypted,
     required this.indexedAt,
   });
 
@@ -38,6 +39,7 @@ abstract class PostReference
     String? poleisTags,
     required DateTime timestamp,
     String? parentPostUrl,
+    required bool encrypted,
     required DateTime indexedAt,
   }) = _PostReferenceImpl;
 
@@ -54,6 +56,7 @@ abstract class PostReference
         jsonSerialization['timestamp'],
       ),
       parentPostUrl: jsonSerialization['parentPostUrl'] as String?,
+      encrypted: _i1.BoolJsonExtension.fromJson(jsonSerialization['encrypted']),
       indexedAt: _i1.DateTimeJsonExtension.fromJson(
         jsonSerialization['indexedAt'],
       ),
@@ -91,6 +94,9 @@ abstract class PostReference
   /// Full URL to the parent post.json (if this is a reply).
   String? parentPostUrl;
 
+  /// Whether this post is encrypted.
+  bool encrypted;
+
   /// When the aggregator indexed this post.
   DateTime indexedAt;
 
@@ -110,6 +116,7 @@ abstract class PostReference
     String? poleisTags,
     DateTime? timestamp,
     String? parentPostUrl,
+    bool? encrypted,
     DateTime? indexedAt,
   });
   @override
@@ -125,6 +132,7 @@ abstract class PostReference
       if (poleisTags != null) 'poleisTags': poleisTags,
       'timestamp': timestamp.toJson(),
       if (parentPostUrl != null) 'parentPostUrl': parentPostUrl,
+      'encrypted': encrypted,
       'indexedAt': indexedAt.toJson(),
     };
   }
@@ -142,6 +150,7 @@ abstract class PostReference
       if (poleisTags != null) 'poleisTags': poleisTags,
       'timestamp': timestamp.toJson(),
       if (parentPostUrl != null) 'parentPostUrl': parentPostUrl,
+      'encrypted': encrypted,
       'indexedAt': indexedAt.toJson(),
     };
   }
@@ -189,6 +198,7 @@ class _PostReferenceImpl extends PostReference {
     String? poleisTags,
     required DateTime timestamp,
     String? parentPostUrl,
+    required bool encrypted,
     required DateTime indexedAt,
   }) : super._(
          id: id,
@@ -200,6 +210,7 @@ class _PostReferenceImpl extends PostReference {
          poleisTags: poleisTags,
          timestamp: timestamp,
          parentPostUrl: parentPostUrl,
+         encrypted: encrypted,
          indexedAt: indexedAt,
        );
 
@@ -217,6 +228,7 @@ class _PostReferenceImpl extends PostReference {
     Object? poleisTags = _Undefined,
     DateTime? timestamp,
     Object? parentPostUrl = _Undefined,
+    bool? encrypted,
     DateTime? indexedAt,
   }) {
     return PostReference(
@@ -231,6 +243,7 @@ class _PostReferenceImpl extends PostReference {
       parentPostUrl: parentPostUrl is String?
           ? parentPostUrl
           : this.parentPostUrl,
+      encrypted: encrypted ?? this.encrypted,
       indexedAt: indexedAt ?? this.indexedAt,
     );
   }
@@ -282,6 +295,11 @@ class PostReferenceUpdateTable extends _i1.UpdateTable<PostReferenceTable> {
         value,
       );
 
+  _i1.ColumnValue<bool, bool> encrypted(bool value) => _i1.ColumnValue(
+    table.encrypted,
+    value,
+  );
+
   _i1.ColumnValue<DateTime, DateTime> indexedAt(DateTime value) =>
       _i1.ColumnValue(
         table.indexedAt,
@@ -325,6 +343,10 @@ class PostReferenceTable extends _i1.Table<int?> {
       'parentPostUrl',
       this,
     );
+    encrypted = _i1.ColumnBool(
+      'encrypted',
+      this,
+    );
     indexedAt = _i1.ColumnDateTime(
       'indexedAt',
       this,
@@ -357,6 +379,9 @@ class PostReferenceTable extends _i1.Table<int?> {
   /// Full URL to the parent post.json (if this is a reply).
   late final _i1.ColumnString parentPostUrl;
 
+  /// Whether this post is encrypted.
+  late final _i1.ColumnBool encrypted;
+
   /// When the aggregator indexed this post.
   late final _i1.ColumnDateTime indexedAt;
 
@@ -371,6 +396,7 @@ class PostReferenceTable extends _i1.Table<int?> {
     poleisTags,
     timestamp,
     parentPostUrl,
+    encrypted,
     indexedAt,
   ];
 }

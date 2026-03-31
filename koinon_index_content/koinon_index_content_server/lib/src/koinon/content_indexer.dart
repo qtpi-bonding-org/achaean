@@ -37,20 +37,21 @@ class ContentIndexer {
     );
 
     // Read post.json to extract metadata (content is not stored)
-    Post post;
+    Map<String, dynamic> json;
     try {
       final file = await client.readFile(
         owner: event.repoOwner,
         repo: event.repoName,
         path: path,
       );
-      final json = jsonDecode(file.content) as Map<String, dynamic>;
-      post = Post.fromJson(json);
+      json = jsonDecode(file.content) as Map<String, dynamic>;
     } catch (e) {
       session.log('Failed to read $path from ${event.repoUrl}: $e',
           level: LogLevel.warning);
       return;
     }
+
+    final isEncrypted = json.containsKey('encryptedContent');
 
     // Look up author pubkey from known users
     final user = await PolitaiUser.db.findFirstRow(
@@ -60,19 +61,32 @@ class ContentIndexer {
 
     final postUrl = '${event.repoUrl}/$path';
 
-    // For replies, look up parent author's repo URL by their pubkey
+    // Extract metadata only for public posts
+    String? title;
+    String? poleisTags;
     String? parentPostUrl;
-    if (post.parent != null) {
-      final parentUser = await PolitaiUser.db.findFirstRow(
-        session,
-        where: (t) => t.pubkey.equals(post.parent!.author),
-      );
-      if (parentUser != null) {
-        parentPostUrl = '${parentUser.repoUrl}/${post.parent!.path}';
+    DateTime timestamp;
+
+    if (isEncrypted) {
+      final encrypted = EncryptedPost.fromJson(json);
+      timestamp = encrypted.timestamp;
+    } else {
+      final post = Post.fromJson(json);
+      timestamp = post.timestamp;
+      title = post.content.title;
+      poleisTags = post.routing?.poleis.join(',');
+
+      // For replies, look up parent author's repo URL by their pubkey
+      if (post.parent != null) {
+        final parentUser = await PolitaiUser.db.findFirstRow(
+          session,
+          where: (t) => t.pubkey.equals(post.parent!.author),
+        );
+        if (parentUser != null) {
+          parentPostUrl = '${parentUser.repoUrl}/${post.parent!.path}';
+        }
       }
     }
-
-    final poleisTags = post.routing?.poleis.join(',');
 
     // Upsert by postUrl
     final existing = await PostReference.db.findFirstRow(
@@ -83,10 +97,11 @@ class ContentIndexer {
     if (existing != null) {
       existing
         ..commitHash = event.afterCommit
-        ..title = post.content.title
+        ..title = title
         ..poleisTags = poleisTags
         ..parentPostUrl = parentPostUrl
-        ..timestamp = post.timestamp
+        ..timestamp = timestamp
+        ..encrypted = isEncrypted
         ..indexedAt = now;
       await PostReference.db.updateRow(session, existing);
     } else {
@@ -97,10 +112,11 @@ class ContentIndexer {
           authorRepoUrl: event.repoUrl,
           postUrl: postUrl,
           commitHash: event.afterCommit,
-          title: post.content.title,
+          title: title,
           poleisTags: poleisTags,
-          timestamp: post.timestamp,
+          timestamp: timestamp,
           parentPostUrl: parentPostUrl,
+          encrypted: isEncrypted,
           indexedAt: now,
         ),
       );

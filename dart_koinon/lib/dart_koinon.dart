@@ -2,6 +2,7 @@
 library dart_koinon;
 
 // Models
+export 'src/models/encrypted_post.dart';
 export 'src/models/flag_entry.dart';
 export 'src/models/koinon_manifest.dart';
 export 'src/models/polis_membership.dart';

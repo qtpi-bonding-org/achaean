@@ -56,7 +56,9 @@ dependencies:
 
   # Layout
   flutter_adaptable_group:
-    path: ../flutter_adaptable_group
+    git:
+      url: git@github-qtpi-bonding-org-flutter_adaptable_group:qtpi-bonding-org/flutter_adaptable_group.git
+      ref: 96ab228
 
   # Navigation
   go_router: ^14.0.0

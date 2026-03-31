@@ -10,7 +10,6 @@ workspace:
   - achaean_flutter
   - dart_git
   - dart_koinon
-  - flutter_adaptable_group
   - koinon_index_core
   - koinon_index_core/koinon_index_core_server
   - koinon_index_core/koinon_index_core_client
