@@ -1,0 +1,20 @@
+[global]
+server_name = "__MATRIX_SERVER_NAME__"
+database_path = "/var/lib/tuwunel"
+address = "0.0.0.0"
+port = 8008
+allow_registration = false
+log = "warn,state_res=warn"
+
+[global.well_known]
+client = "__MATRIX_CLIENT_URL__"
+
+[[global.identity_provider]]
+brand = "Authelia"
+client_id = "tuwunel"
+client_secret = "__TUWUNEL_DEX_SECRET__"
+issuer_url = "__DEX_ISSUER_URL__"
+callback_url = "__TUWUNEL_CALLBACK_URL__"
+name = "Sign in with Achaean"
+discovery = true
+default = true

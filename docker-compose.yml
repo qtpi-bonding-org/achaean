@@ -95,8 +95,64 @@ services:
       retries: 5
     restart: unless-stopped
 
+  # --- Dex Setup (one-shot init, chat profile) ---
+  dex-setup:
+    image: codeberg.org/forgejo/forgejo:14
+    container_name: achaean-dex-setup
+    user: "1000:1000"
+    profiles: [chat]
+    depends_on:
+      forgejo:
+        condition: service_healthy
+    volumes:
+      - forgejo_data:/data
+      - ./dex/setup.sh:/setup.sh:ro
+      - ./dex/config.template.yaml:/config.template.yaml:ro
+      - ./tuwunel/tuwunel.template.toml:/tuwunel.template.toml:ro
+    environment:
+      - FORGEJO_ADMIN_USER=${FORGEJO_ADMIN_USER:-aigion-admin}
+      - FORGEJO_ADMIN_PASS=${FORGEJO_ADMIN_PASS}
+      - FORGEJO_ADMIN_EMAIL=${FORGEJO_ADMIN_EMAIL:-admin@example.com}
+      - DOMAIN=${DOMAIN}
+      - MATRIX_SERVER_NAME=${MATRIX_SERVER_NAME:-localhost}
+    entrypoint: /bin/sh
+    command: /setup.sh
+
+  # --- Dex (OIDC Proxy, chat profile) ---
+  dex:
+    image: dexidp/dex:v2.41.1
+    container_name: achaean-dex
+    restart: unless-stopped
+    profiles: [chat]
+    depends_on:
+      dex-setup:
+        condition: service_completed_successfully
+    volumes:
+      - forgejo_data:/data:ro
+    command: dex serve /data/gitea/dex/config.yaml
+    ports:
+      - "${DEX_PORT:-5556}:5556"
+
+  # --- Tuwunel (Matrix homeserver, chat profile) ---
+  tuwunel:
+    image: ghcr.io/matrix-construct/tuwunel:latest
+    container_name: achaean-tuwunel
+    restart: unless-stopped
+    profiles: [chat]
+    depends_on:
+      dex-setup:
+        condition: service_completed_successfully
+    volumes:
+      - forgejo_data:/data:ro
+      - tuwunel_data:/var/lib/tuwunel
+    environment:
+      - TUWUNEL_CONFIG=/data/gitea/tuwunel/config.toml
+    ports:
+      - "${TUWUNEL_PORT:-8008}:8008"
+
 volumes:
   forgejo_data:
   radicle_data:
   radicle_mirrors:
   postgres_data:
+  tuwunel_data:
