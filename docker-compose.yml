@@ -54,6 +54,7 @@ services:
       - logging=normal
       - role=monolith
       - FORGEJO_INTERNAL_HOST=forgejo
+      - SERVERPOD_PASSWORD_database=${ACHAEAN_DB_PASS:-achaean}
     ports:
       - "${SYNEDRION_API_PORT:-8080}:8080"
       - "${SYNEDRION_INSIGHTS_PORT:-8081}:8081"
