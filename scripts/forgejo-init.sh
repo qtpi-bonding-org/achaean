@@ -10,7 +10,7 @@ set -e
 # Read a named .env value without sourcing the file. Compose-compatible .env
 # files may contain unquoted spaces and must not be evaluated as shell code.
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
-ENV_FILE="$SCRIPT_DIR/../.env"
+ENV_FILE="$SCRIPT_DIR/../../.env"
 env_value() {
   key="$1"
   default="${2:-}"
