@@ -84,6 +84,12 @@ services:
       - POSTGRES_USER=${ACHAEAN_DB_USER:-achaean}
       - POSTGRES_PASSWORD=${ACHAEAN_DB_PASS:-achaean}
       - POSTGRES_DB=${ACHAEAN_DB_NAME:-achaean}
+      # Passed to the init SQL only when postgres_data is created. Keeping these
+      # here prevents the Forgejo role from silently falling back to a literal
+      # development password during a fresh-stack reset.
+      - FORGEJO_DB_USER=${FORGEJO_DB_USER:-forgejo}
+      - FORGEJO_DB_PASS=${FORGEJO_DB_PASS:?FORGEJO_DB_PASS must be set}
+      - FORGEJO_DB_NAME=${FORGEJO_DB_NAME:-forgejo}
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./db/init:/docker-entrypoint-initdb.d
