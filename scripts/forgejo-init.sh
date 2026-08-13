@@ -7,21 +7,31 @@
 
 set -e
 
-# Load .env if present (same dir as docker-compose.yml)
+# Read a named .env value without sourcing the file. Compose-compatible .env
+# files may contain unquoted spaces and must not be evaluated as shell code.
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 ENV_FILE="$SCRIPT_DIR/../.env"
-if [ -f "$ENV_FILE" ]; then
-  set -a
-  . "$ENV_FILE"
-  set +a
-fi
+env_value() {
+  key="$1"
+  default="${2:-}"
+  if [ -f "$ENV_FILE" ]; then
+    value=$(grep -m 1 "^${key}=" "$ENV_FILE" | cut -d= -f2-)
+  fi
+  printf '%s' "${value:-$default}"
+}
 
 FORGEJO=achaean-forgejo
 POSTGRES=achaean-postgres
 
-ADMIN_USER="${FORGEJO_ADMIN_USER:-achaean}"
-ADMIN_PASS="${FORGEJO_ADMIN_PASS:-achaean123}"
-ADMIN_EMAIL="${FORGEJO_ADMIN_EMAIL:-admin@achaean.local}"
+ADMIN_USER=$(env_value FORGEJO_ADMIN_USER achaean)
+ADMIN_PASS=$(env_value FORGEJO_ADMIN_PASS)
+ADMIN_EMAIL=$(env_value FORGEJO_ADMIN_EMAIL admin@achaean.local)
+RUNNER_SECRET=$(env_value FORGEJO_RUNNER_SECRET)
+
+if [ -z "$ADMIN_PASS" ]; then
+  echo "FORGEJO_ADMIN_PASS must be set in .env" >&2
+  exit 1
+fi
 
 OAUTH_APP_NAME="achaean-flutter"
 OAUTH_CLIENT_ID="achaean"
@@ -99,11 +109,11 @@ create_webhook "http://synedrion:8082/webhook" "Synedrion"
 create_webhook "http://radicle:8080/webhook" "Radicle"
 
 # --- Register Actions runner (offline registration) ---
-if [ -n "$FORGEJO_RUNNER_SECRET" ]; then
+if [ -n "$RUNNER_SECRET" ]; then
   echo "Registering Forgejo Actions runner..."
   forgejo_cli forgejo-cli actions register \
     --name aigion-runner \
-    --secret "$FORGEJO_RUNNER_SECRET" 2>&1 \
+    --secret "$RUNNER_SECRET" 2>&1 \
     && echo "Runner registered." \
     || echo "Runner already registered or registration failed."
 fi
@@ -112,5 +122,5 @@ echo ""
 echo "=== Achaean stack initialized ==="
 echo "  Forgejo:    http://localhost:3000"
 echo "  Synedrion:  http://localhost:8080"
-echo "  Admin:      $ADMIN_USER / $ADMIN_PASS"
+echo "  Admin user: $ADMIN_USER"
 echo ""
