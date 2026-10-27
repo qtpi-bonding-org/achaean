@@ -1,0 +1,378 @@
+id: achaean
+verified_at: 480571a
+public:
+  name: Achaean
+  summary: Social network where mutual trust, not moderators, gates communities, and posts live in your
+    own git repo.
+  status: paused
+  stage: prototype
+  stack:
+  - Flutter
+  - Serverpod
+  - PostgreSQL
+  - Apache AGE
+  - Git
+  links:
+  - type: repo
+    url: https://github.com/qtpi-bonding-org/achaean
+private:
+  started: 2026-03
+  visibility: public
+  license: AGPL-3.0-only
+  ownership: designed and directed; code written with AI assistance
+  build: agentic
+facts:
+- id: koinon-protocol-spec
+  assertion: The repo contains the Koinon protocol specification, which describes identity, trust, communities,
+    and content, and the Achaean platform implements it.
+  evidence:
+  - Koinon.md
+  - README.md
+- id: protocol-primitives
+  assertion: The spec defines six primitives (README, trust declaration, observe declaration, README signature,
+    flag, and membership function). The spec names three trust states, but the shared Dart model implements
+    only two of them, trust and provisional.
+  state: partial
+  evidence:
+  - Koinon.md
+  - dart_koinon/lib/src/models/trust_level.dart
+- id: trust-gated-membership
+  assertion: The server counts, for each signer of a community README, the mutual trust edges to other
+    signers in the AGE graph named koinon. The agora endpoint keeps only signers at or above the community's
+    membership threshold (default 1), through a threshold-filtered query. The members endpoint returns
+    raw counts, and no client code applies the threshold to them. The check that a signer signed the
+    current README version is not made, because the indexer stores empty README commit values. The code
+    has no moderation queue or ban feature.
+  state: partial
+  evidence:
+  - koinon_index_core/koinon_index_core_server/lib/src/koinon/age_graph.dart
+  - koinon_index_core/koinon_index_core_server/lib/src/koinon/webhook_indexer.dart
+  - koinon_index_core/koinon_index_core_server/lib/src/endpoints/koinon_core_endpoint.dart
+  - koinon_index_content/koinon_index_content_server/lib/src/endpoints/koinon_content_endpoint.dart
+- id: observe-separate-from-trust
+  assertion: Observe declarations are stored separately from trust edges and are used only for personal
+    feeds and relationship listings. Only trust edges reach the graph that computes membership.
+  evidence:
+  - koinon_index_core/koinon_index_core_server/lib/src/koinon/webhook_indexer.dart
+  - dart_koinon/lib/src/models/observe_declaration.dart
+- id: flags-in-user-repo
+  assertion: The flag code writes flags into the user's own repo, in .well-known/koinon.json, but no widget
+    in the app uses it at this commit (a cubit is registered in bootstrap only). The flag model has no
+    signature field, and the code does not sign or verify flags. No server code writes flag records,
+    and the server only reads a flag table that nothing fills, so flags are not working end to end.
+  state: foundation
+  evidence:
+  - achaean_flutter/lib/features/flag/services/flag_service.dart
+  - achaean_flutter/lib/features/flag/cubit/flag_cubit.dart
+  - dart_koinon/lib/src/models/flag_entry.dart
+  - koinon_index_content/koinon_index_content_server/lib/src/endpoints/koinon_content_endpoint.dart
+- id: content-stays-in-repos
+  assertion: The index schema has no post body column. The post indexer, ContentIndexer, stores a title,
+    tags, a timestamp and the commit hash per post, and no body, but that code is not connected to the
+    webhook route (see webhook-indexing-and-post-index-gap). The server also stores flag reasons, which
+    are user-written text. Clients read post content from the author's forge when they display it.
+  state: partial
+  evidence:
+  - synedrion/schema.sql
+  - koinon_index_content/koinon_index_content_server/lib/src/koinon/content_indexer.dart
+  - koinon_index_content/koinon_index_content_server/lib/src/models/post_reference.spy.yaml
+- id: client-reads-from-forge
+  assertion: The Flutter client reads post files from the author's forge through the Forgejo REST API,
+    with an in-memory cache in the personal feed. The client has no on-disk copy of the user's repo, although
+    the design docs describe one.
+  evidence:
+  - achaean_flutter/lib/features/agora/services/post_reading_service.dart
+  - achaean_flutter/lib/features/personal_feed/services/post_content_cache.dart
+  - dart_git/lib/src/forgejo/forgejo_endpoints.dart
+  - Achaean.md
+- id: synedrion-indexer
+  assertion: The indexing layer receives Forgejo push webhooks (it has no crawler or poller), indexes
+    trust declarations, observe declarations and README signatures from each user's manifest, computes
+    membership, and exposes agora and personal-feed queries. Post indexing is not connected to the webhook
+    (see webhook-indexing-and-post-index-gap). The code lives in the koinon_index_core and
+    koinon_index_content packages, loaded by achaean_server, not in the synedrion folder, which holds
+    reference SQL.
+  state: partial
+  evidence:
+  - koinon_index_core/koinon_index_core_server/lib/src/koinon/webhook_indexer.dart
+  - koinon_index_content/koinon_index_content_server/lib/src/endpoints/koinon_content_endpoint.dart
+  - Synedrion.md
+- id: keypair-identity
+  assertion: A user's identity is a keypair generated through the dart_jwk_duo package and stored as a
+    JWK in secure storage. The key service interface comments say ECDSA P-256, but the curve is chosen
+    inside dart_jwk_duo, not in this repo.
+  evidence:
+  - achaean_flutter/lib/core/services/key_service.dart
+  - achaean_flutter/lib/core/services/i_key_service.dart
+  - achaean_flutter/lib/core/services/secure_preferences.dart
+  - achaean_flutter/lib/core/services/flutter_secure_storage_adapter.dart
+- id: serverpod-server
+  assertion: The server is built on Serverpod 3.4.5.
+  evidence:
+  - achaean_server/pubspec.yaml
+- id: flutter-client-stack
+  assertion: The Flutter client uses Cubit through flutter_bloc, GetIt for dependency injection, and GoRouter
+    for navigation.
+  evidence:
+  - achaean_flutter/pubspec.yaml
+  - achaean_flutter/lib/app_router.dart
+  - achaean_flutter/lib/app/bootstrap.dart
+- id: shared-dart-models
+  assertion: The client and the server both depend on the dart_koinon package, so protocol models are
+    shared between them.
+  evidence:
+  - achaean_flutter/pubspec.yaml
+  - achaean_server/pubspec.yaml
+  - dart_koinon
+- id: pure-dart-git
+  assertion: Git access goes through dart_git, a pure Dart Forgejo client over HTTP, and the client and
+    server code do not call a git binary.
+  evidence:
+  - dart_git/lib/src/forgejo/forgejo_client.dart
+- id: postgres-age-graph
+  assertion: PostgreSQL runs with the Apache AGE extension in a compose service (the apache/age image).
+    The indexer creates the AGE graph named koinon on server startup, and membership queries run against
+    it. The init SQL creates a separate graph named trust_graph that the Dart code does not query.
+  evidence:
+  - docker-compose.yml
+  - db/init/01-setup.sql
+  - koinon_index_core/koinon_index_core_server/lib/src/koinon/age_graph.dart
+  - koinon_index_core/koinon_index_core_server/lib/src/koinon_core.dart
+- id: forgejo-archive
+  assertion: The default archive is a Forgejo instance, run from a compose service backed by PostgreSQL.
+  evidence:
+  - docker-compose.yml
+- id: radicle-mirror
+  assertion: A shell script mirrors a Forgejo repo branch to Radicle. It clones or updates a bare repo,
+    initializes Radicle if needed, and pushes the branch. Pull, clone, missing-remote and push failures
+    exit with status 0, but a missing argument exits 1 and, because of set -e, a failing rad init command
+    or cd exits non-zero, so it can still fail the caller.
+  evidence:
+  - radicle/mirror-to-radicle.sh
+- id: signed-repo-files
+  assertion: The Flutter client signs posts, trust declarations, observe declarations and README cosignatures
+    with one function. It removes the signature key, runs jsonEncode on the rest (no key sorting), signs
+    the UTF-8 bytes with the user's key, and base64url-encodes the result. Nothing verifies these signatures.
+    The indexer, the client and dart_koinon never check them. The only signature verification in the
+    code is the per-request auth check on the index server.
+  state: partial
+  evidence:
+  - achaean_flutter/lib/core/services/signing_service.dart
+  - achaean_flutter/lib/features/post_creation/services/post_signing_service.dart
+  - koinon_index_core/koinon_index_core_server/lib/src/koinon/crypto_utils.dart
+  - koinon_index_core/koinon_index_core_server/lib/src/koinon/koinon_auth.dart
+  - koinon_index_core/koinon_index_core_server/lib/src/koinon/webhook_indexer.dart
+- id: request-auth-signed-timestamp
+  assertion: The client builds a fresh pubkey:timestamp:signature Authorization token for every request,
+    signing the timestamp with the user's key. The server verifies the ECDSA P-256 signature, rejects timestamps
+    more than 5 minutes from server time, and keeps no sessions or stored tokens. All query endpoints require
+    it except register(), which takes no auth.
+  evidence:
+  - achaean_flutter/lib/core/services/koinon_key_manager.dart
+  - koinon_index_core/koinon_index_core_server/lib/src/koinon/koinon_auth.dart
+  - koinon_index_core/koinon_index_core_server/lib/src/endpoints/koinon_core_endpoint.dart
+  - koinon_index_content/koinon_index_content_server/lib/src/endpoints/koinon_content_endpoint.dart
+- id: user-repo-layout
+  assertion: On account creation, RepoScaffolder creates a forge repo named koinon and commits five files
+    in separate commits, .well-known/koinon.json, identity/pubkey.json, and .gitkeep files in trust/,
+    poleis/ and posts/. If the repo already exists it commits nothing. Its test uses a mock git client
+    only.
+  evidence:
+  - dart_koinon/lib/src/scaffolder/repo_scaffolder.dart
+  - dart_koinon/test/repo_scaffolder_test.dart
+  - achaean_flutter/lib/features/account_creation/services/account_creation_service.dart
+- id: post-file-structure
+  assertion: A post is committed as posts/<slug>/post.json in the user's repo, holding content, routing
+    (polis and tags), a timestamp and a signature. The client can also commit index.html and style.css
+    beside it, and regenerates a root feed.xml after each post. The Post model also has parent, details
+    and crosspost fields, but the creation service sets none of them.
+  evidence:
+  - achaean_flutter/lib/features/post_creation/services/post_creation_service.dart
+  - dart_koinon/lib/src/models/post.dart
+  - PostSchema.md
+- id: polis-create-join-fork
+  assertion: Creating a polis (community) commits a README.md with YAML frontmatter to a new forge repo
+    and writes a signed README signature into the creator's repo. Joining signs the current README. Forking
+    calls the forge fork API and adds a parent_repo line to the README frontmatter. The readme_hash in a
+    signature is the README text base64url-encoded, not a cryptographic digest. Nothing re-signs or flags
+    members when a README changes.
+  state: partial
+  evidence:
+  - achaean_flutter/lib/features/polis/services/polis_service.dart
+  - dart_koinon/lib/src/models/readme_signature.dart
+  - Koinon.md
+- id: git-host-support
+  assertion: dart_git defines a GitHostType enum with forgejo, gitea, codeberg, github and gitlab, behind
+    an IGitClient interface (createRepo, commitFile, readFile, listFiles, deleteFile, exists, forkRepo)
+    that has no clone or checkout operation. The only implementation is ForgejoClient, used for forgejo,
+    gitea and codeberg. GitHub and GitLab throw UnimplementedError. OAuth with PKCE and the webhook parser
+    are also Forgejo-only.
+  state: partial
+  evidence:
+  - dart_git/lib/src/client/git_host_type.dart
+  - dart_git/lib/src/client/i_git_client.dart
+  - dart_git/lib/src/forgejo/forgejo_client.dart
+  - dart_git/lib/src/forgejo/forgejo_oauth.dart
+  - achaean_flutter/lib/app/bootstrap.dart
+- id: oauth-account-creation
+  assertion: Account creation is a git-forge OAuth flow with PKCE and a state check, run through flutter_web_auth_2
+    (an achaean:// redirect on native, an auth.html page on web). It configures a bearer-token git service,
+    generates a keypair if none exists, and scaffolds the koinon repo. There is no username and password
+    signup. The Android manifest has no achaean:// callback filter at this commit.
+  state: partial
+  evidence:
+  - achaean_flutter/lib/features/account_creation/services/account_creation_service.dart
+  - achaean_flutter/web/auth.html
+  - achaean_flutter/ios/Runner/Info.plist
+  - achaean_flutter/android/app/src/main/AndroidManifest.xml
+- id: index-server-modules-and-tables
+  assertion: koinon_index_core and koinon_index_content are Serverpod modules that achaean_server loads
+    in one process and one database. Together they define 7 tables, koinon_politai_users, koinon_trust_declarations,
+    koinon_observe_declarations, koinon_readme_signatures, koinon_polis_definitions, koinon_post_references
+    and koinon_flag_records. achaean_server itself holds the bootstrap, web routes and generated glue,
+    and no Koinon endpoints or models.
+  evidence:
+  - achaean_server/config/generator.yaml
+  - achaean_server/lib/server.dart
+  - achaean_server/migrations/20260329200305787/definition.sql
+- id: webhook-indexing-and-post-index-gap
+  assertion: A POST /webhook route parses Forgejo push events. When a user's .well-known/koinon.json changed,
+    the indexer fetches it, replaces that user's trust, observe and README-signature rows, and rewrites
+    their outgoing edges in the AGE graph (the tables and the graph are not updated atomically together).
+    The post indexer is only reached through an onPostsChanged callback. server.dart sets the callback
+    on KoinonCoreConfig, but the route is registered with a default WebhookIndexer that has none and nothing
+    reads the config value, so by code reading no post rows are written and the agora, feed and thread
+    queries have nothing to return. This was not confirmed by running the server.
+  state: partial
+  evidence:
+  - koinon_index_core/koinon_index_core_server/lib/src/web/webhook_route.dart
+  - koinon_index_core/koinon_index_core_server/lib/src/koinon_core.dart
+  - koinon_index_core/koinon_index_core_server/lib/src/koinon/webhook_indexer.dart
+  - achaean_server/lib/server.dart
+  - koinon_index_content/koinon_index_content_server/lib/src/koinon/content_indexer.dart
+- id: feed-agora-thread-queries
+  assertion: The personal feed returns posts by the caller, the caller's trust targets (including provisional)
+    and observe targets, newest first. The agora returns posts by computed polis members tagged for that
+    polis, matched by a substring LIKE on a single comma-separated tags column. Both take limit and offset.
+    A thread returns the root post and its direct replies only, with no pagination. These queries read
+    the post index, which the webhook does not populate (see webhook-indexing-and-post-index-gap).
+  state: partial
+  evidence:
+  - koinon_index_content/koinon_index_content_server/lib/src/endpoints/koinon_content_endpoint.dart
+  - koinon_index_content/koinon_index_content_server/lib/src/models/post_reference.spy.yaml
+- id: client-index-or-demo-mode
+  assertion: At startup the client creates a Serverpod client only if an index server URL is stored in
+    preferences. Without one it runs in a demo mode, where the agora reads from the user's own repo (or
+    a public guest repo when GUEST_REPO_URL is set at build time) and the polis query service is a stub
+    returning empty lists. The router sends every route except account creation to account creation
+    until a keypair exists or guest mode is on.
+  evidence:
+  - achaean_flutter/lib/app/bootstrap.dart
+  - achaean_flutter/lib/app_router.dart
+  - achaean_flutter/lib/core/config/app_config.dart
+  - achaean_flutter/lib/features/agora/services/stub_polis_query_service.dart
+- id: client-screens-wired-vs-unwired
+  assertion: The router has four shell tabs (Feed, Profile, Connections, Settings) and seven pushed routes.
+    The Settings tab is a placeholder text. Trust, observe and polis cubits are used by screens. FlagCubit
+    and RepoInspectionCubit are registered in bootstrap and no widget references them.
+  state: partial
+  evidence:
+  - achaean_flutter/lib/app_router.dart
+  - achaean_flutter/lib/app/bootstrap.dart
+  - achaean_flutter/lib/features/people/widgets/trust_observe_buttons.dart
+- id: design-system-athenian-theme
+  assertion: The client has its own design system in lib/design_system, with an Athenian palette (light
+    and dark), a Material 3 theme builder, bundled Cinzel and League Spartan fonts, a UI scaler, and 12
+    widget files such as relief_card, meander_divider and terracotta_button. Theme mode is switched by
+    a ThemeService, with no follow-system mode.
+  evidence:
+  - achaean_flutter/lib/design_system/primitives/app_palette.dart
+  - achaean_flutter/lib/design_system/theme/app_theme.dart
+  - achaean_flutter/lib/design_system/theme/theme_service.dart
+  - achaean_flutter/lib/design_system/widgets/relief_card.dart
+  - achaean_flutter/lib/app/app.dart
+- id: l10n-english-only
+  assertion: Localization uses Flutter gen-l10n with ARB files and has one locale, English (app_en.arb,
+    109 message keys). App.supportedLocales is just en, and a few router labels are hard-coded English.
+  evidence:
+  - achaean_flutter/lib/l10n/app_en.arb
+  - achaean_flutter/l10n.yaml
+  - achaean_flutter/lib/app/app.dart
+  - achaean_flutter/lib/app_router.dart
+- id: cubit-service-structure
+  assertion: Client features follow a cubit, state, I*Service interface and service layout. Cubits are
+    registered as GetIt factories and services as lazy singletons, mostly by hand in bootstrap.dart. Services
+    wrap their bodies in tryMethod, which rethrows typed exceptions, and cubits run operations through
+    cubit_ui_flow's tryOperation.
+  evidence:
+  - achaean_flutter/lib/app/bootstrap.dart
+  - achaean_flutter/lib/core/try_operation.dart
+  - achaean_flutter/lib/features/trust/cubit/trust_cubit.dart
+- id: goldgen-golden-test-generator
+  assertion: flutter_goldgen is a Dart CLI that analyses the client's lib/ for BlocBuilder screens built
+    on IUiFlowState and generates state fixtures and golden test files looping over status, fixture, size
+    and locale. In this repo it has generated 13 fixture files and no golden test files or PNG goldens,
+    so no screenshot comparison is in place. flutter_adaptable_group in the repo holds only a pubspec.yaml.
+  state: partial
+  evidence:
+  - flutter_goldgen/lib/src/generator/golden_test_generator.dart
+  - flutter_goldgen/lib/src/generator/fixture_generator.dart
+  - achaean_flutter/goldgen.yaml
+  - achaean_flutter/test/goldens/generated/fixtures/trust_state_fixtures.dart
+  - flutter_adaptable_group/pubspec.yaml
+- id: test-coverage
+  assertion: 'Test cases counted by grep, not run: dart_git 29 in 5 files, dart_koinon 10 in 2 files, achaean_flutter
+    14 in 4 files (cubit tests with mocked services only), flutter_goldgen 63 in 8 files. The server packages
+    have one hand-written test (the template greeting endpoint) and nothing tests authentication, the
+    webhook, the indexers or the graph queries.'
+  evidence:
+  - dart_git/test/forgejo_client_test.dart
+  - dart_koinon/test/models_test.dart
+  - achaean_flutter/test/cubits/trust_cubit_test.dart
+  - flutter_goldgen/test/generator/golden_test_generator_test.dart
+  - achaean_server/test/integration/greeting_endpoint_test.dart
+- id: compose-services
+  assertion: docker-compose.yml defines 7 services and 5 named volumes. forgejo, synedrion (the index server
+    image), radicle and postgres start by default. dex-setup, dex and tuwunel are behind the chat profile.
+    Credentials come from environment interpolation, the Forgejo database password is required, and the
+    app database password defaults to achaean.
+  evidence:
+  - docker-compose.yml
+- id: chat-profile-oidc-chain
+  assertion: With the chat profile, a one-shot dex-setup container registers an OAuth app in Forgejo and
+    generates a client secret for Tuwunel, then Dex (v2.41.1, in-memory storage, a Gitea-type connector
+    to Forgejo, no password login) is configured as the single OIDC provider of Tuwunel, a Matrix homeserver
+    (image tag latest, registration disabled). The Tuwunel provider block is branded Authelia.
+  evidence:
+  - docker-compose.yml
+  - dex/setup.sh
+  - dex/config.template.yaml
+  - tuwunel/tuwunel.template.toml
+- id: forgejo-bootstrap-script
+  assertion: scripts/forgejo-init.sh creates a Forgejo admin and an OAuth app for the client, then sets
+    its redirect URIs and inserts the push webhooks by direct SQL, each step guarded by an existence check.
+    It is run by hand, not by compose. It reads .env from two directories above the script (outside this
+    repo), and .env.example uses different variable names than docker-compose.yml reads, so copying it
+    unchanged leaves FORGEJO_DB_PASS unset.
+  evidence:
+  - scripts/forgejo-init.sh
+  - .env.example
+  - docker-compose.yml
+- id: radicle-mirror-service
+  assertion: The radicle service image installs Radicle with the upstream install script and builds a
+    Rust (axum 0.8, tokio) webhook service, radicle-mirror. The entrypoint creates a node identity with
+    an empty passphrase, starts radicle-node on port 8776, then runs radicle-mirror. On a push webhook it
+    mirrors only branch pushes of repos that contain .well-known/koinon.json. No peers or seeds are configured
+    in the repo.
+  evidence:
+  - radicle/Dockerfile
+  - radicle/entrypoint.sh
+  - radicle/radicle-mirror/Cargo.toml
+  - radicle/radicle-mirror/src/main.rs
+- id: dual-license
+  assertion: The code is under the GNU AGPL v3 (LICENSE) and the protocol spec and documentation are under
+    CC-BY-SA-4.0 (LICENSE-docs), as the README states. The packages carry no license of their own.
+  evidence:
+  - LICENSE
+  - LICENSE-docs
+  - README.md
