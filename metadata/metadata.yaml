@@ -1,5 +1,5 @@
 id: achaean
-verified_at: 480571a
+verified_at: a5319e8
 public:
   name: Achaean
   summary: Social network where mutual trust, not moderators, gates communities, and posts live in your
@@ -309,27 +309,25 @@ facts:
   - achaean_flutter/lib/core/try_operation.dart
   - achaean_flutter/lib/features/trust/cubit/trust_cubit.dart
 - id: goldgen-golden-test-generator
-  assertion: flutter_goldgen is a Dart CLI that analyses the client's lib/ for BlocBuilder screens built
-    on IUiFlowState and generates state fixtures and golden test files looping over status, fixture, size
-    and locale. In this repo it has generated 13 fixture files and no golden test files or PNG goldens,
-    so no screenshot comparison is in place. flutter_adaptable_group in the repo holds only a pubspec.yaml.
+  assertion: achaean_flutter has a goldgen.yaml config (3 screen sizes, English only, the Athenian light
+    theme) and 13 generated state-fixture files under test/goldens/generated/fixtures, produced by the
+    flutter_goldgen tool. It has no generated golden test files and no golden PNGs, so no screenshot
+    comparison is in place. The tool itself is a separate project that is not part of this repository, and
+    achaean_flutter does not list it in its pubspec.
   state: partial
   evidence:
-  - flutter_goldgen/lib/src/generator/golden_test_generator.dart
-  - flutter_goldgen/lib/src/generator/fixture_generator.dart
   - achaean_flutter/goldgen.yaml
   - achaean_flutter/test/goldens/generated/fixtures/trust_state_fixtures.dart
-  - flutter_adaptable_group/pubspec.yaml
+  - achaean_flutter/pubspec.yaml
 - id: test-coverage
-  assertion: 'Test cases counted by grep, not run: dart_git 29 in 5 files, dart_koinon 10 in 2 files, achaean_flutter
-    14 in 4 files (cubit tests with mocked services only), flutter_goldgen 63 in 8 files. The server packages
-    have one hand-written test (the template greeting endpoint) and nothing tests authentication, the
-    webhook, the indexers or the graph queries.'
+  assertion: 'Test cases counted by grep, not run: dart_git 29 in 5 files, dart_koinon 10 in 2 files, and achaean_flutter
+    14 in 4 files (cubit tests with mocked services only). The server packages have one hand-written
+    test (the template greeting endpoint) and nothing tests authentication, the webhook, the indexers
+    or the graph queries.'
   evidence:
   - dart_git/test/forgejo_client_test.dart
   - dart_koinon/test/models_test.dart
   - achaean_flutter/test/cubits/trust_cubit_test.dart
-  - flutter_goldgen/test/generator/golden_test_generator_test.dart
   - achaean_server/test/integration/greeting_endpoint_test.dart
 - id: compose-services
   assertion: docker-compose.yml defines 7 services and 5 named volumes. forgejo, synedrion (the index server
