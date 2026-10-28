@@ -17,9 +17,9 @@ public:
     url: https://github.com/qtpi-bonding-org/achaean
   screenshots:
   - file: thumbnail.png
-    alt: 'Feed screen in the Athenian theme: Personal and Agora tabs above a list of posts by author, time, community and title.'
+    alt: Phone showing a feed of sample posts in the Athenian theme, with the headline Communities gated by mutual trust
     fit: contain
-    background: '#F5F0E8'
+    background: '#1E1D1B'
 private:
   started: 2026-03
   visibility: public
